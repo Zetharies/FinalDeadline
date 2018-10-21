@@ -12,7 +12,7 @@ public class MainMenuScreen implements Screen {
     public MainMenuScreen() {
         super();
         batch = new SpriteBatch();
-        texture = new Texture("GameMenu.jpg"); // BACKGROUND IMAGE FOR MAIN MENU
+        texture = new Texture(Gdx.files.internal("gamemenu.png")); // Background image of main menu
     }
  
     @Override
