@@ -21,6 +21,8 @@ public class MenuUI {
     private TextButton settings;
     private TextButton quit;
     private TextButton back;
+    private TextButton male;
+    private TextButton female;
     private boolean swipe = false;
     private Window window;
     private TextButton confirm;
@@ -38,9 +40,15 @@ public class MenuUI {
         levels = new TextButton("LEVELS", skin);
         quit = new TextButton("QUIT", skin);
         back = new TextButton("BACK", skin);
+        male = new TextButton("MALE", skin);
+        female = new TextButton("FEMALE", skin);
         addButtons(stage);
     }
 
+    /**
+     * 
+     * @param stage
+     */
     public void addButtons(Stage stage) {
 
         //set the settings size first so others can replicate 
@@ -49,7 +57,13 @@ public class MenuUI {
         //10% taken off button height
         back.setSize(settings.getPrefWidth(), settings.getPrefHeight() - (settings.getPrefHeight() / 10));
         back.setPosition(getWidth() / 4, getHeight() / 2);
+        male.setSize(settings.getPrefWidth(), settings.getPrefHeight() - (settings.getPrefHeight() / 10));
+        male.setPosition((getWidth() / 3) + (getWidth() / 4), getHeight() / 2);
+        female.setSize(settings.getPrefWidth(), settings.getPrefHeight() - (settings.getPrefHeight() / 10));
+        female.setPosition((getWidth() / 3) + (getWidth() / 4) + 300, getHeight() / 2);
         back.addAction(Actions.hide());
+        male.addAction(Actions.hide());
+        female.addAction(Actions.hide());
         play.setSize(settings.getPrefWidth(), settings.getPrefHeight() - (settings.getPrefHeight() / 10));
         play.setPosition(0, getHeight() / 2);
         levels.setSize(settings.getPrefWidth(), settings.getPrefHeight() - (settings.getPrefHeight() / 10));
@@ -74,12 +88,17 @@ public class MenuUI {
         testTable.addActor(settings);
         testTable.addActor(quit);
         testTable.addActor(back);
+        testTable.addActor(male);
+        testTable.addActor(female);
 
         //stage input handling for actors
         Gdx.input.setInputProcessor(stage);
 
     }
 
+    /**
+     * 
+     */
     public void buttonListener() {
         //opens the pop up window to confirm exit
         quit.addListener(new ClickListener() {
@@ -115,6 +134,10 @@ public class MenuUI {
                     quit.addAction(Actions.moveBy(-(quit.getWidth()), 0, 0.8f));
                     back.addAction(Actions.show());
                     back.addAction(Actions.moveBy(-(getWidth() / 4), 0, 0.8f));
+                    male.addAction(Actions.show());
+                    male.addAction(Actions.moveBy(-(getWidth() / 4), 0, 0.8f));
+                    female.addAction(Actions.show());
+                    female.addAction(Actions.moveBy(-(getWidth() / 4), 0, 0.8f));
                     swipe = true;
                 }
 
@@ -130,8 +153,10 @@ public class MenuUI {
                     levels.addAction(Actions.moveBy(+(levels.getWidth()), 0, 0.8f));
                     settings.addAction(Actions.moveBy(+(settings.getWidth()), 0, 0.8f));
                     quit.addAction(Actions.moveBy(+(quit.getWidth()), 0, 0.8f));
-                    //button is hiden after move by action is completed
+                    //button is hidden after move by action is completed
                     back.addAction(Actions.sequence(action, Actions.hide()));
+                    male.addAction(Actions.sequence(Actions.moveBy((getWidth() / 4), 0, 0.8f), Actions.hide()));
+                    female.addAction(Actions.sequence(Actions.moveBy((getWidth() / 4), 0, 0.8f), Actions.hide()));
                     swipe = false;
                 }
 
@@ -145,10 +170,18 @@ public class MenuUI {
         });
     }
 
+    /**
+     * 
+     * @return the height of the client area in logical pixels
+     */
     public static int getHeight() {
         return Gdx.graphics.getHeight();
     }
 
+    /**
+     * 
+     * @return the width of the client area in logical pixels
+     */
     public static int getWidth() {
         return Gdx.graphics.getWidth();
     }
