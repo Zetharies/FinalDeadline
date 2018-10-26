@@ -5,7 +5,8 @@ Storyline - > Storyliners<br />
 Menu styling -> Taher<br />
 Selection screen -> Jacob<br />
 Map Sketch - > Bhaven<br />
-Map Design -> Zeth<br />
+Map 1 Design [Cafe/GreatHall]? -> Zeth<br />
+Floor 1 Design [Library] -> Areeb, Becca, Bhaven, Taher<br />
 Website -> Bhaven/Kunal<br />
 
 # FinalDeadline
