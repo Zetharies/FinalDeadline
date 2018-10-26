@@ -1,4 +1,4 @@
-package Screens;
+package screens.intro;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -31,7 +31,6 @@ public class SplashScreen implements Screen {
         stage.act(Gdx.graphics.getDeltaTime());
     	stage.draw();
     }
-
  
     @Override
     public void hide() { }
@@ -46,7 +45,7 @@ public class SplashScreen implements Screen {
     public void show() { 
     	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     	stage = new Stage();
-    	splashImage = new Texture(Gdx.files.internal("aston_resized.jpg")); // Intro Image, feel free to change. Remember to add it to assets
+    	splashImage = new Texture(Gdx.files.internal("images/aston_resized.jpg")); // Intro Image, feel free to change. Remember to add it to assets
     	splashImage.setFilter(TextureFilter.Linear, TextureFilter.Linear);
     	textureRegion = new TextureRegion(splashImage);
     	Image actorImage = new Image(textureRegion);
@@ -67,7 +66,6 @@ public class SplashScreen implements Screen {
     	actorImage.addAction(actions);
     	stage.addActor(actorImage);
     }
-    
     
     @Override
     public void resize(int width, int height) { }

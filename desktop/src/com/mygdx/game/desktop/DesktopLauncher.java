@@ -7,7 +7,7 @@ import com.mygdx.game.FinalDeadline;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		config.title = "Final Dead-Line V0.1"; // Title of the game
+		config.title = "Final Dead-Line V0.2"; // Title of the game
 		config.useGL30 = true;
 		config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width; // Max display width
         config.height = LwjglApplicationConfiguration.getDesktopDisplayMode().height; // Max display height

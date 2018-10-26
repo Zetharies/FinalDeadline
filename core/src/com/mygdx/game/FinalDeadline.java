@@ -1,15 +1,14 @@
 package com.mygdx.game;
 
-	import com.badlogic.gdx.Game;
-	import com.badlogic.gdx.Gdx;
-	import com.badlogic.gdx.utils.Timer;
-	
-	import Screens.MainMenuScreen;
-	import Screens.SplashScreen;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Timer;
+import screens.intro.SplashScreen;
+import screens.menu.MainMenuScreen;
 
 public class FinalDeadline extends Game {
 
-	private static long MINIMUM_TIME = 6500L; // How long "Aston Unviersity" into screen appears. 6500L = 6.5 seconds
+	private static long MINIMUM_TIME = 6500L; // How long "Aston Unviersity" intro screen appears. 6500L = 6.5 seconds
 
 	public FinalDeadline() {
 		super();
