@@ -2,13 +2,16 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.utils.Timer;
-import screens.intro.SplashScreen;
-import screens.menu.MainMenuScreen;
+
+import screens.ScreenManager;
 
 public class FinalDeadline extends Game {
 
+	public static final String VERSION = "0.3 Alpha";
 	private static long MINIMUM_TIME = 6500L; // How long "Aston Unviersity" intro screen appears. 6500L = 6.5 seconds
+	private final long introTime = System.currentTimeMillis(); // How long intro should last for
 
 	public FinalDeadline() {
 		super();
@@ -16,10 +19,10 @@ public class FinalDeadline extends Game {
 
 	@Override
 	public void create() {
+		ScreenManager.initialize(this); // Sets the ScreenManager to use this as the game
+		ScreenManager.setSplashScreen(); // Set the screen to the Intro scene of Aston Uni
 
-		setScreen(new SplashScreen()); // Set the screen to the Intro scene of Aston Uni
-
-		final long introTime = System.currentTimeMillis(); // How long intro should last for
+		
 
 		new Thread(new Runnable() {
 
@@ -34,11 +37,11 @@ public class FinalDeadline extends Game {
 							Timer.schedule(new Timer.Task() {
 								@Override
 								public void run() {
-									FinalDeadline.this.setScreen(new MainMenuScreen()); // After, set the screen to the main menu
+									ScreenManager.setMainMenuScreen(); // After, set the screen to the main menu
 								}
 							}, (float) (FinalDeadline.MINIMUM_TIME - elapsedTime) / 1000f);
 						} else {
-							FinalDeadline.this.setScreen(new MainMenuScreen()); // Set screen to main menu
+							ScreenManager.setMainMenuScreen(); // Set screen to main menu
 						}
 					}
 					
@@ -46,6 +49,14 @@ public class FinalDeadline extends Game {
 			}
 		}).start();
 
+	}
+	
+	@Override
+	public void render() {
+		Gdx.gl.glClearColor(0f, 0f, 0f, 1f);
+        Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+        
+        super.render();
 	}
 
 	@Override

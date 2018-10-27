@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.Texture.TextureFilter;
@@ -14,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 
-public class SplashScreen implements Screen {
+public class SplashScreen extends AbstractScreen {
 
     private TextureRegion textureRegion;
     private Texture splashImage;
