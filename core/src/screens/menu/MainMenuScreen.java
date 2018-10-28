@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -25,10 +26,13 @@ public class MainMenuScreen extends AbstractScreen {
     private Table testTable;
     private Stage stage;
     private Skin skin;
+    private Texture placeholder;
     private boolean swipe = false, playing = false;
     private Window window;
     private TextButton play, levels, settings, credits, quit, back, male, female, confirm, exit;
     private Music mp3Sound;
+    private Image maleImage;
+    private Image femaleImage;
     
     public MainMenuScreen() {
     	
@@ -72,6 +76,7 @@ public class MainMenuScreen extends AbstractScreen {
     	
     	testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
     	skin = new Skin(Gdx.files.internal("fonts/Holo-dark-hdpi.json"));
+    	placeholder = new Texture(Gdx.files.internal("images/placeholder.png"));
     	
     	settings = new TextButton("SETTINGS", skin);
         play = new TextButton("PLAY", skin);
@@ -84,6 +89,8 @@ public class MainMenuScreen extends AbstractScreen {
         back = new TextButton("BACK", skin);
         male = new TextButton("MALE", skin);
         female = new TextButton("FEMALE", skin);
+        maleImage = new Image(placeholder);
+        femaleImage = new Image(placeholder);
         
         //set the settings size first so others can replicate 
         settings.setSize(settings.getPrefWidth(), settings.getPrefHeight() - (settings.getPrefHeight() / 10));
@@ -93,11 +100,17 @@ public class MainMenuScreen extends AbstractScreen {
         back.setPosition(Gdx.graphics.getWidth() / 4, Gdx.graphics.getHeight() / 2);
         male.setSize(settings.getPrefWidth(), settings.getPrefHeight() - (settings.getPrefHeight() / 10));
         male.setPosition((Gdx.graphics.getWidth() / 3) + (Gdx.graphics.getWidth() / 4), Gdx.graphics.getHeight() / 2);
+        maleImage.setSize(male.getWidth(), male.getWidth());
+        maleImage.setPosition((Gdx.graphics.getWidth() / 3) + (Gdx.graphics.getWidth() / 4), (Gdx.graphics.getHeight() / 2) + 50);
         female.setSize(settings.getPrefWidth(), settings.getPrefHeight() - (settings.getPrefHeight() / 10));
         female.setPosition((Gdx.graphics.getWidth() / 3) + (Gdx.graphics.getWidth() / 4) + 300, Gdx.graphics.getHeight() / 2);
+        femaleImage.setSize(female.getWidth(), female.getWidth());
+        femaleImage.setPosition((Gdx.graphics.getWidth() / 3) + (Gdx.graphics.getWidth() / 4) + 300, (Gdx.graphics.getHeight() / 2) + 50);
         back.addAction(Actions.hide());
         male.addAction(Actions.hide());
         female.addAction(Actions.hide());
+        maleImage.addAction(Actions.hide());
+        femaleImage.addAction(Actions.hide());
         play.setSize(settings.getPrefWidth(), settings.getPrefHeight() - (settings.getPrefHeight() / 10));
         play.setPosition(0, Gdx.graphics.getHeight() / 2);
         levels.setSize(settings.getPrefWidth(), settings.getPrefHeight() - (settings.getPrefHeight() / 10));
@@ -133,6 +146,8 @@ public class MainMenuScreen extends AbstractScreen {
     	stage.addActor(back);
     	stage.addActor(male);
     	stage.addActor(female);
+    	stage.addActor(maleImage);
+    	stage.addActor(femaleImage);
     	
     	
     	//stage input handling for actors
@@ -258,8 +273,12 @@ public class MainMenuScreen extends AbstractScreen {
                     back.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
                     male.addAction(Actions.show());
                     male.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
+                    maleImage.addAction(Actions.show());
+                    maleImage.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
                     female.addAction(Actions.show());
                     female.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
+                    femaleImage.addAction(Actions.show());
+                    femaleImage.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
                     swipe = true;
                 }
 
@@ -280,6 +299,8 @@ public class MainMenuScreen extends AbstractScreen {
                     back.addAction(Actions.sequence(action, Actions.hide()));
                     male.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
                     female.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
+                    maleImage.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
+                    femaleImage.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
                     swipe = false;
                 }
 
