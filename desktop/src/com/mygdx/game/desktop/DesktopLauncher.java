@@ -11,9 +11,12 @@ public class DesktopLauncher {
 		config.useGL30 = true;
 		config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width; // Max display width
         config.height = LwjglApplicationConfiguration.getDesktopDisplayMode().height; // Max display height
+		
+		//config.width = 600;
+		//config.height = 400;
         config.vSyncEnabled = true;
         new LwjglApplication(new FinalDeadline(), config); // Start the main application for the game
-        
+        	
         
 		/** FULLSCREEN, ONLY TO BE ADDED WHEN OPTIONS FOR RESOLUTIONS ARE AVAILABLE
         config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width;

@@ -54,7 +54,7 @@ public class SplashScreen extends AbstractScreen {
     	actorImage.setPosition(Gdx.graphics.getWidth()/2 - actorImage.getWidth()/2, Gdx.graphics.getHeight()/2 - actorImage.getHeight()/2); // Position of image
     	actorImage.setScale(1); // Set scale of image to original scale
     	
-    	SequenceAction actions = new SequenceAction(Actions.sequence(Actions.fadeIn(1f), Actions.delay(2.5f), Actions.fadeOut(2.5f), Actions.run(new Runnable() {
+    	SequenceAction actions = new SequenceAction(Actions.sequence(Actions.fadeIn(1f), Actions.delay(1.5f), Actions.fadeOut(2.5f), Actions.run(new Runnable() {
 
 			@Override
 			public void run() {

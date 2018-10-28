@@ -1,10 +1,13 @@
 package screens.menu;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -14,17 +17,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import screens.FadeOutAction;
-import screens.ScreenManager;
+import actions.FadeOutAction;
+import managers.ScreenManager;
 import screens.intro.AbstractScreen;
 
 public class MainMenuScreen extends AbstractScreen {
     private Table testTable;
     private Stage stage;
     private Skin skin;
-    private boolean swipe = false;
+    private boolean swipe = false, playing = false;
     private Window window;
     private TextButton play, levels, settings, credits, quit, back, male, female, confirm, exit;
+    private Music mp3Sound;
     
     public MainMenuScreen() {
     	
@@ -33,6 +37,10 @@ public class MainMenuScreen extends AbstractScreen {
         testTable = new Table();
         testTable.setFillParent(true);
         testTable.setDebug(true);
+        
+        mp3Sound = Gdx.audio.newMusic(Gdx.files.internal("music/adventureSoundtrack.mp3")); // background soundtrack, feel free to change
+        mp3Sound.setLooping(true); // loop the soundtrack
+        mp3Sound.play(); // play the soundtrack
     }
  
     @Override
@@ -41,7 +49,6 @@ public class MainMenuScreen extends AbstractScreen {
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         stage.act(delta);
         stage.draw();
-        
     }
  
     @Override
@@ -136,11 +143,73 @@ public class MainMenuScreen extends AbstractScreen {
     public void buttonListener() {
         //opens the pop up window to confirm exit
         quit.addListener(new ClickListener() {
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
+                    sound.play(0.1F);
+                    playing = true;
+                }
+                
+                
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+                playing = false;
+            }
+        	
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 stage.addActor(window);
             }
         });
+        
+        levels.addListener(new ClickListener() {
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
+                    sound.play(0.1F);
+                    playing = true;
+                }
+                
+                
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+                playing = false;
+            }
+        });
+        
+        credits.addListener(new ClickListener() {
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
+                    sound.play(0.1F);
+                    playing = true;
+                }
+                
+                
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+                playing = false;
+            }
+        });
+        
         //cancels exit
         exit.addListener(new ClickListener() {
             @Override
@@ -157,6 +226,24 @@ public class MainMenuScreen extends AbstractScreen {
         });
         //go to the character selection screen
         play.addListener(new ClickListener() {
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
+                    sound.play(0.1F);
+                    playing = true;
+                }
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+                playing = false;
+            }
+        	
+        	
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 if (!swipe && back.getActions().size == 0) {
@@ -199,6 +286,23 @@ public class MainMenuScreen extends AbstractScreen {
             }
         });
         settings.addListener(new ClickListener() {
+
+            @Override
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                super.enter(event, x, y, pointer, fromActor);
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
+                    sound.play(0.1F);
+                    playing = true;
+                }
+            }
+
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                super.exit(event, x, y, pointer, toActor);
+                playing = false;
+            }
+        	
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 //settings will be added 
@@ -207,7 +311,9 @@ public class MainMenuScreen extends AbstractScreen {
         male.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
-            	
+            	mp3Sound.pause();
+            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/selectFX.mp3"));
+                sound.play(0.5F);
             	stage.addAction(new FadeOutAction(1.25f) {
             		@Override
                     public void run() {
@@ -220,7 +326,9 @@ public class MainMenuScreen extends AbstractScreen {
         female.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
-            	
+            	mp3Sound.pause();
+            	Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/selectFX.mp3"));
+                sound.play(0.5F);
             	stage.addAction(new FadeOutAction(1.25f) {
             		@Override
                     public void run() {
@@ -231,6 +339,10 @@ public class MainMenuScreen extends AbstractScreen {
             }
         });
 
+    }
+    
+    public void hoverFX() {
+    	
     }
  
     @Override

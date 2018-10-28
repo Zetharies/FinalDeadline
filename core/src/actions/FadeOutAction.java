@@ -1,4 +1,4 @@
-package screens;
+package actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
