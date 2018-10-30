@@ -9,7 +9,7 @@ import managers.ScreenManager;
 
 public class FinalDeadline extends Game {
 
-	public static final String VERSION = "0.4 Alpha";
+	public static final String VERSION = "0.5 Alpha";
 	private static long MINIMUM_TIME = 6500L; // How long "Aston Unviersity" intro screen appears. 6500L = 6.5 seconds
 	private final long introTime = System.currentTimeMillis(); // How long intro should last for
 
