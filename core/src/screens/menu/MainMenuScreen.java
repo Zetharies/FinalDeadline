@@ -11,7 +11,11 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+<<<<<<< HEAD
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+=======
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+>>>>>>> e88240a78b3c10c42759f6c5c7bc5bf07ea6c6de
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -24,9 +28,11 @@ import managers.ScreenManager;
 import screens.intro.AbstractScreen;
 
 public class MainMenuScreen extends AbstractScreen {
+
     private Table testTable;
     private Stage stage;
     private Skin skin;
+<<<<<<< HEAD
     private Texture maleCard, femaleCard;
     private boolean swipe = false, playing = false;
     private Window window;
@@ -34,6 +40,16 @@ public class MainMenuScreen extends AbstractScreen {
     private Music mp3Sound;
     private ImageButton maleSelection, femaleSelection;
     private TextButton back;
+=======
+    private Texture placeholder;
+    private boolean swipe = false, playing = false;
+    private Window window;
+    private Label play, levels, settings, credits, quit, back, confirm, exit;
+    private TextButton male, female;
+    private Music mp3Sound;
+    private Image maleImage;
+    private Image femaleImage;
+>>>>>>> e88240a78b3c10c42759f6c5c7bc5bf07ea6c6de
 
     public MainMenuScreen() {
         super();
@@ -79,10 +95,14 @@ public class MainMenuScreen extends AbstractScreen {
 
         testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
         skin = new Skin(Gdx.files.internal("fonts/Holo-dark-hdpi.json"));
+<<<<<<< HEAD
         maleCard = new Texture(Gdx.files.internal("images/maleSelection.png"));
         femaleCard = new Texture(Gdx.files.internal("images/femaleSelection.png"));
         maleSelection = new ImageButton(new TextureRegionDrawable(new TextureRegion(maleCard)));
         femaleSelection = new ImageButton(new TextureRegionDrawable(new TextureRegion(femaleCard)));
+=======
+        placeholder = new Texture(Gdx.files.internal("images/placeholder.png"));
+>>>>>>> e88240a78b3c10c42759f6c5c7bc5bf07ea6c6de
 
         settings = new Label("SETTINGS", skin);
         play = new Label("PLAY", skin);
@@ -90,10 +110,20 @@ public class MainMenuScreen extends AbstractScreen {
         exit = new Label("Cancel", skin);
         window = new Window("Would you like to exit?", skin);
         levels = new Label("LEVELS", skin);
+<<<<<<< HEAD
         about = new Label("ABOUT", skin);
         credits = new Label("CREDITS", skin);
         quit = new Label("QUIT", skin);
         back = new TextButton("[ESC] BACK", skin);
+=======
+        credits = new Label("CREDITS", skin);
+        quit = new Label("QUIT", skin);
+        back = new Label("BACK", skin);
+        male = new TextButton("MALE", skin);
+        female = new TextButton("FEMALE", skin);
+        maleImage = new Image(placeholder);
+        femaleImage = new Image(placeholder);
+>>>>>>> e88240a78b3c10c42759f6c5c7bc5bf07ea6c6de
 
         setButtons();
         buttonListener(); // Call the buttonListener method
@@ -106,6 +136,7 @@ public class MainMenuScreen extends AbstractScreen {
 
     public void setButtons() {
         //character selection
+<<<<<<< HEAD
         maleSelection.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         maleSelection.setPosition((Gdx.graphics.getWidth() / 3), Gdx.graphics.getHeight() / 4);
         maleSelection.addAction(Actions.hide());
@@ -128,6 +159,34 @@ public class MainMenuScreen extends AbstractScreen {
         about.setPosition(0, (float) (credits.getY() - credits.getHeight() * 1.15));
         quit.setPosition(0, (float) (about.getY() - about.getHeight() * 1.15));
         back.setPosition((float) (Gdx.graphics.getWidth() * 1.10), Gdx.graphics.getHeight() / 20);
+=======
+        male.setSize(settings.getPrefWidth(), settings.getPrefHeight() - (settings.getPrefHeight() / 10));
+        male.setPosition((Gdx.graphics.getWidth() / 3) + (Gdx.graphics.getWidth() / 4), Gdx.graphics.getHeight() / 2);
+        maleImage.setSize(male.getWidth(), male.getWidth());
+        maleImage.setPosition((Gdx.graphics.getWidth() / 3) + (Gdx.graphics.getWidth() / 4), (Gdx.graphics.getHeight() / 2) + 50);
+        female.setSize(settings.getPrefWidth(), settings.getPrefHeight() - (settings.getPrefHeight() / 10));
+        female.setPosition((Gdx.graphics.getWidth() / 3) + (Gdx.graphics.getWidth() / 4) + 300, Gdx.graphics.getHeight() / 2);
+        femaleImage.setSize(female.getWidth(), female.getWidth());
+        femaleImage.setPosition((Gdx.graphics.getWidth() / 3) + (Gdx.graphics.getWidth() / 4) + 300, (Gdx.graphics.getHeight() / 2) + 50);
+        male.addAction(Actions.hide());
+        female.addAction(Actions.hide());
+        maleImage.addAction(Actions.hide());
+        femaleImage.addAction(Actions.hide());
+
+        settings.setFontScale(settings.getFontScaleX() + (settings.getFontScaleX() / 4), settings.getFontScaleY() + (settings.getFontScaleY() / 4));
+        play.setFontScale(play.getFontScaleX() + (play.getFontScaleX() / 4), play.getFontScaleY() + (play.getFontScaleY() / 4));
+        levels.setFontScale(levels.getFontScaleX() + (play.getFontScaleX() / 4), levels.getFontScaleY() + (play.getFontScaleY() / 4));
+        credits.setFontScale(credits.getFontScaleX() + (credits.getFontScaleX() / 4), credits.getFontScaleY() + (credits.getFontScaleY() / 4));
+        quit.setFontScale(quit.getFontScaleX(), quit.getFontScaleY());
+        back.setFontScale(back.getFontScaleX() + (back.getFontScaleX() / 4), back.getFontScaleY() + (back.getFontScaleY() / 4));
+
+        play.setPosition(0, getHeight() / 2);
+        levels.setPosition(0, play.getY() - play.getHeight());
+        settings.setPosition(0, levels.getY() - levels.getHeight());
+        credits.setPosition(0, settings.getY() - settings.getHeight());
+        quit.setPosition(0, credits.getY() - credits.getHeight());
+        back.setPosition(getWidth() / 4, getHeight() / 2);
+>>>>>>> e88240a78b3c10c42759f6c5c7bc5bf07ea6c6de
         //back hidden at start
         back.addAction(Actions.hide());
 
@@ -147,12 +206,22 @@ public class MainMenuScreen extends AbstractScreen {
         stage.addActor(play);
         stage.addActor(levels);
         stage.addActor(settings);
+<<<<<<< HEAD
         stage.addActor(about);
         stage.addActor(credits);
         stage.addActor(quit);
         stage.addActor(back);
         stage.addActor(maleSelection);
         stage.addActor(femaleSelection);
+=======
+        stage.addActor(credits);
+        stage.addActor(quit);
+        stage.addActor(back);
+        stage.addActor(male);
+        stage.addActor(female);
+        stage.addActor(maleImage);
+        stage.addActor(femaleImage);
+>>>>>>> e88240a78b3c10c42759f6c5c7bc5bf07ea6c6de
     }
 
     public void buttonListener() {
@@ -232,6 +301,7 @@ public class MainMenuScreen extends AbstractScreen {
                 playing = false;
             }
         });
+<<<<<<< HEAD
         
         about.addListener(new ClickListener() {
             float heightFont = about.getFontScaleX(), widthFont = about.getFontScaleY();
@@ -255,6 +325,8 @@ public class MainMenuScreen extends AbstractScreen {
                 playing = false;
             }
         });
+=======
+>>>>>>> e88240a78b3c10c42759f6c5c7bc5bf07ea6c6de
 
         //cancels exit
         exit.addListener(new ClickListener() {
@@ -298,20 +370,39 @@ public class MainMenuScreen extends AbstractScreen {
                     //hides the buttons
                     //0.8f is the duration
                     play.addAction(Actions.moveBy(-(play.getWidth() * 2), 0, 0.8f));
+<<<<<<< HEAD
                     levels.addAction(Actions.moveBy((float) -(levels.getWidth() * 2.5), 0, 0.8f));
                     settings.addAction(Actions.moveBy(-(settings.getWidth() * 3), 0, 0.8f));
                     quit.addAction(Actions.moveBy(-(quit.getWidth() * 2), 0, 0.8f));
                     credits.addAction(Actions.moveBy(-(credits.getWidth() * 2), 0, 0.8f));
                     about.addAction(Actions.moveBy(-(about.getWidth() * 2), 0, 0.8f));
+=======
+                    levels.addAction(Actions.moveBy(-(levels.getWidth() * 2), 0, 0.8f));
+                    settings.addAction(Actions.moveBy(-(settings.getWidth() * 2), 0, 0.8f));
+                    quit.addAction(Actions.moveBy(-(quit.getWidth() * 2), 0, 0.8f));
+                    credits.addAction(Actions.moveBy(-(credits.getWidth() * 2), 0, 0.8f));
+>>>>>>> e88240a78b3c10c42759f6c5c7bc5bf07ea6c6de
                     //brings the back button to the screen
                     back.addAction(Actions.show());
                     back.addAction(Actions.moveBy(-(getWidth() / 4), 0, 0.8f));
 
+<<<<<<< HEAD
                     //brings character selection to screen
                     maleSelection.addAction(Actions.show());
                     maleSelection.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
                     femaleSelection.addAction(Actions.show());
                     femaleSelection.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
+=======
+                    //brins character selection to screen
+                    male.addAction(Actions.show());
+                    male.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
+                    maleImage.addAction(Actions.show());
+                    maleImage.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
+                    female.addAction(Actions.show());
+                    female.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
+                    femaleImage.addAction(Actions.show());
+                    femaleImage.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
+>>>>>>> e88240a78b3c10c42759f6c5c7bc5bf07ea6c6de
 
                     swipe = true;
                 }
@@ -320,36 +411,61 @@ public class MainMenuScreen extends AbstractScreen {
         });
         //back to main menu from character selection screen
         back.addListener(new ClickListener() {
+<<<<<<< HEAD
             float heightFont = back.getScaleX(), widthFont = back.getScaleY();
+=======
+            float heightFont = back.getFontScaleX(), widthFont = back.getFontScaleY();
+>>>>>>> e88240a78b3c10c42759f6c5c7bc5bf07ea6c6de
 
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 if (swipe) {
                     Action action = Actions.moveBy(+(getWidth() / 4), 0, 0.8f);
                     play.addAction(Actions.moveBy(+(play.getWidth() * 2), 0, 0.8f));
+<<<<<<< HEAD
                     levels.addAction(Actions.moveBy((float) +(levels.getWidth() * 2.5), 0, 0.8f));
                     settings.addAction(Actions.moveBy(+(settings.getWidth() * 3), 0, 0.8f));
                     credits.addAction(Actions.moveBy(+(credits.getWidth() * 2), 0, 0.8f));
                     about.addAction(Actions.moveBy(+(about.getWidth() * 2), 0, 0.8f));
+=======
+                    levels.addAction(Actions.moveBy(+(levels.getWidth() * 2), 0, 0.8f));
+                    settings.addAction(Actions.moveBy(+(settings.getWidth() * 2), 0, 0.8f));
+                    credits.addAction(Actions.moveBy(+(credits.getWidth() * 2), 0, 0.8f));
+>>>>>>> e88240a78b3c10c42759f6c5c7bc5bf07ea6c6de
                     quit.addAction(Actions.moveBy(+(quit.getWidth() * 2), 0, 0.8f));
                     //button is hiden after move by action is completed
                     back.addAction(Actions.sequence(action, Actions.hide()));
 
                     //hide character selection
+<<<<<<< HEAD
                     maleSelection.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
                     femaleSelection.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
+=======
+                    male.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
+                    female.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
+                    maleImage.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
+                    femaleImage.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
+>>>>>>> e88240a78b3c10c42759f6c5c7bc5bf07ea6c6de
                     swipe = false;
                 }
             }
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+<<<<<<< HEAD
                 back.setScale(back.getScaleX() + (back.getScaleY() / 10), back.getScaleY() + (back.getScaleY() / 10));
+=======
+                back.setFontScale(back.getFontScaleX() + (back.getFontScaleX() / 10), back.getFontScaleY() + (back.getFontScaleY() / 10));
+>>>>>>> e88240a78b3c10c42759f6c5c7bc5bf07ea6c6de
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+<<<<<<< HEAD
                 back.setScale(widthFont, heightFont);
+=======
+                back.setFontScale(widthFont, heightFont);
+>>>>>>> e88240a78b3c10c42759f6c5c7bc5bf07ea6c6de
             }
         });
         settings.addListener(new ClickListener() {
