@@ -2,8 +2,6 @@
 
 Storyline = Storyliners <br />
 1-2 Basic puzzles = Storyliners <br />
-Menu styling = Taher <br />
-Selection screen styling = Jacob <br />
 Map Sketches? = Bhaven <br />
 Map 1 Design / Sprite animation = Zeth <br />
 Floor 1 Design [Library] = Areeb, Becca, Bhaven, Taher <br />
