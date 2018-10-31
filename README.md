@@ -1,6 +1,4 @@
 # TO DO BEFORE THE HACK
-
-Storyline = Storyliners <br />
 1-2 Basic puzzles = Storyliners <br />
 Map Sketches? = Bhaven <br />
 Map 1 Design / Sprite animation = Zeth <br />
