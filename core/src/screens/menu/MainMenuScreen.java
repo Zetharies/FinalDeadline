@@ -19,11 +19,15 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import actions.FadeOutAction;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import managers.ScreenManager;
 import screens.intro.AbstractScreen;
 
 public class MainMenuScreen extends AbstractScreen {
+
     private Table testTable;
     private Stage stage;
     private Skin skin;
@@ -71,6 +75,8 @@ public class MainMenuScreen extends AbstractScreen {
     public void show() {
     }
 
+    
+
     @Override
     public void resize(int width, int height) {
 
@@ -79,21 +85,26 @@ public class MainMenuScreen extends AbstractScreen {
 
         testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
         skin = new Skin(Gdx.files.internal("fonts/Holo-dark-hdpi.json"));
+        skin.getFont("default-font").getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         maleCard = new Texture(Gdx.files.internal("images/maleSelection.png"));
         femaleCard = new Texture(Gdx.files.internal("images/femaleSelection.png"));
         maleSelection = new ImageButton(new TextureRegionDrawable(new TextureRegion(maleCard)));
         femaleSelection = new ImageButton(new TextureRegionDrawable(new TextureRegion(femaleCard)));
 
-        settings = new Label("SETTINGS", skin);
-        play = new Label("PLAY", skin);
-        confirm = new Label("Confirm", skin);
-        exit = new Label("Cancel", skin);
-        window = new Window("Would you like to exit?", skin);
-        levels = new Label("LEVELS", skin);
-        about = new Label("ABOUT", skin);
-        credits = new Label("CREDITS", skin);
-        quit = new Label("QUIT", skin);
+        Label.LabelStyle style = new Label.LabelStyle();
+        //returns the bitmap font
+        style.font = generateFont(skin);
+        //font passed as parameter to change label font
+        settings = new Label("SETTINGS", style);
+        play = new Label("PLAY", style);
+        levels = new Label("LEVELS", style);
+        about = new Label("ABOUT", style);
+        credits = new Label("CREDITS", style);
+        quit = new Label("QUIT", style);
         back = new TextButton("[ESC] BACK", skin);
+        window = new Window("Would you like to exit?", skin);
+        exit = new Label("Cancel", skin);
+        confirm = new Label("Confirm", skin);
 
         setButtons();
         buttonListener(); // Call the buttonListener method
@@ -112,21 +123,21 @@ public class MainMenuScreen extends AbstractScreen {
         femaleSelection.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
         femaleSelection.setPosition((float) (maleSelection.getWidth() * 1.25), Gdx.graphics.getHeight() / 4);
         femaleSelection.addAction(Actions.hide());
-
-        settings.setFontScale((float)(settings.getFontScaleX() + (settings.getFontScaleX() + 0.8)), (float) (settings.getFontScaleY() + (settings.getFontScaleY() + 0.8)));
+        settings.setFontScale((float) (settings.getFontScaleX() + (settings.getFontScaleX() + 0.8)), (float) (settings.getFontScaleY() + (settings.getFontScaleY() + 0.8)));
         play.setFontScale((float) (play.getFontScaleX() + (play.getFontScaleX() + 0.8)), (float) (play.getFontScaleY() + (play.getFontScaleY() + 0.8)));
         levels.setFontScale((float) (levels.getFontScaleX() + (levels.getFontScaleX() + 0.8)), (float) (levels.getFontScaleY() + (levels.getFontScaleY() + 0.8)));
         about.setFontScale((float) (about.getFontScaleX() + 0.6), (float) (about.getFontScaleY() + 0.6));
         credits.setFontScale((float) (credits.getFontScaleX() + 0.6), (float) (credits.getFontScaleY() + 0.6));
         quit.setFontScale((float) (quit.getFontScaleX() + 0.6), (float) (quit.getFontScaleY() + 0.6));
-        back.setSize(settings.getPrefWidth() / 2 , settings.getPrefHeight() / 2);
+        back.setSize(settings.getPrefWidth() / 2, settings.getPrefHeight() / 2);
 
-        play.setPosition(0, getHeight() / 2);
-        levels.setPosition(0, (float) (play.getY() - play.getHeight() * 1.5));
-        settings.setPosition(0, (float) (levels.getY() - levels.getHeight() * 1.5));
-        credits.setPosition(0, (float) (settings.getY() - settings.getHeight() * 1.15));
-        about.setPosition(0, (float) (credits.getY() - credits.getHeight() * 1.15));
-        quit.setPosition(0, (float) (about.getY() - about.getHeight() * 1.15));
+        play.setBounds(10, (float) (getHeight() / 2), play.getPrefWidth(), play.getPrefHeight());
+        levels.setBounds(10, play.getY() - (float) (play.getHeight() / 1.2), settings.getPrefWidth(), settings.getPrefHeight());
+        settings.setBounds(10, levels.getY() - (float) (levels.getHeight() / 1.2), settings.getPrefWidth(), settings.getPrefHeight());
+        credits.setBounds(10, settings.getY() - (float) (settings.getHeight() / 2.5), credits.getPrefWidth(), credits.getPrefHeight());
+        about.setBounds(10, credits.getY() - (float) (credits.getHeight() / 1.2), about.getPrefWidth(), about.getPrefHeight());
+        quit.setBounds(10, about.getY() - (float) (about.getHeight() / 1.2), quit.getPrefWidth(), quit.getPrefHeight());
+
         back.setPosition((float) (Gdx.graphics.getWidth() * 1.10), Gdx.graphics.getHeight() / 20);
         //back hidden at start
         back.addAction(Actions.hide());
@@ -157,7 +168,7 @@ public class MainMenuScreen extends AbstractScreen {
 
     public void buttonListener() {
         //enter exit is the hover listener
-        
+
         //opens the pop up window to confirm exit
         quit.addListener(new ClickListener() {
             float heightFont = quit.getFontScaleX(), widthFont = quit.getFontScaleY();
@@ -232,7 +243,7 @@ public class MainMenuScreen extends AbstractScreen {
                 playing = false;
             }
         });
-        
+
         about.addListener(new ClickListener() {
             float heightFont = about.getFontScaleX(), widthFont = about.getFontScaleY();
 
@@ -298,8 +309,8 @@ public class MainMenuScreen extends AbstractScreen {
                     //hides the buttons
                     //0.8f is the duration
                     play.addAction(Actions.moveBy(-(play.getWidth() * 2), 0, 0.8f));
-                    levels.addAction(Actions.moveBy((float) -(levels.getWidth() * 2.5), 0, 0.8f));
-                    settings.addAction(Actions.moveBy(-(settings.getWidth() * 3), 0, 0.8f));
+                    levels.addAction(Actions.moveBy((float) -(levels.getWidth() * 1.5), 0, 0.8f));
+                    settings.addAction(Actions.moveBy((float) -(settings.getWidth() * 1.5), 0, 0.8f));
                     quit.addAction(Actions.moveBy(-(quit.getWidth() * 2), 0, 0.8f));
                     credits.addAction(Actions.moveBy(-(credits.getWidth() * 2), 0, 0.8f));
                     about.addAction(Actions.moveBy(-(about.getWidth() * 2), 0, 0.8f));
@@ -327,8 +338,8 @@ public class MainMenuScreen extends AbstractScreen {
                 if (swipe) {
                     Action action = Actions.moveBy(+(getWidth() / 4), 0, 0.8f);
                     play.addAction(Actions.moveBy(+(play.getWidth() * 2), 0, 0.8f));
-                    levels.addAction(Actions.moveBy((float) +(levels.getWidth() * 2.5), 0, 0.8f));
-                    settings.addAction(Actions.moveBy(+(settings.getWidth() * 3), 0, 0.8f));
+                    levels.addAction(Actions.moveBy((float) +(levels.getWidth() * 1.5), 0, 0.8f));
+                    settings.addAction(Actions.moveBy((float) +(settings.getWidth() * 1.5), 0, 0.8f));
                     credits.addAction(Actions.moveBy(+(credits.getWidth() * 2), 0, 0.8f));
                     about.addAction(Actions.moveBy(+(about.getWidth() * 2), 0, 0.8f));
                     quit.addAction(Actions.moveBy(+(quit.getWidth() * 2), 0, 0.8f));
@@ -410,7 +421,18 @@ public class MainMenuScreen extends AbstractScreen {
         });
 
     }
-
+public BitmapFont generateFont(Skin skin) {
+        //font for menu text 
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/di-vari.ttf"));
+        FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+        parameter.size = 40;
+        BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
+        //add the font to the skin
+        skin.add("font", font12);
+        generator.dispose();
+        
+        return font12;
+    }
     public void hoverFX() {
 
     }
