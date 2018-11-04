@@ -1,6 +1,6 @@
 # TO DO BEFORE THE HACK
 1-2 Basic puzzles = Storyliners <br />
-Floor 1 Design [Library] = Areeb, Becca, Bhaven, Taher <br />
+Floor 1 Design [Library/lab] = Areeb, Becca, Bhaven, Taher <br />
 Website = Bhaven/Kunal <br />
 Map collisions = Zeth
 
