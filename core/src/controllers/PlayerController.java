@@ -2,6 +2,7 @@ package controllers;
 
 import com.badlogic.gdx.InputAdapter;
 
+import models.EnumPlayerFacing;
 import models.Player;
 
 import com.badlogic.gdx.Input.Keys;
@@ -62,22 +63,22 @@ public class PlayerController extends InputAdapter {
 	}
 	
 	public void update(float delta) {
-		if(up) {
-			p.movePlayer(0, 1);
-			return;
-		}
-		if(down) {
-			p.movePlayer(0, -1);
-			return;
-		}
-		if(left) {
-			p.movePlayer(-1, 0);
-			return;
-		}
-		if(right) {
-			p.movePlayer(1, 0);
-			return;
-		}
+		if(up){
+            p.move(EnumPlayerFacing.UP);
+            return;
+        }
+        if(down){
+            p.move(EnumPlayerFacing.DOWN);
+            return;
+        }
+        if(left){
+            p.move(EnumPlayerFacing.LEFT);
+            return;
+        }
+        if(right){
+            p.move(EnumPlayerFacing.RIGHT);
+            return;
+        }
 	}
 
 }

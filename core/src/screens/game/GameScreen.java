@@ -1,16 +1,22 @@
 package screens.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.GameSettings;
+import com.mygdx.game.Hud;
+import com.badlogic.gdx.graphics.g2d.Animation;
 
 import controllers.PlayerController;
+import models.AnimationSet;
 import models.Player;
 import screens.intro.AbstractScreen;
 
@@ -18,51 +24,83 @@ public class GameScreen extends AbstractScreen {
 	
 	
 	private SpriteBatch batch; // Allows us to render sprite to screen really fast
-	private Texture playerSprite; // Our players Sprite
 	private Player player;
 	private PlayerController playerControls;
 	
 	private TiledMap map;
 	private OrthogonalTiledMapRenderer renderer;
 	private OrthographicCamera camera;
+	private Viewport gamePort;
+	private AssetManager assetManager;
+	private String chosenCharacter = "sprite/male/flynn"; // Will change to a getter when female sprite is done
+	private String characteName = "flynn";
+	private Hud hud;
 
 	public GameScreen() {
 	}
 	
 	@Override
 	public void show() {
-		playerSprite = new Texture(Gdx.files.internal("sprite/placeHolderSprite.png")); // Player image to be replaced with animation
 		batch = new SpriteBatch();
-		player = new Player(0, 0); // Create a new player object with the coordinates 0, 0
+		hud = new Hud(batch);
+		assetManager = new AssetManager();
+		assetManager.load(chosenCharacter + "_walking.atlas", TextureAtlas.class);
+        assetManager.load(chosenCharacter + "_standing.atlas", TextureAtlas.class);
+        assetManager.finishLoading();
+		
+		TextureAtlas walking = this.getAssetManager().get(chosenCharacter + "_walking.atlas", TextureAtlas.class);
+        TextureAtlas standing = this.getAssetManager().get(chosenCharacter + "_standing.atlas", TextureAtlas.class);
+        
+        AnimationSet animations = new AnimationSet(
+                new Animation<Object>(GameSettings.TIME_PER_TILE/2f, walking.findRegions(characteName + "_walking_north"), Animation.PlayMode.LOOP_PINGPONG),
+                new Animation<Object>(GameSettings.TIME_PER_TILE/2f, walking.findRegions(characteName + "_walking_south"), Animation.PlayMode.LOOP_PINGPONG),
+                new Animation<Object>(GameSettings.TIME_PER_TILE/2f, walking.findRegions(characteName + "_walking_east"), Animation.PlayMode.LOOP_PINGPONG),
+                new Animation<Object>(GameSettings.TIME_PER_TILE/2f, walking.findRegions(characteName + "_walking_west"), Animation.PlayMode.LOOP_PINGPONG),
+                standing.findRegion(characteName + "_standing_north"),
+                standing.findRegion(characteName + "_standing_south"),
+                standing.findRegion(characteName + "_standing_east"),
+                standing.findRegion(characteName + "_standing_west")
+                );
+		
+		
+		player = new Player(0, 0, animations); // Create a new player object with the coordinates 0, 0, player animations
 		playerControls = new PlayerController(player);
 
 		map = new TmxMapLoader().load("maps/basicMap.tmx"); // map to load, extremely basic map, will be changed
 		renderer = new OrthogonalTiledMapRenderer(map);
 		camera = new OrthographicCamera();
-		
+		gamePort = new StretchViewport(1200, 600, camera);
 		Gdx.input.setInputProcessor(playerControls);
+	}
+
+	private AssetManager getAssetManager() {
+		// TODO Auto-generated method stub
+		return assetManager;
 	}
 
 	@Override
 	public void render(float delta) {
-		
 		playerControls.update(delta);
-		camera.position.set(player.getX() * GameSettings.SCALED_TILE_SIZE, player.getY() * GameSettings.SCALED_TILE_SIZE, 0);
+		player.update(delta);
+		//camera.position.set(player.getX() * GameSettings.SCALED_TILE_SIZE, player.getY() * GameSettings.SCALED_TILE_SIZE, 0);
+		camera.position.y = player.getLinearY() * 64;
+		camera.position.x = player.getLinearX() * 64;
 		camera.update();
 		
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
 		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
 		renderer.setView(camera);
 		renderer.render();
-		
+		batch.setProjectionMatrix(hud.stage.getCamera().combined);
+		hud.stage.draw();
+		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		batch.draw(playerSprite,
-				player.getX() * GameSettings.SCALED_TILE_SIZE,
-				player.getY() * GameSettings.SCALED_TILE_SIZE,
+		batch.draw(player.getSprite(),
+				player.getLinearX() * GameSettings.SCALED_TILE_SIZE,
+				player.getLinearY() * GameSettings.SCALED_TILE_SIZE,
 				GameSettings.SCALED_TILE_SIZE*1.5f,
 				GameSettings.SCALED_TILE_SIZE*1.5f); // Players character / X,Y position on screen / Width / Height
 		batch.end();
-		
 	}
 
 	@Override
@@ -70,6 +108,7 @@ public class GameScreen extends AbstractScreen {
 		camera.viewportWidth = width;
 		camera.viewportHeight = height;
 		camera.update();
+		gamePort.update(width, height);
 	}
 
 	@Override
