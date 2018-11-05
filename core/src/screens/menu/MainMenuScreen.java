@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import actions.FadeOutAction;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
@@ -37,7 +38,7 @@ public class MainMenuScreen extends AbstractScreen {
     private Label play, levels, settings, about, credits, quit, confirm, exit;
     private Music mp3Sound;
     private ImageButton customizeSelection, maleSelection, femaleSelection;
-    private TextButton back;
+    protected TextButton back;
 
     public MainMenuScreen() {
         super();
@@ -53,6 +54,10 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            //swpies back to main screen
+            exitCharacterSelection();
+        }
         Gdx.gl.glClearColor(0f, 0f, 0f, 1f); // Red, Green, Blue, Alpha (Alpha is transparency)
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         stage.act(delta);
@@ -74,8 +79,6 @@ public class MainMenuScreen extends AbstractScreen {
     @Override
     public void show() {
     }
-
-    
 
     @Override
     public void resize(int width, int height) {
@@ -118,16 +121,13 @@ public class MainMenuScreen extends AbstractScreen {
 
     public void setButtons() {
         //character selection
-    	customizeSelection.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-        customizeSelection.setPosition((Gdx.graphics.getWidth() / 3), Gdx.graphics.getHeight() / 4);
+        customizeSelection.setBounds((float) (getWidth() / 2), getHeight() / 3, (float) (Gdx.graphics.getWidth() / 5), Gdx.graphics.getHeight() / 2);
         customizeSelection.addAction(Actions.hide());
-        maleSelection.setSize((int)(Gdx.graphics.getWidth() / 2), (int)(Gdx.graphics.getHeight() / 2));
-        maleSelection.setPosition((float) (customizeSelection.getWidth() * 1.05), Gdx.graphics.getHeight() / 4);
+        maleSelection.setBounds(customizeSelection.getX() + customizeSelection.getWidth(), customizeSelection.getY(), (float) (Gdx.graphics.getWidth() / 5), (float) (Gdx.graphics.getHeight() / 2));
         maleSelection.addAction(Actions.hide());
-        femaleSelection.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-        femaleSelection.setPosition((float) (maleSelection.getWidth() * 1.43), Gdx.graphics.getHeight() / 4);
-        femaleSelection.addAction(Actions.hide());
-        
+        femaleSelection.setBounds(maleSelection.getX() + customizeSelection.getWidth(), customizeSelection.getY(), (float) (Gdx.graphics.getWidth() / 5), (float) (Gdx.graphics.getHeight() / 2));
+        femaleSelection.addAction(Actions.hide()); 
+
         settings.setFontScale((float) (settings.getFontScaleX() + (settings.getFontScaleX() + 0.8)), (float) (settings.getFontScaleY() + (settings.getFontScaleY() + 0.8)));
         play.setFontScale((float) (play.getFontScaleX() + (play.getFontScaleX() + 0.8)), (float) (play.getFontScaleY() + (play.getFontScaleY() + 0.8)));
         levels.setFontScale((float) (levels.getFontScaleX() + (levels.getFontScaleX() + 0.8)), (float) (levels.getFontScaleY() + (levels.getFontScaleY() + 0.8)));
@@ -311,30 +311,7 @@ public class MainMenuScreen extends AbstractScreen {
 
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                if (!swipe && back.getActions().size == 0) {
-                    //hides the buttons
-                    //0.8f is the duration
-                    play.addAction(Actions.moveBy(-(play.getWidth() * 2), 0, 0.8f));
-                    levels.addAction(Actions.moveBy((float) -(levels.getWidth() * 1.5), 0, 0.8f));
-                    settings.addAction(Actions.moveBy((float) -(settings.getWidth() * 1.5), 0, 0.8f));
-                    quit.addAction(Actions.moveBy(-(quit.getWidth() * 2), 0, 0.8f));
-                    credits.addAction(Actions.moveBy(-(credits.getWidth() * 2), 0, 0.8f));
-                    about.addAction(Actions.moveBy(-(about.getWidth() * 2), 0, 0.8f));
-                    //brings the back button to the screen
-                    back.addAction(Actions.show());
-                    back.addAction(Actions.moveBy(-(getWidth() / 4), 0, 0.8f));
-
-                    //brings character selection to screen
-                    customizeSelection.addAction(Actions.show());
-                    customizeSelection.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
-                    maleSelection.addAction(Actions.show());
-                    maleSelection.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
-                    femaleSelection.addAction(Actions.show());
-                    femaleSelection.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
-
-                    swipe = true;
-                }
-
+                enterCharacterSelection();
             }
         });
         //back to main menu from character selection screen
@@ -343,23 +320,7 @@ public class MainMenuScreen extends AbstractScreen {
 
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                if (swipe) {
-                    Action action = Actions.moveBy(+(getWidth() / 4), 0, 0.8f);
-                    play.addAction(Actions.moveBy(+(play.getWidth() * 2), 0, 0.8f));
-                    levels.addAction(Actions.moveBy((float) +(levels.getWidth() * 1.5), 0, 0.8f));
-                    settings.addAction(Actions.moveBy((float) +(settings.getWidth() * 1.5), 0, 0.8f));
-                    credits.addAction(Actions.moveBy(+(credits.getWidth() * 2), 0, 0.8f));
-                    about.addAction(Actions.moveBy(+(about.getWidth() * 2), 0, 0.8f));
-                    quit.addAction(Actions.moveBy(+(quit.getWidth() * 2), 0, 0.8f));
-                    //button is hiden after move by action is completed
-                    back.addAction(Actions.sequence(action, Actions.hide()));
-
-                    //hide character selection
-                    customizeSelection.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
-                    maleSelection.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
-                    femaleSelection.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
-                    swipe = false;
-                }
+                exitCharacterSelection();
             }
 
             @Override
@@ -398,35 +359,43 @@ public class MainMenuScreen extends AbstractScreen {
                 //settings will be added 
             }
         });
-		 customizeSelection.addListener(new ClickListener() {
-		        	
-		        	public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-		        		if (!playing) {
-		                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
-		                    sound.play(0.1F);
-		                    playing = true;
-		                }
-		                	customizeSelection.setSize((float)(Gdx.graphics.getWidth() / 1.75), (float)(Gdx.graphics.getHeight() / 1.75));
-		            }
-		            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-		            	playing = false;
-		                	customizeSelection.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-		            }
-		 });
-        maleSelection.addListener(new ClickListener() {
-        	
-        	public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-        		if (!playing) {
+        customizeSelection.addListener(new ClickListener() {
+            float selectionHeight = customizeSelection.getHeight(), selectionWidth = customizeSelection.getWidth();
+
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                if (!playing) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
                 }
-                	maleSelection.setSize((float)(Gdx.graphics.getWidth() / 1.75), (float)(Gdx.graphics.getHeight() / 1.75));
+                //customizeSelection.setSize((float) (Gdx.graphics.getWidth() / 1.75), (float) (Gdx.graphics.getHeight() / 1.75));
+                customizeSelection.setSize((float) (customizeSelection.getWidth() + 10), (float) (customizeSelection.getHeight() + 10));
             }
+
             public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-            	playing = false;
-                	maleSelection.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+                playing = false;
+                //customizeSelection.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+                customizeSelection.setSize(selectionWidth, selectionHeight);
             }
+        });
+        maleSelection.addListener(new ClickListener() {
+            float selectionHeight = maleSelection.getHeight(), selectionWidth = maleSelection.getWidth();
+
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                if (!playing) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
+                    sound.play(0.1F);
+                    playing = true;
+                }
+                maleSelection.setSize((float) (maleSelection.getWidth() + 10), (float) (maleSelection.getHeight() + 10));
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                playing = false;
+                //maleSelection.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
+                maleSelection.setSize(selectionWidth, selectionHeight);
+            }
+
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 mp3Sound.pause();
@@ -442,18 +411,22 @@ public class MainMenuScreen extends AbstractScreen {
             }
         });
         femaleSelection.addListener(new ClickListener() {
-        	public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-        		if (!playing) {
+            float selectionHeight = femaleSelection.getHeight(), selectionWidth = femaleSelection.getWidth();
+
+            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                if (!playing) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
                 }
-            	femaleSelection.setSize((float)(Gdx.graphics.getWidth() / 1.75), (float)(Gdx.graphics.getHeight() / 1.75));
-	        }
-	        public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-	        		playing = false;
-	            	femaleSelection.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
-	        }
+                femaleSelection.setSize((float) (femaleSelection.getWidth() + 10), (float) (femaleSelection.getHeight() + 10));
+            }
+
+            public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                playing = false;
+                femaleSelection.setSize(selectionWidth, selectionHeight);
+            }
+
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 mp3Sound.pause();
@@ -465,13 +438,60 @@ public class MainMenuScreen extends AbstractScreen {
                         ScreenManager.setGameScreen(); // Sets the screen to our game >:D
                     }
                 });
-
             }
         });
 
     }
-    
-	public BitmapFont generateFont(Skin skin) {
+
+  
+
+    public void exitCharacterSelection() {
+        if (swipe) {
+            Action action = Actions.moveBy(+(getWidth() / 4), 0, 0.8f);
+            play.addAction(Actions.moveBy(+(play.getWidth() * 2), 0, 0.8f));
+            levels.addAction(Actions.moveBy((float) +(levels.getWidth() * 1.5), 0, 0.8f));
+            settings.addAction(Actions.moveBy((float) +(settings.getWidth() * 1.5), 0, 0.8f));
+            credits.addAction(Actions.moveBy(+(credits.getWidth() * 2), 0, 0.8f));
+            about.addAction(Actions.moveBy(+(about.getWidth() * 2), 0, 0.8f));
+            quit.addAction(Actions.moveBy(+(quit.getWidth() * 2), 0, 0.8f));
+            //button is hiden after move by action is completed
+            back.addAction(Actions.sequence(action, Actions.hide()));
+
+            //hide character selection
+            customizeSelection.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
+            maleSelection.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
+            femaleSelection.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
+            swipe = false;
+        }
+    }
+
+    private void enterCharacterSelection() {
+        if (!swipe && back.getActions().size == 0) {
+            //hides the buttons
+            //0.8f is the duration
+            play.addAction(Actions.moveBy(-(play.getWidth() * 2), 0, 0.8f));
+            levels.addAction(Actions.moveBy((float) -(levels.getWidth() * 1.5), 0, 0.8f));
+            settings.addAction(Actions.moveBy((float) -(settings.getWidth() * 1.5), 0, 0.8f));
+            quit.addAction(Actions.moveBy(-(quit.getWidth() * 2), 0, 0.8f));
+            credits.addAction(Actions.moveBy(-(credits.getWidth() * 2), 0, 0.8f));
+            about.addAction(Actions.moveBy(-(about.getWidth() * 2), 0, 0.8f));
+            //brings the back button to the screen
+            back.addAction(Actions.show());
+            back.addAction(Actions.moveBy(-(getWidth() / 4), 0, 0.8f));
+
+            //brings character selection to screen
+            customizeSelection.addAction(Actions.show());
+            customizeSelection.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
+            maleSelection.addAction(Actions.show());
+            maleSelection.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
+            femaleSelection.addAction(Actions.show());
+            femaleSelection.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
+
+            swipe = true;
+        }
+    }
+
+    public BitmapFont generateFont(Skin skin) {
         //font for menu text 
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/di-vari.ttf"));
         FreeTypeFontParameter parameter = new FreeTypeFontParameter();
@@ -481,7 +501,7 @@ public class MainMenuScreen extends AbstractScreen {
         skin.add("font", font12);
         generator.dispose();
         return font12;
-	}
+    }
 
     @Override
     public void dispose() {
