@@ -32,11 +32,16 @@ public class GameScreen extends AbstractScreen {
 	private OrthographicCamera camera;
 	private Viewport gamePort;
 	private AssetManager assetManager;
-	private String chosenCharacter = "sprite/male/flynn"; // Will change to a getter when female sprite is done
-	private String characteName = "flynn";
+	private String chosenCharacter, gender;
 	private Hud hud;
 
-	public GameScreen() {
+	public GameScreen(String character) {
+		this.chosenCharacter = character; // Chosen characters are either Flynn or Jessica
+		if(chosenCharacter == "flynn") {
+			gender = "male";
+		} else if (chosenCharacter == "jessica") {
+			gender = "female";
+		}
 	}
 	
 	@Override
@@ -44,22 +49,22 @@ public class GameScreen extends AbstractScreen {
 		batch = new SpriteBatch();
 		hud = new Hud(batch);
 		assetManager = new AssetManager();
-		assetManager.load(chosenCharacter + "_walking.atlas", TextureAtlas.class);
-        assetManager.load(chosenCharacter + "_standing.atlas", TextureAtlas.class);
+		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
+        assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
         assetManager.finishLoading();
 		
-		TextureAtlas walking = this.getAssetManager().get(chosenCharacter + "_walking.atlas", TextureAtlas.class);
-        TextureAtlas standing = this.getAssetManager().get(chosenCharacter + "_standing.atlas", TextureAtlas.class);
+		TextureAtlas walking = this.getAssetManager().get("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
+        TextureAtlas standing = this.getAssetManager().get("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
         
         AnimationSet animations = new AnimationSet(
-                new Animation<Object>(GameSettings.TIME_PER_TILE/2f, walking.findRegions(characteName + "_walking_north"), Animation.PlayMode.LOOP_PINGPONG),
-                new Animation<Object>(GameSettings.TIME_PER_TILE/2f, walking.findRegions(characteName + "_walking_south"), Animation.PlayMode.LOOP_PINGPONG),
-                new Animation<Object>(GameSettings.TIME_PER_TILE/2f, walking.findRegions(characteName + "_walking_east"), Animation.PlayMode.LOOP_PINGPONG),
-                new Animation<Object>(GameSettings.TIME_PER_TILE/2f, walking.findRegions(characteName + "_walking_west"), Animation.PlayMode.LOOP_PINGPONG),
-                standing.findRegion(characteName + "_standing_north"),
-                standing.findRegion(characteName + "_standing_south"),
-                standing.findRegion(characteName + "_standing_east"),
-                standing.findRegion(characteName + "_standing_west")
+                new Animation<Object>(GameSettings.TIME_PER_TILE/2f, walking.findRegions(chosenCharacter + "_walking_north"), Animation.PlayMode.LOOP_PINGPONG),
+                new Animation<Object>(GameSettings.TIME_PER_TILE/2f, walking.findRegions(chosenCharacter + "_walking_south"), Animation.PlayMode.LOOP_PINGPONG),
+                new Animation<Object>(GameSettings.TIME_PER_TILE/2f, walking.findRegions(chosenCharacter + "_walking_east"), Animation.PlayMode.LOOP_PINGPONG),
+                new Animation<Object>(GameSettings.TIME_PER_TILE/2f, walking.findRegions(chosenCharacter + "_walking_west"), Animation.PlayMode.LOOP_PINGPONG),
+                standing.findRegion(chosenCharacter + "_standing_north"),
+                standing.findRegion(chosenCharacter + "_standing_south"),
+                standing.findRegion(chosenCharacter + "_standing_east"),
+                standing.findRegion(chosenCharacter + "_standing_west")
                 );
 		
 		

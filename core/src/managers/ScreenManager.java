@@ -11,7 +11,6 @@ public class ScreenManager {
 	
    static Game game = null;
    static Screen splashScreen, mainMenuScreen, gameScreen;
-
    
    private ScreenManager() {}
    
@@ -20,7 +19,7 @@ public class ScreenManager {
 
       splashScreen = new SplashScreen();
       mainMenuScreen = new MainMenuScreen();
-      gameScreen = new GameScreen();
+      
    }
    
    public static void setSplashScreen() {
@@ -31,8 +30,9 @@ public class ScreenManager {
       game.setScreen(mainMenuScreen);
    }
    
-   public static void setGameScreen() {
-	      game.setScreen(gameScreen);
+   public static void setGameScreen(String character) {
+	   gameScreen = new GameScreen(character);
+	   game.setScreen(gameScreen);
    }
    
 }
