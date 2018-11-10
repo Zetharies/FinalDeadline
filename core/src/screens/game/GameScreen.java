@@ -73,7 +73,7 @@ public class GameScreen extends AbstractScreen {
 		map = new TmxMapLoader().load("newMap/Lab Floor HACK.tmx"); // map to load, extremely basic map, will be changed
 		
 		// Create a new player object with the coordinates 0, 0, player animations
-		player = new Player(0, 0, animations);
+		player = new Player(6, 25, animations);
 		playerControls = new PlayerController(player, (TiledMapTileLayer) map.getLayers().get(3));
 		//playerControls = new PlayerController(player);
 		
