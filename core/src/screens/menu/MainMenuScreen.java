@@ -57,6 +57,7 @@ public class MainMenuScreen extends AbstractScreen {
         mp3Sound = Gdx.audio.newMusic(Gdx.files.internal("music/adventureSoundtrack.mp3")); // background soundtrack, feel free to change
         mp3Sound.setLooping(true); // loop the soundtrack
         mp3Sound.play(); // play the soundtrack
+        mp3Sound.setVolume(0.25f);
     }
 
     @Override
@@ -419,7 +420,7 @@ public class MainMenuScreen extends AbstractScreen {
 
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                mp3Sound.pause();
+                mp3Sound.stop();
                 if (soundCheck) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/selectFX.mp3"));
                     sound.play(0.5F);
@@ -452,7 +453,7 @@ public class MainMenuScreen extends AbstractScreen {
 
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                mp3Sound.pause();
+                mp3Sound.stop();
                 if (soundCheck) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/selectFX.mp3"));
                     sound.play(0.5F);
