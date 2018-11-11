@@ -24,6 +24,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import java.util.ArrayList;
 import managers.ScreenManager;
 import screens.intro.AbstractScreen;
 
@@ -38,8 +39,14 @@ public class MainMenuScreen extends AbstractScreen {
     private Label play, levels, settings, about, credits, quit, confirm, exit;
     private Music mp3Sound;
     private ImageButton customizeSelection, maleSelection, femaleSelection;
-    protected TextButton back;
-
+    private TextButton back;
+    boolean soundCheck = true;
+    boolean musicCheck = true;
+    boolean soundResp = true;
+    boolean musicResp = true;
+    int resIndex = 0;
+    boolean clickedSettings = false;
+    
     public MainMenuScreen() {
         super();
         stage = new Stage();
@@ -54,6 +61,11 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
+        if (!soundCheck || !musicCheck) {
+            mp3Sound.pause();
+        } else {
+            mp3Sound.play();
+        }
         if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
             //swpies back to main screen
             exitCharacterSelection();
@@ -126,7 +138,7 @@ public class MainMenuScreen extends AbstractScreen {
         maleSelection.setBounds(customizeSelection.getX() + customizeSelection.getWidth(), customizeSelection.getY(), (float) (Gdx.graphics.getWidth() / 5), (float) (Gdx.graphics.getHeight() / 2));
         maleSelection.addAction(Actions.hide());
         femaleSelection.setBounds(maleSelection.getX() + customizeSelection.getWidth(), customizeSelection.getY(), (float) (Gdx.graphics.getWidth() / 5), (float) (Gdx.graphics.getHeight() / 2));
-        femaleSelection.addAction(Actions.hide()); 
+        femaleSelection.addAction(Actions.hide());
 
         settings.setFontScale((float) (settings.getFontScaleX() + (settings.getFontScaleX() + 0.8)), (float) (settings.getFontScaleY() + (settings.getFontScaleY() + 0.8)));
         play.setFontScale((float) (play.getFontScaleX() + (play.getFontScaleX() + 0.8)), (float) (play.getFontScaleY() + (play.getFontScaleY() + 0.8)));
@@ -183,7 +195,7 @@ public class MainMenuScreen extends AbstractScreen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 quit.setFontScale(quit.getFontScaleX() + (quit.getFontScaleX() / 10), quit.getFontScaleY() + (quit.getFontScaleY() / 10));
-                if (!playing) {
+                if (!playing && soundCheck) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
@@ -211,7 +223,7 @@ public class MainMenuScreen extends AbstractScreen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 levels.setFontScale(levels.getFontScaleX() + (levels.getFontScaleX() / 10), levels.getFontScaleY() + (levels.getFontScaleY() / 10));
-                if (!playing) {
+                if (!playing && soundCheck) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
@@ -234,7 +246,7 @@ public class MainMenuScreen extends AbstractScreen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 credits.setFontScale(credits.getFontScaleX() + (credits.getFontScaleX() / 10), credits.getFontScaleY() + (credits.getFontScaleY() / 10));
-                if (!playing) {
+                if (!playing && soundCheck) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
@@ -257,7 +269,7 @@ public class MainMenuScreen extends AbstractScreen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 about.setFontScale(about.getFontScaleX() + (about.getFontScaleX() / 10), about.getFontScaleY() + (about.getFontScaleY() / 10));
-                if (!playing) {
+                if (!playing && soundCheck) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
@@ -295,7 +307,7 @@ public class MainMenuScreen extends AbstractScreen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 play.setFontScale(play.getFontScaleX() + (play.getFontScaleX() / 10), play.getFontScaleY() + (play.getFontScaleY() / 10));
-                if (!playing) {
+                if (!playing && soundCheck) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
@@ -340,7 +352,7 @@ public class MainMenuScreen extends AbstractScreen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 settings.setFontScale(settings.getFontScaleX() + (settings.getFontScaleX() / 10), settings.getFontScaleY() + (settings.getFontScaleY() / 10));
-                if (!playing) {
+                if (!playing && soundCheck) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
@@ -357,13 +369,22 @@ public class MainMenuScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 //settings will be added 
+                Settings settings = new Settings(stage);
+                //settings will be added 
+                if (!testTable.hasChildren()) {
+                    clickedSettings = false;
+                }
+                if (!clickedSettings) {
+                    testTable.addActor(settings.getTable());
+                    clickedSettings = true;
+                }
             }
         });
         customizeSelection.addListener(new ClickListener() {
             float selectionHeight = customizeSelection.getHeight(), selectionWidth = customizeSelection.getWidth();
 
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (!playing) {
+                if (!playing && soundCheck) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
@@ -382,7 +403,7 @@ public class MainMenuScreen extends AbstractScreen {
             float selectionHeight = maleSelection.getHeight(), selectionWidth = maleSelection.getWidth();
 
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (!playing) {
+                if (!playing && soundCheck) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
@@ -399,8 +420,10 @@ public class MainMenuScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 mp3Sound.pause();
-                Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/selectFX.mp3"));
-                sound.play(0.5F);
+                if (soundCheck) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/selectFX.mp3"));
+                    sound.play(0.5F);
+                }
                 stage.addAction(new FadeOutAction(1.25f) {
                     @Override
                     public void run() {
@@ -414,7 +437,7 @@ public class MainMenuScreen extends AbstractScreen {
             float selectionHeight = femaleSelection.getHeight(), selectionWidth = femaleSelection.getWidth();
 
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (!playing) {
+                if (!playing && soundCheck) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
@@ -430,8 +453,10 @@ public class MainMenuScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 mp3Sound.pause();
-                Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/selectFX.mp3"));
-                sound.play(0.5F);
+                if (soundCheck) {
+                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/selectFX.mp3"));
+                    sound.play(0.5F);
+                }
                 stage.addAction(new FadeOutAction(1.25f) {
                     @Override
                     public void run() {
@@ -442,8 +467,6 @@ public class MainMenuScreen extends AbstractScreen {
         });
 
     }
-
-  
 
     public void exitCharacterSelection() {
         if (swipe) {
@@ -488,6 +511,10 @@ public class MainMenuScreen extends AbstractScreen {
             femaleSelection.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
 
             swipe = true;
+            
+            if (clickedSettings) {
+                testTable.removeActor(table);
+            }
         }
     }
 
@@ -503,6 +530,130 @@ public class MainMenuScreen extends AbstractScreen {
         return font12;
     }
 
+    private Table table;
+
+    class Settings {
+
+        private Stage stage;
+        private Window settingsWindow;
+        private TextButton music;
+        private TextButton sound;
+        private TextButton resolution;
+        private TextButton controls;
+        private TextButton done;
+        private ArrayList<String> resolutionsSizes;
+
+        public Settings(Stage stage) {
+            this.stage = stage;
+            table = new Table();
+            settingsWindow = new Window("", skin);
+            music = new TextButton("MUSIC:ON", skin);
+            sound = new TextButton("SOUND:ON", skin);
+            resolution = new TextButton("" + getWidth() + "x" + getHeight(), skin);
+            controls = new TextButton("CONTROLS", skin);
+            done = new TextButton("DONE", skin);
+            resolutionsSizes = new ArrayList<String>();
+            addResolutions();
+            settings(stage);
+        }
+
+        private void addResolutions() {
+            resolutionsSizes.add("1280x720");
+            resolutionsSizes.add("1920x1080");
+            resolutionsSizes.add("Full Screen");
+            if (resolutionsSizes.contains(getHeight())) {
+                resolutionsSizes.remove(resolutionsSizes.indexOf(getWidth() + "x" + getHeight()));
+            }
+        }
+
+        private void settingsListener() {
+            controls.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent e, float x, float y) {
+
+                }
+            });
+            music.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent e, float x, float y) {
+
+                    if (musicResp) {
+                        music.setText("MUSIC:OFF");
+                        musicResp = false;
+                        musicCheck = false;
+                    } else {
+                        music.setText("MUSIC:ON");
+                        musicResp = true;
+                        musicCheck = true;
+                    }
+
+                }
+            });
+            sound.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent e, float x, float y) {
+
+                    if (soundResp) {
+                        sound.setText("SOUND:OFF");
+                        soundResp = false;
+                        soundCheck = false;
+                    } else {
+                        sound.setText("SOUND:ON");
+                        soundResp = true;
+                        soundCheck = true;
+                    }
+
+                }
+            });
+            resolution.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent e, float x, float y) {
+                    if (resIndex < resolutionsSizes.size()) {
+                        resolution.setText("" + resolutionsSizes.get(resIndex));
+                        if (resolutionsSizes.get(resIndex).equalsIgnoreCase("full screen")) {
+                           // Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+                        } else {
+                            String res[] = resolutionsSizes.get(resIndex).split("x");
+                           // Gdx.graphics.setWindowedMode(Integer.parseInt(res[0]), Integer.parseInt(res[1]));
+                        }
+                        resIndex++;
+                    } else {
+                        resIndex = 0;
+                        resolution.setText(getWidth() + "x" + getHeight());
+                       // Gdx.graphics.setWindowedMode(getWidth(), getHeight());
+                    }
+
+                }
+            });
+            done.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent e, float x, float y) {
+                    testTable.removeActor(table);
+                }
+            });
+        }
+
+        private void settings(Stage stage) {
+            table.add(resolution).width(resolution.getPrefWidth() + (resolution.getPrefWidth() / 2));
+            table.add(controls).width(resolution.getPrefWidth() + (resolution.getPrefWidth() / 2));
+            table.row();
+            table.add(music).width(resolution.getPrefWidth() + (resolution.getPrefWidth() / 2));
+            table.add(sound).width(resolution.getPrefWidth() + (resolution.getPrefWidth() / 2));
+            table.row();
+            table.setSize(table.getPrefWidth(), table.getPrefHeight());
+            table.setPosition((getWidth() / 2) - (table.getWidth() / 2), getHeight() / 2);
+            table.add(done).width(table.getWidth()).colspan(3);
+
+            settingsListener();
+            Gdx.input.setInputProcessor(stage);
+
+        }
+
+        public Table getTable() {
+            return table;
+        }
+    }
+   
     @Override
     public void dispose() {
         stage.dispose();
