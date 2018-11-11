@@ -77,19 +77,11 @@ public class GameScreen extends AbstractScreen {
 		playerControls = new PlayerController(player, (TiledMapTileLayer) map.getLayers().get(3));
 		//playerControls = new PlayerController(player);
 		
-<<<<<<< HEAD
 		renderer = new OrthogonalTiledMapRenderer(map, 1.5658f);
 		camera = new OrthographicCamera();
 		gamePort = new StretchViewport(900, 450, camera);
 		//gamePort = new FitViewport(1200, 600, camera);
 		//gamePort = new ScreenViewport(camera);
-=======
-		renderer = new OrthogonalTiledMapRenderer(map, 2f);
-		camera = new OrthographicCamera();
-		//gamePort = new StretchViewport(1200, 600, camera);
-		//gamePort = new FitViewport(1200, 600, camera);
-		gamePort = new ScreenViewport(camera);
->>>>>>> 7e26cdfaafe98b37beea857f6856f532becffc57
 		Gdx.input.setInputProcessor(playerControls);
 	}
 
