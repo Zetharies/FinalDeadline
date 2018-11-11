@@ -20,8 +20,8 @@ public class Hud {
 		Table table = new Table();
 		table.top();
 		table.setFillParent(true);
-		currentMap = new Label("Floor 4: Biology", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
-		table.add(currentMap).expandX().padRight(1000).padTop(10);
+		currentMap = new Label("Floor 4: Biology lab", new Label.LabelStyle(new BitmapFont(), Color.WHITE));
+		table.add(currentMap).expandX().padRight(1050).padTop(10);
 		stage.addActor(table);
 	}
 
