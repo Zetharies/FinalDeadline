@@ -73,15 +73,15 @@ public class GameScreen extends AbstractScreen {
 		map = new TmxMapLoader().load("newMap/Lab Floor HACK.tmx"); // map to load, extremely basic map, will be changed
 		
 		// Create a new player object with the coordinates 0, 0, player animations
-		player = new Player(6, 25, animations);
+		player = new Player(14, 30, animations);
 		playerControls = new PlayerController(player, (TiledMapTileLayer) map.getLayers().get(0));
 		//playerControls = new PlayerController(player);
 		
 		renderer = new OrthogonalTiledMapRenderer(map);
 		camera = new OrthographicCamera();
-		//gamePort = new StretchViewport(1200, 600, camera);
+		gamePort = new StretchViewport(900, 450, camera);
 		//gamePort = new FitViewport(1200, 600, camera);
-		gamePort = new ScreenViewport(camera);
+		//gamePort = new ScreenViewport(camera);
 		Gdx.input.setInputProcessor(playerControls);
 	}
 
@@ -95,8 +95,8 @@ public class GameScreen extends AbstractScreen {
 		playerControls.update(delta);
 		player.update(delta);
 		//camera.position.set(player.getX() * GameSettings.SCALED_TILE_SIZE, player.getY() * GameSettings.SCALED_TILE_SIZE, 0);
-		camera.position.y = player.getLinearY() * 64;
-		camera.position.x = player.getLinearX() * 64;
+		camera.position.y = player.getLinearY() * 50;
+		camera.position.x = player.getLinearX() * 50;
 		camera.update();
 		
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
