@@ -57,6 +57,7 @@ public class MainMenuScreen extends AbstractScreen {
         mp3Sound = Gdx.audio.newMusic(Gdx.files.internal("music/adventureSoundtrack.mp3")); // background soundtrack, feel free to change
         mp3Sound.setLooping(true); // loop the soundtrack
         mp3Sound.play(); // play the soundtrack
+        mp3Sound.setVolume(0.5f);
     }
 
     @Override

@@ -7,8 +7,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.GameSettings;
@@ -66,15 +69,19 @@ public class GameScreen extends AbstractScreen {
                 standing.findRegion(chosenCharacter + "_standing_east"),
                 standing.findRegion(chosenCharacter + "_standing_west")
                 );
-		
-		
-		player = new Player(0, 0, animations); // Create a new player object with the coordinates 0, 0, player animations
-		playerControls = new PlayerController(player);
 
-		map = new TmxMapLoader().load("maps/basicMap.tmx"); // map to load, extremely basic map, will be changed
-		renderer = new OrthogonalTiledMapRenderer(map);
+		map = new TmxMapLoader().load("newMap/Lab Floor HACK.tmx"); // map to load, extremely basic map, will be changed
+		
+		// Create a new player object with the coordinates 0, 0, player animations
+		player = new Player(12, 50, animations);
+		playerControls = new PlayerController(player, (TiledMapTileLayer) map.getLayers().get(3));
+		//playerControls = new PlayerController(player);
+		
+		renderer = new OrthogonalTiledMapRenderer(map, 2f);
 		camera = new OrthographicCamera();
-		gamePort = new StretchViewport(1200, 600, camera);
+		//gamePort = new StretchViewport(1200, 600, camera);
+		//gamePort = new FitViewport(1200, 600, camera);
+		gamePort = new ScreenViewport(camera);
 		Gdx.input.setInputProcessor(playerControls);
 	}
 

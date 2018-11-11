@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.2" tiledversion="1.2.0" name="BinSprite" tilewidth="32" tileheight="32" tilecount="12" columns="3">
- <image source="../Sprite Images/BinSprite.png" width="106" height="140"/>
+ <image source="BinSprite.png" width="106" height="140"/>
  <tile id="0">
   <objectgroup draworder="index">
    <object id="1" x="0" y="22.25" width="31.75" height="9.75"/>
