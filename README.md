@@ -1,7 +1,27 @@
-# TO DO BEFORE THE HACK
-Website = Bhaven/Kunal <br />
-Map collisions = Jacob
-Screencast = Vivian
+# TO DO BEFORE MVP
+<b>[Programming]</b> Functional Health UI <br/>
+<b>[Programming]</b> Settings w/ more options & completed <br/>
+<b>[Programming]</b> Scaling fix <br/>
+<b>[Programming]</b> Floor 4 (Puzzle 7) <br/>
+<b>[Programming]</b> Dialogue <br/>
+<b>[Programming]</b> Inventory <br/>
+<b>[Programming]</b> NPCs <br/>
+<b>[Programming]</b> Unit testing<br/>
+
+<b>[Development]</b> Project Website <br/>
+<b>[Development]</b> Development blog <br/>
+
+<b>[Design]</b> Floor 1 <br/>
+<b>[Design]</b> Floor 2 (If there's time) <br/>
+<b>[Design]</b> Objects / Weapons for player to find/use <br/>
+
+<b>[Sound]</b> Music/FX for each floor & actions <br/>
+<b>[Sound]</b> Voice actors = Avni & Jacob & Kunal <br/>
+
+<b>[General]</b> Separate script for voice actors to read off <br/>
+<b>[General]</b> Sprite change, because the characters are "too cute for a horror game" smh <br/>
+
+
 
 # FinalDeadline
 
