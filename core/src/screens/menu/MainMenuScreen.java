@@ -26,6 +26,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import java.util.ArrayList;
 import managers.ScreenManager;
+import managers.SoundManager;
 import screens.intro.AbstractScreen;
 
 public class MainMenuScreen extends AbstractScreen {
@@ -40,8 +41,6 @@ public class MainMenuScreen extends AbstractScreen {
     private Music mp3Sound;
     private ImageButton customizeSelection, maleSelection, femaleSelection;
     private TextButton back;
-    boolean soundCheck = true;
-    boolean musicCheck = true;
     boolean soundResp = true;
     boolean musicResp = true;
     int resIndex = 0;
@@ -62,7 +61,7 @@ public class MainMenuScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        if (!soundCheck || !musicCheck) {
+        if (!SoundManager.getSound() || !SoundManager.getMusic()) {
             mp3Sound.pause();
         } else {
             mp3Sound.play();
@@ -196,7 +195,7 @@ public class MainMenuScreen extends AbstractScreen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 quit.setFontScale(quit.getFontScaleX() + (quit.getFontScaleX() / 10), quit.getFontScaleY() + (quit.getFontScaleY() / 10));
-                if (!playing && soundCheck) {
+                if (!playing && SoundManager.getSound()) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
@@ -224,7 +223,7 @@ public class MainMenuScreen extends AbstractScreen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 levels.setFontScale(levels.getFontScaleX() + (levels.getFontScaleX() / 10), levels.getFontScaleY() + (levels.getFontScaleY() / 10));
-                if (!playing && soundCheck) {
+                if (!playing &&  SoundManager.getSound()) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
@@ -247,7 +246,7 @@ public class MainMenuScreen extends AbstractScreen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 credits.setFontScale(credits.getFontScaleX() + (credits.getFontScaleX() / 10), credits.getFontScaleY() + (credits.getFontScaleY() / 10));
-                if (!playing && soundCheck) {
+                if (!playing &&  SoundManager.getSound()) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
@@ -270,7 +269,7 @@ public class MainMenuScreen extends AbstractScreen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 about.setFontScale(about.getFontScaleX() + (about.getFontScaleX() / 10), about.getFontScaleY() + (about.getFontScaleY() / 10));
-                if (!playing && soundCheck) {
+                if (!playing &&  SoundManager.getSound()) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
@@ -308,7 +307,7 @@ public class MainMenuScreen extends AbstractScreen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 play.setFontScale(play.getFontScaleX() + (play.getFontScaleX() / 10), play.getFontScaleY() + (play.getFontScaleY() / 10));
-                if (!playing && soundCheck) {
+                if (!playing &&  SoundManager.getSound()) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
@@ -353,7 +352,7 @@ public class MainMenuScreen extends AbstractScreen {
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
                 settings.setFontScale(settings.getFontScaleX() + (settings.getFontScaleX() / 10), settings.getFontScaleY() + (settings.getFontScaleY() / 10));
-                if (!playing && soundCheck) {
+                if (!playing &&  SoundManager.getSound()) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
@@ -385,7 +384,7 @@ public class MainMenuScreen extends AbstractScreen {
             float selectionHeight = customizeSelection.getHeight(), selectionWidth = customizeSelection.getWidth();
 
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (!playing && soundCheck) {
+                if (!playing &&  SoundManager.getSound()) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
@@ -404,7 +403,7 @@ public class MainMenuScreen extends AbstractScreen {
             float selectionHeight = maleSelection.getHeight(), selectionWidth = maleSelection.getWidth();
 
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (!playing && soundCheck) {
+                if (!playing &&  SoundManager.getSound()) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
@@ -421,7 +420,7 @@ public class MainMenuScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 mp3Sound.stop();
-                if (soundCheck) {
+                if ( SoundManager.getSound()) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/selectFX.mp3"));
                     sound.play(0.5F);
                 }
@@ -438,7 +437,7 @@ public class MainMenuScreen extends AbstractScreen {
             float selectionHeight = femaleSelection.getHeight(), selectionWidth = femaleSelection.getWidth();
 
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (!playing && soundCheck) {
+                if (!playing &&  SoundManager.getSound()) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
                     sound.play(0.1F);
                     playing = true;
@@ -454,7 +453,7 @@ public class MainMenuScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 mp3Sound.stop();
-                if (soundCheck) {
+                if ( SoundManager.getSound()) {
                     Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/selectFX.mp3"));
                     sound.play(0.5F);
                 }
@@ -578,14 +577,15 @@ public class MainMenuScreen extends AbstractScreen {
                 @Override
                 public void clicked(InputEvent e, float x, float y) {
 
+                    
                     if (musicResp) {
                         music.setText("MUSIC:OFF");
                         musicResp = false;
-                        musicCheck = false;
+                        SoundManager.setMusic(false);
                     } else {
                         music.setText("MUSIC:ON");
                         musicResp = true;
-                        musicCheck = true;
+                        SoundManager.setMusic(true);
                     }
 
                 }
@@ -597,11 +597,11 @@ public class MainMenuScreen extends AbstractScreen {
                     if (soundResp) {
                         sound.setText("SOUND:OFF");
                         soundResp = false;
-                        soundCheck = false;
+                        SoundManager.setSound(false);
                     } else {
                         sound.setText("SOUND:ON");
                         soundResp = true;
-                        soundCheck = true;
+                        SoundManager.setSound(true);
                     }
 
                 }
