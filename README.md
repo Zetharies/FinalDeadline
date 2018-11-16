@@ -3,7 +3,6 @@
 <b>[Programming]</b> Settings w/ more options & completed:  Taher  <br/>
 <b>[Programming]</b> Scaling fix <br/>
 <b>[Programming]</b> Floor 4 (Puzzle 7):  Bhaven (Areeb) <br/>
-<b>[Programming]</b> Dialogue:  Avni, Kunal, Jacob<br/>
 <b>[Programming]</b> Inventory:  Vivian<br/>
 <b>[Programming]</b> NPCs:  Nisha <br/>
 <b>[Programming]</b> Unit testing:  not needed for the MVP<br/>
