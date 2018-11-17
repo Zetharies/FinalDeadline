@@ -1,31 +1,31 @@
 
-jessica_standing.png
+Jessica_standing.png
 size: 256,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-jessica_standing_east
+Jessica_standing_east
   rotate: false
   xy: 2, 2
   size: 53, 65
   orig: 53, 65
   offset: 0, 0
   index: -1
-jessica_standing_north
+Jessica_standing_north
   rotate: false
   xy: 57, 2
   size: 53, 65
   orig: 53, 65
   offset: 0, 0
   index: -1
-jessica_standing_south
+Jessica_standing_south
   rotate: false
   xy: 112, 2
   size: 53, 65
   orig: 53, 65
   offset: 0, 0
   index: -1
-jessica_standing_west
+Jessica_standing_west
   rotate: false
   xy: 167, 2
   size: 53, 65

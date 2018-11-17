@@ -1,31 +1,31 @@
 
-flynn_standing.png
+Flynn_standing.png
 size: 256,128
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-flynn_standing_east
+Flynn_standing_east
   rotate: false
   xy: 2, 2
   size: 53, 65
   orig: 53, 65
   offset: 0, 0
   index: -1
-flynn_standing_north
+Flynn_standing_north
   rotate: false
   xy: 57, 2
   size: 53, 65
   orig: 53, 65
   offset: 0, 0
   index: -1
-flynn_standing_south
+Flynn_standing_south
   rotate: false
   xy: 112, 2
   size: 53, 65
   orig: 53, 65
   offset: 0, 0
   index: -1
-flynn_standing_west
+Flynn_standing_west
   rotate: false
   xy: 167, 2
   size: 53, 65

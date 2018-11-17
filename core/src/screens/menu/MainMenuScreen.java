@@ -427,7 +427,7 @@ public class MainMenuScreen extends AbstractScreen {
                 stage.addAction(new FadeOutAction(1.25f) {
                     @Override
                     public void run() {
-                        ScreenManager.setGameScreen("flynn"); // Sets the screen to our game >:D
+                        ScreenManager.setGameScreen("Flynn"); // Sets the screen to our game >:D
                     }
                 });
 
@@ -460,7 +460,7 @@ public class MainMenuScreen extends AbstractScreen {
                 stage.addAction(new FadeOutAction(1.25f) {
                     @Override
                     public void run() {
-                        ScreenManager.setGameScreen("jessica"); // Sets the screen to our game >:D
+                        ScreenManager.setGameScreen("Jessica"); // Sets the screen to our game >:D
                     }
                 });
             }
