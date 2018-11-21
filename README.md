@@ -8,7 +8,7 @@
 <b>[Programming]</b> NPCs:  Nisha <br/>
 <b>[Programming]</b> Unit testing:  not needed for the MVP<br/>
 
-<b>[Development]</b> Project Website:  Kunal ---> NEEDS TO PUSH THE WEBPAGE ON GITHUB <br/>
+<b>[Development]</b> <strike> Project Website:  Kunal ---> NEEDS TO PUSH THE WEBPAGE ON GITHUB <br/></strike>
 
 <b>[Design]</b> Floor 1:  Jacob (only if we need) <br/>
 <b>[Design]</b> Floor 2:  Becca (areeb) <br/>
