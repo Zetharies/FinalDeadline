@@ -1,0 +1,8 @@
+Personally, I'd use atom to make this.
+
+Most of the CSS, pretty much all of the JS and the webfonts are from an external source. I need to reference that source but 
+it's based on a game website template I found.
+
+Basically what I need help with is organising/clearing up the code because it's **confusing** enough (for me anyway) as it is.
+We might need to add some of our own JS in. but the main focus is putting the download functionality in bc that'll take the most time. I just got the webpage
+as a whole started. 
