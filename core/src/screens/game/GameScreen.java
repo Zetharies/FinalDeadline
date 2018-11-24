@@ -84,12 +84,12 @@ public class GameScreen extends AbstractScreen {
                 standing.findRegion(chosenCharacter + "_standing_west")
                 );
 
-		map = new TmxMapLoader().load("newMap/Lab Floor HACK.tmx"); // map to load, extremely basic map, will be changed
+		map = new TmxMapLoader().load("maps/floor2/EngineeringLab.tmx"); // map to load, extremely basic map, will be changed
 		
-		player = new Player(12, 50, animations); // Create a new player object with the coordinates 0, 0, player animations
+		player = new Player(4, 98, animations); // Create a new player object with the coordinates 0, 0, player animations
 		playerControls = new PlayerController(player, (TiledMapTileLayer) map.getLayers().get(3));
 		
-		renderer = new OrthogonalTiledMapRenderer(map, 1.5658f);
+		renderer = new OrthogonalTiledMapRenderer(map, 1.5658f); //1.5658f
 		camera = new OrthographicCamera();
 		gamePort = new StretchViewport(900, 450, camera);
 		
@@ -136,8 +136,8 @@ public class GameScreen extends AbstractScreen {
 		playerControls.update(delta);
 		player.update(delta);
 		//camera.position.set(player.getX() * GameSettings.SCALED_TILE_SIZE, player.getY() * GameSettings.SCALED_TILE_SIZE, 0);
-		camera.position.y = player.getLinearY() * 50;
-		camera.position.x = player.getLinearX() * 50;
+		camera.position.y = player.getLinearY() * 40;
+		camera.position.x = player.getLinearX() * 40;
 		camera.update();
 		
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
@@ -151,7 +151,7 @@ public class GameScreen extends AbstractScreen {
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
 		batch.draw(player.getSprite(),
-				player.getLinearX() * GameSettings.SCALED_TILE_SIZE,
+				(player.getLinearX() * GameSettings.SCALED_TILE_SIZE)-10,
 				player.getLinearY() * GameSettings.SCALED_TILE_SIZE,
 				GameSettings.SCALED_TILE_SIZE*1.5f,
 				GameSettings.SCALED_TILE_SIZE*1.5f); // Players character / X,Y position on screen / Width / Height

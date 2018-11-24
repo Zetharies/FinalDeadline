@@ -22,10 +22,10 @@ public class Hud {
 		Table table = new Table();
 		table.top();
 		table.setFillParent(true);
-		currentMap = new Label("Floor 4: Biology lab", skin);
+		currentMap = new Label("Floor 2: Engineering lab", skin);
 		currentMap.setFontScale((float) 0.5);
 		//currentMap.setSize(Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/4);
-		table.add(currentMap).expandX().padRight(750).padTop(0);
+		table.add(currentMap).expandX().padRight(720).padTop(0);
 		stage.addActor(table);
 	}
 
