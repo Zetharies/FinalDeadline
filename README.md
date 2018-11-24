@@ -5,15 +5,15 @@
 <b>[Programming]</b> Floor 4 (Puzzle 7):  Bhaven (Areeb) <br/>
 <strike><b>[Programming]</b> Dialogue<br/></strike>
 <b>[Programming]</b> Inventory:  Vivian<br/>
-<b>[Programming]</b> NPCs:  Nisha <br/>
+<b>[Programming]</b> NPCs (Zombies?):  Nisha / Taher <br/>
 <b>[Programming]</b> Unit testing:  not needed for the MVP<br/>
 
 <b>[Development]</b> Project Website:  Kunal ---> NEEDS TO PUSH THE WEBPAGE ON GITHUB <br/>
 
 <b>[Design]</b> Floor 1:  Jacob (only if we need) <br/>
-<b>[Design]</b> Floor 2:  Becca (areeb) <br/>
+<strike><b>[Design]</b> Floor 2:  Becca (areeb) <br/></strike>
 <b>[Design]</b> NPCs/Chax and Main Characters:  Zeth <br/>
-<b>[Design]</b> Objects / Weapons for player to find/use:  Vivian <br/>
+<strike><b>[Design]</b> Objects / Weapons for player to find/use:  Vivian <br/></strike>
 
 <b>[Sound]</b> Music/FX for each floor & actions: <br/>
 <b>[Sound]</b> Voice actors:  Avni & Jacob & Kunal <br/>
