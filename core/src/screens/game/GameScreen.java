@@ -86,12 +86,13 @@ public class GameScreen extends AbstractScreen {
 
 		map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); // map to load, extremely basic map, will be changed
 		
-		player = new Player(15, 90, animations); // Create a new player object with the coordinates 0, 0, player animations
+		player = new Player(14, 90, animations); // Create a new player object with the coordinates 0, 0, player animations
 		playerControls = new PlayerController(player, (TiledMapTileLayer) map.getLayers().get(0));
 		
 		renderer = new OrthogonalTiledMapRenderer(map, 2f); //1.5658f
 		camera = new OrthographicCamera();
-		gamePort = new StretchViewport(900, 450, camera);
+		gamePort = new ScreenViewport(camera);
+		//gamePort = new StretchViewport(900, 450, camera);
 		
 		processor = new InputMultiplexer(); // Ordered lists of processors we can use for prioritising controls
 		
