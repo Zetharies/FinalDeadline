@@ -80,7 +80,6 @@ public class Player {
         // increments x and y after moving
         x += dir.getX();
         y += dir.getY();
-        System.out.println("X, Y: " + x + ", " + y);
         return true;
     }
 

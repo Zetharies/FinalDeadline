@@ -84,12 +84,12 @@ public class GameScreen extends AbstractScreen {
                 standing.findRegion(chosenCharacter + "_standing_west")
                 );
 
-		map = new TmxMapLoader().load("maps/floor2/EngineeringLab.tmx"); // map to load, extremely basic map, will be changed
+		map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); // map to load, extremely basic map, will be changed
 		
-		player = new Player(4, 98, animations); // Create a new player object with the coordinates 0, 0, player animations
-		playerControls = new PlayerController(player, (TiledMapTileLayer) map.getLayers().get(3));
+		player = new Player(15, 90, animations); // Create a new player object with the coordinates 0, 0, player animations
+		playerControls = new PlayerController(player, (TiledMapTileLayer) map.getLayers().get(0));
 		
-		renderer = new OrthogonalTiledMapRenderer(map, 1.5658f); //1.5658f
+		renderer = new OrthogonalTiledMapRenderer(map, 2f); //1.5658f
 		camera = new OrthographicCamera();
 		gamePort = new StretchViewport(900, 450, camera);
 		
@@ -136,8 +136,8 @@ public class GameScreen extends AbstractScreen {
 		playerControls.update(delta);
 		player.update(delta);
 		//camera.position.set(player.getX() * GameSettings.SCALED_TILE_SIZE, player.getY() * GameSettings.SCALED_TILE_SIZE, 0);
-		camera.position.y = player.getLinearY() * 40;
-		camera.position.x = player.getLinearX() * 40;
+		camera.position.y = player.getLinearY() * 64;
+		camera.position.x = player.getLinearX() * 64;
 		camera.update();
 		
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1);

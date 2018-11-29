@@ -104,8 +104,8 @@ public class PlayerController extends InputAdapter {
 	 *         collisionLayer has the property "blocked", false otherwise.
 	 */
 	public boolean isBlocked(int x, int y, TiledMapTileLayer collisionLayer) {
-		//return collisionLayer.getCell(x, y).getTile().getProperties().containsKey("blocked");
-		return false;
+		return collisionLayer.getCell(x, y).getTile().getProperties().containsKey("blocked");
+		// return false;
 	}
 
 	/**
@@ -114,8 +114,8 @@ public class PlayerController extends InputAdapter {
 	 *         false otherwise.
 	 */
 	public boolean isUpBlocked() {
-		//return isBlocked(p.getX(), p.getY() + 1, collisions);
-		return false;
+		return isBlocked(p.getX(), p.getY() + 1, collisions);
+		// return false;
 	}
 
 	/**
@@ -125,11 +125,11 @@ public class PlayerController extends InputAdapter {
 	 */
 	public boolean isDownBlocked() {
 		if (p.getY() - 1 >= 0) {
-		//	return isBlocked(p.getX(), p.getY() - 1, collisions);
-			return false;
+			return isBlocked(p.getX(), p.getY() - 1, collisions);
+			// return false;
 		}
-		//return true;
-		return false;
+		return true;
+		// return false;
 	}
 
 	/**
@@ -139,11 +139,11 @@ public class PlayerController extends InputAdapter {
 	 */
 	public boolean isLeftBlocked() {
 		if (p.getY() - 1 >= 0) {
-		//	return isBlocked(p.getX() - 1, p.getY(), collisions);
-			return false;
+			return isBlocked(p.getX() - 1, p.getY(), collisions);
+			// return false;
 		}
-		//return true;
-		return false;
+		return true;
+		// return false;
 	}
 
 	/**
@@ -152,8 +152,8 @@ public class PlayerController extends InputAdapter {
 	 *         blocked, false otherwise.
 	 */
 	public boolean isRightBlocked() {
-	//	return isBlocked(p.getX() + 1, p.getY(), collisions);
-		return false;
+		return isBlocked(p.getX() + 1, p.getY(), collisions);
+		// return false;
 	}
 
 }
