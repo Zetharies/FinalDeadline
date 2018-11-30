@@ -1,5 +1,7 @@
 package screens.game;
 
+import java.awt.HeadlessException;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
@@ -24,6 +26,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import controllers.ScreenplayController;
 import controllers.PlayerController;
 import models.AnimationSet;
+import models.HealthBar;
 import models.Player;
 import models.screenplay.Screenplay;
 import models.screenplay.ScreenplayHandler;
@@ -50,6 +53,8 @@ public class GameScreen extends AbstractScreen {
 	private Screenplay dialogue;
 	private ScreenplayHandler handler;
 	private InputMultiplexer processor;
+	private HealthBar health;
+	
 
 	public GameScreen(String character) {
 		this.chosenCharacter = character; // Chosen characters are either Flynn or Jessica
@@ -69,6 +74,8 @@ public class GameScreen extends AbstractScreen {
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
         assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
         assetManager.finishLoading();
+        
+       
 		
 		TextureAtlas walking = this.getAssetManager().get("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
         TextureAtlas standing = this.getAssetManager().get("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
@@ -84,15 +91,24 @@ public class GameScreen extends AbstractScreen {
                 standing.findRegion(chosenCharacter + "_standing_west")
                 );
 
-		map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); // map to load, extremely basic map, will be changed
+		map = new TmxMapLoader().load("maps/floor2/EngineeringLab.tmx"); // map to load, extremely basic map, will be changed
 		
-		player = new Player(14, 90, animations); // Create a new player object with the coordinates 0, 0, player animations
-		playerControls = new PlayerController(player, (TiledMapTileLayer) map.getLayers().get(0));
+		player = new Player(4, 98, animations); // Create a new player object with the coordinates 0, 0, player animations
+		playerControls = new PlayerController(player, (TiledMapTileLayer) map.getLayers().get(3));
+	
+		 health = new HealthBar(145,8 ); // Create health bar
+		 health.getHealth(); // gets the value 
+		 health.setPosition(player.getLinearX(), player.getLinearY()+239); //sets the position 
+		 
+		 stage.addActor(health);
+		 stage.draw();
+		 stage.act();
+		 
 		
-		renderer = new OrthogonalTiledMapRenderer(map, 2f); //1.5658f
+		
+		renderer = new OrthogonalTiledMapRenderer(map, 1.5658f); //1.5658f
 		camera = new OrthographicCamera();
-		gamePort = new ScreenViewport(camera);
-		//gamePort = new StretchViewport(900, 450, camera);
+		gamePort = new StretchViewport(900, 450, camera);
 		
 		processor = new InputMultiplexer(); // Ordered lists of processors we can use for prioritising controls
 		
@@ -130,6 +146,7 @@ public class GameScreen extends AbstractScreen {
 		
 		dialogue = new Screenplay(chosenCharacter);
 		table.add(dialogue).expand().align(Align.bottom).pad(10f);
+		
 	}
 
 	@Override
@@ -137,8 +154,8 @@ public class GameScreen extends AbstractScreen {
 		playerControls.update(delta);
 		player.update(delta);
 		//camera.position.set(player.getX() * GameSettings.SCALED_TILE_SIZE, player.getY() * GameSettings.SCALED_TILE_SIZE, 0);
-		camera.position.y = player.getLinearY() * 64;
-		camera.position.x = player.getLinearX() * 64;
+		camera.position.y = player.getLinearY() * 40;
+		camera.position.x = player.getLinearX() * 40;
 		camera.update();
 		
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1);

@@ -19,13 +19,15 @@ public class Hud {
 		viewPort = new FitViewport(900, 450);
 		stage = new Stage(viewPort, batch);
 		skin = new Skin(Gdx.files.internal("fonts/Holo-dark-hdpi.json"));
+		
+		
 		Table table = new Table();
 		table.top();
 		table.setFillParent(true);
 		currentMap = new Label("Floor 2: Engineering lab", skin);
-		currentMap.setFontScale((float) 0.5);
+		currentMap.setFontScale((float) 0.4);
 		//currentMap.setSize(Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/4);
-		table.add(currentMap).expandX().padRight(720).padTop(0);
+		table.add(currentMap).expandX().padRight(752).padTop(0);
 		stage.addActor(table);
 	}
 

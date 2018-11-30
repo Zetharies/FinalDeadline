@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="80" height="80" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
  <tileset firstgid="1" source="tilesetHouse.tsx"/>
  <tileset firstgid="118" source="morgue_by_nicnubill-d6swv2l.tsx"/>
  <tileset firstgid="374" source="Inside_A2.tsx"/>
@@ -9,11 +9,6 @@
  <tileset firstgid="1334" source="celianna_furniture.tsx"/>
  <tileset firstgid="2148" source="third_2_550x950.tsx"/>
  <tileset firstgid="2641" source="computer_lab.tsx"/>
- <layer id="5" name="Collision" width="80" height="80">
-  <data encoding="base64" compression="zlib">
-   eJzt1jGCwyAMRNE0uX+b3DZtihAwzAgJ/0LFbmwBj7Hx6/l4vBr1/qrWNbP1bpR6nIh1tdbx7++V6vmpxnGvCz/88MMPP/zw0/jx/bLup1gLfl4/xze7om9vnMjn99917py4cn5lL0f6z96vzomr3PtTIUdZCz/8MvhRc+9Ssncta/jhh1/Nws/jt+scy9hr5vwdzeCVa0f2MVuv2fHxw8/px/PrGwM//PDL0Qu/3H4R86nqF/nd3prPSu+dflF5G/FTjXF6/nr/Xx0j2s+dwcqFH37V/KLei1WqZ9Iyp8bziR9++NUr/Dx+J5Zrfbv3MDonqjXjh19GP8fzvfN9t8PPMdauvOGHH3669UR9453s584cfvjhhx9++Ln9VGd+ayzHt8XMvEbz8Ov+3m+KPXPnY3VeGcfCz+O3q07wy5A55V786ne6n7pX5Pl7dZ7KXjv8Vteumqe6l/r5vZufYo344Ycffvj5/LKcaxX9Vu+5u99d86esLGuO8svUt5KfOm93yp9yD/DTeqrznKVXRH0A9U9png==
-  </data>
- </layer>
  <layer id="1" name="Walls&amp;Floor" width="80" height="80">
   <data encoding="base64" compression="zlib">
    eJztXMdyFDEQ1ZpwMMFkTLQNnAgLFKEMNxe/QDhB+TtcdpXPDj9AqNqvgOt8Gj2121S7kbQKLY1mVodX4wnbkt60ejpIXlZKnQNcJDgPuAD4QrCseS4EKPusAVLtuLYd2h7Kugq4BtgdKbUH+L2k1B/ADcYfPnczEtfVVLaJP6l2XNsObQ9l3QbcUVPukMNVOL/F+MPnViKBsk38YTs7s75IHnVth44LZeHvkbtdQf7GgOeB/Elzt+fB32YAf676p+Ok6p+c/s3j15U/3/GMDdffAd5b2ta1R2XpdHFTw19p9i+2Hde2aXtbBuTUPwn+XgBedsBfi0uAdUesqTL1j865XPxtOfTNNl9K0r+u5u8G4AHgjANOAU4rvf7p5DwEPCJ98dFzjjULf3cB9yJkt7g/O14GXCF9njeux4Anyi/+0NkblPMR8AnwGfAU8MzSjxLB37ltXO039xXgtfKPP3T2hst5M7s+9nxP8/AV8E1IFgd95ysGftpxvVXhtiDE3vi8p1iMI35LuTH5h7G2FPk7Art3DDgAHI7quen8+0hN4NqE8/cT7v2a3lc/RvXcdA5/Tw4Jf+33br1iLvBbDjxOjgh/Pr7iIgPnKejg5LjyF8wft39d96svQP64/eu6X30B+c6esH/wSVFLyi3Wc3nWRc7ZwmT5xDLc/rnUnzDWi62N0fpXSbJ8Yhlu/1zqTxjrxdbGaP2rJFk+sQy3fy7xW0ysZ8oflSTLB9z+Vf7swDwd+s/c/lX+/Nowxb+VP7c2qv2LayPE/m2oab6Z53MXkb8Q+4f5Zp7PXUT+Quwf5ptDc91D4k+X/4utd9lAa2C2MYfU89YMslLyFxL/StXA0I7arkvU2VLyFxL/StXAaN3OdF2izpaKP14LcY1/JeJGakdt12PbSMkfr4WY1g/17biSiT/grAHuGuCwAS4b0/q1vh2leTPxB3O2gbnbwBxuDhh/0Jdt6Mt2+7uYtS1DQruOBr/x3E/Be0T/tndn/NW8vn9en+pf5c+fv6p/cfxV/Yvjj+pfH9b2hdbqWsAnOzrm4utPUf8k1/aVAr7vTSLmoutPqf7lXNuXC3zfm0TMxfe/UfuXEh342P+ttZDI12j2z/yzf6Zx74zCjlROBs724bhPjln4M8UfmL8L5W5nxl/umMaUd0ytfynb6sKvyMUf6l/lr3z9k/C/5vl4Q9a/FDlv7uMNWf9S5Ly5jzdk/UtRL7O1MTT9GyJ/Vf+q/lX9C8eGOpl3ozX1Vc292LUPpvoHH6vUfma6Z9plzxjf+zwPPO/Ga+r8nundhvrpJv3rCr46yvNuvKbO71G9leAP9Y/Pg65yxLnWhEvrX1f5Z1v80Af+bHOhixxxrN3l9lOXk9N9d0LrH6nfc2o9sOmF7fsfOt94/SN03Kb3GstfbI6G+y8m/kLnGq9/SIxZUlZsjob6Lzn859L4i83RUP9lEfmTtMuVv8pf5a/yp5Pp+/9fUtVV+8qfr5/l6leVMMYc/Pn6Wan8qpz8Se25anNyvn5WKr8qJX9SOSX8HyT0vJQxp+RPIqfUxrsf1NR+0f6WMuaU/Enlk3AP76LxlwJS+1d96xo+slLuq40F1nT+AsGi1dM=

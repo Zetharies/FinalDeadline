@@ -2,6 +2,7 @@ package models;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.mygdx.game.GameSettings;
@@ -17,9 +18,12 @@ public class Player {
     private boolean moveFrame;
     private AnimationSet animations;
     private Sound sound;
+    float health = 1;//0 = dead, 1 = full health
+    private Texture blank;
 
     public Player(int x, int y, AnimationSet animations) {
         super();
+        
         this.x = x;
         this.y = y;
         this.animations = animations;
@@ -27,6 +31,10 @@ public class Player {
         this.linearY = y;
         this.state = EnumPlayerState.STANDING;
         this.direction = EnumPlayerFacing.S;
+        this.health= health;
+        
+
+        
     }
 
     public void update(float delta) {
@@ -80,6 +88,7 @@ public class Player {
         // increments x and y after moving
         x += dir.getX();
         y += dir.getY();
+        System.out.println("X, Y: " + x + ", " + y);
         return true;
     }
 
@@ -112,6 +121,8 @@ public class Player {
         this.destX = 0;
         this.destY = 0;
     }
+    
+
 
     // method not used
     public void movePlayer(int dx, int dy) {
