@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.mygdx.game.GameSettings;
 import java.util.Random;
 import models.Zombie;
 
@@ -26,7 +25,8 @@ public class ZombieController {
 
     }
 
-    public void update(float delta) {
+    @SuppressWarnings("static-access")
+	public void update(float delta) {
         //control a zombie - in game screen only update one zombie
         System.out.println("zombie x and y " + zombie.x + " " + zombie.y);
       //      keys();
@@ -158,7 +158,8 @@ public class ZombieController {
         return isBlocked((int) (zombie.x + 1), (int) zombie.y, collisions);
     }
 
-    public void keys() {
+    @SuppressWarnings("static-access")
+	public void keys() {
         if (Gdx.input.isKeyPressed(Keys.DPAD_LEFT) && !isLeftBlocked()) {
 
             zombie.x -= Gdx.graphics.getDeltaTime() * zombie.speed;

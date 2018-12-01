@@ -106,8 +106,8 @@ public class GameScreen extends AbstractScreen {
 
 		renderer = new OrthogonalTiledMapRenderer(map, 2f); // 1.5658f
 		camera = new OrthographicCamera();
-		gamePort = new ScreenViewport(camera);
-		// gamePort = new StretchViewport(900, 450, camera);
+		//gamePort = new ScreenViewport(camera);
+		gamePort = new StretchViewport(1200, 600, camera);
 		// herd a group of zombies
 		herd = new Herd((TiledMapTileLayer) map.getLayers().get(0));
 		// put zombies in list
@@ -182,8 +182,10 @@ public class GameScreen extends AbstractScreen {
 		gamePort.apply(); // Changes how the graphics is drawn on the screen
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		batch.draw(player.getSprite(), (player.getLinearX() * GameSettings.SCALED_TILE_SIZE) - 10,
-				player.getLinearY() * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1.5f,
+		batch.draw(player.getSprite(), 
+				(player.getLinearX() * GameSettings.SCALED_TILE_SIZE) - 10,
+				(player.getLinearY() * GameSettings.SCALED_TILE_SIZE) + 10, 
+				GameSettings.SCALED_TILE_SIZE * 1.3f,
 				GameSettings.SCALED_TILE_SIZE * 1.5f); // Players character / X,Y position on screen / Width / Height
 
 		// changing height and width changes collisions

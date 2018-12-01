@@ -21,13 +21,12 @@ public class Zombie {
     private static final int FRAME_COLS = 3;
     private static final int FRAME_ROWS = 4;
     private TextureRegion[] walkFrames;
-    private Animation walkingUp;
-    private Animation walkingDown;
-    private Animation walkingRight;
-    private Animation walkingLeft;
+    @SuppressWarnings("rawtypes")
+	private Animation walkingUp, walkingDown, walkingRight, walkingLeft;
     private ZombieController controller;
 
-    public Zombie(int startX, int startY, TiledMapTileLayer collisions) {
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+	public Zombie(int startX, int startY, TiledMapTileLayer collisions) {
         texture = new Texture(Gdx.files.internal("sprite/zombie/2ZombieSpriteSheet.png"));
         region = TextureRegion.split(texture, texture.getWidth() / FRAME_COLS, texture.getHeight() / FRAME_ROWS);
         walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
@@ -56,19 +55,23 @@ public class Zombie {
         return sprite;
     }
 
-    public Animation getLeft() {
+    @SuppressWarnings("rawtypes")
+	public Animation getLeft() {
         return walkingLeft;
     }
 
-    public Animation getRight() {
+    @SuppressWarnings("rawtypes")
+	public Animation getRight() {
         return walkingRight;
     }
 
-    public Animation getUp() {
+    @SuppressWarnings("rawtypes")
+	public Animation getUp() {
         return walkingUp;
     }
 
-    public Animation getDown() {
+    @SuppressWarnings("rawtypes")
+	public Animation getDown() {
         return walkingDown;
     }
 

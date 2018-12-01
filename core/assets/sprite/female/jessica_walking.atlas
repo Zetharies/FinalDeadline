@@ -1,90 +1,90 @@
 
 Jessica_walking.png
-size: 256,256
+size: 512,64
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 Jessica_walking_east
   rotate: false
-  xy: 2, 136
-  size: 53, 65
-  orig: 53, 65
+  xy: 39, 2
+  size: 37, 55
+  orig: 37, 55
   offset: 0, 0
   index: 0
 Jessica_walking_east
   rotate: false
-  xy: 2, 69
-  size: 53, 65
-  orig: 53, 65
+  xy: 73, 2
+  size: 36, 55
+  orig: 37, 55
   offset: 0, 0
   index: 1
 Jessica_walking_east
   rotate: false
-  xy: 57, 136
-  size: 53, 65
-  orig: 53, 65
+  xy: 107, 2
+  size: 37, 55
+  orig: 37, 55
   offset: 0, 0
   index: 2
 Jessica_walking_north
   rotate: false
-  xy: 2, 2
-  size: 53, 65
-  orig: 53, 65
-  offset: 0, 0
-  index: 0
-Jessica_walking_north
-  rotate: false
-  xy: 57, 69
-  size: 53, 65
-  orig: 53, 65
+  xy: 2, 4
+  size: 37, 55
+  orig: 37, 55
   offset: 0, 0
   index: 1
 Jessica_walking_north
   rotate: false
-  xy: 112, 136
-  size: 53, 65
-  orig: 53, 65
+  xy: 243, 3
+  size: 37, 55
+  orig: 37, 55
   offset: 0, 0
   index: 2
-Jessica_walking_south
+Jessica_walking_north
   rotate: false
-  xy: 57, 2
-  size: 53, 65
-  orig: 53, 65
+  xy: 311, 4
+  size: 37, 55
+  orig: 37, 55
   offset: 0, 0
   index: 0
 Jessica_walking_south
   rotate: false
-  xy: 112, 69
-  size: 53, 65
-  orig: 53, 65
-  offset: 0, 0
-  index: 1
-Jessica_walking_south
-  rotate: false
-  xy: 167, 136
-  size: 53, 65
-  orig: 53, 65
-  offset: 0, 0
-  index: 2
-Jessica_walking_west
-  rotate: false
-  xy: 112, 2
-  size: 53, 65
-  orig: 53, 65
+  xy: 141, 2
+  size: 37, 55
+  orig: 37, 55
   offset: 0, 0
   index: 0
-Jessica_walking_west
+Jessica_walking_south
   rotate: false
-  xy: 167, 69
-  size: 53, 65
-  orig: 53, 65
+  xy: 175, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 2
+Jessica_walking_south
+  rotate: false
+  xy: 345, 4
+  size: 37, 55
+  orig: 37, 55
   offset: 0, 0
   index: 1
 Jessica_walking_west
   rotate: false
-  xy: 167, 2
-  size: 53, 65
-  orig: 53, 65
+  xy: 209, 2
+  size: 37, 55
+  orig: 37, 55
   offset: 0, 0
   index: 2
+Jessica_walking_west
+  rotate: false
+  xy: 277, 3
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 1
+Jessica_walking_west
+  rotate: false
+  xy: 379, 4
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 0
