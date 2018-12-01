@@ -175,11 +175,12 @@ public class GameScreen extends AbstractScreen {
                 player.getLinearY() * GameSettings.SCALED_TILE_SIZE,
                 GameSettings.SCALED_TILE_SIZE * 1.5f,
                 GameSettings.SCALED_TILE_SIZE * 1.5f); // Players character / X,Y position on screen / Width / Height
-
+        
+        //changing height and width changes collisions
         for (int i = 0; i < zombies.size(); i++) {
-            batch.draw(zombies.get(i).getZombies(), zombies.get(i).x * GameSettings.SCALED_TILE_SIZE-10,
-                    zombies.get(i).y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1.5f,
-                    GameSettings.SCALED_TILE_SIZE * 1.5f);
+            batch.draw(zombies.get(i).getZombies(), (zombies.get(i).x * GameSettings.SCALED_TILE_SIZE)-(GameSettings.SCALED_TILE_SIZE/2),
+                    zombies.get(i).y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
+                    GameSettings.SCALED_TILE_SIZE * 1f);
         }
         batch.end();
         stage.draw();
