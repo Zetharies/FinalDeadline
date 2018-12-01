@@ -84,9 +84,11 @@ public class GameScreen extends AbstractScreen {
                 standing.findRegion(chosenCharacter + "_standing_west")
                 );
 
-		map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); // map to load, extremely basic map, will be changed
-		
-		player = new Player(14, 90, animations); // Create a new player object with the coordinates 0, 0, player animations
+		// map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); // map to load, extremely basic map, will be changed
+        map = new TmxMapLoader().load("maps/floor4/Floor4.tmx");
+        
+		// player = new Player(14, 90, animations); // Create a new player object with the coordinates 0, 0, player animations
+		player = new Player(85, 14, animations);
 		playerControls = new PlayerController(player, (TiledMapTileLayer) map.getLayers().get(0));
 		
 		renderer = new OrthogonalTiledMapRenderer(map, 2f); //1.5658f
