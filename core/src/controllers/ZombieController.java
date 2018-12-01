@@ -1,8 +1,10 @@
 package controllers;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.mygdx.game.GameSettings;
 import java.util.Random;
 import models.Zombie;
 
@@ -26,6 +28,8 @@ public class ZombieController {
 
     public void update(float delta) {
         //control a zombie - in game screen only update one zombie
+        System.out.println("zombie x and y " + zombie.x + " " + zombie.y);
+        //    keys();
         updateTimers(delta);
         updateCollisions();
         if (right && randNum == 0) {
@@ -128,7 +132,8 @@ public class ZombieController {
     }
 
     public boolean isUpBlocked() {
-        return isBlocked((int) zombie.x, (int) (zombie.y + 1), collisions);
+        System.out.println();
+        return isBlocked((int) (zombie.x), (int) (zombie.y + 1), collisions);
     }
 
     public boolean isDownBlocked() {
@@ -141,6 +146,32 @@ public class ZombieController {
 
     public boolean isRightBlocked() {
         return isBlocked((int) (zombie.x + 1), (int) zombie.y, collisions);
+    }
 
+    public void keys() {
+        if (Gdx.input.isKeyPressed(Keys.DPAD_LEFT) && !isLeftBlocked()) {
+
+            zombie.x -= Gdx.graphics.getDeltaTime() * zombie.speed;
+            zombie.getZombies().setRegion((TextureRegion) zombie.getLeft().getKeyFrame(10));
+
+        }
+        if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT) && !isRightBlocked()) {
+
+            zombie.x += Gdx.graphics.getDeltaTime() * zombie.speed;
+            zombie.getZombies().setRegion((TextureRegion) zombie.getRight().getKeyFrame(5));
+
+        }
+        if (Gdx.input.isKeyPressed(Keys.DPAD_UP) && !isUpBlocked()) {
+
+            zombie.y += Gdx.graphics.getDeltaTime() * zombie.speed;
+            zombie.getZombies().setRegion((TextureRegion) zombie.getUp().getKeyFrame(8));
+
+        }
+        if (Gdx.input.isKeyPressed(Keys.DPAD_DOWN) && !isDownBlocked()) {
+
+            zombie.y -= Gdx.graphics.getDeltaTime() * zombie.speed;
+            zombie.getZombies().setRegion((TextureRegion) zombie.getDown().getKeyFrame(1));
+
+        }
     }
 }
