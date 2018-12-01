@@ -43,9 +43,9 @@ public class Zombie {
         x = (float) startX;
         y = (float) startY;
         walkingDown = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[0], walkFrames[1], walkFrames[2]);
-        walkingUp = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[6], walkFrames[7], walkFrames[8]);
-        walkingRight = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[3], walkFrames[4], walkFrames[5]);
-        walkingLeft = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[9], walkFrames[10], walkFrames[11]);
+        walkingUp = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[7], walkFrames[6], walkFrames[8]);
+        walkingRight = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[4], walkFrames[3], walkFrames[5]);
+        walkingLeft = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[10], walkFrames[9], walkFrames[11]);
     }
 
     public void update(float delta) {
