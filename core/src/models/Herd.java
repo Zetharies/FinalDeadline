@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Herd {
+
     private static final int MAX_ZOMBIES = 10;
     private ArrayList<Zombie> zombies;
     private ArrayList<Integer> coordsX;
@@ -26,30 +27,21 @@ public class Herd {
 
     public void Zombies() {
         //generate random zombies, change max zombies constant to increase/decrease npcs
-//        for (int i = 0; i < MAX_ZOMBIES; i++) {
-//            randX = random.nextInt((int) GameSettings.SCALED_TILE_SIZE);
-//            randY = random.nextInt((int) GameSettings.SCALED_TILE_SIZE);
-//            coordsX.add(randX);
-//            coordsY.add(randY);
-//            //ensure they dont render in blocked block will crash game
-//            if (collisions.getCell(randX, randY).getTile().getProperties().containsKey("blocked")) {
-//                while (collisions.getCell(randX, randY).getTile().getProperties().containsKey("blocked")) {
-//                    while (coordsX.contains(randX)) {
-//                        randX = random.nextInt((int) GameSettings.SCALED_TILE_SIZE);
-//                    }
-//                    while (coordsY.contains(randY)) {
-//                        randY = random.nextInt((int) GameSettings.SCALED_TILE_SIZE);
-//                    }
-//                }
-//                coordsX.add(randX);
-//                coordsY.add(randY);
-//            }
-//
-//        }
+        for (int i = 0; i < MAX_ZOMBIES; i++) {
+            randX = random.nextInt((int) GameSettings.SCALED_TILE_SIZE);
+            randY = random.nextInt((int) GameSettings.SCALED_TILE_SIZE);
+
+            //ensure they dont render in blocked block will crash game
+            if (!collisions.getCell(randX, randY).getTile().getProperties().containsKey("blocked")) {
+                coordsX.add(randX);
+                coordsY.add(randY);
+            }
+
+        }
         for (int i = 0; i < coordsX.size(); i++) {
             System.out.println("x= " + coordsX.get(i) + " y= " + coordsY.get(i));
             //add zombies in random positions in the map 
-            //zombies.add(new Zombie(coordsX.get(i),coordsY.get(i),collisions));
+            //zombies.add(new Zombie(coordsX.get(i), coordsY.get(i), collisions));
         }
         //test zombies 
         zombies.add(new Zombie(14, 80, collisions));
