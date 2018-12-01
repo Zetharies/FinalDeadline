@@ -144,15 +144,20 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void render(float delta) {
         for (int i = 0; i < zombies.size(); i++) {
+            //update all zombies 
             zombies.get(i).update(delta);
         }
+        //control one zombie to test collisions
+        //zombies.get(0).update(delta);
         playerControls.update(delta);
         player.update(delta);
         //camera.position.set(player.getX() * GameSettings.SCALED_TILE_SIZE, player.getY() * GameSettings.SCALED_TILE_SIZE, 0);
         camera.position.y = player.getLinearY() * 64;
         camera.position.x = player.getLinearX() * 64;
-//        camera.position.y = zombies.get(0).y * 50;
-//        camera.position.x = zombies.get(0).x * 50;
+
+        //follow that zombie
+//        camera.position.y = zombies.get(0).y * 64;
+//        camera.position.x = zombies.get(0).x * 64;
         camera.update();
 
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
