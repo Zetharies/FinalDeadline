@@ -29,7 +29,7 @@ public class ZombieController {
     public void update(float delta) {
         //control a zombie - in game screen only update one zombie
         System.out.println("zombie x and y " + zombie.x + " " + zombie.y);
-        //    keys();
+      //      keys();
         updateTimers(delta);
         updateCollisions();
         if (right && randNum == 0) {
@@ -137,11 +137,21 @@ public class ZombieController {
     }
 
     public boolean isDownBlocked() {
-        return isBlocked((int) (zombie.x), (int) (zombie.y - 1), collisions);
+        //return isBlocked((int) (zombie.x), (int) (zombie.y - 0.25), collisions);
+        if (zombie.y - 0.25 >= 0) {
+			return isBlocked((int)zombie.x, (int)(zombie.y - 0.25), collisions);
+			// return false;
+		}
+		return true;
     }
 
     public boolean isLeftBlocked() {
-        return isBlocked((int) (zombie.x - 1), (int) zombie.y, collisions);
+//        return isBlocked((int) (zombie.x - 0.25), (int) zombie.y, collisions);
+        if (zombie.y - 0.25 >= 0) {
+			return isBlocked((int)(zombie.x - 0.25), (int)zombie.y, collisions);
+			// return false;
+		}
+		return true;
     }
 
     public boolean isRightBlocked() {
