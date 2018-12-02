@@ -20,7 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.Hud;
 import com.badlogic.gdx.graphics.g2d.Animation;
-
+import managers.SettingsManager;
 import controllers.ScreenplayController;
 import controllers.PlayerController;
 import java.util.ArrayList;
