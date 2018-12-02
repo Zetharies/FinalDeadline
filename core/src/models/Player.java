@@ -5,7 +5,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
 import com.mygdx.game.GameSettings;
-import managers.SoundManager;
+import managers.SettingsManager;
 
 public class Player {
 
@@ -93,7 +93,7 @@ public class Player {
         this.linearY = y;
         walkTimer = 0f;
         state = EnumPlayerState.WALKING;
-        if (SoundManager.getSound()) {
+        if (SettingsManager.getSound()) {
             sound = Gdx.audio.newSound(Gdx.files.internal("fx/footsteps.mp3"));
             sound.play(0.1F);
         }
@@ -101,7 +101,7 @@ public class Player {
     }
 
     private void finishMove() {
-        if (SoundManager.getSound()) {
+        if (SettingsManager.getSound()) {
             sound.pause();
         }
         state = EnumPlayerState.STANDING;
