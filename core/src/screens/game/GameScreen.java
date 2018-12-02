@@ -123,8 +123,14 @@ public class GameScreen extends AbstractScreen {
 		ScreenplayNode dialogue1 = new ScreenplayNode(chosenCharacter + ":\nWhat the...\nWhere am I?...   [ENTER]", 0);
 		ScreenplayNode dialogue2 = new ScreenplayNode(
 				chosenCharacter + ":\nWhat's going on here...\nWhere is everyone?!   [ENTER]", 1);
-		ScreenplayNode instruction1 = new ScreenplayNode(
-				"Press 'W', 'A', 'S', 'D' or your arrow keys to move around the map   [ENTER]", 2);
+		ScreenplayNode instruction1 = null;    
+		if (SettingsManager.KEYS) {
+		    instruction1 = new ScreenplayNode("Press your arrow keys to move around the map   [ENTER]", 2);
+		}else{
+		    if(SettingsManager.WASD){
+			instruction1 = new ScreenplayNode("Press 'W','A','S','D' to move around the map   [ENTER]", 2);
+		    }
+		}
 		dialogue1.makeLinear(dialogue2.getId());
 		dialogue2.makeLinear(instruction1.getId());
 
