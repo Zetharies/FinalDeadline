@@ -14,6 +14,11 @@
 
 <b>[Sound]</b> Music/FX for each floor & actions: Vivian (1/2 done) <br/>
 
+<b>[Sound]</b> More voicelines: Avni & Jacob:<br/>
+"Wha... why is there blood?!"<br/>
+"What's that sound..."<br/>
+"I wonder what happened here."<br/>
+
 <strike><b>[Programming]</b> Functional Health UI:  Areeb <br/></strike>
 <strike><b>[Programming]</b> Settings w/ more options & completed:  Taher  <br/></strike>
 <strike><b>[Programming]</b> Scaling fix: Jacob <br/></strike>
