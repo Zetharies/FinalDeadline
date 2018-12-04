@@ -1,25 +1,28 @@
 # TO DO BEFORE MVP
+<b> Website url: http://www.finaldead-line.tk/index.html <br/>
 
-<b> website url: http://www.finaldead-line.tk/index.html <br/>
-<strike><b>[Programming]</b> Functional Health UI:  Areeb <br/></strike>
-<b>[Programming]</b> Settings w/ more options & completed:  Taher  <br/>
-<strike><b>[Programming]</b> Scaling fix <br/></strike>
-<b>[Programming]</b> Floor 4 (Puzzle 7):  Bhaven (Areeb) <br/>
-<strike><b>[Programming]</b> Dialogue: Zeth<br/></strike>
-<b>[Programming]</b> Inventory:  Vivian<br/>
-<strike><b>[Programming]</b> NPCs (Zombies?):  Nisha / Taher <br/></strike>
-<b>[Programming]</b> Unit testing:  not needed for the MVP<br/>
 
-<b>[Development]</b> Project Website:  Kunal ---> NEEDS TO PUSH THE WEBPAGE ON GITHUB <br/>
 
-<b>[Design]</b> Floor 1:  Jacob (only if we need) <br/>
-<strike><b>[Design]</b> Floor 2:  Becca (areeb) <br/></strike>
+<b>[Development]</b> Project Website:  Kunal & Nisha (1/2 done)<br/>
+
+<b>[Programming]</b> Moving between maps:  Jacob<br/>
+<b>[Programming]</b> Damage from zombies:  anyone<br/>
+<b>[Programming]</b> Apply option & menu bugs fix:  Kunal<br/>
+<b>[Programming]</b> Character selection:  Zeth <br/>
+
 <b>[Design]</b> NPCs/Chax and Main Characters:  Zeth <br/>
+
+<b>[Sound]</b> Music/FX for each floor & actions: Vivian (1/2 done) <br/>
+
+<strike><b>[Programming]</b> Functional Health UI:  Areeb <br/></strike>
+<strike><b>[Programming]</b> Settings w/ more options & completed:  Taher  <br/></strike>
+<strike><b>[Programming]</b> Scaling fix: Jacob <br/></strike>
+<strike><b>[Programming]</b> Dialogue: Zeth<br/></strike>
+<strike><b>[Programming]</b> NPCs (Zombies?):  Nisha / Taher <br/></strike>
+<strike><b>[Design]</b> Floor 1 revamp:  Bhaven (areeb) <br/></strike>
+<strike><b>[Design]</b> Floor 2:  Becca <br/></strike>
 <strike><b>[Design]</b> Objects / Weapons for player to find/use:  Vivian <br/></strike>
-
-<b>[Sound]</b> Music/FX for each floor & actions: <br/>
 <strike><b>[Sound]</b> Voice actors:  Avni & Jacob & Kunal <br/></strike>
-
 <strike><b>[General]</b> Separate script for voice actors to read off:  Avni, Jacob & Kunal <br/></strike>
 <strike><b>[General]</b> Sprite change, because the characters are "too cute for a horror game" smh:  Zeth<br/></strike>
 
