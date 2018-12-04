@@ -3,6 +3,7 @@ package screens.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -114,15 +115,25 @@ public class GameScreen extends AbstractScreen {
 		zombies = herd.getZombiesList();
 		processor = new InputMultiplexer(); // Ordered lists of processors we can use for prioritising controls
 
-		dialogueController = new ScreenplayController(dialogue);
+		dialogueController = new ScreenplayController(dialogue, chosenCharacter);
 		processor.addProcessor(0, dialogueController);
 		processor.addProcessor(1, playerControls);
 		handler = new ScreenplayHandler();
 
 		// Create a new dialogue or instruction. Then add the order in which it comes.
+		if(chosenCharacter == "Jessica") {
+			Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/jessica/Jessica_what_the.wav"));
+			sound.play();
+		}
+		if(chosenCharacter == "Flynn") {
+			Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/flynn/Flynn_what_the2.wav"));
+			sound.play();
+		}
 		ScreenplayNode dialogue1 = new ScreenplayNode(chosenCharacter + ":\nWhat the...\nWhere am I?...   [ENTER]", 0);
 		ScreenplayNode dialogue2 = new ScreenplayNode(
 				chosenCharacter + ":\nWhat's going on here...\nWhere is everyone?!   [ENTER]", 1);
+		
+		
 		ScreenplayNode instruction1 = null;    
 		if (SettingsManager.KEYS) {
 		    instruction1 = new ScreenplayNode("Press your arrow keys to move around the map   [ENTER]", 2);

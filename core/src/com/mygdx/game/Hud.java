@@ -26,7 +26,7 @@ public class Hud {
 		Table table = new Table();
 		table.top();
 		table.setFillParent(true);
-		currentMap = new Label("Floor 4: Biology lab", skin);
+		currentMap = new Label("Floor 1: Biology lab", skin);
 		currentMap.setFontScale((float) 0.5);
 		
 		health = new HealthBar(145,8); // Create health bar

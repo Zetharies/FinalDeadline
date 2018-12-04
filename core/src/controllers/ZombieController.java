@@ -28,7 +28,7 @@ public class ZombieController {
     @SuppressWarnings("static-access")
 	public void update(float delta) {
         //control a zombie - in game screen only update one zombie
-        System.out.println("zombie x and y " + zombie.x + " " + zombie.y);
+        //System.out.println("zombie x and y " + zombie.x + " " + zombie.y);
       //      keys();
         updateTimers(delta);
         updateCollisions();

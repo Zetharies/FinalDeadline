@@ -44,7 +44,7 @@ public class SplashScreen extends AbstractScreen {
     public void show() { 
     	Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     	stage = new Stage();
-    	splashImage = new Texture(Gdx.files.internal("images/aston_resized.jpg")); // Intro Image, feel free to change. Remember to add it to assets
+    	splashImage = new Texture(Gdx.files.internal("images/aston_resized2.png")); // Intro Image, feel free to change. Remember to add it to assets
     	splashImage.setFilter(TextureFilter.Linear, TextureFilter.Linear);
     	textureRegion = new TextureRegion(splashImage);
     	Image actorImage = new Image(textureRegion);

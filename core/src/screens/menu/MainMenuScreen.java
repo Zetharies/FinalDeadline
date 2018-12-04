@@ -39,12 +39,12 @@ public class MainMenuScreen extends AbstractScreen {
     private Table testTable;
     private Stage stage;
     private Skin skin;
-    private Texture maleCard, femaleCard, customizeCard;
+    private Texture maleCard, femaleCard, customizeCard, level1, level2;
     private boolean swipe = false, playing = false;
     private Window window;
     private Label play, levels, settings, about, credits, quit, confirm, exit;
     private Music mp3Sound;
-    private ImageButton customizeSelection, maleSelection, femaleSelection;
+    private ImageButton customizeSelection, maleSelection, femaleSelection, floor2, floor4;
     private TextButton back;
 
     boolean settingsClicked = false;
@@ -54,6 +54,7 @@ public class MainMenuScreen extends AbstractScreen {
     private SettingsUI settingsUI;
     private About aboutUI;
     private boolean aboutClicked = false;
+    private boolean levelsClicked = false;
 
     public MainMenuScreen() {
         super();
@@ -92,7 +93,9 @@ public class MainMenuScreen extends AbstractScreen {
             if (testTable.hasChildren() && settingsClicked) {
                 for (int i = 0; i < testTable.getChildren().size; i++) {
                     if (testTable.getChildren().get(i) == settingsUI.getTable()) {
-                        moveButtonsLeft();
+                    	stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
+                    	moveButtonsLeft();
+                    	testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
                         settingsUI.getTable().addAction(Actions.hide());
                         System.out.println(settingsUI.getTable().isVisible());
                         settingsClicked = false;
@@ -100,13 +103,22 @@ public class MainMenuScreen extends AbstractScreen {
                 }
 
             }
+            if (levelsClicked) {
+                exitLevels();
+            }
+            
             if (aboutClicked) {
-                moveButtonsLeft();
+            	stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
+            	moveButtonsLeft();
+            	testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
                 aboutClicked = false;
                 aboutUI.getTable().addAction(Actions.hide());
             }
+            
             if (creditsClicked) {
-                moveButtonsLeft();
+            	stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
+            	moveButtonsLeft();
+            	testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
                 creditsClicked = false;
                 creditsWindow.getTable().addAction(Actions.hide());
             } else {
@@ -146,10 +158,18 @@ public class MainMenuScreen extends AbstractScreen {
         customizeCard = new Texture(Gdx.files.internal("images/customizeSelection.png"));
         maleCard = new Texture(Gdx.files.internal("images/flynnSelection.png"));
         femaleCard = new Texture(Gdx.files.internal("images/jessicaSelection.png"));
+        
+        level1 = new Texture(Gdx.files.internal("images/floor1Image.png"));
+        level2 = new Texture(Gdx.files.internal("images/floor2Image.png"));
 
         customizeSelection = new ImageButton(new TextureRegionDrawable(new TextureRegion(customizeCard)));
         maleSelection = new ImageButton(new TextureRegionDrawable(new TextureRegion(maleCard)));
         femaleSelection = new ImageButton(new TextureRegionDrawable(new TextureRegion(femaleCard)));
+        
+        floor2 = new ImageButton(new TextureRegionDrawable(new TextureRegion(level1)));
+        floor4 = new ImageButton(new TextureRegionDrawable(new TextureRegion(level2)));
+        
+
 
         Label.LabelStyle style = new Label.LabelStyle();
         //returns the bitmap font
@@ -201,7 +221,16 @@ public class MainMenuScreen extends AbstractScreen {
         maleSelection.addAction(Actions.hide());
         femaleSelection.setBounds(maleSelection.getX() + customizeSelection.getWidth(), customizeSelection.getY(), (float) (Gdx.graphics.getWidth() / 5), (float) (Gdx.graphics.getHeight() / 2));
         femaleSelection.addAction(Actions.hide());
-
+        
+        
+        floor2.setBounds((float) (getWidth() / 6), getHeight() / 8, (float) (Gdx.graphics.getWidth() / 2), Gdx.graphics.getHeight() / 2);
+        floor2.setSize((float) (getWidth() / 1.25), (float) (getHeight() / 1.25));
+        floor2.addAction(Actions.hide());
+        floor4.setBounds((float) (floor2.getX() * 3.5), floor2.getY(), (float) (Gdx.graphics.getWidth() / 5), (float) (Gdx.graphics.getHeight() / 2));
+        floor4.setSize((float) (getWidth() / 1.25), (float) (getHeight() / 1.25));
+        floor4.addAction(Actions.hide());
+        
+       
         settings.setFontScale((float) (settings.getFontScaleX() + (settings.getFontScaleX() + 0.8)), (float) (settings.getFontScaleY() + (settings.getFontScaleY() + 0.8)));
         play.setFontScale((float) (play.getFontScaleX() + (play.getFontScaleX() + 0.8)), (float) (play.getFontScaleY() + (play.getFontScaleY() + 0.8)));
         levels.setFontScale((float) (levels.getFontScaleX() + (levels.getFontScaleX() + 0.8)), (float) (levels.getFontScaleY() + (levels.getFontScaleY() + 0.8)));
@@ -245,6 +274,8 @@ public class MainMenuScreen extends AbstractScreen {
         stage.addActor(customizeSelection);
         stage.addActor(maleSelection);
         stage.addActor(femaleSelection);
+        stage.addActor(floor2);
+        stage.addActor(floor4);
     }
 
     public void buttonListener() {
@@ -281,6 +312,12 @@ public class MainMenuScreen extends AbstractScreen {
 
         levels.addListener(new ClickListener() {
             float heightFont = levels.getFontScaleX(), widthFont = levels.getFontScaleY();
+            
+            @Override
+            public void clicked(InputEvent e, float x, float y) {
+            	levelsClicked = true;
+            	enterLevels();
+            }
 
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
@@ -308,7 +345,9 @@ public class MainMenuScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 creditsClicked = true;
-                moveButtonsRight();
+            	stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 0.85)));
+            	moveButtonsRight();
+                testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/blackScreen.jpg")))); 
                 creditsWindow.getTable().addAction(Actions.show());
             }
 
@@ -338,7 +377,9 @@ public class MainMenuScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 aboutClicked = true;
+                stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 0.85)));
                 moveButtonsRight();
+                testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenuBlur.jpg"))));
                 aboutUI.getTable().addAction(Actions.show());
             }
 
@@ -413,7 +454,10 @@ public class MainMenuScreen extends AbstractScreen {
                 if (testTable.hasChildren() && settingsClicked) {
                     for (int i = 0; i < testTable.getChildren().size; i++) {
                         if (testTable.getChildren().get(i) == settingsUI.getTable()) {
-                            moveButtonsLeft();
+                        	stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
+                        	moveButtonsLeft();
+                        	testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
+                            
                             settingsUI.getTable().addAction(Actions.hide());
                             System.out.println(settingsUI.getTable().isVisible());
                             settingsClicked = false;
@@ -421,13 +465,28 @@ public class MainMenuScreen extends AbstractScreen {
                     }
 
                 }
+                if (levelsClicked) {
+                	stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
+                	testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
+                	exitLevels();
+                    levelsClicked = false;
+                    
+                    
+                }
+                
                 if (aboutClicked) {
-                    moveButtonsLeft();
+                	stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
+                	moveButtonsLeft();
+                	testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
+                    
                     aboutClicked = false;
                     aboutUI.getTable().addAction(Actions.hide());
                 }
                 if (creditsClicked) {
-                    moveButtonsLeft();
+                	stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
+                	moveButtonsLeft();
+                	testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
+                    
                     creditsClicked = false;
                     creditsWindow.getTable().addAction(Actions.hide());
                 } else {
@@ -447,7 +506,7 @@ public class MainMenuScreen extends AbstractScreen {
         });
         settings.addListener(new ClickListener() {
             float heightFont = settings.getFontScaleX(), widthFont = settings.getFontScaleY();
-
+            
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
                 super.enter(event, x, y, pointer, fromActor);
@@ -468,9 +527,13 @@ public class MainMenuScreen extends AbstractScreen {
 
             @Override
             public void clicked(InputEvent e, float x, float y) {
+            	
                 testTable.addActor(settingsUI.getTable());
                 settingsClicked = true;
+                stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 0.85)));
                 moveButtonsRight();
+                testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenuBlur.jpg"))));
+                
                 settingsUI.getTable().addAction(Actions.show());
                 //stage.addActor( settingsUI.getTable());
             }
@@ -593,9 +656,24 @@ public class MainMenuScreen extends AbstractScreen {
         if (swipe) {
             moveButtonsLeft();
             //hide character selection
-            customizeSelection.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
-            maleSelection.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
-            femaleSelection.addAction(Actions.sequence(Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide()));
+            stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
+        	testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
+            customizeSelection.addAction(Actions.sequence((Actions.fadeOut((float) 0.85)), Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide(), (Actions.fadeIn((0)))));
+            maleSelection.addAction(Actions.sequence((Actions.fadeOut((float) 0.85)), Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide(), (Actions.fadeIn(0))));
+            femaleSelection.addAction(Actions.sequence((Actions.fadeOut((float) 0.85)), Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f), Actions.hide(), (Actions.fadeIn(0))));
+            swipe = false;
+        }
+    }
+    
+    public void exitLevels() {
+        if (swipe) {
+        	moveButtonsLeft();
+        	levelsClicked = false;
+            //hide character selection
+        	stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
+        	testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
+            floor2.addAction(Actions.sequence((Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f)), Actions.hide()));
+            floor4.addAction(Actions.sequence((Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f)), Actions.hide()));
             swipe = false;
         }
     }
@@ -603,6 +681,8 @@ public class MainMenuScreen extends AbstractScreen {
     private void enterCharacterSelection() {
         if (!swipe && back.getActions().size == 0) {
             moveButtonsRight();
+            stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 0.85)));
+            testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu2.jpg"))));
             //brings character selection to screen
             customizeSelection.addAction(Actions.show());
             customizeSelection.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
@@ -617,6 +697,30 @@ public class MainMenuScreen extends AbstractScreen {
 //                testTable.removeActor(table);
 //            }
         }
+    }
+    
+    private void enterLevels() {
+        if (!swipe && back.getActions().size == 0) {
+            moveButtonsRight();
+            stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 0.85)));
+            testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenuBlur.jpg"))));
+
+            floor2.addAction(Actions.show());
+            floor2.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
+            floor4.addAction(Actions.show());
+            floor4.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
+
+            swipe = true;
+
+//            if (clickedSettings) {
+//                testTable.removeActor(table);
+//            }
+        }
+    }
+    
+    private void removeBlur() {
+    	stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
+    	testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
     }
 
     public BitmapFont generateFont(Skin skin) {
