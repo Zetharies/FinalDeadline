@@ -13,8 +13,8 @@ import managers.SettingsManager;
 
 public class SettingsUI {
 
-    private Stage stage;
-    private Window settingsWindow;
+    @SuppressWarnings("unused")
+	private Window settingsWindow;
     private TextButton music, sound, resolution, controls;
     private ArrayList<String> resolutionsSizes;
     private ArrayList<String> controlOptions;
@@ -24,13 +24,12 @@ public class SettingsUI {
     private int resIndex = 0, controlIndex = 0;
 
     public SettingsUI(Stage stage, Skin skin) {
-        this.stage = stage;
         table = new Table();
         settingsWindow = new Window("", skin);
         music = new TextButton("MUSIC:ON", skin);
         sound = new TextButton("SOUND:ON", skin);
         resolution = new TextButton("" + getWidth() + "x" + getHeight(), skin);
-        controls = new TextButton("CONTROL:Arrows", skin);
+        controls = new TextButton("CONTROL:ARROWS", skin);
         resolutionsSizes = new ArrayList<String>();
         controlOptions = new ArrayList<String>();
         addResolutions();
@@ -38,7 +37,8 @@ public class SettingsUI {
         settings(stage);
     }
 
-    private void addResolutions() {
+    @SuppressWarnings("unlikely-arg-type")
+	private void addResolutions() {
         resolutionsSizes.add("1280x720");
         resolutionsSizes.add("1920x1080");
         resolutionsSizes.add("Full Screen");
@@ -49,7 +49,7 @@ public class SettingsUI {
 
     private void addControls() {
         controlOptions.add("WASD");
-        controlOptions.add("Arrows");
+        controlOptions.add("ARROWS");
     }
 
     public void settingsListener() {
