@@ -7,7 +7,7 @@
 
 <b>[Programming]</b> Moving between maps:  Jacob<br/>
 <b>[Programming]</b> Damage from zombies:  anyone<br/>
-<b>[Programming]</b> Apply option & menu bugs fix:  Kunal<br/>
+<b>[Programming]</b> Apply option & menu bugs fix:  Taher<br/>
 <b>[Programming]</b> Character selection:  Zeth <br/>
 
 <b>[Design]</b> NPCs/Chax and Main Characters:  Zeth <br/>
