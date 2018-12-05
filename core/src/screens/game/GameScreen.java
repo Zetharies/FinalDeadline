@@ -212,6 +212,9 @@ public class GameScreen extends AbstractScreen {
             hud.setLabel("Floor 2: Engineering Lab");
             playerControls.setMapChange(false);
         }
+        if(playerControls.isOnZombie(herd.getZombiesList())) {
+        	hud.reduceHealth();
+        }
         for (int i = 0; i < zombies.size(); i++) {
             // update all zombies
             zombies.get(i).update(delta);

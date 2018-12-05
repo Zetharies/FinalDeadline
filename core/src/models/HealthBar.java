@@ -22,7 +22,6 @@ public class HealthBar extends ProgressBar {
 	// Health bar properties
 	public HealthBar(int width, int height) {
 		super(0f, 1f, 0.01f, false, new ProgressBarStyle());
-
 		TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("images/progress-bars.pack"));
 		getStyle().background = new TextureRegionDrawable(textureAtlas.findRegion("loading-bar-2-background")); // background
 																												// of

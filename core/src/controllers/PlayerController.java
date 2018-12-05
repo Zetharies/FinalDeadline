@@ -5,6 +5,9 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
 import models.EnumPlayerFacing;
 import models.Player;
+import models.Zombie;
+
+import java.util.ArrayList;
 
 import com.badlogic.gdx.Input.Keys;
 import managers.SettingsManager;
@@ -184,6 +187,15 @@ public class PlayerController extends InputAdapter {
     public boolean isRightBlocked() {
         return isBlocked(p.getX() + 1, p.getY(), collisions);
         // return false;
+    }
+    
+    public boolean isOnZombie(ArrayList<Zombie> zombies) {
+    	for(Zombie zombie : zombies) {
+    		if(zombie.getX() == p.getX() && zombie.getY() == p.getY()) {
+    			return true;
+    		}
+    	}
+    	return false;
     }
     
     public void changeMap() {

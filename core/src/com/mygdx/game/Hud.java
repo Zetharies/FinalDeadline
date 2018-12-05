@@ -41,5 +41,9 @@ public class Hud {
 	public void setLabel(String label) {
 		currentMap.setText(label);
 	}
+	
+	public void reduceHealth() {
+		health.setValue(health.getValue() - 0.01f);
+	}
 
 }

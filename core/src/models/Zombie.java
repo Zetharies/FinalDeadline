@@ -75,12 +75,12 @@ public class Zombie {
         return walkingDown;
     }
 
-    public float getX() {
-        return sprite.getX();
+    public int getX() {
+        return (int) x;
     }
 
-    public float getY() {
-        return sprite.getY();
+    public int getY() {
+        return (int) y;
     }
 
 }
