@@ -198,6 +198,10 @@ public class PlayerController extends InputAdapter {
     	return false;
     }
     
+    public void updatePlayerCoordinates(int x, int y) {
+    	p.updateCoordinates(x, y);
+    }
+    
     public void changeMap() {
     	p.updateCoordinates(14, 90);
     	mapChange = true;

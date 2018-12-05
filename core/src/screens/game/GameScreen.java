@@ -44,6 +44,8 @@ public class GameScreen extends AbstractScreen {
     private Player player;
     private PlayerController playerControls;
     private ScreenplayController dialogueController;
+    private int spawnX;
+    private int spawnY;
 
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
@@ -112,7 +114,9 @@ public class GameScreen extends AbstractScreen {
         // player = new Player(14, 90, animations); // Create a new player object with
         // the coordinates 0, 0, player
         // animations
-        player = new Player(26, 82, animations);
+        spawnX = 26;
+        spawnY = 82;
+        player = new Player(spawnX, spawnY, animations);
         playerControls = new PlayerController(player, (TiledMapTileLayer) map.getLayers().get(0));
 
         renderer = new OrthogonalTiledMapRenderer(map, 2f); // 1.5658f
@@ -199,12 +203,22 @@ public class GameScreen extends AbstractScreen {
             map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx");
         }
     }
+    
+    public void setSpawnX(int x) {
+    	spawnX = x;
+    }
+    
+    public void setSpawnY(int y) {
+    	spawnY = y;
+    }
 
     @Override
     public void render(float delta) {
       
         inGameMp3.setVolume(0.15f);
         playerControls.checkExit();
+        
+        // Checks if the map needs changing
         if (playerControls.getMapChange()) {
             map.dispose();
             setMap();
@@ -213,8 +227,16 @@ public class GameScreen extends AbstractScreen {
             hud.setLabel("Floor 2: Engineering Lab");
             playerControls.setMapChange(false);
         }
+        
+        // Checks if the player's health needs reducing due to a zombie
         if(playerControls.isOnZombie(herd.getZombiesList())) {
         	hud.reduceHealth();
+        }
+        
+        // Checks if the player's health is 0, if so re-spawn them
+        if(hud.getHealth() == 0.0f) {
+        	hud.resetHealth();
+        	playerControls.updatePlayerCoordinates(spawnX, spawnY);
         }
         for (int i = 0; i < zombies.size(); i++) {
             // update all zombies

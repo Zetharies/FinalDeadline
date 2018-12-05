@@ -42,8 +42,16 @@ public class Hud {
 		currentMap.setText(label);
 	}
 	
+	public void resetHealth() {
+		health.setValue(1.0f);
+	}
+	
 	public void reduceHealth() {
 		health.setValue(health.getValue() - 0.01f);
+	}
+	
+	public float getHealth() {
+		return health.getValue();
 	}
 
 }
