@@ -23,16 +23,16 @@ public class Credits {
 
         table.debug();
         programmer = new Label("Programmer", style);
-        name1 = new Label("Name 1", style);
-        name2 = new Label("Name 2", style);
-        name3 = new Label("Name 3", style);
-        name4 = new Label("Name 4", style);
-        name5 = new Label("Name 5", style);
-        name6 = new Label("Name 6", style);
-        name7 = new Label("Name 7", style);
-        name8 = new Label("Name 8", style);
-        name9 = new Label("Name 9", style);
-        name10 = new Label("Name 10", style);
+        name1 = new Label("ZETH OSHARODE", style);
+        name2 = new Label("JACOB WILLIAMS", style);
+        name3 = new Label("TAHER AHMED", style);
+        name4 = new Label("REBECCA BARRETT", style);
+        name5 = new Label("BHAVEN PATEL", style);
+        name6 = new Label("NISHA KHATRI", style);
+        name7 = new Label("AVNI SOLANKI", style);
+        name8 = new Label("AREEB MOHAMMAD", style);
+        name9 = new Label("VIVIAN KNIGHT", style);
+        name10 = new Label("KUNAL AGARWALA", style);
         addToTable();
         this.table.setBounds((Gdx.graphics.getWidth() / 2) - (table.getPrefWidth()), (Gdx.graphics.getHeight() / 2) - (table.getPrefHeight()),
                 table.getPrefWidth(), table.getPrefHeight());
