@@ -153,6 +153,9 @@ public class GameScreen extends AbstractScreen {
                 instruction1 = new ScreenplayNode("Press 'W','A','S','D' to move around the map   [ENTER]", 2);
             }
         }
+          inGameMp3 = Gdx.audio.newMusic(Gdx.files.internal("music/extendedSoundtrack2.wav"));
+        inGameMp3.setLooping(true); // loop the soundtrack
+        inGameMp3.play(); // play the soundtrack
         dialogue1.makeLinear(dialogue2.getId());
         dialogue2.makeLinear(instruction1.getId());
 
@@ -199,9 +202,7 @@ public class GameScreen extends AbstractScreen {
 
     @Override
     public void render(float delta) {
-        inGameMp3 = Gdx.audio.newMusic(Gdx.files.internal("music/extendedSoundtrack2.wav"));
-        inGameMp3.setLooping(true); // loop the soundtrack
-        inGameMp3.play(); // play the soundtrack
+      
         inGameMp3.setVolume(0.15f);
         playerControls.checkExit();
         if (playerControls.getMapChange()) {
