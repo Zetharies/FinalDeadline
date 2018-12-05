@@ -514,6 +514,20 @@ public class MainMenuScreen extends AbstractScreen {
                 //customizeSelection.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
                 customizeSelection.setSize(selectionWidth, selectionHeight);
             }
+            
+            @Override
+            public void clicked(InputEvent e, float x, float y) {
+                mp3Sound.stop();
+                stage.addAction(new FadeOutAction(1.25f) {
+                    @Override
+                    public void run() {
+                    	stage.clear();
+                        ScreenManager.setCharacterSelectionScreen(); // Sets the screen to our game >:D
+                    }
+                });
+
+            }
+            
         });
         maleSelection.addListener(new ClickListener() {
             float selectionHeight = maleSelection.getHeight(), selectionWidth = maleSelection.getWidth();

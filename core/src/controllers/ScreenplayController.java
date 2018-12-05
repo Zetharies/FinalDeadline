@@ -24,6 +24,7 @@ public class ScreenplayController extends InputAdapter {
 	private TextTraverser traverser;
 	private Screenplay playerDialogue;
 	private ArrayList<Sound> arrayList;
+	private String character;
 	
 	private int i = 0;
 	
@@ -33,6 +34,7 @@ public class ScreenplayController extends InputAdapter {
 	 */
 	public ScreenplayController(Screenplay dialogue, String character) {
 		this.playerDialogue = dialogue;
+		this.character = character;
 		if(character == "Flynn") {
 			Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/flynn/Flynn_whats_going_on.wav"));
 			arrayList = new ArrayList<Sound>();
@@ -42,6 +44,8 @@ public class ScreenplayController extends InputAdapter {
 			Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/jessica/Jessica_whats_going_on.wav"));
 			arrayList = new ArrayList<Sound>();
 			arrayList.add(sound);
+		} else {
+			
 		}
 		
 	}
@@ -65,9 +69,11 @@ public class ScreenplayController extends InputAdapter {
 	@Override
 	public boolean keyUp(int keycode) {
 		if(traverser!= null && keycode == Keys.ENTER && playerDialogue.isFinished()) {
-			if(i < arrayList.size()) {
-				arrayList.get(i).play();
-				i++;
+			if(character == "Flynn" || character == "Jessica") {
+				if(i < arrayList.size()) {
+					arrayList.get(i).play();
+					i++;
+				}
 			}
 			if(traverser.getType() == TYPE.END) {
 				traverser = null;

@@ -1,0 +1,90 @@
+
+Custom3_walking.png
+size: 512,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Custom3_walking_east
+  rotate: false
+  xy: 74, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 0
+Custom3_walking_east
+  rotate: false
+  xy: 108, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 2
+Custom3_walking_east
+  rotate: false
+  xy: 278, 3
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 1
+Custom3_walking_north
+  rotate: false
+  xy: 38, 3
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 1
+Custom3_walking_north
+  rotate: false
+  xy: 312, 3
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 0
+Custom3_walking_north
+  rotate: false
+  xy: 346, 3
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 2
+Custom3_walking_south
+  rotate: false
+  xy: 0, 3
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 1
+Custom3_walking_south
+  rotate: false
+  xy: 140, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 0
+Custom3_walking_south
+  rotate: false
+  xy: 174, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 2
+Custom3_walking_west
+  rotate: false
+  xy: 210, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 0
+Custom3_walking_west
+  rotate: false
+  xy: 244, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 2
+Custom3_walking_west
+  rotate: false
+  xy: 380, 3
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 1

@@ -64,6 +64,8 @@ public class GameScreen extends AbstractScreen {
 			gender = "male";
 		} else if (chosenCharacter == "Jessica") {
 			gender = "female";
+		} else {
+			gender = "custom";
 		}
 		initUI();
 	}
