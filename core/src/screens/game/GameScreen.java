@@ -35,7 +35,7 @@ import models.screenplay.ScreenplayNode;
 import screens.intro.AbstractScreen;
 
 public class GameScreen extends AbstractScreen {
-
+	
 	private SpriteBatch batch; // Allows us to render sprite to screen really fast
 	private Player player;
 	private PlayerController playerControls;
@@ -96,23 +96,28 @@ public class GameScreen extends AbstractScreen {
 				standing.findRegion(chosenCharacter + "_standing_east"),
 				standing.findRegion(chosenCharacter + "_standing_west"));
 
-		// map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); // map to load, extremely basic map,
-																				// will be changed
+		// map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); //
+		// map to load, extremely basic map,
+		// will be changed
 		map = new TmxMapLoader().load("maps/floor4/Floor4.tmx");
-		
-		// player = new Player(14, 90, animations); // Create a new player object with the coordinates 0, 0, player
-													// animations
-		player = new Player(87, 14, animations);
+
+		// player = new Player(14, 90, animations); // Create a new player object with
+		// the coordinates 0, 0, player
+		// animations
+		player = new Player(26, 82, animations);
 		playerControls = new PlayerController(player, (TiledMapTileLayer) map.getLayers().get(0));
 
 		renderer = new OrthogonalTiledMapRenderer(map, 2f); // 1.5658f
-		camera = new OrthographicCamera();
-		//gamePort = new ScreenViewport(camera);
-		gamePort = new StretchViewport(1200, 600, camera);
-		// herd a group of zombies
-		herd = new Herd((TiledMapTileLayer) map.getLayers().get(0));
-		// put zombies in list
-		zombies = herd.getZombiesList();
+		setGameScreen();
+		
+//		camera = new OrthographicCamera();
+//		//gamePort = new ScreenViewport(camera);
+//		gamePort = new StretchViewport(1200, 600, camera);
+//		// herd a group of zombies
+//		herd = new Herd((TiledMapTileLayer) map.getLayers().get(0));
+//		// put zombies in list
+//		zombies = herd.getZombiesList();
+
 		processor = new InputMultiplexer(); // Ordered lists of processors we can use for prioritising controls
 
 		dialogueController = new ScreenplayController(dialogue, chosenCharacter);
@@ -121,26 +126,25 @@ public class GameScreen extends AbstractScreen {
 		handler = new ScreenplayHandler();
 
 		// Create a new dialogue or instruction. Then add the order in which it comes.
-		if(chosenCharacter == "Jessica") {
+		if (chosenCharacter == "Jessica") {
 			Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/jessica/Jessica_what_the.wav"));
 			sound.play();
 		}
-		if(chosenCharacter == "Flynn") {
+		if (chosenCharacter == "Flynn") {
 			Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/flynn/Flynn_what_the2.wav"));
 			sound.play();
 		}
 		ScreenplayNode dialogue1 = new ScreenplayNode(chosenCharacter + ":\nWhat the...\nWhere am I?...   [ENTER]", 0);
 		ScreenplayNode dialogue2 = new ScreenplayNode(
 				chosenCharacter + ":\nWhat's going on here...\nWhere is everyone?!   [ENTER]", 1);
-		
-		
-		ScreenplayNode instruction1 = null;    
+
+		ScreenplayNode instruction1 = null;
 		if (SettingsManager.KEYS) {
-		    instruction1 = new ScreenplayNode("Press your arrow keys to move around the map   [ENTER]", 2);
-		}else{
-		    if(SettingsManager.WASD){
-			instruction1 = new ScreenplayNode("Press 'W','A','S','D' to move around the map   [ENTER]", 2);
-		    }
+			instruction1 = new ScreenplayNode("Press your arrow keys to move around the map   [ENTER]", 2);
+		} else {
+			if (SettingsManager.WASD) {
+				instruction1 = new ScreenplayNode("Press 'W','A','S','D' to move around the map   [ENTER]", 2);
+			}
 		}
 		dialogue1.makeLinear(dialogue2.getId());
 		dialogue2.makeLinear(instruction1.getId());
@@ -169,8 +173,34 @@ public class GameScreen extends AbstractScreen {
 		table.add(dialogue).expand().align(Align.bottom).pad(10f);
 	}
 
+	public void setGameScreen() {
+		//renderer = new OrthogonalTiledMapRenderer(map, 2f); // 1.5658f
+		camera = new OrthographicCamera();
+		// gamePort = new ScreenViewport(camera);
+		gamePort = new StretchViewport(1200, 600, camera);
+		// herd a group of zombies
+		herd = new Herd((TiledMapTileLayer) map.getLayers().get(0));
+		// put zombies in list
+		zombies = herd.getZombiesList();
+	}
+	
+	public void setMap() {
+		if(playerControls.getMapChange()) {
+			map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx");
+		}
+	}
+
 	@Override
 	public void render(float delta) {
+		playerControls.checkExit();
+		if(playerControls.getMapChange()) {
+			map.dispose();
+			setMap();
+			renderer.setMap(map);
+			playerControls.setCollisions((TiledMapTileLayer) map.getLayers().get(0));
+			hud.setLabel("Floor 2: Engineering Lab");
+			playerControls.setMapChange(false);
+		}
 		for (int i = 0; i < zombies.size(); i++) {
 			// update all zombies
 			zombies.get(i).update(delta);
@@ -181,8 +211,8 @@ public class GameScreen extends AbstractScreen {
 		player.update(delta);
 		// camera.position.set(player.getX() * GameSettings.SCALED_TILE_SIZE,
 		// player.getY() * GameSettings.SCALED_TILE_SIZE, 0);
-        camera.position.y = player.getLinearY() * 64;
-        camera.position.x = player.getLinearX() * 64;
+		camera.position.y = player.getLinearY() * 64;
+		camera.position.x = player.getLinearX() * 64;
 
 		// follow that zombie
 //		camera.position.y = zombies.get(0).y * 64;
@@ -199,10 +229,8 @@ public class GameScreen extends AbstractScreen {
 		gamePort.apply(); // Changes how the graphics is drawn on the screen
 		batch.setProjectionMatrix(camera.combined);
 		batch.begin();
-		batch.draw(player.getSprite(), 
-				(player.getLinearX() * GameSettings.SCALED_TILE_SIZE) - 10,
-				(player.getLinearY() * GameSettings.SCALED_TILE_SIZE) + 10, 
-				GameSettings.SCALED_TILE_SIZE * 1.3f,
+		batch.draw(player.getSprite(), (player.getLinearX() * GameSettings.SCALED_TILE_SIZE) - 10,
+				(player.getLinearY() * GameSettings.SCALED_TILE_SIZE) + 10, GameSettings.SCALED_TILE_SIZE * 1.3f,
 				GameSettings.SCALED_TILE_SIZE * 1.5f); // Players character / X,Y position on screen / Width / Height
 
 		// changing height and width changes collisions

@@ -132,7 +132,7 @@ public class ZombieController {
     }
 
     public boolean isUpBlocked() {
-        System.out.println();
+        //System.out.println();
         return isBlocked((int) (zombie.x), (int) (zombie.y + 1), collisions);
     }
 

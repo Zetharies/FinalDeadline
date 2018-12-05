@@ -37,5 +37,9 @@ public class Hud {
 		stage.addActor(table);
 		stage.addActor(health);
 	}
+	
+	public void setLabel(String label) {
+		currentMap.setText(label);
+	}
 
 }

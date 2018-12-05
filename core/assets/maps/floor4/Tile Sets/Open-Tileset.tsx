@@ -11,4 +11,9 @@
    <property name="invisible" value="true"/>
   </properties>
  </tile>
+ <tile id="33">
+  <properties>
+   <property name="invisible" value="true"/>
+  </properties>
+ </tile>
 </tileset>

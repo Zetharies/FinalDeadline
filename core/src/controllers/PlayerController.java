@@ -14,10 +14,12 @@ public class PlayerController extends InputAdapter {
     private Player p;
     private boolean up, down, left, right;
     private TiledMapTileLayer collisions;
+    private boolean mapChange;
 
     public PlayerController(Player p, TiledMapTileLayer collisions) {
         this.p = p;
         this.collisions = collisions;
+        mapChange = false;
     }
 
     @Override
@@ -182,6 +184,29 @@ public class PlayerController extends InputAdapter {
     public boolean isRightBlocked() {
         return isBlocked(p.getX() + 1, p.getY(), collisions);
         // return false;
+    }
+    
+    public void changeMap() {
+    	p.updateCoordinates(14, 90);
+    	mapChange = true;
+    }
+    
+    public boolean getMapChange() {
+    	return mapChange;
+    }
+    
+    public void setMapChange(boolean value) {
+    	mapChange = value;
+    }
+    
+    public void checkExit() {
+    	if(p.isPlayerOnExit(p.getX(), p.getY())) {
+    		changeMap();
+    	}
+    }
+    
+    public void setCollisions(TiledMapTileLayer collisions) {
+    	this.collisions = collisions;
     }
 
 }

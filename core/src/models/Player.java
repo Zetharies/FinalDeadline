@@ -155,4 +155,21 @@ public class Player {
     public int getY() {
         return y;
     }
+    
+    public void updateCoordinates(int x, int y) {
+    	this.x = x;
+    	this.y = y;
+    	linearX = x;
+    	linearY = y;
+    	srcX = 0;
+    	srcY = 0;
+    }
+    
+    public boolean isPlayerOnExit(int x, int y) {
+    	if(x == 87 && y == 13 || x == 88 && y == 13) {
+    		return true;
+    	}
+    	return false;
+    }
+    
 }
