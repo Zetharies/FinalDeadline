@@ -228,6 +228,8 @@ public class GameScreen extends AbstractScreen {
             herd.respawnZombies();
             hud.setLabel("Floor 2: Engineering Lab");
             playerControls.setMapChange(false);
+            spawnX = 14;
+            spawnY = 90;
         }
         
         // Checks if the player's health needs reducing due to a zombie
