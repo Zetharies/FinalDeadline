@@ -224,6 +224,8 @@ public class GameScreen extends AbstractScreen {
             setMap();
             renderer.setMap(map);
             playerControls.setCollisions((TiledMapTileLayer) map.getLayers().get(0));
+            herd.setCollisions((TiledMapTileLayer) map.getLayers().get(0));
+            herd.respawnZombies();
             hud.setLabel("Floor 2: Engineering Lab");
             playerControls.setMapChange(false);
         }

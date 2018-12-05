@@ -22,10 +22,10 @@ public class Herd {
         zombies = new ArrayList<Zombie>();
         coordsX = new ArrayList<Integer>();
         coordsY = new ArrayList<Integer>();
-        Zombies();
+        zombies();
     }
 
-    public void Zombies() {
+    public void zombies() {
         //generate random zombies, change max zombies constant to increase/decrease npcs
         for (int i = 0; i < MAX_ZOMBIES; i++) {
             randX = random.nextInt((int) GameSettings.SCALED_TILE_SIZE);
@@ -52,6 +52,23 @@ public class Herd {
 
     public ArrayList<Zombie> getZombiesList() {
         return zombies;
+    }
+    
+    public void setCollisions(TiledMapTileLayer collisions) {
+    	this.collisions = collisions;
+    }
+    
+    public void clearZombies() {
+    	for(Zombie zombie : zombies) {
+    		zombie.x = 0;
+    		zombie.y = 0;
+    	}
+    	zombies.clear();
+    }
+    
+    public void respawnZombies() {
+    	clearZombies();
+    	zombies();
     }
     
 }
