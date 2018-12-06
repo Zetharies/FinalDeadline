@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class Herd {
 
-    private static final int MAX_ZOMBIES = 17;
+    private static final int MAX_ZOMBIES = 50;
     private ArrayList<Zombie> zombies;
     private ArrayList<Integer> coordsX;
     private ArrayList<Integer> coordsY;
