@@ -3,22 +3,13 @@
 
 
 
-<b>[Development]</b> Project Website:  Kunal & Nisha (1/2 done)<br/>
 
-<b>[Programming]</b> Moving between maps:  Jacob<br/>
-<b>[Programming]</b> Damage from zombies:  anyone<br/>
-<b>[Programming]</b> Apply option & menu bugs fix:  Taher<br/>
-<b>[Programming]</b> Character selection:  Zeth <br/>
-
-<b>[Design]</b> NPCs/Chax and Main Characters:  Zeth <br/>
-
-<b>[Sound]</b> Music/FX for each floor & actions: Vivian (1/2 done) <br/>
-
-<b>[Sound]</b> More voicelines: Avni & Jacob:<br/>
-"Wha... why is there blood?!"<br/>
-"What's that sound..."<br/>
-"I wonder what happened here."<br/>
-
+<strike><b>[Development]</b> Project Website:  Kunal & Nisha<br/></strike>
+<strike><b>[Programming]</b> Moving between maps:  Jacob<br/></strike>
+<strike><b>[Programming]</b> Damage from zombies:  Jacob<br/></strike>
+<strike><b>[Programming]</b> Apply option & menu bugs fix:  Taher<br/></strike>
+<strike><b>[Programming]</b> Character selection:  Zeth <br/></strike>
+<strike><b>[Sound]</b> Music/FX for each floor & actions: Vivian<br/></strike>
 <strike><b>[Programming]</b> Functional Health UI:  Areeb <br/></strike>
 <strike><b>[Programming]</b> Settings w/ more options & completed:  Taher  <br/></strike>
 <strike><b>[Programming]</b> Scaling fix: Jacob <br/></strike>
