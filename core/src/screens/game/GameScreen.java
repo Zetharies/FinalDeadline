@@ -239,6 +239,8 @@ public class GameScreen extends AbstractScreen {
             
             spawnX = 14;
             spawnY = 90;
+            
+            playerControls.resetDirection();
 
             handler = new ScreenplayHandler();
             ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\n*You hear faint sounds far away*   [ENTER]", 0);

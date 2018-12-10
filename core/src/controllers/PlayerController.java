@@ -238,4 +238,11 @@ public class PlayerController extends InputAdapter {
     public ArrayList<Book> getBooks() {
     	return books;
     }
+    
+    public void resetDirection() {
+    	up = false;
+    	down = false;
+    	left = false;
+    	right = false;
+    }
 }
