@@ -321,6 +321,9 @@ public class GameScreen extends AbstractScreen {
         			System.out.println(b.getX());
         			System.out.println("hit");
         			zombie.damage(30);
+        			if(zombie.getHealth() <= 0) {
+        				herd.getZombiesList().remove(j);
+        			}
         		}
         	}
         	b.update(delta);

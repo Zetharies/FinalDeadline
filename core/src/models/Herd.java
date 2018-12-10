@@ -59,11 +59,11 @@ public class Herd {
     }
     
     public void clearZombies() {
-    	for(Zombie zombie : zombies) {
-    		zombie.x = 0;
-    		zombie.y = 0;
-    		zombie.update(1.0f);
-    	}
+//    	for(Zombie zombie : zombies) {
+//    		zombie.x = 0;
+//    		zombie.y = 0;
+//    		zombie.update(1.0f);
+//    	}
     	zombies.clear();
     }
     

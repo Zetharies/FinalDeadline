@@ -91,5 +91,7 @@ public class Zombie {
 	public int getHealth() {
 		return health;
 	}
+	
+	public void die() {}
 
 }
