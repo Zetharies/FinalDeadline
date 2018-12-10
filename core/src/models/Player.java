@@ -14,7 +14,7 @@ public class Player {
     private EnumPlayerState state;
     private float linearX, linearY, walkTimer, animationTimer, refacingTimer;
     private int srcX, srcY, destX, destY;
-    private boolean moveFrame;
+    private boolean moveFrame, locked;
     private AnimationSet animations;
     private Sound sound;
 
@@ -27,6 +27,7 @@ public class Player {
         this.linearY = y;
         this.state = EnumPlayerState.STANDING;
         this.direction = EnumPlayerFacing.S;
+        locked = false;
     }
 
     public void update(float delta) {
@@ -170,6 +171,24 @@ public class Player {
     		return true;
     	}
     	return false;
+    }
+    
+    public String getDirection() {
+    	String s = "";
+    	if(direction == EnumPlayerFacing.N) {
+    		s = "up";
+    	} else if(direction == EnumPlayerFacing.S) {
+    		s = "down";
+    	} else if(direction == EnumPlayerFacing.E) {
+    		s = "right";
+    	} else if(direction == EnumPlayerFacing.W) {
+    		s = "left";
+    	}
+    	return s;
+    }
+    
+    public Book shoot(String direction, float x, float y) {
+    	return new Book(direction, this.linearX, this.linearY);
     }
     
 }

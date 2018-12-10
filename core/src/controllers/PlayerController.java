@@ -3,6 +3,7 @@ package controllers;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+import models.Book;
 import models.EnumPlayerFacing;
 import models.Player;
 import models.Zombie;
@@ -18,11 +19,13 @@ public class PlayerController extends InputAdapter {
     private boolean up, down, left, right;
     private TiledMapTileLayer collisions;
     private boolean mapChange;
+    private ArrayList<Book> books;
 
     public PlayerController(Player p, TiledMapTileLayer collisions) {
         this.p = p;
         this.collisions = collisions;
         mapChange = false;
+        books = new ArrayList<Book>();
     }
 
     @Override
@@ -96,6 +99,9 @@ public class PlayerController extends InputAdapter {
         if (keycode == Keys.RIGHT || keycode == Keys.D) {
             right = false;
             // p.movePlayer(1, 0); // 1 on the x axis, 0 on the y axis
+        }
+        if (keycode == Keys.SPACE) {
+        	books.add(p.shoot(p.getDirection(), p.getX(), p.getY()));
         }
 
         return false;
@@ -224,5 +230,12 @@ public class PlayerController extends InputAdapter {
     public void setCollisions(TiledMapTileLayer collisions) {
     	this.collisions = collisions;
     }
-
+    
+    public TiledMapTileLayer getCollisionLayer() {
+    	return collisions;
+    }
+    
+    public ArrayList<Book> getBooks() {
+    	return books;
+    }
 }

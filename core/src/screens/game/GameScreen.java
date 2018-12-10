@@ -27,6 +27,7 @@ import controllers.ScreenplayController;
 import controllers.PlayerController;
 import java.util.ArrayList;
 import models.AnimationSet;
+import models.Book;
 import models.Herd;
 import models.Player;
 import models.Zombie;
@@ -63,6 +64,7 @@ public class GameScreen extends AbstractScreen {
 
     private Herd herd;
     private ArrayList<Zombie> zombies;
+    private ArrayList<Book> books;
 
     public GameScreen(String character) {
         this.chosenCharacter = character; // Chosen characters are either Flynn or Jessica
@@ -76,7 +78,10 @@ public class GameScreen extends AbstractScreen {
         inGameMp3 = Gdx.audio.newMusic(Gdx.files.internal("music/floor2.mp3"));
         inGameMp3.setLooping(true); // loop the soundtrack
         inGameMp3.play(); // play the soundtrack
+        books = new ArrayList<Book>();
         initUI();
+        processor = new InputMultiplexer(); // Ordered lists of processors we can use for prioritising controls
+        dialogueController = new ScreenplayController(dialogue, chosenCharacter);
     }
 
     @Override
@@ -132,9 +137,7 @@ public class GameScreen extends AbstractScreen {
 //		herd = new Herd((TiledMapTileLayer) map.getLayers().get(0));
 //		// put zombies in list
 //		zombies = herd.getZombiesList();
-        processor = new InputMultiplexer(); // Ordered lists of processors we can use for prioritising controls
-
-        dialogueController = new ScreenplayController(dialogue, chosenCharacter);
+        
         processor.addProcessor(0, dialogueController);
         processor.addProcessor(1, playerControls);
         handler = new ScreenplayHandler();
@@ -160,13 +163,17 @@ public class GameScreen extends AbstractScreen {
                 instruction1 = new ScreenplayNode("Press 'W','A','S','D' to move around the map   [ENTER]", 2);
             }
         }
+        
+        ScreenplayNode instruction2 = new ScreenplayNode("Press 'Spacebar' to throw books at enemies   [ENTER]", 3);
           
         dialogue1.makeLinear(dialogue2.getId());
         dialogue2.makeLinear(instruction1.getId());
-
+        instruction1.makeLinear(instruction2.getId());
+        
         handler.addNode(dialogue1);
         handler.addNode(dialogue2);
         handler.addNode(instruction1);
+        handler.addNode(instruction2);
 
         dialogueController.startDialogue(handler);
         Gdx.input.setInputProcessor(processor);
@@ -229,8 +236,22 @@ public class GameScreen extends AbstractScreen {
             herd.respawnZombies();
             hud.setLabel("Floor 2: Engineering Lab");
             playerControls.setMapChange(false);
+            
             spawnX = 14;
             spawnY = 90;
+
+            handler = new ScreenplayHandler();
+            ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\n*You hear faint sounds far away*   [ENTER]", 0);
+            ScreenplayNode faint2 = new ScreenplayNode(
+                    chosenCharacter + ":\n.. ...   [ENTER]", 1);
+            
+            faint.makeLinear(faint2.getId());
+            handler.addNode(faint);
+            handler.addNode(faint2);
+            dialogueController.startDialogue(handler);
+            
+            Gdx.input.setInputProcessor(processor);
+            
         }
         
         // Checks if the player's health needs reducing due to a zombie
@@ -282,6 +303,28 @@ public class GameScreen extends AbstractScreen {
                     zombies.get(i).y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
                     GameSettings.SCALED_TILE_SIZE * 1f);
         }
+        books = playerControls.getBooks();
+        ArrayList<Book> booksToRemove = new ArrayList<Book>();
+        for(int i = 0; i < books.size(); i++) {
+        	Book b = books.get(i);
+        	b.render(batch);
+        	
+        	if(playerControls.isBlocked((int) b.getX(), (int) b.getY(), playerControls.getCollisionLayer())) {
+        		booksToRemove.add(b);
+        	}
+        	for(int j = 0; j < herd.getZombiesList().size(); j++) {
+        		Zombie zombie = herd.getZombiesList().get(j);
+        		if(zombie.getX() == b.getX() && zombie.getY() == b.getY()) {
+        			System.out.println(zombie.getHealth());
+        			System.out.println(b.getX());
+        			System.out.println("hit");
+        			zombie.damage(30);
+        		}
+        	}
+        	b.update(delta);
+        }
+        books.removeAll(booksToRemove);
+        
         batch.end();
         stage.draw();
     }

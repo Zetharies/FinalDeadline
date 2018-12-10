@@ -15,6 +15,7 @@ public class Zombie {
     public float x;
     public float y;
     private int currentFrame = 6;
+    private int health = 100;
     private Sprite sprite;
     private Texture texture;
     private TextureRegion region[][];
@@ -74,6 +75,10 @@ public class Zombie {
 	public Animation getDown() {
         return walkingDown;
     }
+    
+    public void damage(int damage) {
+    	health -= damage;
+    }
 
     public int getX() {
         return (int) x;
@@ -82,5 +87,9 @@ public class Zombie {
     public int getY() {
         return (int) y;
     }
+
+	public int getHealth() {
+		return health;
+	}
 
 }
