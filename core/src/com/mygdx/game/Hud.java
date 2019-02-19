@@ -1,8 +1,11 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -34,8 +37,21 @@ public class Hud {
 		//currentMap.setSize(Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/4);
 		table.add(currentMap).expandX().padRight(1040).padTop(0);
 		health.setPosition((float)(Gdx.graphics.getWidth()/ 100), Gdx.graphics.getHeight()/2);
+		
+		Texture invTexture = new Texture(Gdx.files.internal("images/BookInv.png"));
+		TextureRegion region = new TextureRegion(invTexture, 100, 60, 1200, 50);
+		
+		Image invImage = new Image(region);
+		
+		//These lines will resize your sprite to half of screen's width while keeping the ratio
+		invImage.setWidth(0.5f * Gdx.graphics.getWidth());
+		invImage.setWidth(0.75f * Gdx.graphics.getHeight());
+		
+		
+		stage.addActor(invImage);
 		stage.addActor(table);
-		stage.addActor(health);
+		stage.addActor(health);	
+		
 	}
 	
 	public void setLabel(String label) {
