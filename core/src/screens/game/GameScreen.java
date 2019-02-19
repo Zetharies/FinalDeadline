@@ -1,6 +1,7 @@
 package screens.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -28,7 +29,6 @@ import inventory.InventorySystem;
 import inventory.items.Item;
 import controllers.PlayerController;
 import java.util.ArrayList;
-import java.util.Random;
 
 import models.AnimationSet;
 import models.Book;
@@ -212,13 +212,13 @@ public class GameScreen extends AbstractScreen {
 		herd = new Herd((TiledMapTileLayer) map.getLayers().get(0));
 		// put zombies in list
 		zombies = herd.getZombiesList();
-		
+
 		//BHAVEN EDIT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		inventory = new InventorySystem((TiledMapTileLayer) map.getLayers().get(0));
-		
-		inventory.changeToMap1();
+
+		inventory.changeToMapTest();
 		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		
+
 	}
 
 	public void setMap() {
@@ -281,6 +281,7 @@ public class GameScreen extends AbstractScreen {
 			hud.resetHealth();
 			playerControls.updatePlayerCoordinates(spawnX, spawnY);
 		}
+
 		for (int i = 0; i < zombies.size(); i++) {
 			// update all zombies
 			zombies.get(i).update(delta);
@@ -353,7 +354,7 @@ public class GameScreen extends AbstractScreen {
 
 		//BHAVEN EDIT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 		ArrayList<Item> currentMapItems = inventory.getMapItems();
-		
+
 		ArrayList<Item> foundMapItems = new ArrayList<Item>();
 
 		for (Item currentItem : currentMapItems) {
@@ -363,25 +364,21 @@ public class GameScreen extends AbstractScreen {
 			if (playerControls.isOnItem(currentItem) == true) {
 				foundMapItems.add(currentItem);
 
-				System.out.println("Item Found!");
-				System.out.println("Item Name: " + currentItem.getName());
-				System.out.println("BEFORE ASSIGNMENT");
-				System.out.println("Item Found Variable: " + currentItem.getFound());
-				System.out.println("Item OnMap Variable: " + currentItem.getOnMap());
 				currentItem.itemFound();
 				currentItem.setNotOnMap();
-				System.out.println("AFTER ASSIGNMENT");
-				System.out.println("Item Found Variable: " + currentItem.getFound());
-				System.out.println("Item OnMap Variable: " + currentItem.getOnMap());
 				
+				System.out.println("You have found: " + currentItem.getName());
+
 			}
 
 		}
-			
+
 		currentMapItems.removeAll(foundMapItems);
 
+		playerControls.equipItem(inventory);		
+
 		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		
+
 		batch.end();
 		stage.draw();
 	}
@@ -418,4 +415,10 @@ public class GameScreen extends AbstractScreen {
 		renderer.dispose();
 	}
 
+	//BHAVEN EDIT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	public InventorySystem getInventory() {
+		return inventory;
+
+	}
+	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 }

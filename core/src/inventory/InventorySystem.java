@@ -8,6 +8,7 @@ import com.mygdx.game.GameSettings;
 
 import inventory.items.Book;
 import inventory.items.ChaxID;
+import inventory.items.Glasses;
 import inventory.items.Item;
 import inventory.items.Keyboard;
 import inventory.items.Torch;
@@ -21,6 +22,8 @@ public class InventorySystem{
 	private TiledMapTileLayer collisions;
 	
 	private int[] randomPos;
+	
+	private Item currentItem;
 
 	public InventorySystem(TiledMapTileLayer collisions) {
 		inventory = new ArrayList<Item>();
@@ -32,19 +35,34 @@ public class InventorySystem{
 		this.collisions = collisions;
 
 		addItemsToInventory();
+		
+		currentItem = null;
 
 	}
 
+	public void setAsCurrentItem(Item newItem) {
+		currentItem = newItem;
+		
+	}
+
+	public Item getCurrentItem() {
+		return currentItem;
+		
+	}
+	
 	public void addItemsToInventory() {
-		inventory.add(new Torch(0, 0)); //PRESET LOCATION
+		inventory.add(new Torch(43, 43)); //PRESET LOCATION
 		
 		generateRandomPos();
 		inventory.add(new Book(randomPos[0], randomPos[1])); //USES RANDOM LOCATION
 		
-		inventory.add(new ChaxID(0, 0)); //PRESET LOCATION
+		inventory.add(new ChaxID(26, 75)); //PRESET LOCATION
 
-		//generateRandomPos();
-		inventory.add(new Keyboard(0, 0)); //USES RANDOM LOCATION
+		generateRandomPos();
+		inventory.add(new Keyboard(randomPos[0], randomPos[1])); //USES RANDOM LOCATION
+		
+		generateRandomPos();
+		inventory.add(new Glasses(randomPos[0], randomPos[1])); //USES RANDOM LOCATION
 
 	}
 
@@ -80,8 +98,7 @@ public class InventorySystem{
 		
 		randomPos[0] = randX;
 		randomPos[1] = randY;
-		
-		System.out.println("Position Found");
+
 		System.out.println("Chosen InventorySystem CurrentX: " + randX);
 		System.out.println("Chosen InventorySystem CurrentY: " + randY);
 		
@@ -113,4 +130,17 @@ public class InventorySystem{
 
 	}
 
+	public void changeToMapTest() {
+		inventory.get(0).setOnMap();
+		inventory.get(1).setOnMap();
+		inventory.get(2).setOnMap();
+		inventory.get(3).setOnMap();
+		
+		inventory.get(0).itemNotFound();
+		inventory.get(1).itemNotFound();
+		inventory.get(2).itemNotFound();
+		inventory.get(3).itemNotFound();	
+	}
+
+	
 }

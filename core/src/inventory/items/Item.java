@@ -2,12 +2,10 @@ package inventory.items;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.mygdx.game.GameSettings;
 
-public class Item {
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+public class Item{
 
 	private String itemName;
 	
@@ -38,11 +36,6 @@ public class Item {
 	}
 	
 	public void render(SpriteBatch batch) {
-		batch.draw(getTexture(), // Print Texture
-				(getX() * GameSettings.SCALED_TILE_SIZE), // Sets X Position
-				(getY() * GameSettings.SCALED_TILE_SIZE), // Sets Y Position
-				GameSettings.SCALED_TILE_SIZE * 1f, // Sets Width of Sprite
-				GameSettings.SCALED_TILE_SIZE * 1f); // Sets Height of Sprite
 		
 	}
 	
@@ -105,5 +98,7 @@ public class Item {
 		return texture;
 		
 	}
+
+
 
 }

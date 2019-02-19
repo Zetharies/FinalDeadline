@@ -3,6 +3,7 @@ package controllers;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
+import inventory.InventorySystem;
 import inventory.items.Item;
 import models.Book;
 import models.EnumPlayerFacing;
@@ -11,6 +12,8 @@ import models.Zombie;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import managers.SettingsManager;
 
@@ -217,6 +220,62 @@ public class PlayerController extends InputAdapter {
 		}
 
 	}
+
+	public void equipItem(InventorySystem inventory) {
+		ArrayList<Item> currentInventory = inventory.getInventory();
+
+		if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
+			if (currentInventory.get(0).getFound() == true) {				
+				inventory.setAsCurrentItem(currentInventory.get(0));
+
+				System.out.println("You have now equipped: " + inventory.getCurrentItem().getName());
+
+			} else {
+				System.out.println("You have not found this item yet (Torch)");
+
+			}
+
+		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
+			if (currentInventory.get(1).getFound() == true) {				
+				inventory.setAsCurrentItem(currentInventory.get(1));
+
+				System.out.println("You have now equipped: " + inventory.getCurrentItem().getName());
+
+			} else {
+				System.out.println("You have not found this item yet (Book)");
+
+			}
+
+		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
+			if (currentInventory.get(2).getFound() == true) {				
+				inventory.setAsCurrentItem(currentInventory.get(2));
+
+				System.out.println("You have now equipped: " + inventory.getCurrentItem().getName());
+
+			} else {
+				System.out.println("You have not found this item yet (ChaxID)");
+
+			}
+
+		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_4)){
+			if (currentInventory.get(3).getFound() == true) {			
+				inventory.setAsCurrentItem(currentInventory.get(3));
+
+				System.out.println("You have now equipped: " + inventory.getCurrentItem().getName());
+
+			} else {
+				System.out.println("You have not found this item yet (Keyboard)");
+
+			}
+
+		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_5)){
+			System.out.println("Current equipped item: " + inventory.getCurrentItem());
+
+		}
+
+	}
+	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	public void updatePlayerCoordinates(int x, int y) {
