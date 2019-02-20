@@ -6,7 +6,7 @@ import com.mygdx.game.GameSettings;
 public class Torch extends Item{
 
 	public Torch(int startX, int startY) {
-		super("Torch", startX, startY, 0, "images/book1.png");
+		super("Torch", startX, startY, 0, "images/itemBook.png");
 		
 	}
 	

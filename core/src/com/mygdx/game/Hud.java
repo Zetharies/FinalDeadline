@@ -29,28 +29,30 @@ public class Hud {
 		Table table = new Table();
 		table.top();
 		table.setFillParent(true);
+		
 		currentMap = new Label("Floor 1: Biology lab", skin);
 		currentMap.setFontScale((float) 0.5);
+		//currentMap.setSize(Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/4);
+		table.add(currentMap).expandX().padRight(1040).padTop(0);
 		
 		health = new HealthBar(145,8); // Create health bar
 		health.getHealth(); // gets the value 
-		//currentMap.setSize(Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/4);
-		table.add(currentMap).expandX().padRight(1040).padTop(0);
 		health.setPosition((float)(Gdx.graphics.getWidth()/ 100), Gdx.graphics.getHeight()/2);
 		
-		Texture invTexture = new Texture(Gdx.files.internal("images/BookInv.png"));
-		TextureRegion region = new TextureRegion(invTexture, 100, 60, 1200, 50);
+		Texture invTexture = new Texture(Gdx.files.internal("images/invEmpty.png"));
+		Image invImage = new Image(new TextureRegion(invTexture));
 		
-		Image invImage = new Image(region);
+		Table invTable = new Table();
+		invTable.top();
+		invTable.setFillParent(true);
 		
-		//These lines will resize your sprite to half of screen's width while keeping the ratio
-		invImage.setWidth(0.5f * Gdx.graphics.getWidth());
-		invImage.setWidth(0.75f * Gdx.graphics.getHeight());
+		invTable.add(invImage).expandX().padRight(0).padTop(500);		
 		
-		
-		stage.addActor(invImage);
+		stage.addActor(invTable);
 		stage.addActor(table);
 		stage.addActor(health);	
+		
+		//invImage.remove();
 		
 	}
 	
