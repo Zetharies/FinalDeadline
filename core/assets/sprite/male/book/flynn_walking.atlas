@@ -1,0 +1,90 @@
+
+Flynn_walking.png
+size: 512,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Flynn_walking_east
+  rotate: false
+  xy: 73, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 0
+Flynn_walking_east
+  rotate: false
+  xy: 107, 2
+  size: 36, 55
+  orig: 36, 55
+  offset: 0, 0
+  index: 2
+Flynn_walking_east
+  rotate: false
+  xy: 243, 3
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 1
+Flynn_walking_north
+  rotate: false
+  xy: 38, 3
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 1
+Flynn_walking_north
+  rotate: false
+  xy: 141, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 2
+Flynn_walking_north
+  rotate: false
+  xy: 311, 2
+  size: 35, 55
+  orig: 35, 55
+  offset: 0, 0
+  index: 0
+Flynn_walking_south
+  rotate: false
+  xy: 2, 3
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 1
+Flynn_walking_south
+  rotate: false
+  xy: 175, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 2
+Flynn_walking_south
+  rotate: false
+  xy: 339, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 0
+Flynn_walking_west
+  rotate: false
+  xy: 209, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 0
+Flynn_walking_west
+  rotate: false
+  xy: 277, 3
+  size: 36, 55
+  orig: 36, 55
+  offset: 0, 0
+  index: 1
+Flynn_walking_west
+  rotate: false
+  xy: 375, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 2

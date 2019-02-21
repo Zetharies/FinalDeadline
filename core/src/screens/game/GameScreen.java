@@ -385,6 +385,62 @@ public class GameScreen extends AbstractScreen {
 		batch.end();
 		stage.draw();
 	}
+	
+	public void updateToBook() {
+		assetManager = new AssetManager();
+		assetManager.load("sprite/" + gender + "/book/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
+		assetManager.load("sprite/" + gender + "/book/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
+		assetManager.finishLoading();
+
+		TextureAtlas walking = this.getAssetManager().get("sprite/" + gender + "/book/" + chosenCharacter + "_walking.atlas",
+				TextureAtlas.class);
+		TextureAtlas standing = this.getAssetManager()
+				.get("sprite/" + gender + "/book/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
+
+		AnimationSet animations = new AnimationSet(
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_north"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_south"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_east"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_west"), Animation.PlayMode.LOOP_PINGPONG),
+				standing.findRegion(chosenCharacter + "_standing_north"),
+				standing.findRegion(chosenCharacter + "_standing_south"),
+				standing.findRegion(chosenCharacter + "_standing_east"),
+				standing.findRegion(chosenCharacter + "_standing_west"));
+		
+		player.setAnimations(animations);
+	}
+	
+	public void updateToKeyboard() {
+		assetManager = new AssetManager();
+		assetManager.load("sprite/" + gender + "/keyboard/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
+		assetManager.load("sprite/" + gender + "/keyboard/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
+		assetManager.finishLoading();
+
+		TextureAtlas walking = this.getAssetManager().get("sprite/" + gender + "/keyboard/" + chosenCharacter + "_walking.atlas",
+				TextureAtlas.class);
+		TextureAtlas standing = this.getAssetManager()
+				.get("sprite/" + gender + "/keyboard/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
+
+		AnimationSet animations = new AnimationSet(
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_north"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_south"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_east"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_west"), Animation.PlayMode.LOOP_PINGPONG),
+				standing.findRegion(chosenCharacter + "_standing_north"),
+				standing.findRegion(chosenCharacter + "_standing_south"),
+				standing.findRegion(chosenCharacter + "_standing_east"),
+				standing.findRegion(chosenCharacter + "_standing_west"));
+		
+		player.setAnimations(animations);
+	}
 
 	@Override
 	public void resize(int width, int height) {
