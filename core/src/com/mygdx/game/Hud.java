@@ -1,8 +1,11 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -21,7 +24,9 @@ public class Hud {
 	private Skin skin;
 	private HealthBar health;
 	
+	
 	public Hud(SpriteBatch batch) {
+		
 		viewPort = new FitViewport(1200, 600);
 		stage = new Stage(viewPort, batch);
 		skin = new Skin(Gdx.files.internal("fonts/Holo-dark-hdpi.json"));
@@ -39,12 +44,23 @@ public class Hud {
 		health.getHealth(); // gets the value 
 		health.setPosition((float)(Gdx.graphics.getWidth()/ 100), Gdx.graphics.getHeight()/2);
 		
-		Texture invTexture = new Texture(Gdx.files.internal("images/invEmpty.png"));
-		Image invImage = new Image(new TextureRegion(invTexture));
+		Color color = new Color();
 		
+		TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("ActionBar/ActionBarAtlas.txt"));// atlas file
+		
+		//Texture invTexture = new Texture(Gdx.files.internal("ActionBar/Key+Book.png"));
+		Image invImage = new Image(new TextureRegion(textureAtlas.findRegion("actionBook")));
+		
+		invImage.scaleBy(-0.3f); // size bar
+		
+		invImage.setColor(color.FIREBRICK); //color of the bar
+//		
 		Table invTable = new Table();
 		invTable.top();
 		invTable.setFillParent(true);
+		invTable.setPosition(165, 30);
+		
+		
 		
 		invTable.add(invImage).expandX().padRight(0).padTop(500);		
 		

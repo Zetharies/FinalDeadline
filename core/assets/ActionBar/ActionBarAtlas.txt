@@ -1,0 +1,40 @@
+ActionBarAtlas.png
+size: 4371, 2670
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+action
+  rotate: false
+  xy: 0, 0
+  size: 4371, 535
+  orig: 4371, 535
+  offset: 0, 0
+  index: -1
+actionBook
+  rotate: false
+  xy: 0, 535
+  size: 4371, 535
+  orig: 4371, 535
+  offset: 0, 0
+  index: -1
+actionKey
+  rotate: false
+  xy: 0, 1070
+  size: 4371, 535
+  orig: 4371, 535
+  offset: 0, 0
+  index: -1
+Book+Key
+  rotate: false
+  xy: 0, 1605
+  size: 4330, 530
+  orig: 4330, 530
+  offset: 0, 0
+  index: -1
+Key+Book
+  rotate: false
+  xy: 0, 2135
+  size: 4368, 535
+  orig: 4368, 535
+  offset: 0, 0
+  index: -1

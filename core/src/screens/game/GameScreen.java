@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -97,7 +98,10 @@ public class GameScreen extends AbstractScreen {
 		MainMenuScreen.getMP3().pause();
 
 		batch = new SpriteBatch();
+		//batch.setBlendFunction(-1, -1);
+		//Gdx.gl.glBlendFuncSeparate(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA,GL20.GL_SRC_ALPHA, GL20.GL_DST_ALPHA);
 		hud = new Hud(batch);
+		
 		assetManager = new AssetManager();
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
@@ -305,6 +309,7 @@ public class GameScreen extends AbstractScreen {
 		renderer.setView(camera);
 		renderer.render();
 		batch.setProjectionMatrix(hud.stage.getCamera().combined);
+		batch.enableBlending();
 		hud.stage.draw();
 		stage.act(delta);
 		gamePort.apply(); // Changes how the graphics is drawn on the screen
