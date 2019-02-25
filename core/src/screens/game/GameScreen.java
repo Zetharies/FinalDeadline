@@ -333,6 +333,7 @@ public class GameScreen extends AbstractScreen {
 
 			if(playerControls.isBlocked((int) b.getX(), (int) b.getY(), playerControls.getCollisionLayer())) {
 				booksToRemove.add(b);
+				updateToBook();
 			}
 			for(int j = 0; j < herd.getZombiesList().size(); j++) {
 				Zombie zombie = herd.getZombiesList().get(j);
