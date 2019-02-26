@@ -25,12 +25,14 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import managers.SettingsManager;
 import controllers.ScreenplayController;
 import controllers.PlayerController;
+import controllers.RobotController;
 import java.util.ArrayList;
 import models.AnimationSet;
 import models.Book;
 import models.Herd;
 import models.Player;
 import models.Zombie;
+import models.Robot;
 import models.screenplay.Screenplay;
 import models.screenplay.ScreenplayHandler;
 import models.screenplay.ScreenplayNode;
@@ -65,6 +67,8 @@ public class GameScreen extends AbstractScreen {
     private Herd herd;
     private ArrayList<Zombie> zombies;
     private ArrayList<Book> books;
+    private Robot robot;
+    private RobotController robotController;
 
     public GameScreen(String character) {
         this.chosenCharacter = character; // Chosen characters are either Flynn or Jessica
@@ -87,7 +91,7 @@ public class GameScreen extends AbstractScreen {
     @Override
     public void show() {
         MainMenuScreen.getMP3().pause();
-        
+
         batch = new SpriteBatch();
         hud = new Hud(batch);
         assetManager = new AssetManager();
@@ -122,11 +126,15 @@ public class GameScreen extends AbstractScreen {
         // player = new Player(14, 90, animations); // Create a new player object with
         // the coordinates 0, 0, player
         // animations
-        spawnX = 26;
-        spawnY = 82;
+//        spawnX = 26;
+//        spawnY = 82;
+        spawnX = 84;
+        spawnY = 14;
         player = new Player(spawnX, spawnY, animations);
         playerControls = new PlayerController(player, (TiledMapTileLayer) map.getLayers().get(0));
 
+        robot = new Robot(86, 15, (TiledMapTileLayer) map.getLayers().get(0));
+        robotController = new RobotController((TiledMapTileLayer) map.getLayers().get(0), robot);
         renderer = new OrthogonalTiledMapRenderer(map, 2f); // 1.5658f
         setGameScreen();
 
@@ -137,7 +145,6 @@ public class GameScreen extends AbstractScreen {
 //		herd = new Herd((TiledMapTileLayer) map.getLayers().get(0));
 //		// put zombies in list
 //		zombies = herd.getZombiesList();
-        
         processor.addProcessor(0, dialogueController);
         processor.addProcessor(1, playerControls);
         handler = new ScreenplayHandler();
@@ -163,13 +170,13 @@ public class GameScreen extends AbstractScreen {
                 instruction1 = new ScreenplayNode("Press 'W','A','S','D' to move around the map   [ENTER]", 2);
             }
         }
-        
+
         ScreenplayNode instruction2 = new ScreenplayNode("Press 'Spacebar' to throw books at enemies   [ENTER]", 3);
-          
+
         dialogue1.makeLinear(dialogue2.getId());
         dialogue2.makeLinear(instruction1.getId());
         instruction1.makeLinear(instruction2.getId());
-        
+
         handler.addNode(dialogue1);
         handler.addNode(dialogue2);
         handler.addNode(instruction1);
@@ -204,6 +211,8 @@ public class GameScreen extends AbstractScreen {
         herd = new Herd((TiledMapTileLayer) map.getLayers().get(0));
         // put zombies in list
         zombies = herd.getZombiesList();
+        //first boss
+        // robot = new Robot(27, 83);
     }
 
     public void setMap() {
@@ -211,21 +220,21 @@ public class GameScreen extends AbstractScreen {
             map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx");
         }
     }
-    
+
     public void setSpawnX(int x) {
-    	spawnX = x;
+        spawnX = x;
     }
-    
+
     public void setSpawnY(int y) {
-    	spawnY = y;
+        spawnY = y;
     }
 
     @Override
     public void render(float delta) {
-      
+
         inGameMp3.setVolume(0.15f);
         playerControls.checkExit();
-        
+
         // Checks if the map needs changing
         if (playerControls.getMapChange()) {
             map.dispose();
@@ -236,52 +245,54 @@ public class GameScreen extends AbstractScreen {
             herd.respawnZombies();
             hud.setLabel("Floor 2: Engineering Lab");
             playerControls.setMapChange(false);
-            
+
             spawnX = 14;
             spawnY = 90;
-            
+
             playerControls.resetDirection();
 
             handler = new ScreenplayHandler();
             ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\n*You hear faint sounds far away*   [ENTER]", 0);
             ScreenplayNode faint2 = new ScreenplayNode(
                     chosenCharacter + ":\n.. ...   [ENTER]", 1);
-            
+
             faint.makeLinear(faint2.getId());
             handler.addNode(faint);
             handler.addNode(faint2);
             dialogueController.startDialogue(handler);
-            
+
             Gdx.input.setInputProcessor(processor);
-            
+
         }
-        
+
         // Checks if the player's health needs reducing due to a zombie
-        if(playerControls.isOnZombie(herd.getZombiesList())) {
-        	hud.reduceHealth();
+        if (playerControls.isOnZombie(herd.getZombiesList())) {
+            hud.reduceHealth(0.01f);
         }
-        
+
         // Checks if the player's health is 0, if so re-spawn them
-        if(hud.getHealth() == 0.0f) {
-        	hud.resetHealth();
-        	playerControls.updatePlayerCoordinates(spawnX, spawnY);
+        if (hud.getHealth() == 0.0f) {
+            hud.resetHealth();
+            playerControls.updatePlayerCoordinates(spawnX, spawnY);
         }
-        for (int i = 0; i < zombies.size(); i++) {
-            // update all zombies
-            zombies.get(i).update(delta);
-        }
+
         // control one zombie to test collisions
         // zombies.get(0).update(delta);
         playerControls.update(delta);
         player.update(delta);
-        // camera.position.set(player.getX() * GameSettings.SCALED_TILE_SIZE,
-        // player.getY() * GameSettings.SCALED_TILE_SIZE, 0);
+        camera.position.set(player.getX() * GameSettings.SCALED_TILE_SIZE,
+                player.getY() * GameSettings.SCALED_TILE_SIZE, 0);
         camera.position.y = player.getLinearY() * 64;
         camera.position.x = player.getLinearX() * 64;
-
+        for (int i = 0; i < zombies.size(); i++) {
+            // update all zombies
+            zombies.get(i).detectPlayerPosition(playerControls.getPlayer());
+            zombies.get(i).setPlayerMovements(playerControls.getPlayerMovements());
+            zombies.get(i).update(delta);
+        }
         // follow that zombie
-//		camera.position.y = zombies.get(0).y * 64;
-//		camera.position.x = zombies.get(0).x * 64;
+        //	camera.position.y = zombies.get(0).y * 64;
+        //	camera.position.x = zombies.get(0).x * 64;
         camera.update();
 
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
@@ -305,31 +316,57 @@ public class GameScreen extends AbstractScreen {
                     zombies.get(i).y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
                     GameSettings.SCALED_TILE_SIZE * 1f);
         }
+        //86 14
+        robotController.setPlayerPosition(playerControls.getPlayer().getX(), playerControls.getPlayer().getY());
+        robotController.update(delta);
+        for (int i = 0; i < robot.getBullets().size(); i++) {
+            robot.getBullets().get(i).setPosition(player.getX(), player.getY());
+            robot.getBullets().get(i).update(delta);
+            if (robot.getBullets().get(i).getShoot()) {
+                batch.draw(robot.getBullets().get(i).getSprite(),
+                        (robot.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
+                        robot.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE / 5f,
+                        GameSettings.SCALED_TILE_SIZE / 5f);
+            }
+            if ((((int) (robot.getBullets().get(i).x) >= (int) (player.getX())
+                    && (int) (robot.getBullets().get(i).x) <= (int) (player.getX() + 1)))
+                    && (((int) (robot.getBullets().get(i).y) >= (int) (player.getY())
+                    && (int) (robot.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
+                robot.getBullets().get(i).setShoot(false);
+                hud.reduceHealth(robot.getBullets().get(i).getDamage());
+                robot.getBullets().remove(robot.getBullets().get(i));
+            }
+        }
+        batch.draw(robot.getSprite(),
+                (robot.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
+                robot.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
+                GameSettings.SCALED_TILE_SIZE * 1f);
+
         books = playerControls.getBooks();
         ArrayList<Book> booksToRemove = new ArrayList<Book>();
-        for(int i = 0; i < books.size(); i++) {
-        	Book b = books.get(i);
-        	b.render(batch);
-        	
-        	if(playerControls.isBlocked((int) b.getX(), (int) b.getY(), playerControls.getCollisionLayer())) {
-        		booksToRemove.add(b);
-        	}
-        	for(int j = 0; j < herd.getZombiesList().size(); j++) {
-        		Zombie zombie = herd.getZombiesList().get(j);
-        		if(zombie.getX() == b.getX() && zombie.getY() == b.getY()) {
-        			System.out.println(zombie.getHealth());
-        			System.out.println(b.getX());
-        			System.out.println("hit");
-        			zombie.damage(30);
-        			if(zombie.getHealth() <= 0) {
-        				herd.getZombiesList().remove(j);
-        			}
-        		}
-        	}
-        	b.update(delta);
+        for (int i = 0; i < books.size(); i++) {
+            Book b = books.get(i);
+            b.render(batch);
+
+            if (playerControls.isBlocked((int) b.getX(), (int) b.getY(), playerControls.getCollisionLayer())) {
+                booksToRemove.add(b);
+            }
+            for (int j = 0; j < herd.getZombiesList().size(); j++) {
+                Zombie zombie = herd.getZombiesList().get(j);
+                if (zombie.getX() == b.getX() && zombie.getY() == b.getY()) {
+                    System.out.println(zombie.getHealth());
+                    System.out.println(b.getX());
+                    System.out.println("hit");
+                    zombie.damage(30);
+                    if (zombie.getHealth() <= 0) {
+                        herd.getZombiesList().remove(j);
+                    }
+                }
+            }
+            b.update(delta);
         }
         books.removeAll(booksToRemove);
-        
+
         batch.end();
         stage.draw();
     }

@@ -15,6 +15,7 @@ import managers.SettingsManager;
 
 public class PlayerController extends InputAdapter {
 
+    private ArrayList<PlayerMovement> movements;
     private Player p;
     private boolean up, down, left, right;
     private TiledMapTileLayer collisions;
@@ -26,6 +27,7 @@ public class PlayerController extends InputAdapter {
         this.collisions = collisions;
         mapChange = false;
         books = new ArrayList<Book>();
+        movements = new ArrayList<PlayerMovement>();
     }
 
     @Override
@@ -69,7 +71,7 @@ public class PlayerController extends InputAdapter {
         }
 
         if (SettingsManager.KEYS) {
-            if (keycode == Keys.RIGHT ) {
+            if (keycode == Keys.RIGHT) {
                 right = true;
             }
         } else if (SettingsManager.WASD) {
@@ -86,22 +88,28 @@ public class PlayerController extends InputAdapter {
 
         if (keycode == Keys.UP || keycode == Keys.W) {
             up = false;
+            movements.add(PlayerMovement.UP);
+
             // p.movePlayer(0, 1); // 0 on the x axis, 1 on the y axis
         }
         if (keycode == Keys.DOWN || keycode == Keys.S) {
             down = false;
+            movements.add(PlayerMovement.DOWN);
+
             // p.movePlayer(0, -1); // 0 on the x axis, -1 on the y axis
         }
         if (keycode == Keys.LEFT || keycode == Keys.A) {
             left = false;
+            movements.add(PlayerMovement.LEFT);
             // p.movePlayer(-1, 0); // -1 on the x axis, 0 on the y axis
         }
         if (keycode == Keys.RIGHT || keycode == Keys.D) {
             right = false;
+            movements.add(PlayerMovement.RIGHT);
             // p.movePlayer(1, 0); // 1 on the x axis, 0 on the y axis
         }
         if (keycode == Keys.SPACE) {
-        	books.add(p.shoot(p.getDirection(), p.getX(), p.getY()));
+            books.add(p.shoot(p.getDirection(), p.getX(), p.getY()));
         }
 
         return false;
@@ -194,55 +202,63 @@ public class PlayerController extends InputAdapter {
         return isBlocked(p.getX() + 1, p.getY(), collisions);
         // return false;
     }
-    
+
     public boolean isOnZombie(ArrayList<Zombie> zombies) {
-    	for(Zombie zombie : zombies) {
-    		if(zombie.getX() == p.getX() && zombie.getY() == p.getY()) {
-    			return true;
-    		}
-    	}
-    	return false;
+        for (Zombie zombie : zombies) {
+            if (zombie.getX() == p.getX() && zombie.getY() == p.getY()) {
+                return true;
+            }
+        }
+        return false;
     }
-    
+
     public void updatePlayerCoordinates(int x, int y) {
-    	p.updateCoordinates(x, y);
+        p.updateCoordinates(x, y);
     }
-    
+
     public void changeMap() {
-    	p.updateCoordinates(14, 90);
-    	mapChange = true;
+        p.updateCoordinates(14, 90);
+        mapChange = true;
     }
-    
+
     public boolean getMapChange() {
-    	return mapChange;
+        return mapChange;
     }
-    
+
     public void setMapChange(boolean value) {
-    	mapChange = value;
+        mapChange = value;
     }
-    
+
     public void checkExit() {
-    	if(p.isPlayerOnExit(p.getX(), p.getY())) {
-    		changeMap();
-    	}
+        if (p.isPlayerOnExit(p.getX(), p.getY())) {
+            changeMap();
+        }
     }
-    
+
     public void setCollisions(TiledMapTileLayer collisions) {
-    	this.collisions = collisions;
+        this.collisions = collisions;
     }
-    
+
     public TiledMapTileLayer getCollisionLayer() {
-    	return collisions;
+        return collisions;
     }
-    
+
     public ArrayList<Book> getBooks() {
-    	return books;
+        return books;
+    }
+
+    public void resetDirection() {
+        up = false;
+        down = false;
+        left = false;
+        right = false;
+    }
+
+    public Player getPlayer() {
+        return p;
     }
     
-    public void resetDirection() {
-    	up = false;
-    	down = false;
-    	left = false;
-    	right = false;
+    public ArrayList<PlayerMovement> getPlayerMovements(){
+        return movements;
     }
 }

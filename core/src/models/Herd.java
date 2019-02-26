@@ -44,32 +44,30 @@ public class Herd {
             zombies.add(new Zombie(coordsX.get(i), coordsY.get(i), collisions));
         }
         //test zombies 
-//        zombies.add(new Zombie(14, 80, collisions));
-//        zombies.add(new Zombie(14, 79, collisions));
-//        zombies.add(new Zombie(14, 78, collisions));
+        //zombies.add(new Zombie(14, 80, collisions));
 
     }
 
     public ArrayList<Zombie> getZombiesList() {
         return zombies;
     }
-    
+
     public void setCollisions(TiledMapTileLayer collisions) {
-    	this.collisions = collisions;
+        this.collisions = collisions;
     }
-    
+
     public void clearZombies() {
 //    	for(Zombie zombie : zombies) {
 //    		zombie.x = 0;
 //    		zombie.y = 0;
 //    		zombie.update(1.0f);
 //    	}
-    	zombies.clear();
+        zombies.clear();
     }
-    
+
     public void respawnZombies() {
-    	clearZombies();
-    	zombies();
+        clearZombies();
+        zombies();
     }
-    
+
 }
