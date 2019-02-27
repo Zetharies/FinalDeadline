@@ -30,6 +30,8 @@ import inventory.InventorySystem;
 import inventory.items.Item;
 import controllers.PlayerController;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import models.AnimationSet;
 import models.Book;
@@ -374,6 +376,8 @@ public class GameScreen extends AbstractScreen {
 				
 				System.out.println("You have found: " + currentItem.getName());
 
+				hud.addItemsToDraw(currentItem.getAtlasImage(), currentItem.getInvX());
+				
 			}
 
 		}

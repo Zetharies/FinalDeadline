@@ -6,7 +6,7 @@ import com.mygdx.game.GameSettings;
 public class Glasses extends Item {
 	
 	public Glasses(int startX, int startY) {
-		super("Book", startX, startY, 5, "images/itemBook.png");
+		super("Book", startX, startY, 5, "images/itemBook.png", "book", -68);
 	
 	}
 	

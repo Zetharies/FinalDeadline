@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class Item{
 
 	private String itemName;
+	private String atlasImage;
 	
 	private int id;
 
@@ -19,23 +20,33 @@ public class Item{
 	protected boolean found;
 	
 	protected boolean onMap;
+	
+	private int invX;	
 
-	public Item(String impName, int startX, int startY, int impID, String texturePath) {
+	public Item(String impName, int startX, int startY, int impID, String texturePath, String atlasImage, int invX) {
 		itemName = impName;
 		
 		id = impID;
 		x = startX;
 		y = startY;
+		this.invX = invX;
 
 		texture = new Texture(Gdx.files.internal(texturePath));
 
 		found = false;
 		
 		onMap = false;
+		
+		this.atlasImage = atlasImage;
 
 	}
 	
 	public void render(SpriteBatch batch) {
+		
+	}
+	
+	public int getInvX() {
+		return invX;
 		
 	}
 	
@@ -99,6 +110,8 @@ public class Item{
 		
 	}
 
-
+	public String getAtlasImage() {
+		return atlasImage;
+	}
 
 }

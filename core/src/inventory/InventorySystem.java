@@ -98,9 +98,6 @@ public class InventorySystem{
 		
 		randomPos[0] = randX;
 		randomPos[1] = randY;
-
-		System.out.println("Chosen InventorySystem CurrentX: " + randX);
-		System.out.println("Chosen InventorySystem CurrentY: " + randY);
 		
 	}
 

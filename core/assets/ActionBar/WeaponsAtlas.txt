@@ -1,0 +1,33 @@
+WeaponsAtlas.png
+size: 4371, 780
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+action
+  rotate: false
+  xy: 0, 0
+  size: 4371, 535
+  orig: 4371, 535
+  offset: 0, 0
+  index: -1
+book
+  rotate: false
+  xy: 0, 535
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+book1
+  rotate: false
+  xy: 32, 535
+  size: 155, 245
+  orig: 155, 245
+  offset: 0, 0
+  index: -1
+keyboardItem
+  rotate: false
+  xy: 187, 535
+  size: 360, 100
+  orig: 360, 100
+  offset: 0, 0
+  index: -1
