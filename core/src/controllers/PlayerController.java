@@ -236,10 +236,13 @@ public class PlayerController extends InputAdapter {
 		mapChange = value;
 	}
 
-	public void checkExit() {
-		if(p.isPlayerOnExit(p.getX(), p.getY())) {
-			changeMap();
+	public boolean checkExit(ArrayList<ArrayList<Integer>> exits) {
+		for(ArrayList<Integer> exit : exits) {
+			if(exit.get(0) == p.getX() && exit.get(1) == p.getY()) {
+				return true;
+			}
 		}
+		return false;
 	}
 
 	public void setCollisions(TiledMapTileLayer collisions) {
