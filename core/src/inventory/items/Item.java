@@ -23,6 +23,8 @@ public class Item{
 	
 	private int invX;	
 
+	private Boolean invDrawn;
+	
 	public Item(String impName, int startX, int startY, int impID, String texturePath, String atlasImage, int invX) {
 		itemName = impName;
 		
@@ -38,7 +40,19 @@ public class Item{
 		onMap = false;
 		
 		this.atlasImage = atlasImage;
+		
+		invDrawn = false;
 
+	}
+	
+	public void setInvDrawn(Boolean choice) {
+		invDrawn = choice;
+		
+	}
+	
+	public Boolean getInvDrawn() {
+		return invDrawn;
+		
 	}
 	
 	public void render(SpriteBatch batch) {

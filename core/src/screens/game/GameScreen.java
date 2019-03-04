@@ -103,7 +103,7 @@ public class GameScreen extends AbstractScreen {
 		//batch.setBlendFunction(-1, -1);
 		//Gdx.gl.glBlendFuncSeparate(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA,GL20.GL_SRC_ALPHA, GL20.GL_DST_ALPHA);
 		hud = new Hud(batch);
-		
+
 		assetManager = new AssetManager();
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
@@ -373,18 +373,22 @@ public class GameScreen extends AbstractScreen {
 
 				currentItem.itemFound();
 				currentItem.setNotOnMap();
-				
+
 				System.out.println("You have found: " + currentItem.getName());
 
-				hud.addItemsToDraw(currentItem.getAtlasImage(), currentItem.getInvX());
-				
+				hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), currentItem.getInvX());
 			}
 
 		}
 
 		currentMapItems.removeAll(foundMapItems);
 
-		playerControls.equipItem(inventory);		
+		playerControls.equipItem(inventory);
+
+		if (inventory.getCurrentItem() != null ) {
+			hud.drawEquippedItem(inventory.getCurrentItem());
+			
+		}
 
 		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
