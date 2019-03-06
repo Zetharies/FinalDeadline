@@ -179,7 +179,11 @@ public class Player {
     	}
     	return s;
     }
-        
+    
+    public void setAnimations(AnimationSet animations) {
+    	this.animations = animations;
+    }
+    
     public Book shoot(String direction, float x, float y) {
     	return new Book(direction, this.linearX, this.linearY);
     }
