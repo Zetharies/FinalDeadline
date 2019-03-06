@@ -32,10 +32,13 @@ import controllers.PlayerController;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.LinkedList;
+import java.util.Random;
 
 import models.AnimationSet;
 import models.Book;
 import models.Herd;
+import models.Map;
 import models.Player;
 import models.Zombie;
 import models.screenplay.Screenplay;
@@ -55,7 +58,10 @@ public class GameScreen extends AbstractScreen {
 	private int spawnX;
 	private int spawnY;
 
-	private TiledMap map;
+	private TiledMap loadedMap;
+	private Map map;
+	private ArrayList<Map> maps;
+	private ArrayList<ArrayList<Integer>> exits;
 	private OrthogonalTiledMapRenderer renderer;
 	private OrthographicCamera camera;
 	private Viewport gamePort;
@@ -93,6 +99,16 @@ public class GameScreen extends AbstractScreen {
 		initUI();
 		processor = new InputMultiplexer(); // Ordered lists of processors we can use for prioritising controls
 		dialogueController = new ScreenplayController(dialogue, chosenCharacter);
+		maps = new ArrayList<Map>();
+		Map map1 = new Map(26, 82, "maps/floor4/Floor4.tmx");
+		map1.addExit(87, 13);
+		map1.addExit(88, 13);
+		Map map2 = new Map(14, 90, "maps/floor2/updatedEngineeringLab.tmx");
+		map2.addExit(88, 15);
+		map2.addExit(89, 15);
+		maps.add(map1);
+		maps.add(map2);
+		exits = map1.getExits();
 	}
 
 	@Override
@@ -131,17 +147,18 @@ public class GameScreen extends AbstractScreen {
 		// map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); //
 		// map to load, extremely basic map,
 		// will be changed
-		map = new TmxMapLoader().load("maps/floor4/Floor4.tmx");
+		map = maps.get(0);
+		loadedMap = new TmxMapLoader().load(map.getMapLocation());
 
 		// player = new Player(14, 90, animations); // Create a new player object with
 		// the coordinates 0, 0, player
 		// animations
-		spawnX = 26;
-		spawnY = 82;
+		spawnX = map.getRespawnX();
+		spawnY = map.getRespawnY();
 		player = new Player(spawnX, spawnY, animations);
-		playerControls = new PlayerController(player, (TiledMapTileLayer) map.getLayers().get(0));
+		playerControls = new PlayerController(player, (TiledMapTileLayer) loadedMap.getLayers().get(0));
 
-		renderer = new OrthogonalTiledMapRenderer(map, 2f); // 1.5658f
+		renderer = new OrthogonalTiledMapRenderer(loadedMap, 2f); // 1.5658f
 		setGameScreen();
 
 		//		camera = new OrthographicCamera();
@@ -215,21 +232,24 @@ public class GameScreen extends AbstractScreen {
 		// gamePort = new ScreenViewport(camera);
 		gamePort = new StretchViewport(1200, 600, camera);
 		// herd a group of zombies
-		herd = new Herd((TiledMapTileLayer) map.getLayers().get(0));
+		herd = new Herd((TiledMapTileLayer) loadedMap.getLayers().get(0));
 		// put zombies in list
 		zombies = herd.getZombiesList();
 
-		//BHAVEN EDIT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		inventory = new InventorySystem((TiledMapTileLayer) map.getLayers().get(0));
+		//BHAVEN EDIT
+		/*inventory = new InventorySystem((TiledMapTileLayer) map.getLayers().get(0));
 
-		inventory.changeToMapTest();
-		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		inventory.changeToMapTest();*/
+
+		inventory = new InventorySystem((TiledMapTileLayer) loadedMap.getLayers().get(0));
+		
+		inventory.changeToMap1();
 
 	}
 
 	public void setMap() {
 		if (playerControls.getMapChange()) {
-			map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx");
+			loadedMap = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx");
 		}
 	}
 
@@ -245,21 +265,20 @@ public class GameScreen extends AbstractScreen {
 	public void render(float delta) {
 
 		inGameMp3.setVolume(0.15f);
-		playerControls.checkExit();
 
 		// Checks if the map needs changing
-		if (playerControls.getMapChange()) {
-			map.dispose();
-			setMap();
-			renderer.setMap(map);
-			playerControls.setCollisions((TiledMapTileLayer) map.getLayers().get(0));
-			herd.setCollisions((TiledMapTileLayer) map.getLayers().get(0));
+		if (playerControls.checkExit(exits)) {
+			loadedMap.dispose();
+			updateMap();
+			renderer.setMap(loadedMap);
+			playerControls.setCollisions((TiledMapTileLayer) loadedMap.getLayers().get(0));
+			herd.setCollisions((TiledMapTileLayer) loadedMap.getLayers().get(0));
 			herd.respawnZombies();
 			hud.setLabel("Floor 2: Engineering Lab");
 			playerControls.setMapChange(false);
 
-			spawnX = 14;
-			spawnY = 90;
+			spawnX = map.getRespawnX();
+			spawnY = map.getRespawnY();
 
 			playerControls.resetDirection();
 
@@ -395,6 +414,13 @@ public class GameScreen extends AbstractScreen {
 		batch.end();
 		stage.draw();
 	}
+	
+	private void updateMap() {
+		map = maps.get(maps.indexOf(map) + 1);
+		player.updateCoordinates(map.getRespawnX(), map.getRespawnY());
+		exits = map.getExits();
+		loadedMap = new TmxMapLoader().load(map.getMapLocation());
+	}
 
 	@Override
 	public void resize(int width, int height) {
@@ -424,7 +450,7 @@ public class GameScreen extends AbstractScreen {
 
 	@Override
 	public void dispose() {
-		map.dispose();
+		loadedMap.dispose();
 		renderer.dispose();
 	}
 
