@@ -1,11 +1,13 @@
 package com.mygdx.game;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -14,8 +16,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-
-import inventory.items.Item;
 import models.HealthBar;
 
 public class Hud {
@@ -26,66 +26,65 @@ public class Hud {
 	private HealthBar health;
 
 	private TextureAtlas invAtlas;
+	private TextureAtlas itemAtlas;
+	private Set<String> imagesToDraw;
 	private Container<Image> invItems;
-	private Container<Image> invBox;
-	private Image invBoxImage;
 
 	public Hud(SpriteBatch batch) {
+
 		viewPort = new FitViewport(1200, 600);
 		stage = new Stage(viewPort, batch);
 		skin = new Skin(Gdx.files.internal("fonts/Holo-dark-hdpi.json"));
 
-		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-		Table mapTable = new Table();
-		mapTable.top();
-		mapTable.setFillParent(true);
+		Table table = new Table();
+		table.top();
+		table.setFillParent(true);
 
 		currentMap = new Label("Floor 1: Biology lab", skin);
 		currentMap.setFontScale((float) 0.5);
 		//currentMap.setSize(Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/4);
-		mapTable.add(currentMap).expandX().padRight(1040).padTop(0);
-		mapTable.setName("mapTable");
-
-		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		table.add(currentMap).expandX().padRight(1040).padTop(0);
 
 		health = new HealthBar(145,8); // Create health bar
 		health.getHealth(); // gets the value 
 		health.setPosition((float)(Gdx.graphics.getWidth()/ 100), Gdx.graphics.getHeight()/2);
-		health.setName("health");
 
-		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		Color color = new Color();
 
-		invAtlas = new TextureAtlas(Gdx.files.internal("inventory/inventoryAtlas.txt"));// atlas file
+		invAtlas = new TextureAtlas(Gdx.files.internal("ActionBar/ActionBarAtlas.txt"));// atlas file
 
-		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		Image invImage = new Image(new TextureRegion(invAtlas.findRegion("action")));
+
+		invImage.scaleBy(-0.3f); // size bar
+		invImage.setColor(color.FIREBRICK); //color of the bar
 
 		Table invTable = new Table();
 		invTable.top();
 		invTable.setFillParent(true);
 		invTable.setPosition(165, 30);
 
-		Image invImage = new Image(new TextureRegion(invAtlas.findRegion("invBar"))); 
-		invImage.scaleBy(-0.3f);
+		invTable.add(invImage).expandX().padRight(0).padTop(500);		
+		
+		itemAtlas = new TextureAtlas(Gdx.files.internal("ActionBar/WeaponsAtlas.txt"));
 
-		invTable.add(invImage).expandX().padRight(0).padTop(500);
-		invTable.setName("invTable");
+		// KEEP THESE STATEMENTS, THEY ARE Y-POSITIONS FOR THE ITEMS IN INVENTORY<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+		// Position 1: addItemsToDraw("book", -380);
+		// Position 2: addItemsToDraw("book", -302);
+		// Position 3: addItemsToDraw("book", -224);
+		// Position 4: addItemsToDraw("book", -146);
+		// Position 5: addItemsToDraw("book", -68);
+		// Position 6: addItemsToDraw("book", 10);
+		// Position 7: addItemsToDraw("book", 88);
+		// Position 8: addItemsToDraw("book", 166);
+		// Position 9: addItemsToDraw("book", 244);
+		// Position 10: addItemsToDraw("book", 322);
+		// KEEP THESE STATEMENTS, THEY ARE Y-POSITIONS FOR THE ITEMS IN INVENTORY<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-		invBox = new Container<Image>();
-		invBox.setName("invBox");
-
-		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
-		stage.addActor(mapTable);
-		stage.addActor(health);	
 		stage.addActor(invTable);
-		stage.addActor(invBox);	
-
+		stage.addActor(table);
+		stage.addActor(health);	
 
 	}
-
 
 	public void setLabel(String label) {
 		currentMap.setText(label);
@@ -103,52 +102,19 @@ public class Hud {
 		return health.getValue();
 	}
 
-	// Adds the found item to the inventory bar, un-equipped
-	public void addLatestFoundItemToInv(String atlasName, int padRight) {	
+	public void addItemsToDraw(String atlasName, int padRight) {		
 		invItems = new Container<Image>();
 		invItems.top();
 		invItems.setFillParent(true);
 		invItems.setPosition(padRight, -538);
 
-		Image currentItem = new Image(new TextureRegion(invAtlas.findRegion(atlasName)));
+		Image currentImage = new Image(new TextureRegion(itemAtlas.findRegion(atlasName)));
 
-		currentItem.scaleBy(0.9f);
+		currentImage.scaleBy(0.9f); // size bar
 
-		invItems.setActor(currentItem);
-		invItems.setName("invItems." + atlasName);
-		
+		invItems.setActor(currentImage);
+
 		stage.addActor(invItems);		
-
-	}
-
-	public void drawEquippedItem(Item equippedItem) {	
-		float padRight = ( equippedItem.getInvX() + 7.0f);
-
-		for (Actor currentActor : stage.getActors()) {
-
-			if (currentActor.getName().equals("invBox")) {
-				currentActor.remove();
-
-				invBox = new Container<Image>();
-				invBox.top();
-				invBox.setFillParent(true);
-				invBox.setPosition(padRight, -503);
-
-				invBoxImage = new Image(new TextureRegion(invAtlas.findRegion("invBox")));
-
-				// NEED TO ADD ACCURATE SCALING 
-				invBoxImage.scaleBy(0.17f, -0.1f);
-
-				invBox.setActor(invBoxImage);
-				invBox.setName("invBox");
-
-				stage.addActor(invBox);
-
-			}
-
-
-		}
-
 
 	}
 

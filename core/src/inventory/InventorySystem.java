@@ -51,26 +51,19 @@ public class InventorySystem{
 	}
 	
 	public void addItemsToInventory() {
-		// Creates all of the item objects
-		Torch torch = new Torch(43, 43);
-		
-		ChaxID chaxID = new ChaxID(26, 75);	
+		inventory.add(new Torch(43, 43)); //PRESET LOCATION
 		
 		generateRandomPos();
-		Book book = new Book(randomPos[0], randomPos[1]);
+		inventory.add(new Book(randomPos[0], randomPos[1])); //USES RANDOM LOCATION
+		
+		inventory.add(new ChaxID(26, 75)); //PRESET LOCATION
+
+		generateRandomPos();
+		inventory.add(new Keyboard(randomPos[0], randomPos[1])); //USES RANDOM LOCATION
 		
 		generateRandomPos();
-		Keyboard keyboard = new Keyboard(randomPos[0], randomPos[1]);
-		
-		generateRandomPos();
-		Glasses glasses = new Glasses(randomPos[0], randomPos[1]);
-		
-		// Adds items to inventory arraylist depending on Item ID
-		inventory.add(torch.getID(), torch);
-		inventory.add(chaxID.getID(), chaxID);
-		inventory.add(book.getID(), book);
-		inventory.add(keyboard.getID(), keyboard);
-		inventory.add(glasses.getID(), glasses);
+		inventory.add(new Glasses(randomPos[0], randomPos[1])); //USES RANDOM LOCATION
+
 	}
 
 	public ArrayList<Item> getInventory() {
