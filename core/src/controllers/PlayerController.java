@@ -211,7 +211,7 @@ public class PlayerController extends InputAdapter {
 
 	//BHAVEN EDIT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	public boolean isOnItem(Item collidedItem) {    	
-		if(collidedItem.getX() == p.getX() && collidedItem.getY() == p.getY()) {
+		if(collidedItem.getX() == p.getX() && collidedItem.getY() == p.getY() && Gdx.input.isKeyPressed(Input.Keys.T)) {
 			return true;
 
 		} else {
@@ -221,57 +221,66 @@ public class PlayerController extends InputAdapter {
 
 	}
 
-	public void equipItem(InventorySystem inventory) {
-		ArrayList<Item> currentInventory = inventory.getInventory();
+	public Item equipItem(InventorySystem inventory) {
+		ArrayList<Item> currentALInventory = inventory.getInventory();
 
 		if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
-			if (currentInventory.get(0).getFound() == true) {				
-				inventory.setAsCurrentItem(currentInventory.get(0));
+			if (currentALInventory.get(0).getFound() == true) {				
+				inventory.setAsCurrentItem(currentALInventory.get(0));
 
 				System.out.println("You have now equipped: " + inventory.getCurrentItem().getName());
 
 			} else {
-				System.out.println("You have not found this item yet (Torch)");
+				System.out.println("You have not found this item yet, " + currentALInventory.get(0).getName());
 
 			}
 
 		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
-			if (currentInventory.get(1).getFound() == true) {				
-				inventory.setAsCurrentItem(currentInventory.get(1));
+			if (currentALInventory.get(1).getFound() == true) {				
+				inventory.setAsCurrentItem(currentALInventory.get(1));
 
 				System.out.println("You have now equipped: " + inventory.getCurrentItem().getName());
 
 			} else {
-				System.out.println("You have not found this item yet (Book)");
+				System.out.println("You have not found this item yet, " + currentALInventory.get(1).getName());
 
 			}
 
 		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
-			if (currentInventory.get(2).getFound() == true) {				
-				inventory.setAsCurrentItem(currentInventory.get(2));
+			if (currentALInventory.get(2).getFound() == true) {				
+				inventory.setAsCurrentItem(currentALInventory.get(2));
 
 				System.out.println("You have now equipped: " + inventory.getCurrentItem().getName());
 
 			} else {
-				System.out.println("You have not found this item yet (ChaxID)");
+				System.out.println("You have not found this item yet, " + currentALInventory.get(2).getName());
 
 			}
 
 		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_4)){
-			if (currentInventory.get(3).getFound() == true) {			
-				inventory.setAsCurrentItem(currentInventory.get(3));
+			if (currentALInventory.get(3).getFound() == true) {			
+				inventory.setAsCurrentItem(currentALInventory.get(3));
 
 				System.out.println("You have now equipped: " + inventory.getCurrentItem().getName());
 
 			} else {
-				System.out.println("You have not found this item yet (Keyboard)");
+				System.out.println("You have not found this item yet, " + currentALInventory.get(3).getName());
 
 			}
 
 		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_5)){
-			System.out.println("Current equipped item: " + inventory.getCurrentItem());
+			if (currentALInventory.get(4).getFound() == true) {			
+				inventory.setAsCurrentItem(currentALInventory.get(4));
 
+				System.out.println("You have now equipped: " + inventory.getCurrentItem().getName());
+
+			} else {
+				System.out.println("You have not found this item yet, " + currentALInventory.get(4).getName());
+
+			}
 		}
+		
+		return inventory.getCurrentItem();
 
 	}
 	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

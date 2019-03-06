@@ -6,7 +6,7 @@ import com.mygdx.game.GameSettings;
 public class Keyboard extends Item{
 
 	public Keyboard(int startX, int startY) {
-		super("Keyboard", startX, startY, 3, "images/itemBook.png", "book", -146);
+		super("Keyboard", startX, startY, 3, "images/itemBook.png", "invKeyboard", -146);
 
 	}
 	

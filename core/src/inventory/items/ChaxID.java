@@ -6,7 +6,7 @@ import com.mygdx.game.GameSettings;
 public class ChaxID extends Item{
 
 	public ChaxID(int startX, int startY) {
-		super("ChaxID", startX, startY, 2, "images/itemBook.png", "book", -302);
+		super("ChaxID", startX, startY, 1, "images/itemBook.png", "invKeyboard", -302);
 
 	}
 	
