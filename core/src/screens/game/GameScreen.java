@@ -104,15 +104,22 @@ public class GameScreen extends AbstractScreen {
 		processor = new InputMultiplexer(); // Ordered lists of processors we can use for prioritising controls
 		dialogueController = new ScreenplayController(dialogue, chosenCharacter);
 		maps = new ArrayList<Map>();
+		Map map3 = new Map(91, 3, "maps/floor3/optometry.tmx");
+		map3.addExit(5, 94);
+		map3.addExit(6, 94);
+		map3.addExit(7, 94);
+		map3.addExit(8, 94);
+		map3.addExit(9, 94);
 		Map map1 = new Map(26, 82, "maps/floor4/Floor4.tmx");
 		map1.addExit(87, 13);
 		map1.addExit(88, 13);
 		Map map2 = new Map(14, 90, "maps/floor2/updatedEngineeringLab.tmx");
 		map2.addExit(88, 15);
 		map2.addExit(89, 15);
+		maps.add(map3);
 		maps.add(map1);
 		maps.add(map2);
-		exits = map1.getExits();
+		exits = map3.getExits();
 	}
 
 	@Override
@@ -304,7 +311,7 @@ public class GameScreen extends AbstractScreen {
 
 		// Checks if the player's health needs reducing due to a zombie
 		if(playerControls.isOnZombie(herd.getZombiesList())) {
-			hud.reduceHealth(10); //Parameter may need changing
+			hud.reduceHealth(0.01f); //Parameter may need changing
 		}
 
 		// Checks if the player's health is 0, if so re-spawn them
