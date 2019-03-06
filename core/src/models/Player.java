@@ -166,6 +166,13 @@ public class Player {
     	srcY = 0;
     }
     
+    public boolean isPlayerOnExit(int x, int y) {
+    	if(x == 87 && y == 13 || x == 88 && y == 13) {
+    		return true;
+    	}
+    	return false;
+    }
+    
     public String getDirection() {
     	String s = "";
     	if(direction == EnumPlayerFacing.N) {
@@ -179,7 +186,7 @@ public class Player {
     	}
     	return s;
     }
-        
+    
     public Book shoot(String direction, float x, float y) {
     	return new Book(direction, this.linearX, this.linearY);
     }
