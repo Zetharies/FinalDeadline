@@ -19,6 +19,7 @@ import managers.SettingsManager;
 
 public class PlayerController extends InputAdapter {
 
+	private ArrayList<PlayerMovement> movements;
 	private Player p;
 	private boolean up, down, left, right;
 	private TiledMapTileLayer collisions;
@@ -30,6 +31,7 @@ public class PlayerController extends InputAdapter {
 		this.collisions = collisions;
 		mapChange = false;
 		books = new ArrayList<Book>();
+        movements = new ArrayList<PlayerMovement>();
 
 	}
 
@@ -289,11 +291,6 @@ public class PlayerController extends InputAdapter {
 		p.updateCoordinates(x, y);
 	}
 
-	public void changeMap() {
-		p.updateCoordinates(14, 90);
-		mapChange = true;
-	}
-
 	public boolean getMapChange() {
 		return mapChange;
 	}
@@ -329,4 +326,12 @@ public class PlayerController extends InputAdapter {
 		left = false;
 		right = false;
 	}
+
+    public Player getPlayer() {
+        return p;
+    }
+    
+    public ArrayList<PlayerMovement> getPlayerMovements(){
+        return movements;
+    }
 }

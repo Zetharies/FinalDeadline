@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import java.util.ArrayList;
 import java.util.Random;
 import models.Zombie;
 
@@ -18,20 +19,93 @@ public class ZombieController {
     private int incr = 0;
     private int timer = 0;
     private boolean collision = false;
+    private int playerX, playerY;
+    private final float RADIUS = 5;
+    private ArrayList<PlayerMovement> movements;
 
     public ZombieController(TiledMapTileLayer collisions, Zombie zombie) {
         this.zombie = zombie;
         this.collisions = collisions;
-
+        moveRandom = false;
     }
 
     @SuppressWarnings("static-access")
-	public void update(float delta) {
+    public void update(float delta) {
         //control a zombie - in game screen only update one zombie
         //System.out.println("zombie x and y " + zombie.x + " " + zombie.y);
-      //      keys();
+        // keys();
+
         updateTimers(delta);
         updateCollisions();
+        if (detectPlayer() && !moveRandom) {
+            moveToPlayer();
+        } else {
+            randomMovement();
+        }
+    }
+
+    public void setPlayerMovement(ArrayList<PlayerMovement> movements) {
+        this.movements = movements;
+    }
+
+    public void setPlayerPosition(int playerX, int playerY) {
+        this.playerX = playerX;
+        this.playerY = playerY;
+    }
+
+    private boolean detectPlayer() {
+        if (((zombie.getX() <= (playerX + RADIUS) && zombie.getX() >= playerX) || (zombie.getX() >= (playerX - RADIUS)
+                && zombie.getX() <= playerX)) && ((zombie.getY() <= (playerY + RADIUS) && zombie.getY() >= playerY)
+                || (zombie.getY() >= (playerY - RADIUS)
+                && zombie.getY() <= playerY))) {
+            return true;
+        }
+        return false;
+    }
+    boolean moveRandom = false;
+
+    private void moveToPlayer() {
+        if (right && zombie.getX() < playerX || (right && !up) || (right && !down)) {
+
+            zombie.getZombies().setRegion((TextureRegion) zombie.getRight().getKeyFrame(incr));
+            zombie.x += Gdx.graphics.getDeltaTime() * zombie.speed;
+            if (isRightBlocked()) {
+                System.out.println("right is now blocked");
+                moveRandom = true;
+            }
+
+        } else if (left && zombie.getX() > playerX) {
+
+            zombie.getZombies().setRegion((TextureRegion) zombie.getLeft().getKeyFrame(incr));
+            zombie.x -= Gdx.graphics.getDeltaTime() * zombie.speed;
+
+            if (isLeftBlocked()) {
+                System.out.println("left is now blocked");
+                moveRandom = true;
+            }
+
+        } else if (up && zombie.getY() < playerY) {
+
+            zombie.getZombies().setRegion((TextureRegion) zombie.getUp().getKeyFrame(incr));
+            zombie.y += Gdx.graphics.getDeltaTime() * zombie.speed;
+
+            if (isUpBlocked()) {
+                System.out.println("up is now blocked");
+                moveRandom = true;
+            }
+
+        } else if (down && zombie.getY() > playerY) {
+            zombie.getZombies().setRegion((TextureRegion) zombie.getDown().getKeyFrame(incr));
+            zombie.y -= Gdx.graphics.getDeltaTime() * zombie.speed;
+
+            if (isDownBlocked()) {
+                System.out.println("down is now blocked");
+                moveRandom = true;
+            }
+        }
+    }
+
+    private void randomMovement() {
         if (right && randNum == 0) {
             if (!isRightBlocked()) {
                 zombie.getZombies().setRegion((TextureRegion) zombie.getRight().getKeyFrame(incr));
@@ -76,18 +150,21 @@ public class ZombieController {
             }
 
         }
-
     }
+    private int count2 = 0;
 
     public void updateTimers(float delta) {
         timer += (delta * 100);
         count++;
-
+        count2++;
         //counter to potentially change direction
         if ((count >= 80 || count == -1) && !collision) {
             //direction to move based on rng
             randNum = shouldMove();
             count = 0;
+        }
+        if (count2 >= 80) {
+            moveRandom = false;
         }
         //walking animation timer
         if (timer >= 10) {
@@ -139,19 +216,19 @@ public class ZombieController {
     public boolean isDownBlocked() {
         //return isBlocked((int) (zombie.x), (int) (zombie.y - 0.25), collisions);
         if (zombie.y - 0.25 >= 0) {
-			return isBlocked((int)zombie.x, (int)(zombie.y - 0.25), collisions);
-			// return false;
-		}
-		return true;
+            return isBlocked((int) zombie.x, (int) (zombie.y - 0.25), collisions);
+            // return false;
+        }
+        return true;
     }
 
     public boolean isLeftBlocked() {
 //        return isBlocked((int) (zombie.x - 0.25), (int) zombie.y, collisions);
         if (zombie.y - 0.25 >= 0) {
-			return isBlocked((int)(zombie.x - 0.25), (int)zombie.y, collisions);
-			// return false;
-		}
-		return true;
+            return isBlocked((int) (zombie.x - 0.25), (int) zombie.y, collisions);
+            // return false;
+        }
+        return true;
     }
 
     public boolean isRightBlocked() {
@@ -159,7 +236,7 @@ public class ZombieController {
     }
 
     @SuppressWarnings("static-access")
-	public void keys() {
+    public void keys() {
         if (Gdx.input.isKeyPressed(Keys.DPAD_LEFT) && !isLeftBlocked()) {
 
             zombie.x -= Gdx.graphics.getDeltaTime() * zombie.speed;
