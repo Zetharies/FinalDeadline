@@ -1,33 +1,54 @@
-inventoryAtlas.png
-size: 3179, 341
+InventoryAtlas.png
+size: 3091, 308
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 invBar
   rotate: false
-  xy: 0, 0
-  size: 3059, 341
+  xy: 1, 1
+  size: 3027, 306
   orig: 3059, 341
-  offset: 0, 0
+  offset: 15, 17
   index: -1
 invBook
   rotate: false
-  xy: 3059, 0
-  size: 30, 30
+  xy: 3030, 63
+  size: 17, 26
   orig: 30, 30
-  offset: 0, 0
+  offset: 6, 2
   index: -1
 invBox
   rotate: false
-  xy: 3089, 0
+  xy: 3030, 1
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
+invCard
+  rotate: false
+  xy: 3049, 63
+  size: 27, 15
+  orig: 30, 30
+  offset: 1, 8
+  index: -1
+invDrink
+  rotate: false
+  xy: 3030, 107
+  size: 15, 22
+  orig: 30, 30
+  offset: 7, 4
+  index: -1
 invKeyboard
   rotate: false
-  xy: 3149, 0
-  size: 30, 30
+  xy: 3030, 91
+  size: 29, 14
   orig: 30, 30
-  offset: 0, 0
+  offset: 1, 8
+  index: -1
+invPotion
+  rotate: false
+  xy: 3030, 131
+  size: 12, 19
+  orig: 30, 30
+  offset: 9, 6
   index: -1

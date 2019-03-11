@@ -3,12 +3,12 @@ package controllers;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 
-import inventory.InventorySystem;
-import inventory.items.Item;
 import models.Book;
 import models.EnumPlayerFacing;
+import models.InventorySystem;
 import models.Player;
 import models.Zombie;
+import models.inventory.Item;
 
 import java.util.ArrayList;
 
@@ -278,6 +278,16 @@ public class PlayerController extends InputAdapter {
 
 			} else {
 				System.out.println("You have not found this item yet, " + currentALInventory.get(4).getName());
+
+			}
+		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_6)){
+			if (currentALInventory.get(5).getFound() == true) {			
+				inventory.setAsCurrentItem(currentALInventory.get(5));
+
+				System.out.println("You have now equipped: " + inventory.getCurrentItem().getName());
+
+			} else {
+				System.out.println("You have not found this item yet, " + currentALInventory.get(5).getName());
 
 			}
 		}

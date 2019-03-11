@@ -26,8 +26,6 @@ import com.mygdx.game.Hud;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import managers.SettingsManager;
 import controllers.ScreenplayController;
-import inventory.InventorySystem;
-import inventory.items.Item;
 import controllers.PlayerController;
 import controllers.RobotController;
 import java.util.ArrayList;
@@ -39,9 +37,11 @@ import java.util.Random;
 import models.AnimationSet;
 import models.Book;
 import models.Herd;
+import models.InventorySystem;
 import models.Map;
 import models.Player;
 import models.Zombie;
+import models.inventory.Item;
 import models.Robot;
 import models.screenplay.Screenplay;
 import models.screenplay.ScreenplayHandler;
@@ -81,11 +81,9 @@ public class GameScreen extends AbstractScreen {
 	private ArrayList<Zombie> zombies;
 	private ArrayList<Book> books;
 	private Robot robot;
-    private RobotController robotController;
+	private RobotController robotController;
 
-	//BHAVEN EDIT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-	private InventorySystem inventory;
-	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	private InventorySystem currentInv;
 
 	public GameScreen(String character) {
 		this.chosenCharacter = character; // Chosen characters are either Flynn or Jessica
@@ -120,6 +118,7 @@ public class GameScreen extends AbstractScreen {
 		maps.add(map1);
 		maps.add(map2);
 		exits = map3.getExits();
+
 	}
 
 	@Override
@@ -159,7 +158,10 @@ public class GameScreen extends AbstractScreen {
 		// map to load, extremely basic map,
 		// will be changed
 		map = maps.get(0);
-		loadedMap = new TmxMapLoader().load(map.getMapLocation());
+		loadedMap = new TmxMapLoader().load(map.getMapLocation());		
+				
+		currentInv = new InventorySystem();
+		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), 0);
 
 		// player = new Player(14, 90, animations); // Create a new player object with
 		// the coordinates 0, 0, player
@@ -170,9 +172,9 @@ public class GameScreen extends AbstractScreen {
 		playerControls = new PlayerController(player, (TiledMapTileLayer) loadedMap.getLayers().get(0));
 
 		robot = new Robot(86, 15, (TiledMapTileLayer) loadedMap.getLayers().get(0));
-        robotController = new RobotController((TiledMapTileLayer) loadedMap.getLayers().get(0), robot);
-        renderer = new OrthogonalTiledMapRenderer(loadedMap, 2f); // 1.5658f
-        setGameScreen();
+		robotController = new RobotController((TiledMapTileLayer) loadedMap.getLayers().get(0), robot);
+		renderer = new OrthogonalTiledMapRenderer(loadedMap, 2f); // 1.5658f
+		setGameScreen();
 
 		//		camera = new OrthographicCamera();
 		//		//gamePort = new ScreenViewport(camera);
@@ -249,15 +251,6 @@ public class GameScreen extends AbstractScreen {
 		// put zombies in list
 		zombies = herd.getZombiesList();
 
-		//BHAVEN EDIT
-		/*inventory = new InventorySystem((TiledMapTileLayer) map.getLayers().get(0));
-
-		inventory.changeToMapTest();*/
-
-		inventory = new InventorySystem((TiledMapTileLayer) loadedMap.getLayers().get(0));
-		
-		inventory.changeToMap1();
-
 	}
 
 	public void setMap() {
@@ -324,39 +317,39 @@ public class GameScreen extends AbstractScreen {
 			// update all zombies
 			zombies.get(i).update(delta);
 		}
-		
-		// control one zombie to test collisions
-        // zombies.get(0).update(delta);
-        playerControls.update(delta);
-        player.update(delta);
-        camera.position.set(player.getX() * GameSettings.SCALED_TILE_SIZE,
-                player.getY() * GameSettings.SCALED_TILE_SIZE, 0);
-        camera.position.y = player.getLinearY() * 64;
-        camera.position.x = player.getLinearX() * 64;
-        for (int i = 0; i < zombies.size(); i++) {
-            // update all zombies
-            zombies.get(i).detectPlayerPosition(playerControls.getPlayer());
-            zombies.get(i).setPlayerMovements(playerControls.getPlayerMovements());
-            zombies.get(i).update(delta);
-        }
-        // follow that zombie
-        //	camera.position.y = zombies.get(0).y * 64;
-        //	camera.position.x = zombies.get(0).x * 64;
-        camera.update();
 
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
-        Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
-        renderer.setView(camera);
-        renderer.render();
-        batch.setProjectionMatrix(hud.stage.getCamera().combined);
-        hud.stage.draw();
-        stage.act(delta);
-        gamePort.apply(); // Changes how the graphics is drawn on the screen
-        batch.setProjectionMatrix(camera.combined);
-        batch.begin();
-        batch.draw(player.getSprite(), (player.getLinearX() * GameSettings.SCALED_TILE_SIZE) - 10,
-                (player.getLinearY() * GameSettings.SCALED_TILE_SIZE) + 10, GameSettings.SCALED_TILE_SIZE * 1.3f,
-                GameSettings.SCALED_TILE_SIZE * 1.5f); // Players character / X,Y position on screen / Width / Height
+		// control one zombie to test collisions
+		// zombies.get(0).update(delta);
+		playerControls.update(delta);
+		player.update(delta);
+		camera.position.set(player.getX() * GameSettings.SCALED_TILE_SIZE,
+				player.getY() * GameSettings.SCALED_TILE_SIZE, 0);
+		camera.position.y = player.getLinearY() * 64;
+		camera.position.x = player.getLinearX() * 64;
+		for (int i = 0; i < zombies.size(); i++) {
+			// update all zombies
+			zombies.get(i).detectPlayerPosition(playerControls.getPlayer());
+			zombies.get(i).setPlayerMovements(playerControls.getPlayerMovements());
+			zombies.get(i).update(delta);
+		}
+		// follow that zombie
+		//	camera.position.y = zombies.get(0).y * 64;
+		//	camera.position.x = zombies.get(0).x * 64;
+		camera.update();
+
+		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
+		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+		renderer.setView(camera);
+		renderer.render();
+		batch.setProjectionMatrix(hud.stage.getCamera().combined);
+		hud.stage.draw();
+		stage.act(delta);
+		gamePort.apply(); // Changes how the graphics is drawn on the screen
+		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
+		batch.draw(player.getSprite(), (player.getLinearX() * GameSettings.SCALED_TILE_SIZE) - 10,
+				(player.getLinearY() * GameSettings.SCALED_TILE_SIZE) + 10, GameSettings.SCALED_TILE_SIZE * 1.3f,
+				GameSettings.SCALED_TILE_SIZE * 1.5f); // Players character / X,Y position on screen / Width / Height
 
 		// changing height and width changes collisions
 		for (int i = 0; i < zombies.size(); i++) {
@@ -367,31 +360,31 @@ public class GameScreen extends AbstractScreen {
 					GameSettings.SCALED_TILE_SIZE * 1f,
 					GameSettings.SCALED_TILE_SIZE * 1f);
 		}
-		
+
 		robotController.setPlayerPosition(playerControls.getPlayer().getX(), playerControls.getPlayer().getY());
-        robotController.update(delta);
-        for (int i = 0; i < robot.getBullets().size(); i++) {
-            robot.getBullets().get(i).setPosition(player.getX(), player.getY());
-            robot.getBullets().get(i).update(delta);
-            if (robot.getBullets().get(i).getShoot()) {
-                batch.draw(robot.getBullets().get(i).getSprite(),
-                        (robot.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
-                        robot.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE / 5f,
-                        GameSettings.SCALED_TILE_SIZE / 5f);
-            }
-            if ((((int) (robot.getBullets().get(i).x) >= (int) (player.getX())
-                    && (int) (robot.getBullets().get(i).x) <= (int) (player.getX() + 1)))
-                    && (((int) (robot.getBullets().get(i).y) >= (int) (player.getY())
-                    && (int) (robot.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
-                robot.getBullets().get(i).setShoot(false);
-                hud.reduceHealth(robot.getBullets().get(i).getDamage());
-                robot.getBullets().remove(robot.getBullets().get(i));
-            }
-        }
-        batch.draw(robot.getSprite(),
-                (robot.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
-                robot.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
-                GameSettings.SCALED_TILE_SIZE * 1f);
+		robotController.update(delta);
+		for (int i = 0; i < robot.getBullets().size(); i++) {
+			robot.getBullets().get(i).setPosition(player.getX(), player.getY());
+			robot.getBullets().get(i).update(delta);
+			if (robot.getBullets().get(i).getShoot()) {
+				batch.draw(robot.getBullets().get(i).getSprite(),
+						(robot.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
+						robot.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE / 5f,
+						GameSettings.SCALED_TILE_SIZE / 5f);
+			}
+			if ((((int) (robot.getBullets().get(i).x) >= (int) (player.getX())
+					&& (int) (robot.getBullets().get(i).x) <= (int) (player.getX() + 1)))
+					&& (((int) (robot.getBullets().get(i).y) >= (int) (player.getY())
+					&& (int) (robot.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
+				robot.getBullets().get(i).setShoot(false);
+				hud.reduceHealth(robot.getBullets().get(i).getDamage());
+				robot.getBullets().remove(robot.getBullets().get(i));
+			}
+		}
+		batch.draw(robot.getSprite(),
+				(robot.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
+				robot.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
+				GameSettings.SCALED_TILE_SIZE * 1f);
 
 		books = playerControls.getBooks(); 
 		ArrayList<Book> booksToRemove = new ArrayList<Book>(); 
@@ -418,11 +411,19 @@ public class GameScreen extends AbstractScreen {
 		}
 		books.removeAll(booksToRemove);
 
-
-		//BHAVEN EDIT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-		ArrayList<Item> currentMapItems = inventory.getMapItems();
+		ArrayList<Item> currentMapItems = currentInv.getMapItems();
+		ArrayList<Item> currentHUDItems = currentInv.getHUDItems();
 
 		ArrayList<Item> foundMapItems = new ArrayList<Item>();
+
+
+		for (Item currentItem : currentHUDItems) {
+			if (currentItem.getFound() == true) {
+				hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), currentItem.getInvX());
+
+			}
+		}
+
 
 		for (Item currentItem : currentMapItems) {
 
@@ -431,8 +432,8 @@ public class GameScreen extends AbstractScreen {
 			if (playerControls.isOnItem(currentItem) == true) {
 				foundMapItems.add(currentItem);
 
-				currentItem.itemFound();
-				currentItem.setNotOnMap();
+				currentItem.setItemFound(true);
+				currentItem.setOnMap(false);
 
 				System.out.println("You have found: " + currentItem.getName());
 
@@ -443,24 +444,29 @@ public class GameScreen extends AbstractScreen {
 
 		currentMapItems.removeAll(foundMapItems);
 
-		playerControls.equipItem(inventory);
+		playerControls.equipItem(currentInv);
 
-		if (inventory.getCurrentItem() != null ) {
-			hud.drawEquippedItem(inventory.getCurrentItem());
-			
+		if (currentInv.getCurrentItem() != null ) {
+			hud.drawEquippedItem(currentInv.getCurrentItem());
+
 		}
 
-		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 		batch.end();
 		stage.draw();
 	}
-	
+
 	private void updateMap() {
-		map = maps.get(maps.indexOf(map) + 1);
+		int newMap = maps.indexOf(map) + 1;
+		
+		map = maps.get(newMap);
 		player.updateCoordinates(map.getRespawnX(), map.getRespawnY());
 		exits = map.getExits();
 		loadedMap = new TmxMapLoader().load(map.getMapLocation());
+		
+		currentInv = new InventorySystem(); //<<<<<<<<<<<<<<
+		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), newMap);
+		
 	}
 
 	public void updateToBook() {
@@ -487,10 +493,10 @@ public class GameScreen extends AbstractScreen {
 				standing.findRegion(chosenCharacter + "_standing_south"),
 				standing.findRegion(chosenCharacter + "_standing_east"),
 				standing.findRegion(chosenCharacter + "_standing_west"));
-		
+
 		player.setAnimations(animations);
 	}
-	
+
 	public void updateToKeyboard() {
 		assetManager = new AssetManager();
 		assetManager.load("sprite/" + gender + "/keyboard/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
@@ -515,7 +521,7 @@ public class GameScreen extends AbstractScreen {
 				standing.findRegion(chosenCharacter + "_standing_south"),
 				standing.findRegion(chosenCharacter + "_standing_east"),
 				standing.findRegion(chosenCharacter + "_standing_west"));
-		
+
 		player.setAnimations(animations);
 	}
 
@@ -551,10 +557,8 @@ public class GameScreen extends AbstractScreen {
 		renderer.dispose();
 	}
 
-	//BHAVEN EDIT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	public InventorySystem getInventory() {
-		return inventory;
+		return currentInv;
 
 	}
-	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 }

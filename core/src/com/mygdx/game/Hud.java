@@ -15,8 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import inventory.items.Item;
 import models.HealthBar;
+import models.inventory.Item;
 
 public class Hud {
 	public Stage stage;
@@ -56,7 +56,7 @@ public class Hud {
 
 		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-		invAtlas = new TextureAtlas(Gdx.files.internal("inventory/inventoryAtlas.txt"));// atlas file
+		invAtlas = new TextureAtlas(Gdx.files.internal("inventory/InventoryAtlas.txt"));// atlas file
 
 		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -86,7 +86,6 @@ public class Hud {
 
 	}
 
-
 	public void setLabel(String label) {
 		currentMap.setText(label);
 	}
@@ -108,7 +107,7 @@ public class Hud {
 		invItems = new Container<Image>();
 		invItems.top();
 		invItems.setFillParent(true);
-		invItems.setPosition(padRight, -538);
+		invItems.setPosition(padRight, -535);
 
 		Image currentItem = new Image(new TextureRegion(invAtlas.findRegion(atlasName)));
 
@@ -116,14 +115,12 @@ public class Hud {
 
 		invItems.setActor(currentItem);
 		invItems.setName("invItems." + atlasName);
-		
+
 		stage.addActor(invItems);		
 
 	}
 
 	public void drawEquippedItem(Item equippedItem) {	
-		float padRight = ( equippedItem.getInvX() + 7.0f);
-
 		for (Actor currentActor : stage.getActors()) {
 
 			if (currentActor.getName().equals("invBox")) {
@@ -132,12 +129,12 @@ public class Hud {
 				invBox = new Container<Image>();
 				invBox.top();
 				invBox.setFillParent(true);
-				invBox.setPosition(padRight, -503);
+				invBox.setPosition(equippedItem.getInvBoxX(), -504);
 
 				invBoxImage = new Image(new TextureRegion(invAtlas.findRegion("invBox")));
 
 				// NEED TO ADD ACCURATE SCALING 
-				invBoxImage.scaleBy(0.17f, -0.1f);
+				invBoxImage.scaleBy(0.17f, -0.05f);
 
 				invBox.setActor(invBoxImage);
 				invBox.setName("invBox");

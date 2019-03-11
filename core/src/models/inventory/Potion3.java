@@ -1,12 +1,12 @@
-package inventory.items;
+package models.inventory;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.GameSettings;
 
-public class Glasses extends Item {
+public class Potion3 extends Item{
 	
-	public Glasses(int startX, int startY) {
-		super("Glasses", startX, startY, 4, "images/itemBook.png", "invBook", -68);
+	public Potion3(int startX, int startY) {
+		super("Potion3", startX, startY, 5, "images/items/itemPotion.png" ,"invPotion", 19, 19);
 	
 	}
 	
@@ -15,8 +15,9 @@ public class Glasses extends Item {
 		batch.draw(getTexture(), // Print Texture
 				(getX() * GameSettings.SCALED_TILE_SIZE), // Sets X Position
 				(getY() * GameSettings.SCALED_TILE_SIZE), // Sets Y Position
-				GameSettings.SCALED_TILE_SIZE * 1f, // Sets Width of Sprite
-				GameSettings.SCALED_TILE_SIZE * 1f); // Sets Height of Sprite
+				GameSettings.SCALED_TILE_SIZE * 1.0f, // Sets Width of Sprite
+				GameSettings.SCALED_TILE_SIZE * 1.0f); // Sets Height of Sprite
 		
 	}
+
 }
