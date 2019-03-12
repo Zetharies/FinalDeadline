@@ -1,6 +1,7 @@
 package models;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -11,20 +12,22 @@ public class Bullet {
     private Texture texture;
     private Sprite sprite;
     public float x, y;
-    private final float SPEED = 1.0f;
+    private  float SPEED = 2.0f;
     private boolean shoot;
     private int timer;
     private String direction;
     private TiledMapTileLayer collisions;
     private int posX, posY;
-
+    private TextureRegion[][] region;
+    
     private int rangeTimer;
     private final int RANGE;
     private final float DAMAGE;
 
-    public Bullet(float thisX, float thisY, TiledMapTileLayer collisions) {
-        texture = new Texture(Gdx.files.internal("sprite/boss/bullet.png"));
-        sprite = new Sprite(texture);
+    public Bullet(float thisX, float thisY, TiledMapTileLayer collisions, String image, int rows, int columns) {
+        texture = new Texture(Gdx.files.internal("sprite/boss/" + image));
+        region = TextureRegion.split(texture, texture.getWidth() / columns, texture.getHeight() / rows);
+        sprite = new Sprite(region[0][0]);
         this.x = thisX;
         this.y = thisY;
         shoot = false;
@@ -34,6 +37,7 @@ public class Bullet {
         RANGE = 700;
         rangeTimer = 0;
         DAMAGE = 0.15f;
+
     }
 
     public void update(float delta) {
@@ -57,7 +61,7 @@ public class Bullet {
             }
         }
     }
-    
+
     public void setPosition(int posX, int posY) {
         this.posX = posX;
         this.posY = posY;
@@ -99,24 +103,19 @@ public class Bullet {
     }
 
     public boolean isUpBlocked() {
-        //System.out.println();
         return isBlocked((int) (this.x), (int) (this.y), collisions);
     }
 
     public boolean isDownBlocked() {
-        //return isBlocked((int) (this.x), (int) (this.y - 0.25), collisions);
         if (this.y - 0.25 >= 0) {
             return isBlocked((int) this.x, (int) (this.y), collisions);
-            // return false;
         }
         return true;
     }
 
     public boolean isLeftBlocked() {
-//        return isBlocked((int) (this.x - 0.25), (int) this.y, collisions);
         if (this.y - 0.25 >= 0) {
             return isBlocked((int) (this.x - 0.50), (int) this.y, collisions);
-            // return false;
         }
         return true;
     }
@@ -124,8 +123,12 @@ public class Bullet {
     public boolean isRightBlocked() {
         return isBlocked((int) (this.x), (int) this.y, collisions);
     }
-    
-    public float getDamage(){
+
+    public float getDamage() {
         return this.DAMAGE;
+    }
+    
+    public void setSpeed(float speed){
+        this.SPEED = speed;
     }
 }

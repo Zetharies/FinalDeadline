@@ -31,46 +31,35 @@ public class RobotController {
 
     }
     int toShoot = 0;
-
+    boolean playAudio = false;
     @SuppressWarnings("static-access")
     public void update(float delta) {
         toShoot++;
         updateTimers(delta);
         updateCollisions();
         detectPlayer();
+        //keys();
         if (detectPlayer()) {
             moveToPlayer();
             if (toShoot == 90) {
-                System.out.println("should shoot");
                 robot.shoot();
                 robot.getBullets().get(robot.getBullets().size() - 1).setShotDirection(facing);
                 robot.getBullets().get(robot.getBullets().size() - 1).setShoot(true);
                 toShoot = 0;
+                playAudio = true;
             }
+        }
+        if (playAudio) {
+            robot.playAudio();
+            playAudio = false;
+        }
+        if (toShoot == 90) {
+            toShoot = 0;
         }
     }
 
     private void moveToPlayer() {
-//        if (right && robot.getX() < playerX || (right && !up) || (right && !down)) {
-//
-//            robot.getSprite().setRegion((TextureRegion) robot.getRight().getKeyFrame(incr));
-//            robot.x += Gdx.graphics.getDeltaTime() * robot.speed;
-//            if (isRightBlocked()) {
-//                System.out.println("right is now blocked");
-//            }
-//
-//        }
-//        if (left && robot.getX() > playerX) {
-//
-//            robot.getSprite().setRegion((TextureRegion) robot.getLeft().getKeyFrame(incr));
-//            robot.x -= Gdx.graphics.getDeltaTime() * robot.speed;
-//
-//            if (isLeftBlocked()) {
-//                System.out.println("left is now blocked");
-//            }
-//
-//        }
-         if (up && robot.getY() < playerY) {
+        if (up && robot.getY() < playerY) {
 
             robot.getSprite().setRegion((TextureRegion) robot.getUp().getKeyFrame(incr));
             robot.y += Gdx.graphics.getDeltaTime() * robot.speed;
@@ -79,7 +68,7 @@ public class RobotController {
                 System.out.println("up is now blocked");
             }
 
-        } 
+        }
         if (down && robot.getY() > playerY) {
             robot.getSprite().setRegion((TextureRegion) robot.getDown().getKeyFrame(incr));
             robot.y -= Gdx.graphics.getDeltaTime() * robot.speed;
@@ -88,9 +77,8 @@ public class RobotController {
                 System.out.println("down is now blocked");
             }
         }
-        
-        if((int)robot.getY() == (int)playerY){
-            System.out.println("testing");
+
+        if ((int) robot.getY() == (int) playerY) {
             robot.getSprite().setRegion((TextureRegion) robot.getLeft().getKeyFrame(0));
         }
     }
@@ -157,19 +145,15 @@ public class RobotController {
     }
 
     public boolean isDownBlocked() {
-        //return isBlocked((int) (robot.x), (int) (robot.y - 0.25), collisions);
         if (robot.y - 0.25 >= 0) {
             return isBlocked((int) robot.x, (int) (robot.y - 0.25), collisions);
-            // return false;
         }
         return true;
     }
 
     public boolean isLeftBlocked() {
-//        return isBlocked((int) (robot.x - 0.25), (int) robot.y, collisions);
         if (robot.y - 0.25 >= 0) {
             return isBlocked((int) (robot.x - 0.25), (int) robot.y, collisions);
-            // return false;
         }
         return true;
     }
@@ -209,6 +193,7 @@ public class RobotController {
 
         }
         if (Gdx.input.isKeyPressed(Keys.B)) {
+            System.out.println("test");
             robot.shoot();
             robot.getBullets().get(robot.getBullets().size() - 1).setShotDirection(facing);
             robot.getBullets().get(robot.getBullets().size() - 1).setShoot(true);

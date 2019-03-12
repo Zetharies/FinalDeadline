@@ -10,7 +10,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		config.title = "Final Dead-Line " + FinalDeadline.VERSION; // Title of the game
-		config.useGL30 = true;
+		//config.useGL30 = true;
 		config.width = LwjglApplicationConfiguration.getDesktopDisplayMode().width; // Max display width
         config.height = LwjglApplicationConfiguration.getDesktopDisplayMode().height; // Max display height
         config.vSyncEnabled = true;

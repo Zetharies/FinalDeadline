@@ -1,6 +1,7 @@
 package models;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -24,9 +25,11 @@ public class Robot {
     private static final int FRAME_ROWS = 4;
     private TextureRegion[] walkFrames;
     private Animation walkingUp, walkingDown, walkingRight, walkingLeft;
-    private ArrayList<Bullet>bullets;
+    private ArrayList<Bullet> bullets;
     private TiledMapTileLayer collisions;
-    
+
+    private Sound audio;
+
     public Robot(int startX, int startY, TiledMapTileLayer collisions) {
         this.collisions = collisions;
         texture = new Texture(Gdx.files.internal("sprite/boss/robot.png"));
@@ -48,19 +51,24 @@ public class Robot {
         walkingUp = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[10], walkFrames[9], walkFrames[11]);
         sprite.setRegion((TextureRegion) walkingRight.getKeyFrame(0));
         bullets = new ArrayList<Bullet>();
+
+        audio = Gdx.audio.newSound(Gdx.files.internal("fx/singleShot.mp3"));
     }
 
-    
+    public void playAudio() {
+        audio.play(0.5f);
+    }
+
     public TextureRegion getSprite() {
         return sprite;
     }
 
     public int getX() {
-        return (int)x;
+        return (int) x;
     }
 
     public int getY() {
-        return (int)y;
+        return (int) y;
     }
 
     @SuppressWarnings("rawtypes")
@@ -82,19 +90,17 @@ public class Robot {
     public Animation getDown() {
         return walkingDown;
     }
-    
-    public ArrayList<Bullet> getBullets(){
+
+    public ArrayList<Bullet> getBullets() {
         return bullets;
     }
-    
-    public void shoot(){
-        bullets.add(new Bullet(x,y,collisions));
+
+    public void shoot() {
+        bullets.add(new Bullet(x, y, collisions, "bullet.png",1,1));
     }
-    
-    
-    public void removeBullet(int index){
+
+    public void removeBullet(int index) {
         bullets.remove(index);
     }
-    
-    
+
 }
