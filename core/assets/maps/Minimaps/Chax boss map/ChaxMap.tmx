@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
+ <tileset firstgid="1" source="../Boss 1/Tilesets/Open-Tileset.tsx"/>
+ <tileset firstgid="617" source="../Boss 1/Tilesets/Carpet.tsx"/>
+ <tileset firstgid="626" source="../Boss 1/Tilesets/Blood.tsx"/>
+ <tileset firstgid="882" source="../Boss 1/Tilesets/Laboratory.tsx"/>
+ <layer id="2" name="Empty Space" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt0bEJgFAAxFBx4L9/aX1gH8QXyALJua/rkCRJkiRJkiRJkiRJkuSLX6Zu58dSt/Njqdv5sdTt/Fjqdn4sdTs/lrqdH0vdzo+lbufHUrfzY6nb+bHU7fxY6nZ+LHU7P5a6nR9L3c6PpW7nx1K382Op2/mx1O38WOp2fix1Oz+Wup0fS93Oj6Vu58dSt/Njqdv5sdTt/Fjqdn4sdTs/lrqdH0vdzo+lbufHUrfzY6nb+bHU7fxY6nZ+LHU7P5a6nR9L3c6PpW7nx1K382Op2/mx1O38WOp2fix1Oz+Wup0fS93Oj6Vu58dSt/Njqdv5sdTt/Fjqdn4sdTs/lrqdH0vdzo+lbkeSJEmSJEmSJEmS5F98AFIfg6U=
+  </data>
+ </layer>
+ <layer id="1" name="Walls" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt3DEKgEAQBEFz//9fIzNhEhFKumDjm/7AHUeSJEmSJEmSJEmSJEmSPDvh+yO1S929qF3q7kXtUncvape6e1G71N2L2qXuXtQudfeidqm7F7VL3b2oXeruRe1Sdy9ql7p7UbvU3Yvape5e1C5196J2qbsXtUvdvahd6u5F7VJ3L2qXuntRu9Tdi9ql7l7ULnX3onapuxe1S929qF3q7kXtUncvape6e1G71N2L2qXuXtQudfeidqm7F7VL3b2oXeruRe1Sdy9ql7p7UbvU3Yvape5e1C5196J2qbsXtUvdvahd6u5F7VJ3L2qXuntRu9Tdi9ql7l7ULnX3onapuxe1S929qF3q7kXtUncvape6e1G71N2L2qXuXtQudffy1l+49335XpIkSZIkSZIkSZIk+cYF4+MIbQ==
+  </data>
+ </layer>
+ <layer id="3" name="Floor &amp; Carpet" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt1jEKAkEQRcHVY3kjj+RtjTsRBKXfLlXQ8cB/yRwHAAAAAAAAAAAAZ/G6ne+ubHtbPabtbfWYtrfVY9reVo9pe1s9pu1t9Zi2t9Vj2t5Wj+mbHZ73/54eetTo0aJHix4tv/z3PI7P96t3rkyPFj1a9GjRo0WPFj1a9GjRo0WPFj1a9GjRo0WPFj1a9GjRo0WPFj1a9GjRo0WPFj1a9GjRo0WPFj1a9GjRo0WPFj1a9GjRo0WPFj1a9GjRo0WPFj1a9GjRAwAAAAAAAADgPN5NIUAi
+  </data>
+ </layer>
+ <layer id="4" name="Blood" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2kENACAMA0AC2lCEHHyhACE42IOEBMKdgP7XLiUAAAAAAAAAAIDzWn4jEwAAAADY0/V1AAAAoeluAgAAAAAAeMKw6wAAAIT8wwEAAPCzWu7MAgAAAAAAAADOWQbaBLw=
+  </data>
+ </layer>
+ <layer id="5" name="Computer " width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt0clNA0EQQFEfJiV2AjF7IGYpCMTsefIzsHwCpPekL426qg8zs1oBAAAAAAAAAAAAAPAXHSyr1WEd1XGd1Gmd1fmye17T83Q2zaadaXe6M92d336//2bdN72oy7qq67qp27pbds9rep7Optm0M+1Od2btf+xt0ze9r4d6rKeaeq6XZfe8pufpbJpNO9PudGc2/sfetn3T13qr9/qoz/qq72X3vKbn6WyaTTvT7nRntv4HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPALfgBkhjph
+  </data>
+ </layer>
+</map>
