@@ -1,4 +1,4 @@
-package inventory.items;
+package models.inventory;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.GameSettings;
@@ -6,7 +6,7 @@ import com.mygdx.game.GameSettings;
 public class Keyboard extends Item{
 
 	public Keyboard(int startX, int startY) {
-		super("Keyboard", startX, startY, 3, "images/itemBook.png", "invKeyboard", -146);
+		super("Keyboard", startX, startY, 1, "images/items/itemKeyboard.png", "invKeyboard", -305, -298);
 
 	}
 	
@@ -15,8 +15,8 @@ public class Keyboard extends Item{
 		batch.draw(getTexture(), // Print Texture
 				(getX() * GameSettings.SCALED_TILE_SIZE), // Sets X Position
 				(getY() * GameSettings.SCALED_TILE_SIZE), // Sets Y Position
-				GameSettings.SCALED_TILE_SIZE * 1f, // Sets Width of Sprite
-				GameSettings.SCALED_TILE_SIZE * 1f); // Sets Height of Sprite
+				GameSettings.SCALED_TILE_SIZE * 1.0f, // Sets Width of Sprite
+				GameSettings.SCALED_TILE_SIZE * 1.0f); // Sets Height of Sprite
 		
 	}
 

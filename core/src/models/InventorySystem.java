@@ -3,7 +3,10 @@ package models;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.mygdx.game.GameSettings;
 
 import models.inventory.Book;
@@ -59,13 +62,16 @@ public class InventorySystem{
 		Drink drink = new Drink(90, 5);
 
 		generateRandomPos();
-		Potion1 firstPotion = new Potion1(25, 83);
+		//Potion1 firstPotion = new Potion1(25, 83);
+		Potion1 firstPotion = new Potion1(91, 5);
 
 		generateRandomPos();
-		Potion2 secondPotion = new Potion2(26, 83);
+		//Potion2 secondPotion = new Potion2(26, 83);
+		Potion2 secondPotion = new Potion2(92, 5);
 
 		generateRandomPos();
-		Potion3 thirdPotion = new Potion3(27, 83);
+		//Potion3 thirdPotion = new Potion3(27, 83);
+		Potion3 thirdPotion = new Potion3(93, 5);
 
 		// Adds items to inventory arraylist depending on Item ID
 		inventory.add(book.getID(), book);
@@ -145,6 +151,8 @@ public class InventorySystem{
 	public void generateRandomPos() {
 		int randX = rnd.nextInt((int) GameSettings.SCALED_TILE_SIZE);
 		int randY = rnd.nextInt((int) GameSettings.SCALED_TILE_SIZE);
+		
+		//collisions.getCell(randX, randY).setTile(blockedTile);
 
 		while (collisions.getCell(randX, randY).getTile().getProperties().containsKey("blocked")) {			
 			randX = rnd.nextInt((int) GameSettings.SCALED_TILE_SIZE);
@@ -161,7 +169,7 @@ public class InventorySystem{
 		currentItem = newItem;
 
 	}
-
+	
 	
 	public Item getCurrentItem() {
 		return currentItem;

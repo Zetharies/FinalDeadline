@@ -1,4 +1,4 @@
-package inventory.items;
+package models.inventory;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -9,61 +9,88 @@ public class Item{
 
 	private String itemName;
 	private String atlasImage;
-	
-	private int id;
-
 	private Texture texture;
+
+	private int id;
 
 	private int x;
 	private int y;
+	private int invX;
+	private int invBoxX;
 
 	protected boolean found;
-	
 	protected boolean onMap;
-	
-	private int invX;	
 
 	private Boolean invDrawn;
-	
-	public Item(String impName, int startX, int startY, int impID, String texturePath, String atlasImage, int invX) {
+
+	public Item(String impName, int startX, int startY, int impID, String texturePath, String atlasImage, int invX, int invBoxX ) {
 		itemName = impName;
-		
+
 		id = impID;
 		x = startX;
 		y = startY;
 		this.invX = invX;
+		this.invBoxX = invBoxX;
 
 		texture = new Texture(Gdx.files.internal(texturePath));
 
 		found = false;
-		
+
 		onMap = false;
-		
+
 		this.atlasImage = atlasImage;
-		
+
 		invDrawn = false;
 
 	}
+
+	public void render(SpriteBatch batch) {
+
+	}
+
 	
 	public void setInvDrawn(Boolean choice) {
 		invDrawn = choice;
-		
+
 	}
-	
+
 	public Boolean getInvDrawn() {
 		return invDrawn;
-		
+
+	}
+
+
+	public void setItemFound(Boolean choice) {
+		found = choice;
+
 	}
 	
-	public void render(SpriteBatch batch) {
-		
+	public boolean getFound() {
+		return found;
+
+	}
+	
+	
+	public void setOnMap(Boolean choice) {
+		onMap = choice;
+
+	} 
+	
+	public boolean checkOnMap() {
+		return onMap;
+
+	}
+	
+	
+	public int getInvBoxX() {
+		return invBoxX;
 	}
 	
 	public int getInvX() {
 		return invX;
-		
+
 	}
-	
+
 	public int getX() {
 		return x;
 
@@ -81,47 +108,12 @@ public class Item{
 
 	public String getName() {
 		return itemName;
-		
-	}
-	
-	public boolean getFound() {
-		return found;
-		
-	}
-
-	public boolean getOnMap() {
-		return onMap;
-		
-	}
-	
-	public void itemFound() {
-		found = true;
 
 	}
-	
-	public void itemNotFound() {
-		found = false;
 
-	}
-	
-	public boolean checkOnMap() {
-		return onMap;
-		
-	}
-	
-	public void setOnMap() {
-		onMap = true;
-		
-	}
-	
-	public void setNotOnMap() {
-		onMap = false;
-		
-	}
-	
 	public Texture getTexture() {
 		return texture;
-		
+
 	}
 
 	public String getAtlasImage() {

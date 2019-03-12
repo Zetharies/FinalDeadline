@@ -26,12 +26,16 @@ public class PlayerController extends InputAdapter {
 	private boolean mapChange;
 	private ArrayList<Book> books;
 
+	private InventorySystem currentInv;
+
 	public PlayerController(Player p, TiledMapTileLayer collisions) {
 		this.p = p;
 		this.collisions = collisions;
 		mapChange = false;
 		books = new ArrayList<Book>();
-        movements = new ArrayList<PlayerMovement>();
+		movements = new ArrayList<PlayerMovement>();
+
+		currentInv = new InventorySystem();
 
 	}
 
@@ -213,7 +217,7 @@ public class PlayerController extends InputAdapter {
 
 	//BHAVEN EDIT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	public boolean isOnItem(Item collidedItem) {    	
-		if(collidedItem.getX() == p.getX() && collidedItem.getY() == p.getY() && Gdx.input.isKeyPressed(Input.Keys.T)) {
+		if(collidedItem.getX() == p.getX() && collidedItem.getY() == p.getY() && Gdx.input.isKeyPressed(Input.Keys.E)) {
 			return true;
 
 		} else {
@@ -291,8 +295,13 @@ public class PlayerController extends InputAdapter {
 
 			}
 		}
-		
+
 		return inventory.getCurrentItem();
+
+	}
+
+	public void setInventory(InventorySystem impInv) {
+		currentInv = impInv;
 
 	}
 	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -337,11 +346,11 @@ public class PlayerController extends InputAdapter {
 		right = false;
 	}
 
-    public Player getPlayer() {
-        return p;
-    }
-    
-    public ArrayList<PlayerMovement> getPlayerMovements(){
-        return movements;
-    }
+	public Player getPlayer() {
+		return p;
+	}
+
+	public ArrayList<PlayerMovement> getPlayerMovements(){
+		return movements;
+	}
 }

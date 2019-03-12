@@ -161,7 +161,7 @@ public class GameScreen extends AbstractScreen {
 		loadedMap = new TmxMapLoader().load(map.getMapLocation());		
 				
 		currentInv = new InventorySystem();
-		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), 0);
+		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), 100);
 
 		// player = new Player(14, 90, animations); // Create a new player object with
 		// the coordinates 0, 0, player
@@ -170,6 +170,7 @@ public class GameScreen extends AbstractScreen {
 		spawnY = map.getRespawnY();
 		player = new Player(spawnX, spawnY, animations);
 		playerControls = new PlayerController(player, (TiledMapTileLayer) loadedMap.getLayers().get(0));
+		playerControls.setInventory(currentInv);
 
 		robot = new Robot(86, 15, (TiledMapTileLayer) loadedMap.getLayers().get(0));
 		robotController = new RobotController((TiledMapTileLayer) loadedMap.getLayers().get(0), robot);
@@ -466,6 +467,8 @@ public class GameScreen extends AbstractScreen {
 		
 		currentInv = new InventorySystem(); //<<<<<<<<<<<<<<
 		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), newMap);
+		playerControls.setInventory(currentInv);
+		
 		
 	}
 
