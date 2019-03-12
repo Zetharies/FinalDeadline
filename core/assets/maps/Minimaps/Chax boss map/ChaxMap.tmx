@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="1">
  <tileset firstgid="1" source="../Boss 1/Tilesets/Open-Tileset.tsx"/>
  <tileset firstgid="617" source="../Boss 1/Tilesets/Carpet.tsx"/>
  <tileset firstgid="626" source="../Boss 1/Tilesets/Blood.tsx"/>
  <tileset firstgid="882" source="../Boss 1/Tilesets/Laboratory.tsx"/>
+ <layer id="6" name="Collisions" width="100" height="100" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJzt1bENw0AQA8FvQVD/vboGOfBS8ASTH7jB3eecGwAAAAAAAAAAgFe4XqjeTA89ltWb6aHHsnqzlR4rt9SbLWyghx566FGrf/M36s300GNZvZkeeiyrN9NDj2X1ZnrosazeTA89ltWb6aHHsnozPfRYVm+mhx7L6s300GNZvZkeeiyrN9NDj2X1ZnrosazeTA89ltWb6aHHsnozPfRYVm+mhx7L6s300GNZvZkeeiyrN9NDj2X1ZnrosazeTA89ltWb6aHHsnozPf6nxy/b1vcBAAAAAAAAAM99AJuA06k=
+  </data>
+ </layer>
  <layer id="2" name="Empty Space" width="100" height="100">
   <data encoding="base64" compression="zlib">
    eJzt0bEJgFAAxFBx4L9/aX1gH8QXyALJua/rkCRJkiRJkiRJkiRJkuSLX6Zu58dSt/Njqdv5sdTt/Fjqdn4sdTs/lrqdH0vdzo+lbufHUrfzY6nb+bHU7fxY6nZ+LHU7P5a6nR9L3c6PpW7nx1K382Op2/mx1O38WOp2fix1Oz+Wup0fS93Oj6Vu58dSt/Njqdv5sdTt/Fjqdn4sdTs/lrqdH0vdzo+lbufHUrfzY6nb+bHU7fxY6nZ+LHU7P5a6nR9L3c6PpW7nx1K382Op2/mx1O38WOp2fix1Oz+Wup0fS93Oj6Vu58dSt/Njqdv5sdTt/Fjqdn4sdTs/lrqdH0vdzo+lbkeSJEmSJEmSJEmS5F98AFIfg6U=
