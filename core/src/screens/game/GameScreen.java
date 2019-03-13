@@ -196,7 +196,6 @@ public class GameScreen extends AbstractScreen {
         spawnY = map.getRespawnY();
         player = new Player(spawnX, spawnY, animations);
         playerControls = new PlayerController(player, (TiledMapTileLayer) loadedMap.getLayers().get(0));
-        playerControls.setInventory(currentInv);
 
         robot = new Robot(spawnX, spawnY, (TiledMapTileLayer) loadedMap.getLayers().get(0));
         robotController = new RobotController((TiledMapTileLayer) loadedMap.getLayers().get(0), robot);
@@ -484,43 +483,69 @@ public class GameScreen extends AbstractScreen {
 		}
 		books.removeAll(booksToRemove);
 
-        ArrayList<Item> currentMapItems = currentInv.getMapItems();
-        ArrayList<Item> currentHUDItems = currentInv.getHUDItems();
+		ArrayList<Item> currentMapItems = currentInv.getMapItems();
+		ArrayList<Item> currentHUDItems = currentInv.getHUDItems();
 
-        ArrayList<Item> foundMapItems = new ArrayList<Item>();
+		ArrayList<Item> foundMapItems = new ArrayList<Item>();
 
-        for (Item currentItem : currentHUDItems) {
-            if (currentItem.getFound() == true) {
-                hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), currentItem.getInvX());
+		if (currentInv.getMapNumber() == 1 || currentInv.getMapNumber() == 2) {
+			for (Item currentItem : currentHUDItems) {
+				if (currentItem.getFound() == true) {
+					hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), currentItem.getInvX());
 
-            }
-        }
+				}
+			}
+		}
 
-        for (Item currentItem : currentMapItems) {
+		for (Item currentItem : currentMapItems) {
+			currentItem.render(batch);
 
-            currentItem.render(batch);
+			if (playerControls.isOnItem(currentItem) == true) {
+				foundMapItems.add(currentItem);
 
-            if (playerControls.isOnItem(currentItem) == true) {
-                foundMapItems.add(currentItem);
+				currentItem.setItemFound(true);
+				currentItem.setOnMap(false);
 
-                currentItem.setItemFound(true);
-                currentItem.setOnMap(false);
+				System.out.println("You have found: " + currentItem.getName());
 
-                System.out.println("You have found: " + currentItem.getName());
+				if (currentItem.getInvDrawn() == false) {
+					hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), currentItem.getInvX());
 
-                hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), currentItem.getInvX());
-            }
+					currentItem.setInvDrawn(true);
 
-        }
+				}
+			}
 
-        currentMapItems.removeAll(foundMapItems);
+		}
 
-        playerControls.equipItem(currentInv);
+		currentMapItems.removeAll(foundMapItems);
 
-        if (currentInv.getCurrentItem() != null) {
-            hud.drawEquippedItem(currentInv.getCurrentItem());
+		currentInv = playerControls.equipItem(currentInv);
 
-        }
+		if (currentInv.getCurrentItem() != null) {
+			hud.drawEquippedItem(currentInv.getCurrentItem());
+
+		}
+
+		Item currentUsedItem = playerControls.itemPressed();
+
+		if (currentUsedItem != null) {
+			if (currentUsedItem.getName().equals("Drink")) {
+				System.out.println("Increasing Health");
+
+				hud.increaseHealth(0.25f);  
+
+				hud.removeEquippedItem(currentUsedItem);
+
+				for (Item currentItem : currentInv.getInventory()) {
+					if (currentItem.equals(currentUsedItem)) {
+						currentItem.setItemFound(false);
+
+					}
+
+				}
+			}
+		}
 
         batch.end();
         
@@ -547,7 +572,6 @@ public class GameScreen extends AbstractScreen {
 
         currentInv = new InventorySystem(); //<<<<<<<<<<<<<<
         currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), newMap);
-        playerControls.setInventory(currentInv);
 
     }
 

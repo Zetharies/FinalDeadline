@@ -22,8 +22,10 @@ public class Item{
 	protected boolean onMap;
 
 	private Boolean invDrawn;
+	private Boolean beingUsed;
+	private Boolean beingPressed;
 
-	public Item(String impName, int startX, int startY, int impID, String texturePath, String atlasImage, int invX, int invBoxX ) {
+	public Item(String impName, int startX, int startY, int impID, String texturePath, String atlasImage, int invX, int invBoxX) {
 		itemName = impName;
 
 		id = impID;
@@ -35,15 +37,15 @@ public class Item{
 		texture = new Texture(Gdx.files.internal(texturePath));
 
 		found = false;
-
 		onMap = false;
-
-		this.atlasImage = atlasImage;
-
 		invDrawn = false;
-
+		beingUsed = false;
+		beingPressed = false;
+		
+		this.atlasImage = atlasImage;	
 	}
 
+	
 	public void render(SpriteBatch batch) {
 
 	}
@@ -79,6 +81,28 @@ public class Item{
 	public boolean checkOnMap() {
 		return onMap;
 
+	}
+	
+	
+	public void setBeingUsed(Boolean choice) {
+		beingUsed = choice;
+		
+	}
+	
+	public Boolean checkBeingUsed() {
+		return beingUsed;
+		
+	}
+	
+	
+	public void setBeingPressed(Boolean choice) {
+		beingPressed = choice;
+		
+	}
+	
+	public Boolean checkBeingPressed() {
+		return beingPressed;
+		
 	}
 	
 	

@@ -96,6 +96,18 @@ public class Hud {
 
 	public void reduceHealth(float damage) {
 		health.setValue(health.getValue() - damage);
+		
+	}
+	
+	public void increaseHealth(float healthInc) {
+		if ((health.getValue() + healthInc) >= 1.0f) {
+			health.setValue(1.0f);
+			
+		} else {
+			health.setValue(health.getValue() + healthInc);
+			
+		}
+		
 	}
 
 	public float getHealth() {
@@ -116,8 +128,8 @@ public class Hud {
 		invItems.setActor(currentItem);
 		invItems.setName("invItems." + atlasName);
 
-		stage.addActor(invItems);		
-
+		stage.addActor(invItems);	
+		
 	}
 
 	public void drawEquippedItem(Item equippedItem) {	
@@ -147,6 +159,18 @@ public class Hud {
 		}
 
 
+	}
+
+	public void removeEquippedItem(Item equippedItem) {		
+		for (Actor currentActor : stage.getActors()) {			
+			if (currentActor.getName().equals("invItems." + equippedItem.getAtlasImage())) {
+				currentActor.clear();
+
+			}
+
+		}
+
+		
 	}
 
 }

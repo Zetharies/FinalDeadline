@@ -26,8 +26,8 @@ public class PlayerController extends InputAdapter {
 	private boolean mapChange;
 	private ArrayList<Book> books;
 
-	private InventorySystem currentInv;
-
+	private InventorySystem currentInv;	
+	
 	public PlayerController(Player p, TiledMapTileLayer collisions) {
 		this.p = p;
 		this.collisions = collisions;
@@ -112,7 +112,42 @@ public class PlayerController extends InputAdapter {
 			// p.movePlayer(1, 0); // 1 on the x axis, 0 on the y axis
 		}
 		if (keycode == Keys.SPACE) {
-			books.add(p.shoot(p.getDirection(), p.getX(), p.getY()));
+			if (currentInv.getCurrentItem() == null) {
+				System.out.println("No Item has been equipped");
+
+			} else if (currentInv.getCurrentItem().getName() == "Book") {
+				books.add(p.shoot(p.getDirection(), p.getX(), p.getY()));
+
+
+			} else if (currentInv.getCurrentItem().getName() == "Keyboard") {
+				System.out.println("Keyboard Being Used");
+
+
+			} else if (currentInv.getCurrentItem().getName() == "Drink") {
+				System.out.println("Drink Being Used");
+				
+				currentInv.getCurrentItem().setBeingPressed(true);
+
+
+			} else if (currentInv.getCurrentItem().getName() == "Potion1") {
+				System.out.println("Potion1 Being Used");
+				
+				currentInv.getCurrentItem().setBeingPressed(true);
+				
+
+			} else if (currentInv.getCurrentItem().getName() == "Potion2") {
+				System.out.println("Potion2 Being Used");
+				
+				currentInv.getCurrentItem().setBeingPressed(true);
+
+
+			} else if (currentInv.getCurrentItem().getName() == "Potion3") {
+				System.out.println("Potion3 Being Used");
+				
+				currentInv.getCurrentItem().setBeingPressed(true);
+				
+			}
+
 		}
 
 		return false;
@@ -226,15 +261,16 @@ public class PlayerController extends InputAdapter {
 		}
 
 	}
-
-	public Item equipItem(InventorySystem inventory) {
-		ArrayList<Item> currentALInventory = inventory.getInventory();
+	
+	public InventorySystem equipItem(InventorySystem inventory) {
+		currentInv = inventory;
+		ArrayList<Item> currentALInventory = currentInv.getInventory();
 
 		if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
 			if (currentALInventory.get(0).getFound() == true) {				
-				inventory.setAsCurrentItem(currentALInventory.get(0));
+				currentInv.setAsCurrentItem(currentALInventory.get(0));
 
-				System.out.println("You have now equipped: " + inventory.getCurrentItem().getName());
+				System.out.println("You have now equipped: " + currentInv.getCurrentItem().getName());
 
 			} else {
 				System.out.println("You have not found this item yet, " + currentALInventory.get(0).getName());
@@ -243,9 +279,9 @@ public class PlayerController extends InputAdapter {
 
 		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
 			if (currentALInventory.get(1).getFound() == true) {				
-				inventory.setAsCurrentItem(currentALInventory.get(1));
+				currentInv.setAsCurrentItem(currentALInventory.get(1));
 
-				System.out.println("You have now equipped: " + inventory.getCurrentItem().getName());
+				System.out.println("You have now equipped: " + currentInv.getCurrentItem().getName());
 
 			} else {
 				System.out.println("You have not found this item yet, " + currentALInventory.get(1).getName());
@@ -254,9 +290,9 @@ public class PlayerController extends InputAdapter {
 
 		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
 			if (currentALInventory.get(2).getFound() == true) {				
-				inventory.setAsCurrentItem(currentALInventory.get(2));
+				currentInv.setAsCurrentItem(currentALInventory.get(2));
 
-				System.out.println("You have now equipped: " + inventory.getCurrentItem().getName());
+				System.out.println("You have now equipped: " + currentInv.getCurrentItem().getName());
 
 			} else {
 				System.out.println("You have not found this item yet, " + currentALInventory.get(2).getName());
@@ -265,9 +301,9 @@ public class PlayerController extends InputAdapter {
 
 		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_4)){
 			if (currentALInventory.get(3).getFound() == true) {			
-				inventory.setAsCurrentItem(currentALInventory.get(3));
+				currentInv.setAsCurrentItem(currentALInventory.get(3));
 
-				System.out.println("You have now equipped: " + inventory.getCurrentItem().getName());
+				System.out.println("You have now equipped: " + currentInv.getCurrentItem().getName());
 
 			} else {
 				System.out.println("You have not found this item yet, " + currentALInventory.get(3).getName());
@@ -276,9 +312,9 @@ public class PlayerController extends InputAdapter {
 
 		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_5)){
 			if (currentALInventory.get(4).getFound() == true) {			
-				inventory.setAsCurrentItem(currentALInventory.get(4));
+				currentInv.setAsCurrentItem(currentALInventory.get(4));
 
-				System.out.println("You have now equipped: " + inventory.getCurrentItem().getName());
+				System.out.println("You have now equipped: " + currentInv.getCurrentItem().getName());
 
 			} else {
 				System.out.println("You have not found this item yet, " + currentALInventory.get(4).getName());
@@ -286,9 +322,9 @@ public class PlayerController extends InputAdapter {
 			}
 		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_6)){
 			if (currentALInventory.get(5).getFound() == true) {			
-				inventory.setAsCurrentItem(currentALInventory.get(5));
+				currentInv.setAsCurrentItem(currentALInventory.get(5));
 
-				System.out.println("You have now equipped: " + inventory.getCurrentItem().getName());
+				System.out.println("You have now equipped: " + currentInv.getCurrentItem().getName());
 
 			} else {
 				System.out.println("You have not found this item yet, " + currentALInventory.get(5).getName());
@@ -296,17 +332,30 @@ public class PlayerController extends InputAdapter {
 			}
 		}
 
-		return inventory.getCurrentItem();
+		return currentInv;
 
 	}
 
-	public void setInventory(InventorySystem impInv) {
-		currentInv = impInv;
-
+	public Item itemPressed() {
+		if (currentInv.getCurrentItem() == null){
+			return null;
+			
+		} else if (currentInv.getCurrentItem().checkBeingUsed() == false && currentInv.getCurrentItem().checkBeingPressed() == true) {
+			currentInv.getCurrentItem().setBeingUsed(true);
+			currentInv.getCurrentItem().setBeingPressed(false);
+			
+			return currentInv.getCurrentItem();
+		
+		} else {
+			return null;
+			
+		}
+		
 	}
+
 	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-	public void updatePlayerCoordinates(int x, int y) {
+ 	public void updatePlayerCoordinates(int x, int y) {
 		p.updateCoordinates(x, y);
 	}
 

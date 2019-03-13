@@ -28,6 +28,8 @@ public class InventorySystem{
 	private int[] randomPos;
 
 	private Item currentItem;
+	
+	private int mapNumber;
 
 	public InventorySystem() {	
 		inventory = new ArrayList<Item>();
@@ -80,10 +82,24 @@ public class InventorySystem{
 		inventory.add(firstPotion.getID(), firstPotion);
 		inventory.add(secondPotion.getID(), secondPotion);
 		inventory.add(thirdPotion.getID(), thirdPotion);	
+		
+//		generateRandomPos();
+//		Drink drink2 = new Drink(90, 4);
+//		inventory.add(drink2);	
 
 	}
+	
+	public void addDrinks(int numDrinks) {
+		for (int i = 0; i <= numDrinks; i++) {
+			
+			
+		}
+		
+	}
 
-	public void changeMap(int mapNumber) {
+	public void changeMap(int impMapNumber) {
+		mapNumber = impMapNumber;
+		
 		if (mapNumber == 0) {
 			inventory.get(0).setOnMap(true);
 			inventory.get(1).setOnMap(true);
@@ -170,6 +186,11 @@ public class InventorySystem{
 
 	}
 	
+	
+	public int getMapNumber() {
+		return mapNumber;
+		
+	}
 	
 	public Item getCurrentItem() {
 		return currentItem;
