@@ -109,22 +109,25 @@ public class GameScreen extends AbstractScreen {
         processor = new InputMultiplexer(); // Ordered lists of processors we can use for prioritising controls
         dialogueController = new ScreenplayController(dialogue, chosenCharacter);
         maps = new ArrayList<Map>();
-        Map map3 = new Map(91, 3, "maps/floor3/optometry.tmx");
-        map3.addExit(5, 94);
-        map3.addExit(6, 94);
-        map3.addExit(7, 94);
-        map3.addExit(8, 94);
-        map3.addExit(9, 94);
-        Map map1 = new Map(26, 82, "maps/floor4/Floor4.tmx");
-        map1.addExit(87, 13);
-        map1.addExit(88, 13);
-        Map map2 = new Map(14, 90, "maps/floor2/updatedEngineeringLab.tmx");
-        map2.addExit(88, 15);
-        map2.addExit(89, 15);
-        maps.add(map3);
-        maps.add(map1);
-        maps.add(map2);
-        exits = map3.getExits();
+        Map floor1 = new Map(21, 56, "maps/floor1/library.tmx");
+        floor1.addExit(76, 21);
+        Map floor2 = new Map(14, 90, "maps/floor2/updatedEngineeringLab.tmx");
+        floor2.addExit(88, 15);
+        floor2.addExit(89, 15);
+        Map floor3 = new Map(91, 3, "maps/floor3/optometry.tmx");
+        floor3.addExit(5, 94);
+        floor3.addExit(6, 94);
+        floor3.addExit(7, 94);
+        floor3.addExit(8, 94);
+        floor3.addExit(9, 94);
+        Map floor4 = new Map(26, 82, "maps/floor4/Floor4.tmx");
+        floor4.addExit(87, 13);
+        floor4.addExit(88, 13);
+        maps.add(floor1);
+        maps.add(floor2);
+        maps.add(floor3);
+        maps.add(floor4);
+        exits = floor1.getExits();
         
         smoke = new Particles();
 		smoke2 = new Particles();
@@ -223,12 +226,16 @@ public class GameScreen extends AbstractScreen {
             }
         }
 
+        ScreenplayNode instruction2 = new ScreenplayNode("Press 'Spacebar' to throw books at enemies   [ENTER]", 3);
+
         dialogue1.makeLinear(dialogue2.getId());
         dialogue2.makeLinear(instruction1.getId());
-        
+        instruction1.makeLinear(instruction2.getId());
+
         handler.addNode(dialogue1);
         handler.addNode(dialogue2);
         handler.addNode(instruction1);
+        handler.addNode(instruction2);
 
         dialogueController.startDialogue(handler);
         Gdx.input.setInputProcessor(processor);
@@ -366,8 +373,8 @@ public class GameScreen extends AbstractScreen {
             batch.draw(zombies.get(i).getZombies(),
                     (zombies.get(i).x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
                     zombies.get(i).y * GameSettings.SCALED_TILE_SIZE,
-                    GameSettings.SCALED_TILE_SIZE * 1.15f,
-                    GameSettings.SCALED_TILE_SIZE * 1.2f);
+                    GameSettings.SCALED_TILE_SIZE * 1f,
+                    GameSettings.SCALED_TILE_SIZE * 1f);
         }
 
         
@@ -399,6 +406,7 @@ public class GameScreen extends AbstractScreen {
         
         bossController.setPlayerPosition(player.getX(), player.getY());
         bossController.update(delta);
+        
         batch.draw(bossZombie.getZombies(),
                 (bossZombie.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
                 bossZombie.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
@@ -511,6 +519,12 @@ public class GameScreen extends AbstractScreen {
         stage.draw();
     }
 
+    /**
+     * Updates {@link #map} to the next map in {@link #maps}.
+     * The player's coordinates are updated for the new map.
+     * {@link #exits} is updated with the new map's exit coordinates.
+     * {@link #loadedMap} is changed to be the <code>TiledMap</code> for the new map.
+     */
     private void updateMap() {
         int newMap = maps.indexOf(map) + 1;
 
@@ -525,6 +539,9 @@ public class GameScreen extends AbstractScreen {
 
     }
 
+    /**
+     * Changes the player sprite so that it is equipped with a book.
+     */
     public void updateToBook() {
         assetManager = new AssetManager();
         assetManager.load("sprite/" + gender + "/book/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
@@ -553,6 +570,9 @@ public class GameScreen extends AbstractScreen {
         player.setAnimations(animations);
     }
 
+    /**
+     * Changes the player sprite so that it is equipped with a keyboard.
+     */
     public void updateToKeyboard() {
         assetManager = new AssetManager();
         assetManager.load("sprite/" + gender + "/keyboard/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);

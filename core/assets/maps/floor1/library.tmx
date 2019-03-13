@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
+ <tileset firstgid="1" source="Tilsets/tilesetHouse libs.tsx"/>
+ <tileset firstgid="118" source="Tilsets/third_2_550x950 libs.tsx"/>
+ <tileset firstgid="611" source="Tilsets/toilets.tsx"/>
+ <tileset firstgid="710" source="Tilsets/TileA4.tsx"/>
+ <tileset firstgid="950" source="Tilsets/celianna_TileA5.tsx"/>
+ <tileset firstgid="1078" source="Tilsets/third libs.tsx"/>
+ <tileset firstgid="1498" source="Tilsets/remove libs.tsx"/>
+ <tileset firstgid="1754" name="celianna_furniture" tilewidth="32" tileheight="32" tilecount="814" columns="22">
+  <image source="Images/celianna_furniture.png" width="718" height="1214"/>
+  <tile id="603">
+   <objectgroup draworder="index">
+    <object id="1" x="6" y="31.4545">
+     <polygon points="0,0 -0.181818,-30.5455 26.7273,-30.5455 26.7273,0.545455"/>
+    </object>
+   </objectgroup>
+  </tile>
+  <tile id="604">
+   <objectgroup draworder="index">
+    <object id="1" x="-0.909091" y="32.1818">
+     <polygon points="0,0 -0.363636,-30.7273 34.1818,-30.9091 34.1818,0.181818"/>
+    </object>
+   </objectgroup>
+  </tile>
+  <tile id="688">
+   <objectgroup draworder="index">
+    <object id="1" x="-1.27273" y="32.3636">
+     <polygon points="0,0 0.181818,-28.7273 35.4545,-28.5455 34,0.727273"/>
+    </object>
+   </objectgroup>
+  </tile>
+  <tile id="689">
+   <objectgroup draworder="index">
+    <object id="1" x="-0.727273" y="32.7273">
+     <polygon points="0,0 -0.363636,-28.9091 32.3636,-28.5455 32.7273,0"/>
+    </object>
+   </objectgroup>
+  </tile>
+  <tile id="709">
+   <objectgroup draworder="index">
+    <object id="1" x="-0.545455" y="33.0909">
+     <polygon points="0,0 -0.181818,-34.1818 30.5455,-34 34.1818,-33.4545 34,-0.363636"/>
+    </object>
+   </objectgroup>
+  </tile>
+  <tile id="710">
+   <objectgroup draworder="index">
+    <object id="1" x="-1.27273" y="32.7273">
+     <polygon points="0,0 -0.363636,-33.4545 33.6364,-34.1818 34.3636,0"/>
+    </object>
+   </objectgroup>
+  </tile>
+  <tile id="711">
+   <objectgroup draworder="index">
+    <object id="1" x="-1.45455" y="32.5455">
+     <polygon points="0,0 0.363636,-34.5455 34.1818,-34 33.4545,1.45455"/>
+    </object>
+   </objectgroup>
+  </tile>
+ </tileset>
+ <tileset firstgid="2568" source="Tilsets/computer lab.tsx"/>
+ <tileset firstgid="2824" source="Tilsets/Inside_C.tsx"/>
+ <tileset firstgid="3080" source="Tilsets/morgue.tsx"/>
+ <tileset firstgid="3336" source="Tilsets/horror tileset.tsx"/>
+ <tileset firstgid="3592" source="../floor3/Tilesets/Open-Tileset.tsx"/>
+ <layer id="5" name="Collisions" width="100" height="100" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJztl0tywyAQBX2CrFW+/0GzTREQv2E+TC+6LFkCxGsY2d+fz+cLAAAAAAAAAAAAAAAAAAAAkJjHwTNkpMz9aXwP5z30WGkz04fGtSi09sVO9h6wzhUf9/jYqTWr+Uhci5y7tMOVT3zcBz58gQ9fZPNRztPbvLP4aM3T25yz+vA6Z8/PpuHDwv/q/5ub/iO2futH8THqLAoaPmq/E/Dxvl5b56ec99ysziOqh14mvVxnjvEh7+NEzTjpIrKTv3Oana+Gj0zvj1Efu2v25LqOnv1sdtI1RHpN3+JjNJOn+Bw5lnSRpV7N+JDKZDc/fOj7eMsQH2tz2vWz6wAfcj5WxrHOUsrHSC5P4/63Y631nNWHNrXMqVf/vUn1verDOrPbfcz2ZZ2Zto8dBzvjSbi9sV6d9FEbc7ZN7x7rTKV9nGB0Dez4u8HHqJPy/tVzLf9R69XoOpTKg6z394ZkZviQ8VG2WT3X8n+DMw/7wzoDD3iqV9ZZeECzXmn5j+rZIg982PiYHdc6iyiccIOPOD6ezrhlH9b5eMv6hI8b3w1ZfGRzVstpts1sf/jQ9dHLLKsLrXpljXXO+IjnouZlxeNqv2994EPXRy+3rHvEqma83ZO5Znn3IfWM1jmf8ibVjv3hy0ctd3zY16tv5XpWFwAAAAAAAAAAAAAAAAAAAAC7/ALuqAxz
+  </data>
+ </layer>
+ <layer id="1" name="Walls and Floor" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztnMtO4zAYRs20sOAygs1I5S5Ydh6FFZuZ95d4D2wRK8byvQ75k54jfQLViZv6pE5ip1EKAAAAAAAAAAAAAAAAAACWzonOL53TRDY6W52zISXrhBKrI1S/v96/IbVlZ5FI5VznQud3Ipc6V2r8LCXrhBKrI1W/LbNtXlu2NB+3Oh+bfHZq/CxmnZdtff4k6kjVb8psm9eWrdXHixr7l1fV5mM31LFR4bb7r/PeuWytPvZq7Hf+qjYfb4k6UvW3lq3ZR0v7zx18yMqafVzr5R51nnVuVFv7XA/rh+owZQ9DcmU7/drtkDuv3M2TWp6Pe/W17Y+Rv/Z/97O1nl/lzqFKy3wfqe/B0nzUXN9tFT6mpvT6zr2+wsd01LTvrnL5lA/bT4b6ercs1Ffio7+P1uBjPMd5qlg+58Mf+ytNzEftmKZUSts31deUxu13WsckzTW472Nfsb49BkqlxkfrPh3aR1u/Y4fG7ldSqfHRuk+HztPwEabGR6827FkXPvq0iXsMyo2/uOMsucTqsnXYY5hU5vLhn8OWLF/SX8bmAswx372mlcocPszclnt8z81vHXrds7T+yvQdz07struvme95Lx/++WlufuvYfJh+wG0fu+3+efvcx+Bj8fHj/RU+othjasnnOC9YDh+HUeOD78f00F/JAh+ywIcs8CELfMgCH7KQ5CM2jnvoPPFaffjjXK2Jjq+r/Nw5Pr5SM0fdOjeYe4/W++rX6KNX5jwO4QMfteBDFviQBT5kgQ9Z4EMW+JAFPmQxhw877pK7l3CKrOX+xN77Z+p9e927nfrNnVSk+phqm+iv8FEDPmTx0z7sHId5xk/0PupUGT66puQ5QftEGT7WFXzICj6+xz4nyCR1Pdj6DCF8tLUH51dh8CELfMgCH7LAhyzwIYvQ752njP/csdgyU23TEuY/jjEAAAAAAAAAAAAAAAAAALB8PgEzbwFB
+  </data>
+ </layer>
+ <layer id="2" name="hidden furniture" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJztm8uLFFcUxqtr7E6m7Uh2osFXFnEVHRUVIr4FQTExrsQguHSt8bE2BmOySdxIdOGMuhNEQRBBRVy4UsFsXQQjJH+Ar00Qz7X7MpfLuc+uqq5b/f3go+rW7eqeOWfqO/dUT2UZAAAAAAAAAAAAAAAAAAAAAAAAAIrmWt7XjXx2X46v5+bznrezrNfz25qY6VQ7lwK38r7u5LP7cnzbkg/5e/tuOW5WPJcC9/K+Huaz+3L8wJCPL+f0f++QLSiYzkAKMs5iK2U7/jd51wuDf5Uxlyq/03XwB+lczo8Fn3f6UlHj7RLw50+K+wXSxZwfm0A+yuEyxf0K6WrOj01w/gRGw8ygTnNbOa9uQXkUsb5a1MqyxaQlrbC5cWBRl35/0hLSUtIy0lek5YN9IY5h6sYKivVK0hQTc9vcOPA1xXsFaSVpirSKtI60nrRvIB2bX3G+BYbjGeXgL8t1gX6wPPYzcX9Bx/4x5AOUy+ERxX3tZJbdpc++R7rf7Y/XacfEWNyX/N/Sg8s57v3UcSrY8sFdO0XymN7/Celp136sZ6lD6px+LvdedUfmQ66x5FadqwNn6e/9V02/TY76pyoeGXO5xpJbdU7leDd+fxguUeynNc00OB+uuXxe+T8LyLKTFPMvetn0XJI8Jscna5SP+R27XOemwi9KzPW8qHNtyscj7VrSX29DP9fGMXrtCe31yzt22XDNp0jO5CMEce42RhwiH2e0ufUdu2y45uvCqlaWrSatabmPS7+KreGPlPsvqkyc1+ZC/CrUz+rCNor3dtKOlt/xYRjm2hKE+FWonwE7XP0I8atQPxtHjinx/dlxrXD1g/Mel4el4lOjICQfAr1+cN7j8rBx8Kkqe3IVzntcHpaqT4n4lRFDG7brhasfPp7UBN8K9ZEq4OqHjyc1wbdC8mFas4b06b7o9cPHk5rmWy6OUIyOkn7s+u2Xhc+6KlW/4jDVk1N07CfS6a7ffln4rKtS9SudOtYTHZ91VVP8isuH+A57I+1vihyr7PyU/9wQr4lZZzWNPRTbb7vxY8lBQz5CvCZmnZUKYp3v40uypsi6EjqW/Gf4rBCviVlnpcIZJX46m+nYFtLWAuvIuxJqUtPXV5LvKHZ7Sd/XPB9NXl+ZKMqvyshHk9ZXVfRvKq58xPR6TfKrKvo3FVc+Ynq9pvlVleurT+baPyem12uSX4HxoYz1ctMpsxYOu16WzyBwY3HfxTbPjVMg1Vqo3ncZ5b3/oim6Fi7oZdOTBX83pfOvFt9R3vuvEorrIYrvIf14FTFXOas97/FWiW+3V9VPUQ2xPdWwfdj7tnms35O/pD3v0VHWzAuVfMh7lXr+9OupzsT2VLF92MTg/4DnaXPq2HRP3oXsNfX8vU0oH7E9Vcg5kwGewj2X5pK8DmSv+Yri/5r0ZpCHjqMHrROmGlEkCwLywT2X5pL+3NoExX8OqT3Ig+k7yTqi+3zRtcRESP2QxNbuWP8bBTH/ExtSSwQTzLNuMfVjoSMfpu8eU6rnem3wrQtqTSiid+GeTwx9nv8ds74S11RK9ZzDp7+w1YSialLo8/yynqvrK3FNpVTPQ+tFSL8Se+/L5DsxfEO52JBQPkLrRVHfA735zDwnfEf4jN7XSXzXxOK8XZSL3QnlI6BefPSgkH7Fp368HOSlrdQP4TvCZ/S+TuK7JhbnHaD3+iGhfAAAAAAAAAAAAAAAAAAAAAAAAAAADMMHHVyjXw==
+  </data>
+ </layer>
+ <layer id="3" name="furniture" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2L1qFFEUB/CJLEEuFr5AFOxsjG/hU/gAShTxA3sTFWtBwVZt0sZ0auNH5Uejb6D4CLaesCxr4iQ7s57Z3dn8fvCHGe4yDPfcOXdmqwoAAAAAAAAAgC6srVTVmcjZldmMLbMrg6q6eiAbkWuR6zW5Mfj3GhdiztYjF2vmrosxYDk8OjFO3flRzg0mh1ynI2sTfmPuYSjj/YrF83V1urHj4Fupqu9l3nfByI+oxc+G9dCvoFvPkntj9vWOm+3k+cu+HtSZ9J71PMZeRF6W9sePreHWJr1n7cTYq8huaX+sHvnexZy+j3wo7Y8/qgd06vyped/BYmm7hz/RozrVdg9Xj271cQ/X4w53twwza2pS72EZhhz/u58/LcPsuVPGz8v9hjWyzvfL3s89L/Wa9vXs/fzv54WxZV+nfetz1ik0N6/vBOot+37SN13uJ7/UOcXNmMdbkdtluvOR3+pxpMPm7aB7Mb4Z2SrTndOMeeunrH5FDv1qNkbfGQ/M20Jo+p2R1a8uncy576b6+N9VE1n96vKM67GnbzWBNl7HM/Ym8tYetxA+RR0+R76oBwAAAAAAAAAAAAAAAECKP5K/xNI=
+  </data>
+ </layer>
+ <layer id="4" name="objects" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt2k1PwjAYAODFcBrOaIxijN79pR7kysXPP2e868G7bRxxFEECrhvwPMmbdFsPhTd7u64rCgAAAAAAAAAA6L+HQVE8hngK8RziZdD1iADom+MQ110PAgDIxjoxr8uuB8CMq64HAD11cPQdi9yU+cYCfVSFe+AwxEd9L7xVs+ejcd2uyvn+/L/bcv0222skj8AGJo25Okrn7YvkPO0zh++O+zpPr9XqfWnXnf+5t07kZiPTeXucrM+b7XTO/0vsv0r94ne55vN9rmuTPf7t2yzWqWEjd8NG7YrtUTnfB6BtYzUHNrLsucye4HpW3feJa4pprHMM++7dvZCNepWHfYbdtOh5yruxdqhX0B/Lvt1Or8Vj33O36zPZM2zuIabX4t5kM05Dbs7r/MT2mVwBHfH9w3aTPwCAH56N8lj2foruyQ8AAAAAAAAAALvmC3spQ6I=
+  </data>
+ </layer>
+</map>
