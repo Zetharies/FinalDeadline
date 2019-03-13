@@ -109,24 +109,36 @@ public class GameScreen extends AbstractScreen {
         processor = new InputMultiplexer(); // Ordered lists of processors we can use for prioritising controls
         dialogueController = new ScreenplayController(dialogue, chosenCharacter);
         maps = new ArrayList<Map>();
+        
         Map floor1 = new Map(21, 56, "maps/floor1/library.tmx");
         floor1.addExit(76, 21);
+        
         Map floor2 = new Map(14, 90, "maps/floor2/updatedEngineeringLab.tmx");
         floor2.addExit(88, 15);
         floor2.addExit(89, 15);
+        
         Map floor3 = new Map(91, 3, "maps/floor3/optometry.tmx");
         floor3.addExit(5, 94);
         floor3.addExit(6, 94);
         floor3.addExit(7, 94);
         floor3.addExit(8, 94);
         floor3.addExit(9, 94);
+        
         Map floor4 = new Map(26, 82, "maps/floor4/Floor4.tmx");
         floor4.addExit(87, 13);
         floor4.addExit(88, 13);
+        
+        Map boss1 = new Map(54, 40, "maps/Minimaps/Boss1/1stBossMap.tmx");
+        Map boss2 = new Map(54, 36, "maps/Minimaps/Boss1/2ndBossMap.tmx");
+        Map chaxMap = new Map(51, 24, "maps/Minimaps/Boss1/ChaxMap.tmx");
+        
         maps.add(floor1);
         maps.add(floor2);
+        maps.add(boss1);
         maps.add(floor3);
+        maps.add(boss2);
         maps.add(floor4);
+        maps.add(chaxMap);
         exits = floor1.getExits();
         
         smoke = new Particles();
