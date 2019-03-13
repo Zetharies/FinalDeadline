@@ -13,10 +13,11 @@ import managers.SettingsManager;
 public class SettingsUI {
 
     @SuppressWarnings("unused")
-    private TextButton music, sound, resolution, controls, apply;
+    private TextButton music, sound, resolution, controls, skipDialogue, apply;
     private ArrayList<String> resolutionsSizes;
     private ArrayList<String> controlOptions;
     private Table table;
+    private boolean checkDialogue = false;
     private boolean soundResp = true;
     private boolean musicResp = true;
     private boolean resChange = false, defaultRes = false;
@@ -27,8 +28,9 @@ public class SettingsUI {
     public SettingsUI(Stage stage, Skin skin) {
         table = new Table();
         apply = new TextButton("APPLY", skin);
-        music = new TextButton("MUSIC:ON", skin);
-        sound = new TextButton("SOUND:ON", skin);
+        music = new TextButton("MUSIC: ON", skin);
+        sound = new TextButton("SOUND: ON", skin);
+        skipDialogue = new TextButton("SKIP DIALOGUE: FALSE", skin);
         resolution = new TextButton("" + getWidth() + "x" + getHeight(), skin);
         controls = new TextButton("CONTROL:ARROWS", skin);
         resolutionsSizes = new ArrayList<String>();
@@ -78,11 +80,11 @@ public class SettingsUI {
             public void clicked(InputEvent e, float x, float y) {
                 System.out.println("music clicked");
                 if (musicResp) {
-                    music.setText("MUSIC:OFF");
+                    music.setText("MUSIC: OFF");
                     musicResp = false;
                     //  SettingsManager.setMusic(false);
                 } else if (!musicResp) {
-                    music.setText("MUSIC:ON");
+                    music.setText("MUSIC: ON");
                     musicResp = true;
                     //  SettingsManager.setMusic(true);
                 }
@@ -92,13 +94,12 @@ public class SettingsUI {
         sound.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
-
                 if (soundResp) {
-                    sound.setText("SOUND:OFF");
+                    sound.setText("SOUND: OFF");
                     soundResp = false;
                     // SettingsManager.setSound(false);
                 } else {
-                    sound.setText("SOUND:ON");
+                    sound.setText("SOUND: ON");
                     soundResp = true;
                     // SettingsManager.setSound(true);
                 }
@@ -135,6 +136,19 @@ public class SettingsUI {
                 resChange = true;
             }
         });
+        skipDialogue.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent e, float x, float y) {
+
+                if (!checkDialogue) {
+                    skipDialogue.setText("SKIP DIALOGUE: TRUE");
+                    checkDialogue = true;
+                } else {
+                	skipDialogue.setText("SKIP DIALOGUE: FALSE");
+                	checkDialogue = false;
+                }
+            }
+        });
         apply.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
@@ -147,6 +161,11 @@ public class SettingsUI {
                     SettingsManager.setSound(false);
                 } else {
                     SettingsManager.setSound(true);
+                }
+                if(!checkDialogue) {
+                	SettingsManager.setDialogueSkipper(false);
+                } else if (checkDialogue) {
+                	SettingsManager.setDialogueSkipper(true);
                 }
 
                 if (resChange) {
@@ -183,6 +202,8 @@ public class SettingsUI {
         table.row();
         table.add(music).width(controls.getPrefWidth() + (controls.getPrefWidth() / 2));
         table.add(sound).width(controls.getPrefWidth() + (controls.getPrefWidth() / 2));
+        table.row();
+        table.add(skipDialogue).colspan(3).expandX().fillX();
         table.row();
         table.add(apply).colspan(3).expandX().fillX();
         table.setSize(table.getPrefWidth(), table.getPrefHeight());

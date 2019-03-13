@@ -1,4 +1,4 @@
-InventoryAtlas.png
+InventoryAtlas2.png
 size: 3091, 308
 format: RGBA8888
 filter: Linear,Linear

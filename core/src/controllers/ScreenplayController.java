@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.audio.Sound;
 
+import managers.SettingsManager;
+
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Input.Keys;
@@ -68,20 +70,38 @@ public class ScreenplayController extends InputAdapter {
 	 */
 	@Override
 	public boolean keyUp(int keycode) {
-		if(traverser!= null && keycode == Keys.ENTER && playerDialogue.isFinished()) {
-			if(character == "Flynn" || character == "Jessica") {
-				if(i < arrayList.size()) {
-					arrayList.get(i).play();
-					i++;
+		if(!SettingsManager.getDialogueChecker()) {
+			if(traverser!= null && keycode == Keys.ENTER && playerDialogue.isFinished()) {
+				if(character == "Flynn" || character == "Jessica") {
+					if(i < arrayList.size()) {
+						arrayList.get(i).play();
+						i++;
+					}
 				}
+				if(traverser.getType() == TYPE.END) {
+					traverser = null;
+					playerDialogue.setVisible(false);
+				} else if (traverser.getType() == TYPE.LINEAR) {
+					dialogueProgression(0);
+				}
+				return true;
 			}
-			if(traverser.getType() == TYPE.END) {
-				traverser = null;
-				playerDialogue.setVisible(false);
-			} else if (traverser.getType() == TYPE.LINEAR) {
-				dialogueProgression(0);
+		} else {
+			if(traverser!= null && keycode == Keys.ENTER) {
+				if(character == "Flynn" || character == "Jessica") {
+					if(i < arrayList.size()) {
+						arrayList.get(i).play();
+						i++;
+					}
+				}
+				if(traverser.getType() == TYPE.END) {
+					traverser = null;
+					playerDialogue.setVisible(false);
+				} else if (traverser.getType() == TYPE.LINEAR) {
+					dialogueProgression(0);
+				}
+				return true;
 			}
-			return true;
 		}
 		if(playerDialogue.isVisible()) {
 			return true;

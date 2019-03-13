@@ -55,7 +55,7 @@ public class GameScreen extends AbstractScreen {
 
     private Music inGameMp3;
 
-    private SpriteBatch batch; // Allows us to render sprite to screen really fast
+    private SpriteBatch batch, mapBatch; // Allows us to render sprite to screen really fast
     private Player player;
     private PlayerController playerControls;
     private ScreenplayController dialogueController;
@@ -79,7 +79,7 @@ public class GameScreen extends AbstractScreen {
     private ScreenplayHandler handler;
     private InputMultiplexer processor;
 
-    private Herd herd;
+    private	 Herd herd;
     private ArrayList<Zombie> zombies;
     private ArrayList<Book> books;
     private Robot robot;
@@ -88,8 +88,11 @@ public class GameScreen extends AbstractScreen {
     private BossController bossController;
     
     private InventorySystem currentInv;
+    
+    private Particles smoke, smoke2, smoke3;
 
     public GameScreen(String character) {
+    	Assets.load();
         this.chosenCharacter = character; // Chosen characters are either Flynn or Jessica
         if (chosenCharacter == "Flynn") {
             gender = "male";
@@ -122,6 +125,9 @@ public class GameScreen extends AbstractScreen {
         maps.add(map1);
         maps.add(map2);
         exits = map3.getExits();
+        
+        smoke = new Particles();
+		smoke2 = new Particles();
 
     }
 
@@ -130,6 +136,7 @@ public class GameScreen extends AbstractScreen {
         MainMenuScreen.getMP3().pause();
 
         batch = new SpriteBatch();
+        mapBatch = new SpriteBatch();
         //batch.setBlendFunction(-1, -1);
         //Gdx.gl.glBlendFuncSeparate(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA,GL20.GL_SRC_ALPHA, GL20.GL_DST_ALPHA);
         hud = new Hud(batch);
@@ -237,14 +244,14 @@ public class GameScreen extends AbstractScreen {
     }
 
     private void initUI() {
-        stage = new Stage(new ScreenViewport());
+		stage = new Stage(new ScreenViewport());
 
-        table = new Table();
-        table.setFillParent(true);
-        stage.addActor(table);
+		table = new Table();
+		table.setFillParent(true);
+		stage.addActor(table);
 
-        dialogue = new Screenplay(chosenCharacter);
-        table.add(dialogue).expand().align(Align.bottom).pad(10f);
+		dialogue = new Screenplay(chosenCharacter);
+		table.add(dialogue).expand().align(Align.bottom).pad(85f);
     }
 
     public void setGameScreen() {
@@ -369,7 +376,7 @@ public class GameScreen extends AbstractScreen {
 
         
         robotController.setPlayerPosition(playerControls.getPlayer().getX(), playerControls.getPlayer().getY());
-        //robotController.update(delta);
+        robotController.update(delta);
 
         for (int i = 0; i < robot.getBullets().size(); i++) {
             robot.getBullets().get(i).setPosition(player.getX(), player.getY());
@@ -390,9 +397,9 @@ public class GameScreen extends AbstractScreen {
             }
         }
         batch.draw(robot.getSprite(),
-                (robot.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
-                robot.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
-                GameSettings.SCALED_TILE_SIZE * 1f);
+                (robot.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2) + 20,
+                robot.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1.7f,
+                GameSettings.SCALED_TILE_SIZE * 2f);
         
         bossController.setPlayerPosition(player.getX(), player.getY());
         bossController.update(delta);
@@ -419,30 +426,47 @@ public class GameScreen extends AbstractScreen {
                 bossZombie.getBullets().remove(bossZombie.getBullets().get(i));
             }
         }
-        books = playerControls.getBooks();
-        ArrayList<Book> booksToRemove = new ArrayList<Book>();
-        for (int i = 0; i < books.size(); i++) {
-            Book b = books.get(i);
-            b.render(batch);
+        books = playerControls.getBooks(); 
+		ArrayList<Book> booksToRemove = new ArrayList<Book>(); 
+		for(int i = 0; i < books.size(); i++) {
+			Book b = books.get(i);
+			b.render(batch);
 
-            if (playerControls.isBlocked((int) b.getX(), (int) b.getY(), playerControls.getCollisionLayer())) {
-                booksToRemove.add(b);
-            }
-            for (int j = 0; j < herd.getZombiesList().size(); j++) {
-                Zombie zombie = herd.getZombiesList().get(j);
-                if (zombie.getX() == b.getX() && zombie.getY() == b.getY()) {
-                    System.out.println(zombie.getHealth());
-                    System.out.println(b.getX());
-                    System.out.println("hit");
-                    zombie.damage(30);
-                    if (zombie.getHealth() <= 0) {
-                        herd.getZombiesList().remove(j);
-                    }
-                }
-            }
-            b.update(delta);
-        }
-        books.removeAll(booksToRemove);
+			if(playerControls.isBlocked((int) b.getX(), (int) b.getY(), playerControls.getCollisionLayer())) {
+				booksToRemove.add(b);
+			}
+			for(int j = 0; j < herd.getZombiesList().size(); j++) {
+				Zombie zombie = herd.getZombiesList().get(j);
+				
+				float zombieX = (zombie.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2);
+				float zombieWidth = zombieX + (GameSettings.SCALED_TILE_SIZE * 1f);
+				float zombieY = (zombie.y * GameSettings.SCALED_TILE_SIZE);
+				float zombieHeight = zombieY + (GameSettings.SCALED_TILE_SIZE * 1f);
+				
+				float bookX = (b.getX() * GameSettings.SCALED_TILE_SIZE) - 10;
+				float bookWidth = bookX + 9;
+				float bookY = (b.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
+				float bookHeight = bookY + 9;
+				
+				if((zombieWidth >= bookWidth) && (zombieX <= bookWidth)) {
+					if((zombieHeight >= bookHeight) && (zombieY <= bookHeight)) {
+						System.out.println(zombie.getHealth());
+						System.out.println(b.getX());
+						System.out.println("hit");
+						zombie.damage(30);
+						if(zombie.getHealth() <= 0) {
+							herd.getZombiesList().remove(j);
+						}
+						booksToRemove.add(b);
+						
+					}
+				}
+				//if(zombie.getX() == b.getX() && zombie.getY() == b.getY()) {
+				//}
+			}
+			b.update(delta);
+		}
+		books.removeAll(booksToRemove);
 
         ArrayList<Item> currentMapItems = currentInv.getMapItems();
         ArrayList<Item> currentHUDItems = currentInv.getHUDItems();
@@ -483,6 +507,11 @@ public class GameScreen extends AbstractScreen {
         }
 
         batch.end();
+        
+        mapBatch.begin();
+        smoke.smokeUpdateAndDraw(mapBatch, delta);
+		smoke2.smokeUpdateAndDraw2(mapBatch, delta);
+		mapBatch.end();
         stage.draw();
     }
 
