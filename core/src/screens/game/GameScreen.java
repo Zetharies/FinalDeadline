@@ -223,16 +223,12 @@ public class GameScreen extends AbstractScreen {
             }
         }
 
-        ScreenplayNode instruction2 = new ScreenplayNode("Press 'Spacebar' to throw books at enemies   [ENTER]", 3);
-
         dialogue1.makeLinear(dialogue2.getId());
         dialogue2.makeLinear(instruction1.getId());
-        instruction1.makeLinear(instruction2.getId());
-
+        
         handler.addNode(dialogue1);
         handler.addNode(dialogue2);
         handler.addNode(instruction1);
-        handler.addNode(instruction2);
 
         dialogueController.startDialogue(handler);
         Gdx.input.setInputProcessor(processor);
@@ -370,8 +366,8 @@ public class GameScreen extends AbstractScreen {
             batch.draw(zombies.get(i).getZombies(),
                     (zombies.get(i).x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
                     zombies.get(i).y * GameSettings.SCALED_TILE_SIZE,
-                    GameSettings.SCALED_TILE_SIZE * 1f,
-                    GameSettings.SCALED_TILE_SIZE * 1f);
+                    GameSettings.SCALED_TILE_SIZE * 1.15f,
+                    GameSettings.SCALED_TILE_SIZE * 1.2f);
         }
 
         
