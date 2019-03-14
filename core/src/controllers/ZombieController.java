@@ -47,10 +47,10 @@ public class ZombieController {
         
 
         if (detectPlayer() && !up) {
-            System.out.println("blocked up");
+            //System.out.println("blocked up");
             setTimer = true;
         }else if (detectPlayer() && !down) {
-            System.out.println("blocked up");
+            //System.out.println("blocked up");
             setTimer = true;
         }
         
@@ -95,7 +95,7 @@ public class ZombieController {
             zombie.getZombies().setRegion((TextureRegion) zombie.getRight().getKeyFrame(incr));
             zombie.x += Gdx.graphics.getDeltaTime() * zombie.speed;
             if (isRightBlocked()) {
-                System.out.println("right is now blocked");
+                //System.out.println("right is now blocked");
                 moveRandom = true;
             }
 
@@ -105,7 +105,7 @@ public class ZombieController {
             zombie.x -= Gdx.graphics.getDeltaTime() * zombie.speed;
 
             if (isLeftBlocked()) {
-                System.out.println("left is now blocked");
+                //System.out.println("left is now blocked");
                 moveRandom = true;
             }
 
@@ -115,7 +115,7 @@ public class ZombieController {
             zombie.y += Gdx.graphics.getDeltaTime() * zombie.speed;
 
             if (isUpBlocked()) {
-                System.out.println("up is now blocked");
+                //System.out.println("up is now blocked");
                 moveRandom = true;
             }
 
@@ -124,7 +124,7 @@ public class ZombieController {
             zombie.y -= Gdx.graphics.getDeltaTime() * zombie.speed;
 
             if (isDownBlocked()) {
-                System.out.println("down is now blocked");
+                //System.out.println("down is now blocked");
                 moveRandom = true;
             }
         }

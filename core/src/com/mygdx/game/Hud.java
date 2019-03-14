@@ -96,18 +96,18 @@ public class Hud {
 
 	public void reduceHealth(float damage) {
 		health.setValue(health.getValue() - damage);
-		
+
 	}
-	
+
 	public void increaseHealth(float healthInc) {
 		if ((health.getValue() + healthInc) >= 1.0f) {
 			health.setValue(1.0f);
-			
+
 		} else {
 			health.setValue(health.getValue() + healthInc);
-			
+
 		}
-		
+
 	}
 
 	public float getHealth() {
@@ -115,44 +115,71 @@ public class Hud {
 	}
 
 	// Adds the found item to the inventory bar, un-equipped
-	public void addLatestFoundItemToInv(String atlasName, int padRight) {	
-		invItems = new Container<Image>();
-		invItems.top();
-		invItems.setFillParent(true);
-		invItems.setPosition(padRight, -535);
+	public void addLatestFoundItemToInv(String atlasName, int padRight, Boolean drinkDrawn, String objectType) {	
+		if (objectType.equals("drink")) {
+			if (drinkDrawn == false) {
+				invItems = new Container<Image>();
+				invItems.top();
+				invItems.setFillParent(true);
+				invItems.setPosition(padRight, -535);
 
-		Image currentItem = new Image(new TextureRegion(invAtlas.findRegion(atlasName)));
+				Image currentItem = new Image(new TextureRegion(invAtlas.findRegion(atlasName)));
 
-		currentItem.scaleBy(0.9f);
+				currentItem.scaleBy(0.9f);
 
-		invItems.setActor(currentItem);
-		invItems.setName("invItems." + atlasName);
+				invItems.setActor(currentItem);
+				invItems.setName("invItems." + atlasName);
 
-		stage.addActor(invItems);	
-		
+				stage.addActor(invItems);	
+			}
+			
+		} else {
+			invItems = new Container<Image>();
+			invItems.top();
+			invItems.setFillParent(true);
+			invItems.setPosition(padRight, -535);
+
+			Image currentItem = new Image(new TextureRegion(invAtlas.findRegion(atlasName)));
+
+			currentItem.scaleBy(0.9f);
+
+			invItems.setActor(currentItem);
+			invItems.setName("invItems." + atlasName);
+
+			stage.addActor(invItems);	
+
+		}
+
 	}
 
 	public void drawEquippedItem(Item equippedItem) {	
 		for (Actor currentActor : stage.getActors()) {
-
 			if (currentActor.getName().equals("invBox")) {
 				currentActor.remove();
 
-				invBox = new Container<Image>();
-				invBox.top();
-				invBox.setFillParent(true);
-				invBox.setPosition(equippedItem.getInvBoxX(), -504);
+				if (equippedItem != null) {
+					invBox = new Container<Image>();
+					invBox.top();
+					invBox.setFillParent(true);
+					invBox.setPosition(equippedItem.getInvBoxX(), -504);
 
-				invBoxImage = new Image(new TextureRegion(invAtlas.findRegion("invBox")));
+					invBoxImage = new Image(new TextureRegion(invAtlas.findRegion("invBox")));
 
-				// NEED TO ADD ACCURATE SCALING 
-				invBoxImage.scaleBy(0.17f, -0.05f);
+					// NEED TO ADD ACCURATE SCALING 
+					invBoxImage.scaleBy(0.17f, -0.05f);		
 
-				invBox.setActor(invBoxImage);
-				invBox.setName("invBox");
+					invBox.setActor(invBoxImage);
+					invBox.setName("invBox");
 
-				stage.addActor(invBox);
+					stage.addActor(invBox);
 
+				} else {
+					invBox = new Container<Image>();
+					invBox.setName("invBox");
+					
+					stage.addActor(invBox);
+					
+				}
 			}
 
 
@@ -170,7 +197,7 @@ public class Hud {
 
 		}
 
-		
+
 	}
 
 }

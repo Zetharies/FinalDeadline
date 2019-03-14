@@ -30,6 +30,8 @@ public class InventorySystem{
 	private Item currentItem;
 	
 	private int mapNumber;
+	
+	private Boolean drinkDrawn;
 
 	public InventorySystem() {	
 		inventory = new ArrayList<Item>();
@@ -39,6 +41,8 @@ public class InventorySystem{
 		rnd = new Random();
 
 		currentItem = null;
+		
+		drinkDrawn = false;
 
 	}
 	
@@ -47,6 +51,7 @@ public class InventorySystem{
 		collisions = impCollisions;
 		addItemsToInventory();
 		changeMap(currentMap);
+		
 	}
 
 	public void addItemsToInventory() {
@@ -62,6 +67,7 @@ public class InventorySystem{
 
 		generateRandomPos();
 		Drink drink = new Drink(90, 5);
+		drink.setDrinkID(1);
 
 		generateRandomPos();
 		//Potion1 firstPotion = new Potion1(25, 83);
@@ -83,17 +89,30 @@ public class InventorySystem{
 		inventory.add(secondPotion.getID(), secondPotion);
 		inventory.add(thirdPotion.getID(), thirdPotion);	
 		
-//		generateRandomPos();
-//		Drink drink2 = new Drink(90, 4);
-//		inventory.add(drink2);	
+		addDrinks(12);
+		
 
 	}
 	
-	public void addDrinks(int numDrinks) {
-		for (int i = 0; i <= numDrinks; i++) {
-			
-			
+	// Max number of drinks on map can only be 11
+	public void setDrinksOnMap(int numDrinks) {
+		for (int i = 6; i <= (6 + numDrinks); i++) {
+			inventory.get(i).setOnMap(true);
+			inventory.get(i).setItemFound(false);
 		}
+		
+		
+	}
+	
+	public void addDrinks(int numDrinks) {
+		for (int i = 0; i < numDrinks; i++) {
+			generateRandomPos();
+			Drink tempDrink = new Drink(randomPos[0], randomPos[1]);
+			tempDrink.setDrinkID(i + 2);
+			
+			inventory.add(tempDrink);
+			
+		}		
 		
 	}
 
@@ -114,6 +133,8 @@ public class InventorySystem{
 			inventory.get(3).setItemFound(false);
 			inventory.get(4).setItemFound(false);
 			inventory.get(5).setItemFound(false);
+			
+			setDrinksOnMap(5);
 
 		} else if (mapNumber == 1) {
 			inventory.get(0).setOnMap(false);
@@ -129,6 +150,8 @@ public class InventorySystem{
 			inventory.get(3).setItemFound(false);
 			inventory.get(4).setItemFound(false);
 			inventory.get(5).setItemFound(false);
+			
+			setDrinksOnMap(5);
 
 		} else if (mapNumber == 2) {
 			inventory.get(0).setOnMap(false);
@@ -144,6 +167,8 @@ public class InventorySystem{
 			inventory.get(3).setItemFound(false);
 			inventory.get(4).setItemFound(false);
 			inventory.get(5).setItemFound(false);
+			
+			setDrinksOnMap(5);
 
 			// TEST NUMBER
 		} else if (mapNumber == 100) {
@@ -160,6 +185,8 @@ public class InventorySystem{
 			inventory.get(3).setItemFound(false);
 			inventory.get(4).setItemFound(false);
 			inventory.get(5).setItemFound(false);
+			
+			setDrinksOnMap(11);
 		}
 
 	}
@@ -186,6 +213,15 @@ public class InventorySystem{
 
 	}
 	
+	public void setDrinkDrawn(Boolean choice) {
+		drinkDrawn = choice;
+		
+	}
+	
+	
+	public Boolean getDrinkDrawn() {
+		return drinkDrawn;
+	}
 	
 	public int getMapNumber() {
 		return mapNumber;

@@ -17,6 +17,7 @@ public class Item{
 	private int y;
 	private int invX;
 	private int invBoxX;
+	private int drinkID;
 
 	protected boolean found;
 	protected boolean onMap;
@@ -43,6 +44,8 @@ public class Item{
 		beingPressed = false;
 		
 		this.atlasImage = atlasImage;	
+		
+		drinkID = 0;
 	}
 
 	
@@ -50,6 +53,15 @@ public class Item{
 
 	}
 
+	
+	public void setDrinkID(int choice) {
+		drinkID = choice;
+	}
+	
+	public int getDrinkID() {
+		return drinkID;
+	}
+	
 	
 	public void setInvDrawn(Boolean choice) {
 		invDrawn = choice;
