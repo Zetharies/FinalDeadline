@@ -26,6 +26,8 @@ public class Hud {
 	private HealthBar health;
 
 	private TextureAtlas invAtlas;
+	private TextureAtlas invBoxAtlas;
+	
 	private Container<Image> invItems;
 	private Container<Image> invBox;
 	private Image invBoxImage;
@@ -51,12 +53,13 @@ public class Hud {
 
 		health = new HealthBar(145,8); // Create health bar
 		health.getHealth(); // gets the value 
-		health.setPosition((float)(Gdx.graphics.getWidth()/ 100), Gdx.graphics.getHeight()/2);
+		health.setPosition(555, 415);
 		health.setName("health");
 
 		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 		invAtlas = new TextureAtlas(Gdx.files.internal("inventory/InventoryAtlas.txt"));// atlas file
+		invBoxAtlas = new TextureAtlas(Gdx.files.internal("inventory/InventoryBox Atlas.txt"));// atlas file
 
 		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -117,7 +120,7 @@ public class Hud {
 	// Adds the found item to the inventory bar, un-equipped
 	public void addLatestFoundItemToInv(String atlasName, int padRight, Boolean drinkDrawn, String objectType) {	
 		if (objectType.equals("drink")) {
-			if (drinkDrawn == false) {
+			if (drinkDrawn == false) {				
 				invItems = new Container<Image>();
 				invItems.top();
 				invItems.setFillParent(true);
@@ -163,7 +166,7 @@ public class Hud {
 					invBox.setFillParent(true);
 					invBox.setPosition(equippedItem.getInvBoxX(), -504);
 
-					invBoxImage = new Image(new TextureRegion(invAtlas.findRegion("invBox")));
+					invBoxImage = new Image(new TextureRegion(invBoxAtlas.findRegion("invBox-Red")));
 
 					// NEED TO ADD ACCURATE SCALING 
 					invBoxImage.scaleBy(0.17f, -0.05f);		

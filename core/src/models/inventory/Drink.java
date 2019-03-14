@@ -5,8 +5,6 @@ import com.mygdx.game.GameSettings;
 
 public class Drink extends Item{
 	
-	private Boolean drinkUsed;
-	
 	public Drink(int startX, int startY) {
 		super("Drink", startX, startY, 2, "images/items/itemDrink.png" ,"invDrink", -222, -219);
 

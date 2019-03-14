@@ -190,7 +190,7 @@ public class GameScreen extends AbstractScreen {
 		loadedMap = new TmxMapLoader().load(map.getMapLocation());
 
 		currentInv = new InventorySystem();
-		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), 100);
+		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), 0);
 
 		// player = new Player(14, 90, animations); // Create a new player object with
 		// the coordinates 0, 0, player
@@ -492,21 +492,16 @@ public class GameScreen extends AbstractScreen {
 
 		if (currentInv.getMapNumber() == 1 || currentInv.getMapNumber() == 2) {
 			for (Item currentItem : currentHUDItems) {
-				if (currentItem.getFound() == true) {
-					if (currentItem.getName().equals("Drink")) {
-						hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), 
-													currentItem.getInvX(),
-													currentInv.getDrinkDrawn(),
-													"drink");
-					} else {
-						hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), 
-								currentItem.getInvX(),
-								currentInv.getDrinkDrawn(),
-								"");
-						
-					}
+				if (currentItem.getFound() == true && currentItem.getInvDrawn() == false) {						
+					hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), 
+							currentItem.getInvX(),
+							currentInv.getDrinkDrawn(),
+							"");
+
+					currentItem.setInvDrawn(true);
 
 				}
+
 			}
 		}
 
@@ -518,69 +513,61 @@ public class GameScreen extends AbstractScreen {
 				currentItem.setOnMap(false);
 				currentItem.setItemFound(true);
 
-				//System.out.println("You have found: " + currentItem.getName());
 				System.out.println("You have found: " + currentItem);
 
 				if (currentItem.getInvDrawn() == false) {
 					if (currentItem.getName().equals("Drink") ) {
 						if (currentInv.getDrinkDrawn() == false) {
 							hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), 
-														currentItem.getInvX(),
-														currentInv.getDrinkDrawn(),
-														"drink");
+									currentItem.getInvX(),
+									currentInv.getDrinkDrawn(),
+									"drink");
 
 							currentDrinkID = currentItem.getDrinkID();
-							
+
 							currentInv.setDrinkDrawn(true);
 							currentInv.getMapItems().get(2).setItemFound(true);
-							
 						}
+
 
 					} else {
 						hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), 
-													currentItem.getInvX(),
-													currentInv.getDrinkDrawn(),
-													"");
+								currentItem.getInvX(),
+								currentInv.getDrinkDrawn(),
+								"");
 
 						currentItem.setInvDrawn(true);
 					} 	
 
-
-				}				
-
+				}
 			}
-
-		}
+		}		
 
 		currentMapItems.removeAll(foundMapItems);
 
 		currentInv = playerControls.equipItem(currentInv);
-		
+
 		if (currentInv.getCurrentItem() != null) {			
 			hud.drawEquippedItem(currentInv.getCurrentItem());
 
 		}
 
-		//<<<<<<<<
-		
 		Item currentUsedItem = playerControls.itemPressed();
 
-		//<<<<<<<<<
-		
 		if (currentUsedItem != null) {
 			if (currentUsedItem.getName().equals("Drink")) {
 				for (Item currentItem : currentInv.getInventory()) {
-					if (currentItem.getDrinkID() == currentDrinkID) {
+					if (currentInv.getCurrentItem() != null && currentItem.getDrinkID() == currentDrinkID) {
 						hud.increaseHealth(0.25f);  
 						hud.removeEquippedItem(currentItem);
-						hud.drawEquippedItem(null);
+						hud.drawEquippedItem(null);						
 						
 						currentInv.getCurrentItem().setBeingUsed(false);
 						currentInv.getMapItems().get(2).setItemFound(false);
 						currentInv.setDrinkDrawn(false);
 						currentInv.setAsCurrentItem(null);
-						
-						
+
+
 					}						
 				}
 			}
@@ -610,8 +597,9 @@ public class GameScreen extends AbstractScreen {
 		exits = map.getExits();
 		loadedMap = new TmxMapLoader().load(map.getMapLocation());
 
-		currentInv = new InventorySystem(); //<<<<<<<<<<<<<<
+		currentInv = new InventorySystem();
 		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), newMap);
+		currentInv.setDrinkDrawn(false);
 
 	}
 

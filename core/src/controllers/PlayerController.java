@@ -264,70 +264,69 @@ public class PlayerController extends InputAdapter {
 	
 	public InventorySystem equipItem(InventorySystem inventory) {
 		currentInv = inventory;
-		ArrayList<Item> currentALInventory = currentInv.getInventory();
 
 		if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
-			if (currentALInventory.get(0).getFound() == true) {				
-				currentInv.setAsCurrentItem(currentALInventory.get(0));
+			if (currentInv.getInventory().get(0).getFound() == true) {				
+				currentInv.setAsCurrentItem(currentInv.getInventory().get(0));
 
 				System.out.println("You have now equipped: " + currentInv.getCurrentItem().getName());
 
 			} else {
-				System.out.println("You have not found this item yet, " + currentALInventory.get(0).getName());
+				System.out.println("You have not found this item yet, " + currentInv.getInventory().get(0).getName());
 
 			}
 
 		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
-			if (currentALInventory.get(1).getFound() == true) {				
-				currentInv.setAsCurrentItem(currentALInventory.get(1));
+			if (currentInv.getInventory().get(1).getFound() == true) {				
+				currentInv.setAsCurrentItem(currentInv.getInventory().get(1));
 
 				System.out.println("You have now equipped: " + currentInv.getCurrentItem().getName());
 
 			} else {
-				System.out.println("You have not found this item yet, " + currentALInventory.get(1).getName());
+				System.out.println("You have not found this item yet, " + currentInv.getInventory().get(1).getName());
 
 			}
 
 		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
-			if (currentALInventory.get(2).getFound() == true) {				
-				currentInv.setAsCurrentItem(currentALInventory.get(2));
+			if (currentInv.getInventory().get(2).getFound() == true) {				
+				currentInv.setAsCurrentItem(currentInv.getInventory().get(2));
 
 				System.out.println("You have now equipped: " + currentInv.getCurrentItem().getName());
 
-			} else {
-				System.out.println("You have not found this item yet, " + currentALInventory.get(2).getName());
+			} else {								
+				System.out.println("You have not found this item yet, " + currentInv.getInventory().get(2).getName());
 
 			}
 
 		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_4)){
-			if (currentALInventory.get(3).getFound() == true) {			
-				currentInv.setAsCurrentItem(currentALInventory.get(3));
+			if (currentInv.getInventory().get(3).getFound() == true) {			
+				currentInv.setAsCurrentItem(currentInv.getInventory().get(3));
 
 				System.out.println("You have now equipped: " + currentInv.getCurrentItem().getName());
 
 			} else {
-				System.out.println("You have not found this item yet, " + currentALInventory.get(3).getName());
+				System.out.println("You have not found this item yet, " + currentInv.getInventory().get(3).getName());
 
 			}
 
 		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_5)){
-			if (currentALInventory.get(4).getFound() == true) {			
-				currentInv.setAsCurrentItem(currentALInventory.get(4));
+			if (currentInv.getInventory().get(4).getFound() == true) {			
+				currentInv.setAsCurrentItem(currentInv.getInventory().get(4));
 
 				System.out.println("You have now equipped: " + currentInv.getCurrentItem().getName());
 
 			} else {
-				System.out.println("You have not found this item yet, " + currentALInventory.get(4).getName());
+				System.out.println("You have not found this item yet, " + currentInv.getInventory().get(4).getName());
 
 			}
 		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_6)){
-			if (currentALInventory.get(5).getFound() == true) {			
-				currentInv.setAsCurrentItem(currentALInventory.get(5));
+			if (currentInv.getInventory().get(5).getFound() == true) {			
+				currentInv.setAsCurrentItem(currentInv.getInventory().get(5));
 
 				System.out.println("You have now equipped: " + currentInv.getCurrentItem().getName());
 
 			} else {
-				System.out.println("You have not found this item yet, " + currentALInventory.get(5).getName());
+				System.out.println("You have not found this item yet, " + currentInv.getInventory().get(5).getName());
 
 			}
 		}
@@ -339,13 +338,13 @@ public class PlayerController extends InputAdapter {
 	public Item itemPressed() {
 		if (currentInv.getCurrentItem() == null){
 			return null;
-			
+
 		} else if (currentInv.getCurrentItem().checkBeingUsed() == false && currentInv.getCurrentItem().checkBeingPressed() == true) {
 			currentInv.getCurrentItem().setBeingUsed(true);
 			currentInv.getCurrentItem().setBeingPressed(false);
 			
 			return currentInv.getCurrentItem();
-		
+
 		} else {
 			return null;
 			
@@ -353,6 +352,7 @@ public class PlayerController extends InputAdapter {
 		
 	}
 
+	
 	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
  	public void updatePlayerCoordinates(int x, int y) {

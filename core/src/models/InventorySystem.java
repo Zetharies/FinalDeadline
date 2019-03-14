@@ -70,15 +70,12 @@ public class InventorySystem{
 		drink.setDrinkID(1);
 
 		generateRandomPos();
-		//Potion1 firstPotion = new Potion1(25, 83);
 		Potion1 firstPotion = new Potion1(91, 5);
 
 		generateRandomPos();
-		//Potion2 secondPotion = new Potion2(26, 83);
 		Potion2 secondPotion = new Potion2(92, 5);
 
 		generateRandomPos();
-		//Potion3 thirdPotion = new Potion3(27, 83);
 		Potion3 thirdPotion = new Potion3(93, 5);
 
 		// Adds items to inventory arraylist depending on Item ID
@@ -89,12 +86,11 @@ public class InventorySystem{
 		inventory.add(secondPotion.getID(), secondPotion);
 		inventory.add(thirdPotion.getID(), thirdPotion);	
 		
-		addDrinks(12);
-		
+		addDrinks();
 
 	}
 	
-	// Max number of drinks on map can only be 11
+	// Choose number of drinks which should appear on the map (x <= 15)
 	public void setDrinksOnMap(int numDrinks) {
 		for (int i = 6; i <= (6 + numDrinks); i++) {
 			inventory.get(i).setOnMap(true);
@@ -104,15 +100,18 @@ public class InventorySystem{
 		
 	}
 	
-	public void addDrinks(int numDrinks) {
-		for (int i = 0; i < numDrinks; i++) {
+	// Choose max number of drinks which can be added to a map
+	public void addDrinks() {
+		for (int i = 6; i <= (6 + 15); i++) {
 			generateRandomPos();
+			
 			Drink tempDrink = new Drink(randomPos[0], randomPos[1]);
-			tempDrink.setDrinkID(i + 2);
 			
 			inventory.add(tempDrink);
-			
-		}		
+					
+		}	
+		
+
 		
 	}
 
@@ -146,7 +145,7 @@ public class InventorySystem{
 			
 			inventory.get(0).setItemFound(true);
 			inventory.get(1).setItemFound(true);
-			inventory.get(2).setItemFound(true);
+			inventory.get(2).setItemFound(false);
 			inventory.get(3).setItemFound(false);
 			inventory.get(4).setItemFound(false);
 			inventory.get(5).setItemFound(false);
@@ -163,7 +162,7 @@ public class InventorySystem{
 			
 			inventory.get(0).setItemFound(true);
 			inventory.get(1).setItemFound(true);
-			inventory.get(2).setItemFound(true);
+			inventory.get(2).setItemFound(false);
 			inventory.get(3).setItemFound(false);
 			inventory.get(4).setItemFound(false);
 			inventory.get(5).setItemFound(false);
