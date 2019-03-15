@@ -28,6 +28,10 @@ public class InventorySystem{
 	private int[] randomPos;
 
 	private Item currentItem;
+	
+	private int mapNumber;
+	
+	private Boolean drinkDrawn;
 
 	public InventorySystem() {	
 		inventory = new ArrayList<Item>();
@@ -37,6 +41,8 @@ public class InventorySystem{
 		rnd = new Random();
 
 		currentItem = null;
+		
+		drinkDrawn = false;
 
 	}
 	
@@ -45,6 +51,7 @@ public class InventorySystem{
 		collisions = impCollisions;
 		addItemsToInventory();
 		changeMap(currentMap);
+		
 	}
 
 	public void addItemsToInventory() {
@@ -60,17 +67,15 @@ public class InventorySystem{
 
 		generateRandomPos();
 		Drink drink = new Drink(90, 5);
+		drink.setDrinkID(1);
 
 		generateRandomPos();
-		//Potion1 firstPotion = new Potion1(25, 83);
 		Potion1 firstPotion = new Potion1(91, 5);
 
 		generateRandomPos();
-		//Potion2 secondPotion = new Potion2(26, 83);
 		Potion2 secondPotion = new Potion2(92, 5);
 
 		generateRandomPos();
-		//Potion3 thirdPotion = new Potion3(27, 83);
 		Potion3 thirdPotion = new Potion3(93, 5);
 
 		// Adds items to inventory arraylist depending on Item ID
@@ -80,10 +85,39 @@ public class InventorySystem{
 		inventory.add(firstPotion.getID(), firstPotion);
 		inventory.add(secondPotion.getID(), secondPotion);
 		inventory.add(thirdPotion.getID(), thirdPotion);	
+		
+		addDrinks();
 
 	}
+	
+	// Choose number of drinks which should appear on the map (x <= 15)
+	public void setDrinksOnMap(int numDrinks) {
+		for (int i = 6; i <= (6 + numDrinks); i++) {
+			inventory.get(i).setOnMap(true);
+			inventory.get(i).setItemFound(false);
+		}
+		
+		
+	}
+	
+	// Choose max number of drinks which can be added to a map
+	public void addDrinks() {
+		for (int i = 6; i <= (6 + 15); i++) {
+			generateRandomPos();
+			
+			Drink tempDrink = new Drink(randomPos[0], randomPos[1]);
+			
+			inventory.add(tempDrink);
+					
+		}	
+		
 
-	public void changeMap(int mapNumber) {
+		
+	}
+
+	public void changeMap(int impMapNumber) {
+		mapNumber = impMapNumber;
+		
 		if (mapNumber == 0) {
 			inventory.get(0).setOnMap(true);
 			inventory.get(1).setOnMap(true);
@@ -98,6 +132,8 @@ public class InventorySystem{
 			inventory.get(3).setItemFound(false);
 			inventory.get(4).setItemFound(false);
 			inventory.get(5).setItemFound(false);
+			
+			setDrinksOnMap(5);
 
 		} else if (mapNumber == 1) {
 			inventory.get(0).setOnMap(false);
@@ -109,10 +145,12 @@ public class InventorySystem{
 			
 			inventory.get(0).setItemFound(true);
 			inventory.get(1).setItemFound(true);
-			inventory.get(2).setItemFound(true);
+			inventory.get(2).setItemFound(false);
 			inventory.get(3).setItemFound(false);
 			inventory.get(4).setItemFound(false);
 			inventory.get(5).setItemFound(false);
+			
+			setDrinksOnMap(5);
 
 		} else if (mapNumber == 2) {
 			inventory.get(0).setOnMap(false);
@@ -124,10 +162,12 @@ public class InventorySystem{
 			
 			inventory.get(0).setItemFound(true);
 			inventory.get(1).setItemFound(true);
-			inventory.get(2).setItemFound(true);
+			inventory.get(2).setItemFound(false);
 			inventory.get(3).setItemFound(false);
 			inventory.get(4).setItemFound(false);
 			inventory.get(5).setItemFound(false);
+			
+			setDrinksOnMap(5);
 
 			// TEST NUMBER
 		} else if (mapNumber == 100) {
@@ -144,6 +184,8 @@ public class InventorySystem{
 			inventory.get(3).setItemFound(false);
 			inventory.get(4).setItemFound(false);
 			inventory.get(5).setItemFound(false);
+			
+			setDrinksOnMap(11);
 		}
 
 	}
@@ -170,6 +212,20 @@ public class InventorySystem{
 
 	}
 	
+	public void setDrinkDrawn(Boolean choice) {
+		drinkDrawn = choice;
+		
+	}
+	
+	
+	public Boolean getDrinkDrawn() {
+		return drinkDrawn;
+	}
+	
+	public int getMapNumber() {
+		return mapNumber;
+		
+	}
 	
 	public Item getCurrentItem() {
 		return currentItem;
