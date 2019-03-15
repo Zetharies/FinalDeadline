@@ -116,14 +116,14 @@ public class GameScreen extends AbstractScreen {
 		entrance.addExit(53, 48);
 		entrance.addExit(54, 48);
 		entrance.addExit(55, 48);
-		
+
 		Map cafeteria = new Map(50, 23, "maps/cafeteria/cafeteria.tmx");
 		cafeteria.addExit(61, 79);
 		cafeteria.addExit(62, 79);
 		cafeteria.addExit(63, 79);
 		cafeteria.addExit(64, 79);
 		cafeteria.addExit(65, 79);
-		
+
 		Map floor1 = new Map(21, 56, "maps/floor1/library.tmx");
 		floor1.addExit(76, 21);
 
@@ -175,6 +175,7 @@ public class GameScreen extends AbstractScreen {
 		assetManager = new AssetManager();
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
+		assetManager.load("flynnAnimationAtlas",TextureAtlas.class);
 		assetManager.finishLoading();
 
 		TextureAtlas walking = this.getAssetManager().get("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas",
@@ -195,6 +196,13 @@ public class GameScreen extends AbstractScreen {
 				standing.findRegion(chosenCharacter + "_standing_south"),
 				standing.findRegion(chosenCharacter + "_standing_east"),
 				standing.findRegion(chosenCharacter + "_standing_west"));
+
+		AnimationSet animations1 = new AnimationSet(
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions("flynnPowered1"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions("flynnPowered2"), Animation.PlayMode.LOOP_PINGPONG));
+
 
 		// map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); //
 		// map to load, extremely basic map,
@@ -355,7 +363,7 @@ public class GameScreen extends AbstractScreen {
 			hud.resetHealth();
 			playerControls.updatePlayerCoordinates(spawnX, spawnY);
 		}
-		
+
 		for (int i = 0; i < zombies.size(); i++) {
 			// update all zombies
 			zombies.get(i).update(delta);
@@ -570,11 +578,11 @@ public class GameScreen extends AbstractScreen {
 			if (currentUsedItem.getName().equals("Drink")) {
 				for (Item currentItem : currentInv.getInventory()) {
 					if (currentInv.getCurrentItem() != null && currentItem.getDrinkID() == currentDrinkID) {
-						
+
 						hud.increaseHealth(0.25f);  
 						hud.removeEquippedItem(currentItem);
 						hud.drawEquippedItem(null);						
-						
+
 						currentInv.getCurrentItem().setBeingUsed(false);
 						currentInv.getMapItems().get(2).setItemFound(false);
 						currentInv.setDrinkDrawn(false);
