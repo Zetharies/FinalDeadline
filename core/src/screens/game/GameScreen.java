@@ -9,14 +9,18 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
@@ -62,6 +66,7 @@ public class GameScreen extends AbstractScreen {
 	private ScreenplayController dialogueController;
 	private int spawnX;
 	private int spawnY;
+	private boolean been = false;
 
 	private TiledMap loadedMap;
 	private Map map;
@@ -75,7 +80,7 @@ public class GameScreen extends AbstractScreen {
 	private Hud hud;
 
 	private Stage stage;
-	private Table table;
+	private Table table, table2;
 	private Screenplay dialogue;
 	private ScreenplayHandler handler;
 	private InputMultiplexer processor;
@@ -93,6 +98,8 @@ public class GameScreen extends AbstractScreen {
 	private int currentDrinkID;
 
 	private Particles smoke, smoke2, smoke3;
+
+	private float elapsed = 0.0f;
 
 	public GameScreen(String character) {
 		Assets.load();
@@ -360,6 +367,7 @@ public class GameScreen extends AbstractScreen {
 		// zombies.get(0).update(delta);
 		playerControls.update(delta);
 		player.update(delta);
+		System.out.println(player.getX() + "." + player.getY());
 		camera.position.set(player.getX() * GameSettings.SCALED_TILE_SIZE,
 				player.getY() * GameSettings.SCALED_TILE_SIZE, 0);
 		camera.position.y = player.getLinearY() * 64;
@@ -617,6 +625,51 @@ public class GameScreen extends AbstractScreen {
 					}
 				}
 			}
+		}
+		
+		if(player.getX() == 92 && player.getY() == 4 && playerControls.getInteract()) {
+			elapsed += delta;
+			playerControls.resetDirection();
+			table2.setFillParent(true);
+			table2.setDebug(true);
+			table2.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/horror.png"))));
+			stage.addActor(table2);
+			handler = new ScreenplayHandler();
+			ScreenplayNode faint = new ScreenplayNode("Someone has too much time on their hands!  [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode(
+					chosenCharacter + ":\n.....   [ENTER]", 1);
+			Sound sound = Gdx.audio.newSound(Gdx.files.internal("music/scream.mp3"));
+			if(elapsed == delta) {
+				sound.play();
+			}
+			
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+
+			if(elapsed > 1.0f) {
+				table2.clear();
+				stage.addAction(Actions.removeActor(table2));
+				playerControls.setInteractFalse();
+				elapsed = 0.0f;
+			}
+		}
+		
+		
+		if(maps.indexOf(map) == 0 && player.getX() > 51 && player.getY() > 45 && player.getX() < 57 && been == false) {
+			playerControls.resetDirection();
+			handler = new ScreenplayHandler();
+			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nTime for another stressful day  [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode(
+					chosenCharacter + ":\nWhat's that sound?   [ENTER]", 1);
+			
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+			
+			been = true;
 		}
 
 		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 4) {
