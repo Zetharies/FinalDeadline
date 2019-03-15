@@ -141,9 +141,7 @@ public class GameScreen extends AbstractScreen {
 		floor3.addExit(8, 94);
 		floor3.addExit(9, 94);
 
-		Map floor4 = new Map(26, 82, "maps/floor4/Floor 4 V2.tmx");
-		floor4.addExit(87, 13);
-		floor4.addExit(88, 13);
+		Map floor4 = new Map(87, 13, "maps/floor4/Floor4.tmx");
 
 		Map boss1 = new Map(46, 40, "maps/Minimaps/Boss 1/1stBossMap.tmx");
 		Map boss2 = new Map(47, 34, "maps/Minimaps/Boss 2/2ndBossMap.tmx");
