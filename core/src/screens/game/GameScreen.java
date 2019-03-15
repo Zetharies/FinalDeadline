@@ -79,7 +79,7 @@ public class GameScreen extends AbstractScreen {
 	private ScreenplayHandler handler;
 	private InputMultiplexer processor;
 
-	private	 Herd herd;
+	private Herd herd;
 	private ArrayList<Zombie> zombies;
 	private ArrayList<Book> books;
 	private Robot robot;
@@ -88,7 +88,7 @@ public class GameScreen extends AbstractScreen {
 	private BossController bossController;
 
 	private InventorySystem currentInv;
-	private int currentDrinkID; 
+	private int currentDrinkID;
 
 	private Particles smoke, smoke2, smoke3;
 
@@ -116,14 +116,14 @@ public class GameScreen extends AbstractScreen {
 		entrance.addExit(53, 48);
 		entrance.addExit(54, 48);
 		entrance.addExit(55, 48);
-		
+
 		Map cafeteria = new Map(50, 23, "maps/cafeteria/cafeteria.tmx");
 		cafeteria.addExit(61, 79);
 		cafeteria.addExit(62, 79);
 		cafeteria.addExit(63, 79);
 		cafeteria.addExit(64, 79);
 		cafeteria.addExit(65, 79);
-		
+
 		Map floor1 = new Map(21, 56, "maps/floor1/library.tmx");
 		floor1.addExit(76, 21);
 
@@ -142,9 +142,9 @@ public class GameScreen extends AbstractScreen {
 		floor4.addExit(87, 13);
 		floor4.addExit(88, 13);
 
-		Map boss1 = new Map(54, 40, "maps/Minimaps/Boss1/1stBossMap.tmx");
-		Map boss2 = new Map(54, 36, "maps/Minimaps/Boss1/2ndBossMap.tmx");
-		Map chaxMap = new Map(51, 24, "maps/Minimaps/Boss1/ChaxMap.tmx");
+		Map boss1 = new Map(54, 40, "maps/Minimaps/Boss 1/1stBossMap.tmx");
+		Map boss2 = new Map(54, 36, "maps/Minimaps/Boss 2/2ndBossMap.tmx");
+		Map chaxMap = new Map(51, 24, "maps/Minimaps/Chax boss map/ChaxMap.tmx");
 
 		maps.add(entrance);
 		maps.add(cafeteria);
@@ -168,8 +168,9 @@ public class GameScreen extends AbstractScreen {
 
 		batch = new SpriteBatch();
 		mapBatch = new SpriteBatch();
-		//batch.setBlendFunction(-1, -1);
-		//Gdx.gl.glBlendFuncSeparate(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA,GL20.GL_SRC_ALPHA, GL20.GL_DST_ALPHA);
+		// batch.setBlendFunction(-1, -1);
+		// Gdx.gl.glBlendFuncSeparate(GL20.GL_SRC_ALPHA,
+		// GL20.GL_ONE_MINUS_SRC_ALPHA,GL20.GL_SRC_ALPHA, GL20.GL_DST_ALPHA);
 		hud = new Hud(batch);
 
 		assetManager = new AssetManager();
@@ -213,20 +214,20 @@ public class GameScreen extends AbstractScreen {
 		player = new Player(spawnX, spawnY, animations);
 		playerControls = new PlayerController(player, (TiledMapTileLayer) loadedMap.getLayers().get(0));
 
-		robot = new Robot(spawnX, spawnY, (TiledMapTileLayer) loadedMap.getLayers().get(0));
+		robot = new Robot(54, 53, (TiledMapTileLayer) loadedMap.getLayers().get(0));
 		robotController = new RobotController((TiledMapTileLayer) loadedMap.getLayers().get(0), robot);
 		bossZombie = new BossZombie(spawnX, spawnY, (TiledMapTileLayer) loadedMap.getLayers().get(0));
 		bossController = new BossController((TiledMapTileLayer) loadedMap.getLayers().get(0), bossZombie);
 		renderer = new OrthogonalTiledMapRenderer(loadedMap, 2f); // 1.5658f
 		setGameScreen();
 
-		//		camera = new OrthographicCamera();
-		//		//gamePort = new ScreenViewport(camera);
-		//		gamePort = new StretchViewport(1200, 600, camera);
-		//		// herd a group of zombies
-		//		herd = new Herd((TiledMapTileLayer) map.getLayers().get(0));
-		//		// put zombies in list
-		//		zombies = herd.getZombiesList();
+		// camera = new OrthographicCamera();
+		// //gamePort = new ScreenViewport(camera);
+		// gamePort = new StretchViewport(1200, 600, camera);
+		// // herd a group of zombies
+		// herd = new Herd((TiledMapTileLayer) map.getLayers().get(0));
+		// // put zombies in list
+		// zombies = herd.getZombiesList();
 		processor.addProcessor(0, dialogueController);
 		processor.addProcessor(1, playerControls);
 		handler = new ScreenplayHandler();
@@ -285,7 +286,7 @@ public class GameScreen extends AbstractScreen {
 	}
 
 	public void setGameScreen() {
-		//renderer = new OrthogonalTiledMapRenderer(map, 2f); // 1.5658f
+		// renderer = new OrthogonalTiledMapRenderer(map, 2f); // 1.5658f
 		camera = new OrthographicCamera();
 		// gamePort = new ScreenViewport(camera);
 		gamePort = new StretchViewport(1200, 600, camera);
@@ -294,20 +295,6 @@ public class GameScreen extends AbstractScreen {
 		// put zombies in list
 		zombies = herd.getZombiesList();
 
-	}
-
-	public void setMap() {
-		if (playerControls.getMapChange()) {
-			loadedMap = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx");
-		}
-	}
-
-	public void setSpawnX(int x) {
-		spawnX = x;
-	}
-
-	public void setSpawnY(int y) {
-		spawnY = y;
 	}
 
 	@Override
@@ -332,9 +319,9 @@ public class GameScreen extends AbstractScreen {
 			playerControls.resetDirection();
 
 			handler = new ScreenplayHandler();
-			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\n*You hear faint sounds far away*   [ENTER]", 0);
-			ScreenplayNode faint2 = new ScreenplayNode(
-					chosenCharacter + ":\n.. ...   [ENTER]", 1);
+			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\n*You hear faint sounds far away*   [ENTER]",
+					0);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\n.. ...   [ENTER]", 1);
 
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
@@ -342,12 +329,11 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 
 			Gdx.input.setInputProcessor(processor);
-
 		}
 
 		// Checks if the player's health needs reducing due to a zombie
 		if (playerControls.isOnZombie(herd.getZombiesList())) {
-			hud.reduceHealth(0.01f); //Parameter may need changing
+			hud.reduceHealth(0.01f); // Parameter may need changing
 		}
 
 		// Checks if the player's health is 0, if so re-spawn them
@@ -355,7 +341,7 @@ public class GameScreen extends AbstractScreen {
 			hud.resetHealth();
 			playerControls.updatePlayerCoordinates(spawnX, spawnY);
 		}
-		
+
 		for (int i = 0; i < zombies.size(); i++) {
 			// update all zombies
 			zombies.get(i).update(delta);
@@ -376,8 +362,8 @@ public class GameScreen extends AbstractScreen {
 			zombies.get(i).update(delta);
 		}
 		// follow that zombie
-		//	camera.position.y = zombies.get(0).y * 64;
-		//	camera.position.x = zombies.get(0).x * 64;
+		// camera.position.y = zombies.get(0).y * 64;
+		// camera.position.x = zombies.get(0).x * 64;
 		camera.update();
 
 		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
@@ -399,37 +385,38 @@ public class GameScreen extends AbstractScreen {
 			// Access Each Zombie in the zombies arraylist
 			batch.draw(zombies.get(i).getZombies(),
 					(zombies.get(i).x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
-					zombies.get(i).y * GameSettings.SCALED_TILE_SIZE,
-					GameSettings.SCALED_TILE_SIZE * 1f,
+					zombies.get(i).y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
 					GameSettings.SCALED_TILE_SIZE * 1f);
 		}
 
+		if (maps.indexOf(map) == 4) {
 
-		robotController.setPlayerPosition(playerControls.getPlayer().getX(), playerControls.getPlayer().getY());
-		robotController.update(delta);
-
-		for (int i = 0; i < robot.getBullets().size(); i++) {
-			robot.getBullets().get(i).setPosition(player.getX(), player.getY());
-			robot.getBullets().get(i).update(delta);
-			if (robot.getBullets().get(i).getShoot()) {
-				batch.draw(robot.getBullets().get(i).getSprite(),
-						(robot.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
-						robot.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE / 5f,
-						GameSettings.SCALED_TILE_SIZE / 5f);
+			robotController.setPlayerPosition(playerControls.getPlayer().getX(), playerControls.getPlayer().getY());
+			robotController.update(delta);
+			for (int i = 0; i < robot.getBullets().size(); i++) {
+				robot.getBullets().get(i).setPosition(player.getX(), player.getY());
+				robot.getBullets().get(i).update(delta);
+				if (robot.getBullets().get(i).getShoot()) {
+					batch.draw(robot.getBullets().get(i).getSprite(),
+							(robot.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE)
+									- (GameSettings.SCALED_TILE_SIZE / 2),
+							robot.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE,
+							GameSettings.SCALED_TILE_SIZE / 5f, GameSettings.SCALED_TILE_SIZE / 5f);
+				}
+				if ((((int) (robot.getBullets().get(i).x) >= (int) (player.getX())
+						&& (int) (robot.getBullets().get(i).x) <= (int) (player.getX() + 1)))
+						&& (((int) (robot.getBullets().get(i).y) >= (int) (player.getY())
+								&& (int) (robot.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
+					robot.getBullets().get(i).setShoot(false);
+					hud.reduceHealth(robot.getBullets().get(i).getDamage());
+					robot.getBullets().remove(robot.getBullets().get(i));
+				}
 			}
-			if ((((int) (robot.getBullets().get(i).x) >= (int) (player.getX())
-					&& (int) (robot.getBullets().get(i).x) <= (int) (player.getX() + 1)))
-					&& (((int) (robot.getBullets().get(i).y) >= (int) (player.getY())
-					&& (int) (robot.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
-				robot.getBullets().get(i).setShoot(false);
-				hud.reduceHealth(robot.getBullets().get(i).getDamage());
-				robot.getBullets().remove(robot.getBullets().get(i));
-			}
+			batch.draw(robot.getSprite(),
+					(robot.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2) + 20,
+					robot.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1.7f,
+					GameSettings.SCALED_TILE_SIZE * 2f);
 		}
-		batch.draw(robot.getSprite(),
-				(robot.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2) + 20,
-				robot.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1.7f,
-				GameSettings.SCALED_TILE_SIZE * 2f);
 
 		bossController.setPlayerPosition(player.getX(), player.getY());
 		bossController.update(delta);
@@ -444,29 +431,30 @@ public class GameScreen extends AbstractScreen {
 			bossZombie.getBullets().get(i).update(delta);
 			if (bossZombie.getBullets().get(i).getShoot()) {
 				batch.draw(bossZombie.getBullets().get(i).getSprite(),
-						(bossZombie.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
-						bossZombie.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE / 3f,
-						GameSettings.SCALED_TILE_SIZE / 3f);
+						(bossZombie.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE)
+								- (GameSettings.SCALED_TILE_SIZE / 2),
+						bossZombie.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE,
+						GameSettings.SCALED_TILE_SIZE / 3f, GameSettings.SCALED_TILE_SIZE / 3f);
 			}
 			if ((((int) (bossZombie.getBullets().get(i).x) >= (int) (player.getX())
 					&& (int) (bossZombie.getBullets().get(i).x) <= (int) (player.getX() + 1)))
 					&& (((int) (bossZombie.getBullets().get(i).y) >= (int) (player.getY())
-					&& (int) (bossZombie.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
+							&& (int) (bossZombie.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
 				bossZombie.getBullets().get(i).setShoot(false);
 				hud.reduceHealth(bossZombie.getBullets().get(i).getDamage());
 				bossZombie.getBullets().remove(bossZombie.getBullets().get(i));
 			}
 		}
-		books = playerControls.getBooks(); 
-		ArrayList<Book> booksToRemove = new ArrayList<Book>(); 
-		for(int i = 0; i < books.size(); i++) {
+		books = playerControls.getBooks();
+		ArrayList<Book> booksToRemove = new ArrayList<Book>();
+		for (int i = 0; i < books.size(); i++) {
 			Book b = books.get(i);
 			b.render(batch);
 
-			if(playerControls.isBlocked((int) b.getX(), (int) b.getY(), playerControls.getCollisionLayer())) {
+			if (playerControls.isBlocked((int) b.getX(), (int) b.getY(), playerControls.getCollisionLayer())) {
 				booksToRemove.add(b);
 			}
-			for(int j = 0; j < herd.getZombiesList().size(); j++) {
+			for (int j = 0; j < herd.getZombiesList().size(); j++) {
 				Zombie zombie = herd.getZombiesList().get(j);
 
 				float zombieX = (zombie.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2);
@@ -479,21 +467,21 @@ public class GameScreen extends AbstractScreen {
 				float bookY = (b.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
 				float bookHeight = bookY + 9;
 
-				if((zombieWidth >= bookWidth) && (zombieX <= bookWidth)) {
-					if((zombieHeight >= bookHeight) && (zombieY <= bookHeight)) {
+				if ((zombieWidth >= bookWidth) && (zombieX <= bookWidth)) {
+					if ((zombieHeight >= bookHeight) && (zombieY <= bookHeight)) {
 						System.out.println(zombie.getHealth());
 						System.out.println(b.getX());
 						System.out.println("hit");
 						zombie.damage(30);
-						if(zombie.getHealth() <= 0) {
+						if (zombie.getHealth() <= 0) {
 							herd.getZombiesList().remove(j);
 						}
 						booksToRemove.add(b);
 
 					}
 				}
-				//if(zombie.getX() == b.getX() && zombie.getY() == b.getY()) {
-				//}
+				// if(zombie.getX() == b.getX() && zombie.getY() == b.getY()) {
+				// }
 			}
 			b.update(delta);
 		}
@@ -505,11 +493,9 @@ public class GameScreen extends AbstractScreen {
 
 		if (currentInv.getMapNumber() == 1 || currentInv.getMapNumber() == 2) {
 			for (Item currentItem : currentHUDItems) {
-				if (currentItem.getFound() == true && currentItem.getInvDrawn() == false) {						
-					hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), 
-							currentItem.getInvX(),
-							currentInv.getDrinkDrawn(),
-							"");
+				if (currentItem.getFound() == true && currentItem.getInvDrawn() == false) {
+					hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), currentItem.getInvX(),
+							currentInv.getDrinkDrawn(), "");
 
 					currentItem.setInvDrawn(true);
 
@@ -529,64 +515,58 @@ public class GameScreen extends AbstractScreen {
 				System.out.println("You have found: " + currentItem);
 
 				if (currentItem.getInvDrawn() == false) {
-					if (currentItem.getName().equals("Drink") ) {
+					if (currentItem.getName().equals("Drink")) {
 						if (currentInv.getDrinkDrawn() == false) {
-							hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), 
-									currentItem.getInvX(),
-									currentInv.getDrinkDrawn(),
-									"drink");
+							hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), currentItem.getInvX(),
+									currentInv.getDrinkDrawn(), "drink");
 
 							currentDrinkID = currentItem.getDrinkID();
 							currentInv.setDrinkDrawn(true);
 							currentInv.getMapItems().get(2).setItemFound(true);
 						}
 
-
 					} else {
-						hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), 
-								currentItem.getInvX(),
-								currentInv.getDrinkDrawn(),
-								"");
+						hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), currentItem.getInvX(),
+								currentInv.getDrinkDrawn(), "");
 
 						currentItem.setInvDrawn(true);
-					} 	
+					}
 
 				}
 			}
-		}		
+		}
 
 		currentMapItems.removeAll(foundMapItems);
 
 		currentInv = playerControls.equipItem(currentInv);
 
-		if (currentInv.getCurrentItem() != null) {			
+		if (currentInv.getCurrentItem() != null) {
 			hud.drawEquippedItem(currentInv.getCurrentItem());
 
 		}
 
 		Item currentUsedItem = playerControls.itemPressed();
 
-		if (currentUsedItem != null) {			
+		if (currentUsedItem != null) {
 			if (currentUsedItem.getName().equals("Drink")) {
 				for (Item currentItem : currentInv.getInventory()) {
 					if (currentInv.getCurrentItem() != null && currentItem.getDrinkID() == currentDrinkID) {
-						
-						hud.increaseHealth(0.25f);  
+
+						hud.increaseHealth(0.25f);
 						hud.removeEquippedItem(currentItem);
-						hud.drawEquippedItem(null);						
-						
+						hud.drawEquippedItem(null);
+
 						currentInv.getCurrentItem().setBeingUsed(false);
 						currentInv.getMapItems().get(2).setItemFound(false);
 						currentInv.setDrinkDrawn(false);
 						currentInv.setAsCurrentItem(null);
 
-
-					}						
+					}
 				}
 			}
 		}
 
-		if(maps.indexOf(map) == 0 || maps.indexOf(map) == 1) {
+		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 4) {
 			zombies.removeAll(zombies);
 		}
 
@@ -600,10 +580,10 @@ public class GameScreen extends AbstractScreen {
 	}
 
 	/**
-	 * Updates {@link #map} to the next map in {@link #maps}.
-	 * The player's coordinates are updated for the new map.
-	 * {@link #exits} is updated with the new map's exit coordinates.
-	 * {@link #loadedMap} is changed to be the <code>TiledMap</code> for the new map.
+	 * Updates {@link #map} to the next map in {@link #maps}. The player's
+	 * coordinates are updated for the new map. {@link #exits} is updated with the
+	 * new map's exit coordinates. {@link #loadedMap} is changed to be the
+	 * <code>TiledMap</code> for the new map.
 	 */
 	private void updateMap() {
 		int newMap = maps.indexOf(map) + 1;
@@ -616,7 +596,6 @@ public class GameScreen extends AbstractScreen {
 		currentInv = new InventorySystem();
 		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), newMap);
 		currentInv.setDrinkDrawn(false);
-
 	}
 
 	/**
@@ -628,8 +607,8 @@ public class GameScreen extends AbstractScreen {
 		assetManager.load("sprite/" + gender + "/book/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
 		assetManager.finishLoading();
 
-		TextureAtlas walking = this.getAssetManager().get("sprite/" + gender + "/book/" + chosenCharacter + "_walking.atlas",
-				TextureAtlas.class);
+		TextureAtlas walking = this.getAssetManager()
+				.get("sprite/" + gender + "/book/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
 		TextureAtlas standing = this.getAssetManager()
 				.get("sprite/" + gender + "/book/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
 
@@ -659,8 +638,8 @@ public class GameScreen extends AbstractScreen {
 		assetManager.load("sprite/" + gender + "/keyboard/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
 		assetManager.finishLoading();
 
-		TextureAtlas walking = this.getAssetManager().get("sprite/" + gender + "/keyboard/" + chosenCharacter + "_walking.atlas",
-				TextureAtlas.class);
+		TextureAtlas walking = this.getAssetManager()
+				.get("sprite/" + gender + "/keyboard/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
 		TextureAtlas standing = this.getAssetManager()
 				.get("sprite/" + gender + "/keyboard/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
 
