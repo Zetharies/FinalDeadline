@@ -67,7 +67,7 @@ public class InventorySystem{
 
 		generateRandomPos();
 		Drink drink = new Drink(90, 5);
-		drink.setDrinkID(1);
+		drink.setDrinkID(2);
 
 		generateRandomPos();
 		Potion1 firstPotion = new Potion1(91, 5);
@@ -106,9 +106,10 @@ public class InventorySystem{
 			generateRandomPos();
 			
 			Drink tempDrink = new Drink(randomPos[0], randomPos[1]);
+			tempDrink.setDrinkID(i);
 			
 			inventory.add(tempDrink);
-					
+
 		}	
 		
 

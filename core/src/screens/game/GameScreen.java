@@ -92,8 +92,6 @@ public class GameScreen extends AbstractScreen {
 
 	private Particles smoke, smoke2, smoke3;
 
-
-
 	public GameScreen(String character) {
 		Assets.load();
 		this.chosenCharacter = character; // Chosen characters are either Flynn or Jessica
@@ -524,7 +522,6 @@ public class GameScreen extends AbstractScreen {
 									"drink");
 
 							currentDrinkID = currentItem.getDrinkID();
-
 							currentInv.setDrinkDrawn(true);
 							currentInv.getMapItems().get(2).setItemFound(true);
 						}
@@ -554,10 +551,11 @@ public class GameScreen extends AbstractScreen {
 
 		Item currentUsedItem = playerControls.itemPressed();
 
-		if (currentUsedItem != null) {
+		if (currentUsedItem != null) {			
 			if (currentUsedItem.getName().equals("Drink")) {
 				for (Item currentItem : currentInv.getInventory()) {
 					if (currentInv.getCurrentItem() != null && currentItem.getDrinkID() == currentDrinkID) {
+						
 						hud.increaseHealth(0.25f);  
 						hud.removeEquippedItem(currentItem);
 						hud.drawEquippedItem(null);						
