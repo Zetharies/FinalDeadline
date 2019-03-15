@@ -179,7 +179,7 @@ public class GameScreen extends AbstractScreen {
 		assetManager = new AssetManager();
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
-		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "flynnAnimation.atlas",TextureAtlas.class);
+		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "Animation.atlas",TextureAtlas.class);
 		assetManager.finishLoading();
 
 		TextureAtlas walking = this.getAssetManager().get("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas",
