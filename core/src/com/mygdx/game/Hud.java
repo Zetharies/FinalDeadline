@@ -27,7 +27,7 @@ public class Hud {
 
 	private TextureAtlas invAtlas;
 	private TextureAtlas invBoxAtlas;
-	
+
 	private Container<Image> invItems;
 	private Container<Image> invBox;
 	private Image invBoxImage;
@@ -119,23 +119,21 @@ public class Hud {
 
 	// Adds the found item to the inventory bar, un-equipped
 	public void addLatestFoundItemToInv(String atlasName, int padRight, Boolean drinkDrawn, String objectType) {	
-		if (objectType.equals("drink")) {
-			if (drinkDrawn == false) {				
-				invItems = new Container<Image>();
-				invItems.top();
-				invItems.setFillParent(true);
-				invItems.setPosition(padRight, -535);
+		if (objectType.equals("drink") && drinkDrawn == false) {	
+			invItems = new Container<Image>();
+			invItems.top();
+			invItems.setFillParent(true);
+			invItems.setPosition(padRight, -535);
 
-				Image currentItem = new Image(new TextureRegion(invAtlas.findRegion(atlasName)));
+			Image currentItem = new Image(new TextureRegion(invAtlas.findRegion(atlasName)));
 
-				currentItem.scaleBy(0.9f);
+			currentItem.scaleBy(0.9f);
 
-				invItems.setActor(currentItem);
-				invItems.setName("invItems." + atlasName);
+			invItems.setActor(currentItem);
+			invItems.setName("invItems." + atlasName);
 
-				stage.addActor(invItems);	
-			}
-			
+			stage.addActor(invItems);	
+
 		} else {
 			invItems = new Container<Image>();
 			invItems.top();
@@ -179,9 +177,9 @@ public class Hud {
 				} else {
 					invBox = new Container<Image>();
 					invBox.setName("invBox");
-					
+
 					stage.addActor(invBox);
-					
+
 				}
 			}
 
@@ -192,8 +190,9 @@ public class Hud {
 	}
 
 	public void removeEquippedItem(Item equippedItem) {		
-		for (Actor currentActor : stage.getActors()) {			
+		for (Actor currentActor : stage.getActors()) {	
 			if (currentActor.getName().equals("invItems." + equippedItem.getAtlasImage())) {
+				System.out.println("HUD: Removing Item");
 				currentActor.clear();
 
 			}
