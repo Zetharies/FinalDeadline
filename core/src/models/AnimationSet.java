@@ -12,7 +12,16 @@ public class AnimationSet {
 	@SuppressWarnings("rawtypes")
 	private Map<EnumPlayerFacing, Animation> walking;
 	private Map<EnumPlayerFacing, TextureRegion> standing;
+	private Map<EnumPlayerFacing, Animation> poweredUp;
 	
+	public AnimationSet(Animation<?> powered1,
+            Animation<?> powered2) {
+		poweredUp = new HashMap<EnumPlayerFacing, Animation>();
+		poweredUp.put(EnumPlayerFacing.N, powered1);
+		poweredUp.put(EnumPlayerFacing.S, powered2);
+		
+	}
+		
 	@SuppressWarnings("rawtypes")
 	public AnimationSet(Animation<?> moveNorth,
             Animation<?> movegSouth,
@@ -34,6 +43,7 @@ public class AnimationSet {
 				standing.put(EnumPlayerFacing.W, standWest);
 	}
 	
+
 	public Animation<?> getWalking(EnumPlayerFacing dir) {
 		return walking.get(dir);
 	}

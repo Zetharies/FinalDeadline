@@ -179,6 +179,7 @@ public class GameScreen extends AbstractScreen {
 		assetManager = new AssetManager();
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
+		assetManager.load("flynnAnimationAtlas",TextureAtlas.class);
 		assetManager.finishLoading();
 
 		TextureAtlas walking = this.getAssetManager().get("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas",
@@ -199,6 +200,13 @@ public class GameScreen extends AbstractScreen {
 				standing.findRegion(chosenCharacter + "_standing_south"),
 				standing.findRegion(chosenCharacter + "_standing_east"),
 				standing.findRegion(chosenCharacter + "_standing_west"));
+
+		AnimationSet animations1 = new AnimationSet(
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions("flynnPowered1"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions("flynnPowered2"), Animation.PlayMode.LOOP_PINGPONG));
+
 
 		// map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); //
 		// map to load, extremely basic map,
