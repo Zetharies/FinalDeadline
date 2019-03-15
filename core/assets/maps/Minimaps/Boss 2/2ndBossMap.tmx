@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
  <tileset firstgid="1" source="../Boss 1/Tilesets/Open-Tileset.tsx"/>
  <tileset firstgid="617" source="../Boss 1/Tilesets/Carpet.tsx"/>
  <tileset firstgid="626" source="../Boss 1/Tilesets/Blood.tsx"/>
- <layer id="1" name="Empty space" width="100" height="100">
+ <layer id="5" name="Collisions" width="100" height="100" visible="0">
   <data encoding="base64" compression="zlib">
-   eJzt0bEJwDAQBMHHBav/UBU4cuCVmIPJD3Y9MwsAAAAAAAAAAAAAAAAAAAAAAAAAOMqX/f39Rnq06NGiR4seLXq06NGiR4seLXq06NGiR4seLXq06NGiBwAAAAAAAAAAAAAAAPBmA5k4rvE=
+   eJzt0TENADAMwLBSmMqf61hsOXwYQJSdmQUAAAAAAAAAAAAAAAAAADLOY7976/xo8aPFjxY/Wvxo8aPFjxY/Wvxo8aPFjxY/Wvxo8aPFjxY/Wvxo8aPFjxY/Wvxo8aPFjxY/Wvxo8aPFDwAAAAAAAAAAAAAAAIC+CwiY4C8=
   </data>
  </layer>
- <layer id="4" name="Floor" width="100" height="100">
+ <layer id="1" name="Empty space" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt0wEJACAQBMHHtvYvYAdBWGEGLsFyMwAAAAAAAAAAAAAAAAAAAAAAAADAj/a6G2/o0aJHix4tWrT4R4seLXq06NGiR4seLXq06NGiR4seAAAAAAAAAAAAAAAAAH0H2k9XXA==
+   eJzt0cEJACAQA8HDgu3/aQW+XXACU0DYvWY2AAAAAAAAAAAAAAAAAADferXXv6v0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0AAAAAAAAAAAAAAAAAG4OU0mOIg==
   </data>
  </layer>
  <layer id="2" name="Walls" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt2MEJACEQBEH/5p/vReBHT2ihCiaB7d+OAQAAAAAAAAAAAAAAAAAAAAAAAAC8Zh6M/+3eVY879GjRo0WPFj1a9GjRo0WPFj1a9GjRo0WPFj1a9GjxbwcAAAAAAAAAAAAAAABWPmtoAn8=
+   eJzt2rENACAMBDF69t+XBUjNSdjSL5BrsxYAAAAAAAAAAAAAAAAAAD/bj8bdi9voMdOjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr0aNGjRY8WPVr8UwMAAAAAAAAAAAAAAACTAyxyBP0=
+  </data>
+ </layer>
+ <layer id="4" name="Floor" width="100" height="100">
+  <data encoding="base64" compression="zlib">
+   eJzt0TENADAMwLBqbMefQBnsnHLYUhBkBgAAAAAAAAAAAAAAAAAAKLnnb7z50eJHix8tfrT40eJHix8tfrT40eJHix8tfrT40eJHix8tfrT40eJHix8tfrT40eJHix8tfrT40eJHix8AAAAAAAAAAAAAAAAAfQu6wUfA
   </data>
  </layer>
  <layer id="3" name="Blood" width="100" height="100">
   <data encoding="base64" compression="zlib">
-   eJzt1gENACAIBEBmdRtpFCvYwAK20Il3CX4w9kQAAAAAAAAAAAAAAAAAAAAAAAAAAJnUcjvBf7qZAwAcMf1dEMMdpNDsEQCes/Q3AAAAAAAAAAAAAAAAfGcDzVoEnw==
+   eJzt2LENwCAMBEArKzNF5skGWYGGATIINTXIEcld7fb9liMAAAAAAAAAAAAAAAAAAGBUjjUzAMD7dDbkOGUNgElNlwBs77LLAQBSPO4uiCoHv+N/CAB7uHU2AAAAAAAAAAAAAAAAfE4HsCkG0w==
   </data>
  </layer>
 </map>
