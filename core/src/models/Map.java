@@ -7,13 +7,25 @@ import java.util.ArrayList;
  *
  */
 public class Map {
+	/**
+	 * A <code>String</code> containing the file path of the map.
+	 */
 	private String mapLocation;
+	/**
+	 * An <code>int</code> containing the x coordinate of the starting location.
+	 */
 	private int x;
+	/**
+	 * An <code>int</code> containing the y coordinate of the starting location.
+	 */
 	private int y;
+	/**
+	 * An <code>ArrayList</code> containing a the coordinates of the exit location/s.
+	 */
 	private ArrayList<ArrayList<Integer>> exits;
 	
 	/**
-	 * 
+	 * Constructor for <code>Map</code>.
 	 * @param x <code>int</code> coordinate of the starting location
 	 * @param y <code>int</code> coordinate of the starting location
 	 * @param mapLocation <code>String</code> containing the file path of the map

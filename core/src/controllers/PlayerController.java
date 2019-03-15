@@ -22,7 +22,7 @@ public class PlayerController extends InputAdapter {
 
 	private ArrayList<PlayerMovement> movements;
 	private Player p;
-	private boolean up, down, left, right;
+	private boolean up, down, left, right, interact;
 	private TiledMapTileLayer collisions;
 	private boolean mapChange;
 	private ArrayList<Book> books;
@@ -91,6 +91,9 @@ public class PlayerController extends InputAdapter {
 				right = true;
 			}
 		}
+		if(keycode == Keys.SHIFT_LEFT) {
+			interact = true;
+		}
 
 		return false;
 	}
@@ -113,6 +116,9 @@ public class PlayerController extends InputAdapter {
 		if (keycode == Keys.RIGHT || keycode == Keys.D) {
 			right = false;
 			// p.movePlayer(1, 0); // 1 on the x axis, 0 on the y axis
+		}
+		if(keycode == Keys.SHIFT_LEFT) {
+			interact = false;
 		}
 		if (keycode == Keys.SPACE) {
 			if (currentInv.getCurrentItem() == null) {
@@ -410,5 +416,13 @@ public class PlayerController extends InputAdapter {
 
 	public ArrayList<PlayerMovement> getPlayerMovements(){
 		return movements;
+	}
+
+	public boolean getInteract() {
+		return interact;
+	}
+
+	public void setInteractFalse() {
+		interact = false;
 	}
 }
