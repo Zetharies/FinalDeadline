@@ -184,8 +184,12 @@ public class Player {
     	this.animations = animations;
     }
     
-    public Book shoot(String direction, float x, float y) {
+    public Book shootBook(String direction, float x, float y) {
     	return new Book(direction, this.linearX, this.linearY);
+    }
+    
+    public Keyboard shootKeyboard(String direction, float x, float y) {
+    	return new Keyboard(direction, this.linearX, this.linearY);
     }
     
 }

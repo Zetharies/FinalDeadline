@@ -38,6 +38,7 @@ import models.AnimationSet;
 import models.Book;
 import models.Herd;
 import models.InventorySystem;
+import models.Keyboard;
 import models.Map;
 import models.Player;
 import models.Zombie;
@@ -82,6 +83,7 @@ public class GameScreen extends AbstractScreen {
 	private Herd herd;
 	private ArrayList<Zombie> zombies;
 	private ArrayList<Book> books;
+	private ArrayList<Keyboard> keyboards;
 	private Robot robot;
 	private RobotController robotController;
 	private BossZombie bossZombie;
@@ -106,6 +108,7 @@ public class GameScreen extends AbstractScreen {
 		inGameMp3.setLooping(true); // loop the soundtrack
 		inGameMp3.play(); // play the soundtrack
 		books = new ArrayList<Book>();
+		keyboards = new ArrayList<Keyboard>();
 		initUI();
 		processor = new InputMultiplexer(); // Ordered lists of processors we can use for prioritising controls
 		dialogueController = new ScreenplayController(dialogue, chosenCharacter);
@@ -489,6 +492,46 @@ public class GameScreen extends AbstractScreen {
 			b.update(delta);
 		}
 		books.removeAll(booksToRemove);
+		
+		keyboards = playerControls.getKeyboards();
+		ArrayList<Keyboard> keyboardsToRemove = new ArrayList<Keyboard>();
+		for (int i = 0; i < keyboards.size(); i++) {
+			Keyboard k = keyboards.get(i);
+			k.render(batch);
+
+			if (playerControls.isBlocked((int) k.getX(), (int) k.getY(), playerControls.getCollisionLayer())) {
+				keyboardsToRemove.add(k);
+			}
+			for (int j = 0; j < herd.getZombiesList().size(); j++) {
+				Zombie zombie = herd.getZombiesList().get(j);
+
+				float zombieX = (zombie.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2);
+				float zombieWidth = zombieX + (GameSettings.SCALED_TILE_SIZE * 1f);
+				float zombieY = (zombie.y * GameSettings.SCALED_TILE_SIZE);
+				float zombieHeight = zombieY + (GameSettings.SCALED_TILE_SIZE * 1f);
+
+				float keyboardX = (k.getX() * GameSettings.SCALED_TILE_SIZE) - 10;
+				float keyboardWidth = keyboardX + 9;
+				float keyboardY = (k.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
+				float keyboardHeight = keyboardY + 9;
+
+				if ((zombieWidth >= keyboardWidth) && (zombieX <= keyboardWidth)) {
+					if ((zombieHeight >= keyboardHeight) && (zombieY <= keyboardHeight)) {
+						System.out.println(zombie.getHealth());
+						System.out.println(k.getX());
+						System.out.println("Keyboard Hit");
+						zombie.damage(50);
+						if (zombie.getHealth() <= 0) {
+							herd.getZombiesList().remove(j);
+						}
+						keyboardsToRemove.add(k);
+
+					}
+				}
+			}
+			k.update(delta);
+		}
+		keyboards.removeAll(keyboardsToRemove);
 
 		ArrayList<Item> currentMapItems = currentInv.getMapItems();
 		ArrayList<Item> currentHUDItems = currentInv.getHUDItems();
@@ -526,6 +569,7 @@ public class GameScreen extends AbstractScreen {
 							currentDrinkID = currentItem.getDrinkID();
 							currentInv.setDrinkDrawn(true);
 							currentInv.getMapItems().get(2).setItemFound(true);
+							currentInv.getInventory().get(2).setItemFound(true);
 						}
 
 					} else {

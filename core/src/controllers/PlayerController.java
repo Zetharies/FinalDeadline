@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import models.Book;
 import models.EnumPlayerFacing;
 import models.InventorySystem;
+import models.Keyboard;
 import models.Player;
 import models.Zombie;
 import models.inventory.Item;
@@ -25,6 +26,7 @@ public class PlayerController extends InputAdapter {
 	private TiledMapTileLayer collisions;
 	private boolean mapChange;
 	private ArrayList<Book> books;
+	private ArrayList<Keyboard> keyboards;
 
 	private InventorySystem currentInv;	
 	
@@ -33,6 +35,7 @@ public class PlayerController extends InputAdapter {
 		this.collisions = collisions;
 		mapChange = false;
 		books = new ArrayList<Book>();
+		keyboards = new ArrayList<Keyboard>();
 		movements = new ArrayList<PlayerMovement>();
 
 		currentInv = new InventorySystem();
@@ -116,10 +119,12 @@ public class PlayerController extends InputAdapter {
 				System.out.println("No Item has been equipped");
 
 			} else if (currentInv.getCurrentItem().getName() == "Book") {
-				books.add(p.shoot(p.getDirection(), p.getX(), p.getY()));
+				books.add(p.shootBook(p.getDirection(), p.getX(), p.getY()));
 
 
 			} else if (currentInv.getCurrentItem().getName() == "Keyboard") {
+				keyboards.add(p.shootKeyboard(p.getDirection(), p.getX(), p.getY()));
+				
 				System.out.println("Keyboard Being Used");
 
 
@@ -386,6 +391,10 @@ public class PlayerController extends InputAdapter {
 
 	public ArrayList<Book> getBooks() {
 		return books;
+	}
+	
+	public ArrayList<Keyboard> getKeyboards() {
+		return keyboards;
 	}
 
 	public void resetDirection() {
