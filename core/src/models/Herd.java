@@ -35,7 +35,9 @@ public class Herd {
             if (!collisions.getCell(randX, randY).getTile().getProperties().containsKey("blocked")) {
                 coordsX.add(randX);
                 coordsY.add(randY);
-            }
+            } /* else {
+            	i--;
+            } */
 
         }
         for (int i = 0; i < coordsX.size(); i++) {
@@ -63,6 +65,8 @@ public class Herd {
 //    		zombie.update(1.0f);
 //    	}
         zombies.clear();
+        coordsX.clear();
+        coordsY.clear();
     }
 
     public void respawnZombies() {
