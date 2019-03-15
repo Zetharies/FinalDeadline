@@ -66,7 +66,7 @@
  <tileset firstgid="3592" source="../floor3/Tilesets/Open-Tileset.tsx"/>
  <layer id="5" name="Collisions" width="100" height="100" visible="0">
   <data encoding="base64" compression="zlib">
-   eJztl0tywyAQBX2CrFW+/0GzTREQv2E+TC+6LFkCxGsY2d+fz+cLAAAAAAAAAAAAAAAAAAAAkJjHwTNkpMz9aXwP5z30WGkz04fGtSi09sVO9h6wzhUf9/jYqTWr+Uhci5y7tMOVT3zcBz58gQ9fZPNRztPbvLP4aM3T25yz+vA6Z8/PpuHDwv/q/5ub/iO2futH8THqLAoaPmq/E/Dxvl5b56ec99ysziOqh14mvVxnjvEh7+NEzTjpIrKTv3Oana+Gj0zvj1Efu2v25LqOnv1sdtI1RHpN3+JjNJOn+Bw5lnSRpV7N+JDKZDc/fOj7eMsQH2tz2vWz6wAfcj5WxrHOUsrHSC5P4/63Y631nNWHNrXMqVf/vUn1verDOrPbfcz2ZZ2Zto8dBzvjSbi9sV6d9FEbc7ZN7x7rTKV9nGB0Dez4u8HHqJPy/tVzLf9R69XoOpTKg6z394ZkZviQ8VG2WT3X8n+DMw/7wzoDD3iqV9ZZeECzXmn5j+rZIg982PiYHdc6iyiccIOPOD6ezrhlH9b5eMv6hI8b3w1ZfGRzVstpts1sf/jQ9dHLLKsLrXpljXXO+IjnouZlxeNqv2994EPXRy+3rHvEqma83ZO5Znn3IfWM1jmf8ibVjv3hy0ctd3zY16tv5XpWFwAAAAAAAAAAAAAAAAAAAAC7/ALuqAxz
+   eJztl02ygyAQBnOCt7a8/0HfnlKBYX6hF12pRATnaxzj/ff73QAAAAAAAAAAAAAAAAAAAAAHcyW4hhNpc79efgd7Dz0k58zM4XGsCm/3xUr2GYjOFR/7+FjpNdJ8NI5Vzl3boeQTH/uBj1zgIxen+WjrzFb3KT7e6sxW86k+stac+do8fFiv+XQNo/ukvc6nc6Nz1crGup7V92+Nd9LMePh4+p+Aj+/9+vbdynnPjbSOqh56meAjtw+LnqGV4S696qmm2Xo9fJz0/Bj1sbpnLfd19exns9Pq51Z7ehcfo5l4+oh2W8WHZh4r2c1kjI91H70M8aHfr0bGzvrbpV+NZOLpQ7pOdJZWfjx8aO7lU314o+G2mquo58eKj+jMvH08ObD0MTtXdGaePiL9a7jdrV9lXXNkfLXsR7KJejZr+NvBx6iXduzqd2+i89Vw8jUuk4/o3CwdRPUrfMxlk/n+2NVZBh/RGWQiQ7+KziAL9KscSPc3PmJ9aGdQObNoLNzgo46PqxnTntfOEZ1PtqwtfPTm2vW+2sGHZP0dkNT3NX7WV89Hz/NuaPro5Sa9B6v78OpXHuAjJ2190RmveJF4lM77NYeVnyp4+xjZ1yc6ieghPR9SPyOes4OPmkhro1/V8PGUuYWP6NykeUX1q7tz/DQfAAAAAAAAAAAAAAAAAAAAACv8A6lnDZU=
   </data>
  </layer>
  <layer id="1" name="Walls and Floor" width="100" height="100">
