@@ -216,7 +216,7 @@ public class GameScreen extends AbstractScreen {
 
 		robot = new Robot(54, 53, (TiledMapTileLayer) loadedMap.getLayers().get(0));
 		robotController = new RobotController((TiledMapTileLayer) loadedMap.getLayers().get(0), robot);
-		bossZombie = new BossZombie(spawnX, spawnY, (TiledMapTileLayer) loadedMap.getLayers().get(0));
+		bossZombie = new BossZombie(55, 47, (TiledMapTileLayer) loadedMap.getLayers().get(0));
 		bossController = new BossController((TiledMapTileLayer) loadedMap.getLayers().get(0), bossZombie);
 		renderer = new OrthogonalTiledMapRenderer(loadedMap, 2f); // 1.5658f
 		setGameScreen();
@@ -418,31 +418,34 @@ public class GameScreen extends AbstractScreen {
 					GameSettings.SCALED_TILE_SIZE * 2f);
 		}
 
-		bossController.setPlayerPosition(player.getX(), player.getY());
-		bossController.update(delta);
+		if (maps.indexOf(map) == 6) {
 
-		batch.draw(bossZombie.getZombies(),
-				(bossZombie.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
-				bossZombie.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
-				GameSettings.SCALED_TILE_SIZE * 1f);
+			bossController.setPlayerPosition(player.getX(), player.getY());
+			bossController.update(delta);
 
-		for (int i = 0; i < bossZombie.getBullets().size(); i++) {
-			bossZombie.getBullets().get(i).setPosition(player.getX(), player.getY());
-			bossZombie.getBullets().get(i).update(delta);
-			if (bossZombie.getBullets().get(i).getShoot()) {
-				batch.draw(bossZombie.getBullets().get(i).getSprite(),
-						(bossZombie.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE)
-								- (GameSettings.SCALED_TILE_SIZE / 2),
-						bossZombie.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE,
-						GameSettings.SCALED_TILE_SIZE / 3f, GameSettings.SCALED_TILE_SIZE / 3f);
-			}
-			if ((((int) (bossZombie.getBullets().get(i).x) >= (int) (player.getX())
-					&& (int) (bossZombie.getBullets().get(i).x) <= (int) (player.getX() + 1)))
-					&& (((int) (bossZombie.getBullets().get(i).y) >= (int) (player.getY())
-							&& (int) (bossZombie.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
-				bossZombie.getBullets().get(i).setShoot(false);
-				hud.reduceHealth(bossZombie.getBullets().get(i).getDamage());
-				bossZombie.getBullets().remove(bossZombie.getBullets().get(i));
+			batch.draw(bossZombie.getZombies(),
+					(bossZombie.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
+					bossZombie.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
+					GameSettings.SCALED_TILE_SIZE * 1f);
+
+			for (int i = 0; i < bossZombie.getBullets().size(); i++) {
+				bossZombie.getBullets().get(i).setPosition(player.getX(), player.getY());
+				bossZombie.getBullets().get(i).update(delta);
+				if (bossZombie.getBullets().get(i).getShoot()) {
+					batch.draw(bossZombie.getBullets().get(i).getSprite(),
+							(bossZombie.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE)
+									- (GameSettings.SCALED_TILE_SIZE / 2),
+							bossZombie.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE,
+							GameSettings.SCALED_TILE_SIZE / 3f, GameSettings.SCALED_TILE_SIZE / 3f);
+				}
+				if ((((int) (bossZombie.getBullets().get(i).x) >= (int) (player.getX())
+						&& (int) (bossZombie.getBullets().get(i).x) <= (int) (player.getX() + 1)))
+						&& (((int) (bossZombie.getBullets().get(i).y) >= (int) (player.getY())
+								&& (int) (bossZombie.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
+					bossZombie.getBullets().get(i).setShoot(false);
+					hud.reduceHealth(bossZombie.getBullets().get(i).getDamage());
+					bossZombie.getBullets().remove(bossZombie.getBullets().get(i));
+				}
 			}
 		}
 		books = playerControls.getBooks();
