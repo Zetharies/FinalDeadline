@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.1" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="1">
  <tileset firstgid="1" source="Tilesets/Open-Tileset.tsx"/>
  <tileset firstgid="617" source="Tilesets/Carpet.tsx"/>
  <tileset firstgid="626" source="Tilesets/Blood.tsx"/>
+ <layer id="6" name="Collisions" width="100" height="100" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJzt0bEJwDAQwMBfwXj/XbODi0Q4V1wv0J6ZDQAAAAAAAAAAAAAAAAAAAAAA/Mo68HXzzfxo8aPFjxY/Wvxo8aPFjxY/Wvxo8aPFjxY/Wvxo8QMAAAAAAAAAAAAAAAAAAOAdD0Zs5Mk=
+  </data>
+ </layer>
  <layer id="2" name="Empty Space" width="100" height="100">
   <data encoding="base64" compression="zlib">
    eJzt0bEJACAAxEBxYPcvHULEIPdw/UPWHGMBAAAAAAAAAAAAAAAAAAAAAMBFJ3v9/Ud6tOjRokeLHi16tOjRokeLHi16tOjRokeLHi16tOjRokeLHgAAAAAAAAAAAAAAAAAA8LcNFOuoYQ==

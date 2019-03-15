@@ -145,8 +145,8 @@ public class GameScreen extends AbstractScreen {
 		floor4.addExit(87, 13);
 		floor4.addExit(88, 13);
 
-		Map boss1 = new Map(54, 40, "maps/Minimaps/Boss 1/1stBossMap.tmx");
-		Map boss2 = new Map(54, 36, "maps/Minimaps/Boss 2/2ndBossMap.tmx");
+		Map boss1 = new Map(46, 40, "maps/Minimaps/Boss 1/1stBossMap.tmx");
+		Map boss2 = new Map(47, 34, "maps/Minimaps/Boss 2/2ndBossMap.tmx");
 		Map chaxMap = new Map(51, 24, "maps/Minimaps/Chax boss map/ChaxMap.tmx");
 
 		maps.add(entrance);
@@ -217,9 +217,9 @@ public class GameScreen extends AbstractScreen {
 		player = new Player(spawnX, spawnY, animations);
 		playerControls = new PlayerController(player, (TiledMapTileLayer) loadedMap.getLayers().get(0));
 
-		robot = new Robot(54, 53, (TiledMapTileLayer) loadedMap.getLayers().get(0));
+		robot = new Robot(46, 47, (TiledMapTileLayer) loadedMap.getLayers().get(0));
 		robotController = new RobotController((TiledMapTileLayer) loadedMap.getLayers().get(0), robot);
-		bossZombie = new BossZombie(55, 47, (TiledMapTileLayer) loadedMap.getLayers().get(0));
+		bossZombie = new BossZombie(47, 41, (TiledMapTileLayer) loadedMap.getLayers().get(0));
 		bossController = new BossController((TiledMapTileLayer) loadedMap.getLayers().get(0), bossZombie);
 		renderer = new OrthogonalTiledMapRenderer(loadedMap, 2f); // 1.5658f
 		setGameScreen();
