@@ -7,8 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
 public class About {
 
-    Table table;
-    Label line1, line2, line3;
+    Table table; //creates a table to store text in
+    Label line1, line2, line3; //initialises each new line for text
 
     public About(Skin skin) {
         table = new Table();
@@ -32,6 +32,6 @@ public class About {
     }
 
     public Table getTable() {
-        return table;
+        return table; //shows all text in the screen
     }
 }

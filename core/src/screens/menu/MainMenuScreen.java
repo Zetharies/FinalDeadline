@@ -320,7 +320,7 @@ public class MainMenuScreen extends AbstractScreen {
     /**
      * add buttons to screen called in render method
      */
-    public void addButtons() {
+    public void addButtons() { //buttons for each selection
         stage.addActor(testTable);
         stage.addActor(play);
         stage.addActor(levels);
@@ -466,7 +466,7 @@ public class MainMenuScreen extends AbstractScreen {
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
                 super.exit(event, x, y, pointer, toActor);
                 about.setFontScale(widthFont, heightFont);//reset font size 
-                playing = false;//stops playin audio
+                playing = false;//stops playing audio
             }
         });
 

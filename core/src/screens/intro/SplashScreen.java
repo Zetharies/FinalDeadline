@@ -18,7 +18,7 @@ public class SplashScreen extends AbstractScreen {
     private TextureRegion textureRegion;
     private Texture splashImage;
     private Stage stage;
- 
+    // constructor for stage, the image used in the splash screen and the texture region
     public SplashScreen() {
     }
  
@@ -47,15 +47,15 @@ public class SplashScreen extends AbstractScreen {
     	splashImage = new Texture(Gdx.files.internal("images/aston_resized2.png")); // Intro Image, feel free to change. Remember to add it to assets
     	splashImage.setFilter(TextureFilter.Linear, TextureFilter.Linear);
     	textureRegion = new TextureRegion(splashImage);
-    	Image actorImage = new Image(textureRegion);
-    	actorImage.getColor().a = 0;
+    	Image actorImage = new Image(textureRegion); 
+    	actorImage.getColor().a = 0; //Colour of image
     	actorImage.setScale(660, 660); // Scale of image
     	actorImage.setSize((int)screenSize.getWidth(), (int)screenSize.getHeight()); // Set size of image to the screen size
     	actorImage.setPosition(Gdx.graphics.getWidth()/2 - actorImage.getWidth()/2, Gdx.graphics.getHeight()/2 - actorImage.getHeight()/2); // Position of image
     	actorImage.setScale(1); // Set scale of image to original scale
     	
     	SequenceAction actions = new SequenceAction(Actions.sequence(Actions.fadeIn(1f), Actions.delay(1.5f), Actions.fadeOut(2.5f), Actions.run(new Runnable() {
-
+    	//runs the intro screen with a fade in, a delay, a fade out and then starts the game	
 			@Override
 			public void run() {
 				System.out.println("Finished Intro, loading Game Menu");

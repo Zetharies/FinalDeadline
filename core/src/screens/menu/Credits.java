@@ -13,13 +13,13 @@ public class Credits {
 
     private Label programmer, name1, name2, name3, name4, name5, name6, name7, name8, name9, name10;
     Stage stage;
-    Table table;
+    Table table; //constructor for the table
     Label.LabelStyle style;
 
     public Credits(Stage stage, Label.LabelStyle style, Table table) {
         this.style = style;
         this.stage = stage;
-        this.table = new Table();
+        this.table = new Table(); //creates a table to store text in
 
         table.debug();
         programmer = new Label("Programmer", style);
@@ -35,7 +35,7 @@ public class Credits {
         name10 = new Label("KUNAL AGARWALA", style);
         addToTable();
         this.table.setBounds((Gdx.graphics.getWidth() / 2) - (table.getPrefWidth()), (Gdx.graphics.getHeight() / 2) - (table.getPrefHeight()),
-                table.getPrefWidth(), table.getPrefHeight());
+                table.getPrefWidth(), table.getPrefHeight()); //specifies the size of the frame and location of the upper left corner
     }
 
     private void addToTable() {
@@ -69,10 +69,10 @@ public class Credits {
         table.add(new Label("Voice Actor", style)).width(programmer.getPrefWidth() + (programmer.getPrefWidth() / 2));
         table.add(name10);
         table.row();
-        table.setSize(table.getPrefWidth(), table.getPrefHeight());
+        table.setSize(table.getPrefWidth(), table.getPrefHeight()); //sets table size
     }
 
     public Table getTable() {
-        return table;
+        return table; //shows all text in the screen
     }
 }

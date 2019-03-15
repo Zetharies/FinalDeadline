@@ -1,9 +1,9 @@
 package managers;
 
 public class SettingsManager {
-    private static boolean soundChecker = true;
-    private static boolean musicChecker = true;
-    private static boolean skipDialogueChecker = false;
+    private static boolean soundChecker = true; //default check sound is on
+    private static boolean musicChecker = true; //default check music is on
+    private static boolean skipDialogueChecker = false;//default skip dialogue is off
     public static boolean WASD = false;
     //default set to keys
     public static boolean KEYS = true;

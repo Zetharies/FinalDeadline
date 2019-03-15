@@ -78,7 +78,7 @@ public class ZombieController {
         this.playerY = playerY;
     }
 
-    private boolean detectPlayer() {
+    private boolean detectPlayer() { //if a player's position is in a radius of a zombie the zombie will detect the player
         if (((zombie.getX() <= (playerX + RADIUS) && zombie.getX() >= playerX) || (zombie.getX() >= (playerX - RADIUS)
                 && zombie.getX() <= playerX)) && ((zombie.getY() <= (playerY + RADIUS) && zombie.getY() >= playerY)
                 || (zombie.getY() >= (playerY - RADIUS)
@@ -89,7 +89,7 @@ public class ZombieController {
     }
     boolean moveRandom = false;
 
-    private void moveToPlayer() {
+    private void moveToPlayer() {//once the zombie has detected the player, it will be moving towards the player's position
         if (right && zombie.getX() < playerX || (right && !up) || (right && !down)) {
 
             zombie.getZombies().setRegion((TextureRegion) zombie.getRight().getKeyFrame(incr));

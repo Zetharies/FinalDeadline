@@ -17,22 +17,22 @@ public class ScreenManager {
    
    public static void initialize(Game game) {
       ScreenManager.game = game;
-
+//constructors for each screen
       splashScreen = new SplashScreen();
       mainMenuScreen = new MainMenuScreen();
       characterSelection = new CharacterSelection();
       
    }
    
-   public static void setSplashScreen() {
+   public static void setSplashScreen() { //initialises splash screen
       game.setScreen(splashScreen);
    }
 
-   public static void setMainMenuScreen() {
+   public static void setMainMenuScreen() { //initialises main menu screen
       game.setScreen(mainMenuScreen);
    }
    
-   public static void setCharacterSelectionScreen() {
+   public static void setCharacterSelectionScreen() { //initialises character selection screen
 	      game.setScreen(characterSelection);
 	   }
    
