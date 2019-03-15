@@ -113,6 +113,19 @@ public class GameScreen extends AbstractScreen {
 		dialogueController = new ScreenplayController(dialogue, chosenCharacter);
 		maps = new ArrayList<Map>();
 
+		Map entrance = new Map(29, 41, "maps/entrance/universityEntrance.tmx");
+		entrance.addExit(52, 48);
+		entrance.addExit(53, 48);
+		entrance.addExit(54, 48);
+		entrance.addExit(55, 48);
+		
+		Map cafeteria = new Map(50, 23, "maps/cafeteria/cafeteria.tmx");
+		cafeteria.addExit(61, 79);
+		cafeteria.addExit(62, 79);
+		cafeteria.addExit(63, 79);
+		cafeteria.addExit(64, 79);
+		cafeteria.addExit(65, 79);
+		
 		Map floor1 = new Map(21, 56, "maps/floor1/library.tmx");
 		floor1.addExit(76, 21);
 
@@ -135,6 +148,8 @@ public class GameScreen extends AbstractScreen {
 		Map boss2 = new Map(54, 36, "maps/Minimaps/Boss1/2ndBossMap.tmx");
 		Map chaxMap = new Map(51, 24, "maps/Minimaps/Boss1/ChaxMap.tmx");
 
+		maps.add(entrance);
+		maps.add(cafeteria);
 		maps.add(floor1);
 		maps.add(floor2);
 		maps.add(boss1);
@@ -142,7 +157,7 @@ public class GameScreen extends AbstractScreen {
 		maps.add(boss2);
 		maps.add(floor4);
 		maps.add(chaxMap);
-		exits = floor1.getExits();
+		exits = entrance.getExits();
 
 		smoke = new Particles();
 		smoke2 = new Particles();
@@ -342,7 +357,7 @@ public class GameScreen extends AbstractScreen {
 			hud.resetHealth();
 			playerControls.updatePlayerCoordinates(spawnX, spawnY);
 		}
-
+		
 		for (int i = 0; i < zombies.size(); i++) {
 			// update all zombies
 			zombies.get(i).update(delta);
@@ -573,6 +588,9 @@ public class GameScreen extends AbstractScreen {
 			}
 		}
 
+		if(maps.indexOf(map) == 0 || maps.indexOf(map) == 1) {
+			zombies.removeAll(zombies);
+		}
 
 		batch.end();
 
