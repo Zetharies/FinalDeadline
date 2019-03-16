@@ -95,7 +95,7 @@ public class GameScreen extends AbstractScreen {
 
 	private float elapsed = 0.0f;
 
-	private boolean hasDrink = false, beenTwo = false;
+	private boolean hasDrink = false, beenTwo = false, beenThree = false, beenFour = false;
 
 	public GameScreen(String character) {
 		Assets.load();
@@ -363,7 +363,7 @@ public class GameScreen extends AbstractScreen {
 		// zombies.get(0).update(delta);
 		playerControls.update(delta);
 		player.update(delta);
-		System.out.println(player.getX() + "." + player.getY());
+		//System.out.println(player.getX() + "." + player.getY());
 		camera.position.set(player.getX() * GameSettings.SCALED_TILE_SIZE,
 				player.getY() * GameSettings.SCALED_TILE_SIZE, 0);
 		camera.position.y = player.getLinearY() * 64;
@@ -790,8 +790,73 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 			playerControls.setInteractFalse();
 		}
+		
+		if(maps.indexOf(map) == 3 && player.getX() >= 86 && player.getX() <= 88 && player.getY() == 89 && beenThree == false) {
+			playerControls.resetDirection();
+			handler = new ScreenplayHandler();
+			ScreenplayNode faint = new ScreenplayNode("*Floor boards creak*   [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nBetter be careful\nLooks like it might fall down   [ENTER]", 1);
 
-		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 2) {
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+			beenThree = true;
+		}
+		
+		if(maps.indexOf(map) == 3 && player.getX() == 86 && player.getY() == 79 && playerControls.getInteract()) {
+			playerControls.resetDirection();
+			handler = new ScreenplayHandler();
+			ScreenplayNode faint = new ScreenplayNode("Nice try but there's nothing here   [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nBetter move on   [ENTER]", 1);
+
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+			playerControls.setInteractFalse();
+		}
+		
+		if(maps.indexOf(map) == 3 && player.getX() == 72 && player.getY() == 64 && playerControls.getInteract()) {
+			playerControls.resetDirection();
+			handler = new ScreenplayHandler();
+			ScreenplayNode faint = new ScreenplayNode("There are some documents open on this computer   [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nLooks like a formula...\nWonder what it's for...   [ENTER]", 1);
+
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+			playerControls.setInteractFalse();
+		}
+		
+		if(maps.indexOf(map) == 3 && player.getX() >= 41 && player.getX() <= 43 && player.getY() >= 13 && player.getY() <= 14 && beenFour == false) {
+			playerControls.resetDirection();
+			handler = new ScreenplayHandler();
+			ScreenplayNode faint = new ScreenplayNode("*Floor boards creak*   [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nBetter be careful\nLooks like it might fall down   [ENTER]", 1);
+
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+			beenFour = true;
+		}
+		
+		if(maps.indexOf(map) == 3 && ((player.getX() == 79 && player.getY() == 26) || (player.getX() == 79 && player.getY() == 46)) && playerControls.getInteract()) {
+			playerControls.resetDirection();
+			handler = new ScreenplayHandler();
+			ScreenplayNode faint = new ScreenplayNode("There some text here but it is too small to read   [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + "\nI should've brought my glasses   [ENTER]", 1);
+
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+			playerControls.setInteractFalse();
+		}
+
+		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 4) {
 			zombies.removeAll(zombies);
 		}
 
