@@ -28,6 +28,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.Hud;
 import com.badlogic.gdx.graphics.g2d.Animation;
+
+import managers.ScreenManager;
 import managers.SettingsManager;
 import controllers.ScreenplayController;
 import controllers.PlayerController;
@@ -113,6 +115,7 @@ public class GameScreen extends AbstractScreen {
 		}
 		inGameMp3 = Gdx.audio.newMusic(Gdx.files.internal("music/floor2.mp3"));
 		inGameMp3.setLooping(true); // loop the soundtrack
+		inGameMp3.setVolume(0.15f);
 		inGameMp3.play(); // play the soundtrack
 		books = new ArrayList<Book>();
 		keyboards = new ArrayList<Keyboard>();
@@ -270,16 +273,13 @@ public class GameScreen extends AbstractScreen {
 			}
 		}
 
-		ScreenplayNode instruction2 = new ScreenplayNode("Press 'Spacebar' to throw books at enemies   [ENTER]", 3);
-
 		dialogue1.makeLinear(dialogue2.getId());
 		dialogue2.makeLinear(instruction1.getId());
-		instruction1.makeLinear(instruction2.getId());
 
 		handler.addNode(dialogue1);
 		handler.addNode(dialogue2);
 		handler.addNode(instruction1);
-		handler.addNode(instruction2);
+
 
 		dialogueController.startDialogue(handler);
 		Gdx.input.setInputProcessor(processor);
@@ -316,7 +316,7 @@ public class GameScreen extends AbstractScreen {
 	@Override
 	public void render(float delta) {
 
-		inGameMp3.setVolume(0.15f);
+		
 
 		// Checks if the map needs changing
 		if (playerControls.checkExit(exits)) {
@@ -356,6 +356,11 @@ public class GameScreen extends AbstractScreen {
 		if (hud.getHealth() == 0.0f) {
 			hud.resetHealth();
 			playerControls.updatePlayerCoordinates(spawnX, spawnY);
+			 hud.decreaseLife();
+	            if(hud.getLives() == 0) {
+	            	inGameMp3.stop();
+	            	ScreenManager.setGameOver(); // game over
+	            }
 		}
 
 		for (int i = 0; i < zombies.size(); i++) {
@@ -367,7 +372,7 @@ public class GameScreen extends AbstractScreen {
 		// zombies.get(0).update(delta);
 		playerControls.update(delta);
 		player.update(delta);
-		System.out.println(player.getX() + "." + player.getY());
+
 		camera.position.set(player.getX() * GameSettings.SCALED_TILE_SIZE,
 				player.getY() * GameSettings.SCALED_TILE_SIZE, 0);
 		camera.position.y = player.getLinearY() * 64;
@@ -495,6 +500,7 @@ public class GameScreen extends AbstractScreen {
 						zombie.damage(30);
 						if (zombie.getHealth() <= 0) {
 							herd.getZombiesList().remove(j);
+							hud.increaseScore("zombie");
 						}
 						booksToRemove.add(b);
 
@@ -537,6 +543,7 @@ public class GameScreen extends AbstractScreen {
 						zombie.damage(50);
 						if (zombie.getHealth() <= 0) {
 							herd.getZombiesList().remove(j);
+							hud.increaseScore("zombie");
 						}
 						keyboardsToRemove.add(k);
 
@@ -789,13 +796,19 @@ public class GameScreen extends AbstractScreen {
 
 	@Override
 	public void hide() {
-		dispose();
+		//dispose();
 	}
 
 	@Override
 	public void dispose() {
-		loadedMap.dispose();
-		renderer.dispose();
+    	inGameMp3.dispose();
+        loadedMap.dispose();
+
+        assetManager.dispose();
+        batch.dispose();
+        mapBatch.dispose();
+        stage.dispose();
+        renderer.dispose();
 	}
 
 	public InventorySystem getInventory() {

@@ -11,16 +11,19 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import actions.FadeOutAction;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -31,6 +34,8 @@ import screens.intro.AbstractScreen;
 
 public class MainMenuScreen extends AbstractScreen {
 
+	// Background image for main menu
+	private Image bg;
     //main screen background image added to 
     private Table testTable;
     //stage for screen
@@ -80,11 +85,12 @@ public class MainMenuScreen extends AbstractScreen {
         super();
         //create stage for screen
         stage = new Stage(new StretchViewport(getWidth(), getHeight()));
+        
+        bg = new Image(new TextureRegion((new Texture("images/gamemenu.png"))));
+        bg.setSize(getWidth(), getHeight());
+        
         testTable = new Table();
         //fit stage into screen
-        testTable.setFillParent(true);
-        // turn on all debug lines (table, cell, and widget)
-        testTable.setDebug(true);
 
         //load sound
         mp3Sound = Gdx.audio.newMusic(Gdx.files.internal("music/adventureSoundtrack.mp3")); // background soundtrack, feel free to change
@@ -188,7 +194,8 @@ public class MainMenuScreen extends AbstractScreen {
         stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));//fade in motion
 
         //background to main screen set 
-        testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
+        bg.setDrawable(new SpriteDrawable(new Sprite(new Texture("images/gamemenu.png"))));
+        //testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
 
         //shown for when user pressed play
         customizeCard = new Texture(Gdx.files.internal("images/customizeSelection.png"));
@@ -249,7 +256,8 @@ public class MainMenuScreen extends AbstractScreen {
             // moveButtonsRight();
             stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
             //reset background
-            testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
+            bg.setDrawable(new SpriteDrawable(new Sprite(new Texture("images/gamemenu.png"))));
+            //testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
             //hide elements
             settingsUI.getTable().addAction(Actions.hide());
             creditsWindow.getTable().addAction(Actions.hide());
@@ -321,7 +329,8 @@ public class MainMenuScreen extends AbstractScreen {
      * add buttons to screen called in render method
      */
     public void addButtons() { //buttons for each selection
-        stage.addActor(testTable);
+    	stage.addActor(testTable);
+    	stage.addActor(bg);
         stage.addActor(play);
         stage.addActor(levels);
         stage.addActor(settings);
@@ -763,7 +772,8 @@ public class MainMenuScreen extends AbstractScreen {
             //hide character selection
             stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));//fade in animation for main screen
             //reset background image
-            testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
+            bg.setDrawable(new SpriteDrawable(new Sprite(new Texture("images/gamemenu.png"))));
+            //testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
             //fade out buttons and required elements
             customizeSelection.addAction(Actions.sequence((Actions.fadeOut((float) 0.85)), Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f)));
             customizeSelection.addAction(Actions.hide());
@@ -785,7 +795,8 @@ public class MainMenuScreen extends AbstractScreen {
             settingsClicked = false;
             //fade main screen back in
             stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
-            testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
+            bg.setDrawable(new SpriteDrawable(new Sprite(new Texture("images/gamemenu.png"))));
+            //testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
             settingsUI.getTable().addAction(Actions.hide());
             //System.out.println(settingsUI.getTable().isVisible());
             swipe = false;
@@ -801,7 +812,8 @@ public class MainMenuScreen extends AbstractScreen {
             moveButtonsLeft();
             levelsClicked = false;
             stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
-            testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
+            bg.setDrawable(new SpriteDrawable(new Sprite(new Texture("images/gamemenu.png"))));
+            //testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
             floor2.addAction((Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f)));
             floor2.addAction(Actions.hide());
             floor4.addAction((Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f)));
@@ -820,7 +832,8 @@ public class MainMenuScreen extends AbstractScreen {
             moveButtonsLeft();
             aboutClicked = false;
             stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
-            testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
+            bg.setDrawable(new SpriteDrawable(new Sprite(new Texture("images/gamemenu.png"))));
+            //testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
             aboutUI.getTable().addAction(Actions.hide());
             aboutSwipe = false;
         }
@@ -835,7 +848,8 @@ public class MainMenuScreen extends AbstractScreen {
             moveButtonsLeft();
             creditsClicked = false;
             stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
-            testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
+            bg.setDrawable(new SpriteDrawable(new Sprite(new Texture("images/gamemenu.png"))));
+            //testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
             creditsWindow.getTable().addAction(Actions.hide());
             creditsSwipe = false;
         }
@@ -855,7 +869,8 @@ public class MainMenuScreen extends AbstractScreen {
             femaleSelection.addAction(Actions.fadeIn((float) 0.85));
             moveButtonsRight();
             stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 0.85)));
-            testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu2.jpg"))));
+            bg.setDrawable(new SpriteDrawable(new Sprite(new Texture("images/gamemenu2.jpg"))));
+            //testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu2.jpg"))));
             //brings character selection to screen
 
             customizeSelection.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
@@ -879,7 +894,8 @@ public class MainMenuScreen extends AbstractScreen {
         if (!swipe && back.getActions().size == 0 || CharacterSelection.EXIT == true) {
             moveButtonsRight();
             stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 0.85)));
-            testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenuBlur.jpg"))));
+            bg.setDrawable(new SpriteDrawable(new Sprite(new Texture("images/gamemenuBlur.jpg"))));
+            //testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenuBlur.jpg"))));
             stage.addActor(settingsUI.getTable());
             settingsUI.getTable().addAction(Actions.show());
             swipe = true;
@@ -893,7 +909,8 @@ public class MainMenuScreen extends AbstractScreen {
         if (!levelsSwipe && back.getActions().size == 0 || CharacterSelection.EXIT == true) {
             moveButtonsRight();
             stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 0.85)));
-            testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenuBlur.jpg"))));
+            bg.setDrawable(new SpriteDrawable(new Sprite(new Texture("images/gamemenuBlur.jpg"))));
+            //testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenuBlur.jpg"))));
 
             floor2.addAction(Actions.show());
             floor2.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
@@ -910,8 +927,9 @@ public class MainMenuScreen extends AbstractScreen {
     private void enterAbout() {
         if (!aboutSwipe && back.getActions().size == 0 || CharacterSelection.EXIT == true) {
             moveButtonsRight();
-            // stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 0.85)));
-            testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenuBlur.jpg"))));
+            stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 0.85)));
+            bg.setDrawable(new SpriteDrawable(new Sprite(new Texture("images/gamemenuBlur.jpg"))));
+            //testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenuBlur.jpg"))));
             aboutUI.getTable().addAction(Actions.show());
             aboutSwipe = true;
         }
@@ -924,7 +942,8 @@ public class MainMenuScreen extends AbstractScreen {
         if (!creditsSwipe && back.getActions().size == 0 || CharacterSelection.EXIT == true) {
             moveButtonsRight();
             //  stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 0.85)));
-            testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/blackScreen.jpg"))));
+            bg.setDrawable(new SpriteDrawable(new Sprite(new Texture("images/blackScreen.jpg"))));
+            //testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/blackScreen.jpg"))));
             creditsWindow.getTable().addAction(Actions.show());
             creditsSwipe = true;
         }

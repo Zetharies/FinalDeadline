@@ -21,7 +21,7 @@ import models.inventory.Item;
 public class Hud {
 	public Stage stage;
 	private Viewport viewPort;
-	private Label currentMap;
+	private Label currentMap, score, lives;
 	private Skin skin;
 	private HealthBar health;
 
@@ -31,8 +31,15 @@ public class Hud {
 	private Container<Image> invItems;
 	private Container<Image> invBox;
 	private Image invBoxImage;
+	
+	private int currentScore, currentLives;
+	private static final int MAX_LIVES = 5;
 
 	public Hud(SpriteBatch batch) {
+		
+		currentScore = 0;
+		currentLives = 5;
+		
 		viewPort = new FitViewport(1200, 600);
 		stage = new Stage(viewPort, batch);
 		skin = new Skin(Gdx.files.internal("fonts/Holo-dark-hdpi.json"));
@@ -45,8 +52,17 @@ public class Hud {
 
 		currentMap = new Label("Floor 1: Biology lab", skin);
 		currentMap.setFontScale((float) 0.5);
+		
+		score = new Label("Score: "+ currentScore, skin);
+		score.setFontScale((float) 0.5);
+		
+		lives = new Label("Lives: "+ currentLives + "/" + MAX_LIVES, skin);
+		lives.setFontScale((float) 0.5);
+		
 		//currentMap.setSize(Gdx.graphics.getWidth()/4, Gdx.graphics.getHeight()/4);
-		mapTable.add(currentMap).expandX().padRight(1040).padTop(0);
+		mapTable.add(currentMap).expandX().padTop(10);
+		mapTable.add(score).expandX().padTop(10);
+		mapTable.add(lives).expandX().padTop(10);
 		mapTable.setName("mapTable");
 
 		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -198,8 +214,28 @@ public class Hud {
 			}
 
 		}
-
-
+	}
+	
+	public void increaseScore(String monster) {
+		if(monster.equalsIgnoreCase("zombie")) {
+			currentScore += 10;
+			score.setText("Score: "+ currentScore);
+		} else if(monster.equalsIgnoreCase("boss")) {
+			currentScore += 30;
+			score.setText("Score: "+ currentScore);
+		}
+	}
+	
+	public void decreaseLife() {
+		currentLives--;
+		if(currentLives < 0) {
+			currentLives = 0;
+		}
+		lives.setText("Lives: "+ currentLives + "/" + MAX_LIVES);
+	}
+	
+	public int getLives() {
+		return currentLives;
 	}
 
 }

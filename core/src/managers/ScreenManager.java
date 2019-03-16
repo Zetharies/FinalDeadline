@@ -6,12 +6,13 @@ import com.badlogic.gdx.Screen;
 import screens.game.GameScreen;
 import screens.intro.SplashScreen;
 import screens.menu.CharacterSelection;
+import screens.menu.GameOverScreen;
 import screens.menu.MainMenuScreen;
 
 public class ScreenManager {
 	
    static Game game = null;
-   static Screen splashScreen, mainMenuScreen, gameScreen, characterSelection;
+   static Screen splashScreen, mainMenuScreen, gameScreen, characterSelection, gameOver;
    
    private ScreenManager() {}
    
@@ -21,6 +22,7 @@ public class ScreenManager {
       splashScreen = new SplashScreen();
       mainMenuScreen = new MainMenuScreen();
       characterSelection = new CharacterSelection();
+      gameOver = new GameOverScreen();
       
    }
    
@@ -40,6 +42,10 @@ public class ScreenManager {
 	   gameScreen = new GameScreen(character);
 	   game.setScreen(gameScreen);
    }
+   
+   public static void setGameOver() { //initialises main menu screen
+	      game.setScreen(gameOver);
+	   }
    
    public static String setCustomName(String name) {
 	return name;
