@@ -60,23 +60,23 @@ public class InventorySystem{
 		//		Book book = new Book(randomPos[0], randomPos[1]);
 
 		generateRandomPos();
-		Book book = new Book(88, 5);
+		Book book = new Book(randomPos[0], randomPos[1]);
 
 		generateRandomPos();
-		Keyboard keyboard = new Keyboard(89, 5);
+		Keyboard keyboard = new Keyboard(randomPos[0], randomPos[1]);
 
 		generateRandomPos();
-		Drink drink = new Drink(90, 5);
+		Drink drink = new Drink(randomPos[0], randomPos[1]);
 		drink.setDrinkID(2);
 
 		generateRandomPos();
-		Potion1 firstPotion = new Potion1(91, 5);
+		Potion1 firstPotion = new Potion1(randomPos[0], randomPos[1]);
 
 		generateRandomPos();
-		Potion2 secondPotion = new Potion2(92, 5);
+		Potion2 secondPotion = new Potion2(randomPos[0], randomPos[1]);
 
 		generateRandomPos();
-		Potion3 thirdPotion = new Potion3(93, 5);
+		Potion3 thirdPotion = new Potion3(randomPos[0], randomPos[1]);
 
 		// Adds items to inventory arraylist depending on Item ID
 		inventory.add(book.getID(), book);
@@ -119,59 +119,8 @@ public class InventorySystem{
 	public void changeMap(int impMapNumber) {
 		mapNumber = impMapNumber;
 		
-		if (mapNumber == 0) {
-			inventory.get(0).setOnMap(true);
-			inventory.get(1).setOnMap(true);
-			inventory.get(2).setOnMap(true);
-			inventory.get(3).setOnMap(false);
-			inventory.get(4).setOnMap(false);
-			inventory.get(5).setOnMap(false);
-
-			inventory.get(0).setItemFound(false);
-			inventory.get(1).setItemFound(false);
-			inventory.get(2).setItemFound(false);
-			inventory.get(3).setItemFound(false);
-			inventory.get(4).setItemFound(false);
-			inventory.get(5).setItemFound(false);
-			
-			setDrinksOnMap(5);
-
-		} else if (mapNumber == 1) {
-			inventory.get(0).setOnMap(false);
-			inventory.get(1).setOnMap(false);
-			inventory.get(2).setOnMap(false);
-			inventory.get(3).setOnMap(false);
-			inventory.get(4).setOnMap(false);
-			inventory.get(5).setOnMap(false);
-			
-			inventory.get(0).setItemFound(true);
-			inventory.get(1).setItemFound(true);
-			inventory.get(2).setItemFound(false);
-			inventory.get(3).setItemFound(false);
-			inventory.get(4).setItemFound(false);
-			inventory.get(5).setItemFound(false);
-			
-			setDrinksOnMap(5);
-
-		} else if (mapNumber == 2) {
-			inventory.get(0).setOnMap(false);
-			inventory.get(1).setOnMap(false);
-			inventory.get(2).setOnMap(false);
-			inventory.get(3).setOnMap(true);
-			inventory.get(4).setOnMap(true);
-			inventory.get(5).setOnMap(true);
-			
-			inventory.get(0).setItemFound(true);
-			inventory.get(1).setItemFound(true);
-			inventory.get(2).setItemFound(false);
-			inventory.get(3).setItemFound(false);
-			inventory.get(4).setItemFound(false);
-			inventory.get(5).setItemFound(false);
-			
-			setDrinksOnMap(5);
-
-			// TEST NUMBER
-		} else if (mapNumber == 100) {
+		// TESTING
+		if (mapNumber == -1) {
 			inventory.get(0).setOnMap(true);
 			inventory.get(1).setOnMap(true);
 			inventory.get(2).setOnMap(true);
@@ -187,6 +136,161 @@ public class InventorySystem{
 			inventory.get(5).setItemFound(false);
 			
 			setDrinksOnMap(11);
+			
+		// OUTSIDE
+		} else if (mapNumber == 0) {
+			inventory.get(0).setOnMap(false);
+			inventory.get(1).setOnMap(false);
+			inventory.get(2).setOnMap(false);
+			inventory.get(3).setOnMap(false);
+			inventory.get(4).setOnMap(false);
+			inventory.get(5).setOnMap(false);
+
+			inventory.get(0).setItemFound(false);
+			inventory.get(1).setItemFound(false);
+			inventory.get(2).setItemFound(false);
+			inventory.get(3).setItemFound(false);
+			inventory.get(4).setItemFound(false);
+			inventory.get(5).setItemFound(false);
+
+		// CAFETERIA
+		} else if (mapNumber == 1) {
+			inventory.get(0).setOnMap(false);
+			inventory.get(1).setOnMap(false);
+			inventory.get(2).setOnMap(false);
+			inventory.get(3).setOnMap(false);
+			inventory.get(4).setOnMap(false);
+			inventory.get(5).setOnMap(false);
+			
+			inventory.get(0).setItemFound(false);
+			inventory.get(1).setItemFound(false);
+			inventory.get(2).setItemFound(false);
+			inventory.get(3).setItemFound(false);
+			inventory.get(4).setItemFound(false);
+			inventory.get(5).setItemFound(false);
+
+		// LIBRARY	
+		} else if (mapNumber == 2) {
+			inventory.get(0).setOnMap(true);
+			inventory.get(1).setOnMap(true);
+			inventory.get(2).setOnMap(true);
+			inventory.get(3).setOnMap(false);
+			inventory.get(4).setOnMap(false);
+			inventory.get(5).setOnMap(false);
+			
+			inventory.get(0).setItemFound(false);
+			inventory.get(1).setItemFound(false);
+			inventory.get(2).setItemFound(false);
+			inventory.get(3).setItemFound(false);
+			inventory.get(4).setItemFound(false);
+			inventory.get(5).setItemFound(false);
+			
+			setDrinksOnMap(3);
+
+		// ENGINEERING
+		} else if (mapNumber == 3) {
+			inventory.get(0).setOnMap(false);
+			inventory.get(1).setOnMap(false);
+			inventory.get(2).setOnMap(true);
+			inventory.get(3).setOnMap(false);
+			inventory.get(4).setOnMap(false);
+			inventory.get(5).setOnMap(false);
+			
+			inventory.get(0).setItemFound(true);
+			inventory.get(1).setItemFound(true);
+			inventory.get(2).setItemFound(false);
+			inventory.get(3).setItemFound(false);
+			inventory.get(4).setItemFound(false);
+			inventory.get(5).setItemFound(false);
+			
+			setDrinksOnMap(6);
+		
+		// BOSS MAP 1
+		} else if (mapNumber == 4) {
+			inventory.get(0).setOnMap(false);
+			inventory.get(1).setOnMap(false);
+			inventory.get(2).setOnMap(true);
+			inventory.get(3).setOnMap(false);
+			inventory.get(4).setOnMap(false);
+			inventory.get(5).setOnMap(false);
+			
+			inventory.get(0).setItemFound(true);
+			inventory.get(1).setItemFound(true);
+			inventory.get(2).setItemFound(false);
+			inventory.get(3).setItemFound(false);
+			inventory.get(4).setItemFound(false);
+			inventory.get(5).setItemFound(false);
+			
+			setDrinksOnMap(0);
+
+		// OPTOMETRY	
+		} else if (mapNumber == 5) {
+			inventory.get(0).setOnMap(false);
+			inventory.get(1).setOnMap(false);
+			inventory.get(2).setOnMap(true);
+			inventory.get(3).setOnMap(false);
+			inventory.get(4).setOnMap(false);
+			inventory.get(5).setOnMap(false);
+			
+			inventory.get(0).setItemFound(true);
+			inventory.get(1).setItemFound(true);
+			inventory.get(2).setItemFound(false);
+			inventory.get(3).setItemFound(false);
+			inventory.get(4).setItemFound(false);
+			inventory.get(5).setItemFound(false);
+			
+			setDrinksOnMap(6);
+
+		// BOSS MAP
+		} else if (mapNumber == 6) {
+			inventory.get(0).setOnMap(false);
+			inventory.get(1).setOnMap(false);
+			inventory.get(2).setOnMap(true);
+			inventory.get(3).setOnMap(false);
+			inventory.get(4).setOnMap(false);
+			inventory.get(5).setOnMap(false);
+			
+			inventory.get(0).setItemFound(true);
+			inventory.get(1).setItemFound(true);
+			inventory.get(2).setItemFound(false);
+			inventory.get(3).setItemFound(false);
+			inventory.get(4).setItemFound(false);
+			inventory.get(5).setItemFound(false);
+
+		// BIOLOGY
+		} else if (mapNumber == 7) {
+			inventory.get(0).setOnMap(false);
+			inventory.get(1).setOnMap(false);
+			inventory.get(2).setOnMap(true);
+			inventory.get(3).setOnMap(true);
+			inventory.get(4).setOnMap(true);
+			inventory.get(5).setOnMap(true);
+			
+			inventory.get(0).setItemFound(true);
+			inventory.get(1).setItemFound(true);
+			inventory.get(2).setItemFound(false);
+			inventory.get(3).setItemFound(false);
+			inventory.get(4).setItemFound(false);
+			inventory.get(5).setItemFound(false);
+			
+			setDrinksOnMap(3);
+
+		// CHAX MAP
+		} else if (mapNumber == 8) {
+			inventory.get(0).setOnMap(false);
+			inventory.get(1).setOnMap(false);
+			inventory.get(2).setOnMap(false);
+			inventory.get(3).setOnMap(false);
+			inventory.get(4).setOnMap(false);
+			inventory.get(5).setOnMap(false);
+			
+			inventory.get(0).setItemFound(true);
+			inventory.get(1).setItemFound(true);
+			inventory.get(2).setItemFound(false);
+			inventory.get(3).setItemFound(false);
+			inventory.get(4).setItemFound(false);
+			inventory.get(5).setItemFound(false);
+
 		}
 
 	}

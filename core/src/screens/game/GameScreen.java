@@ -48,6 +48,7 @@ import models.Keyboard;
 import models.Map;
 import models.Player;
 import models.Zombie;
+import models.inventory.Drink;
 import models.inventory.Item;
 import models.Robot;
 import models.screenplay.Screenplay;
@@ -315,9 +316,6 @@ public class GameScreen extends AbstractScreen {
 
 	@Override
 	public void render(float delta) {
-
-		
-
 		// Checks if the map needs changing
 		if (playerControls.checkExit(exits)) {
 			loadedMap.dispose();
@@ -356,11 +354,11 @@ public class GameScreen extends AbstractScreen {
 		if (hud.getHealth() == 0.0f) {
 			hud.resetHealth();
 			playerControls.updatePlayerCoordinates(spawnX, spawnY);
-			 hud.decreaseLife();
-	            if(hud.getLives() == 0) {
-	            	inGameMp3.stop();
-	            	ScreenManager.setGameOver(); // game over
-	            }
+			hud.decreaseLife();
+			if(hud.getLives() == 0) {
+				inGameMp3.stop();
+				ScreenManager.setGameOver(); // game over
+			}
 		}
 
 		for (int i = 0; i < zombies.size(); i++) {
@@ -421,14 +419,14 @@ public class GameScreen extends AbstractScreen {
 				if (robot.getBullets().get(i).getShoot()) {
 					batch.draw(robot.getBullets().get(i).getSprite(),
 							(robot.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE)
-									- (GameSettings.SCALED_TILE_SIZE / 2),
+							- (GameSettings.SCALED_TILE_SIZE / 2),
 							robot.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE,
 							GameSettings.SCALED_TILE_SIZE / 5f, GameSettings.SCALED_TILE_SIZE / 5f);
 				}
 				if ((((int) (robot.getBullets().get(i).x) >= (int) (player.getX())
 						&& (int) (robot.getBullets().get(i).x) <= (int) (player.getX() + 1)))
 						&& (((int) (robot.getBullets().get(i).y) >= (int) (player.getY())
-								&& (int) (robot.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
+						&& (int) (robot.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
 					robot.getBullets().get(i).setShoot(false);
 					hud.reduceHealth(robot.getBullets().get(i).getDamage());
 					robot.getBullets().remove(robot.getBullets().get(i));
@@ -456,14 +454,14 @@ public class GameScreen extends AbstractScreen {
 				if (bossZombie.getBullets().get(i).getShoot()) {
 					batch.draw(bossZombie.getBullets().get(i).getSprite(),
 							(bossZombie.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE)
-									- (GameSettings.SCALED_TILE_SIZE / 2),
+							- (GameSettings.SCALED_TILE_SIZE / 2),
 							bossZombie.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE,
 							GameSettings.SCALED_TILE_SIZE / 3f, GameSettings.SCALED_TILE_SIZE / 3f);
 				}
 				if ((((int) (bossZombie.getBullets().get(i).x) >= (int) (player.getX())
 						&& (int) (bossZombie.getBullets().get(i).x) <= (int) (player.getX() + 1)))
 						&& (((int) (bossZombie.getBullets().get(i).y) >= (int) (player.getY())
-								&& (int) (bossZombie.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
+						&& (int) (bossZombie.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
 					bossZombie.getBullets().get(i).setShoot(false);
 					hud.reduceHealth(bossZombie.getBullets().get(i).getDamage());
 					bossZombie.getBullets().remove(bossZombie.getBullets().get(i));
@@ -512,7 +510,7 @@ public class GameScreen extends AbstractScreen {
 			b.update(delta);
 		}
 		books.removeAll(booksToRemove);
-		
+
 		keyboards = playerControls.getKeyboards();
 		ArrayList<Keyboard> keyboardsToRemove = new ArrayList<Keyboard>();
 		for (int i = 0; i < keyboards.size(); i++) {
@@ -558,17 +556,18 @@ public class GameScreen extends AbstractScreen {
 		ArrayList<Item> currentHUDItems = currentInv.getHUDItems();
 		ArrayList<Item> foundMapItems = new ArrayList<Item>();
 
-		if (currentInv.getMapNumber() == 1 || currentInv.getMapNumber() == 2) {
-			for (Item currentItem : currentHUDItems) {
-				if (currentItem.getFound() == true && currentItem.getInvDrawn() == false) {
-					hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), currentItem.getInvX(),
-							currentInv.getDrinkDrawn(), "");
+		for (Item currentItem : currentHUDItems) {
+			
+			if (currentItem.getFound() == true && currentItem.getInvDrawn() == false) {
+				hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), 
+											currentItem.getInvX(),
+											currentInv.getDrinkDrawn(), 
+											"");
 
-					currentItem.setInvDrawn(true);
-
-				}
+				currentItem.setInvDrawn(true);
 
 			}
+
 		}
 
 		for (Item currentItem : currentMapItems) {
@@ -584,18 +583,21 @@ public class GameScreen extends AbstractScreen {
 				if (currentItem.getInvDrawn() == false) {
 					if (currentItem.getName().equals("Drink")) {
 						if (currentInv.getDrinkDrawn() == false) {
-							hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), currentItem.getInvX(),
-									currentInv.getDrinkDrawn(), "drink");
-
+							hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), 
+														currentItem.getInvX(),
+														currentInv.getDrinkDrawn(), 
+														"drink");
+							
 							currentDrinkID = currentItem.getDrinkID();
 							currentInv.setDrinkDrawn(true);
-							currentInv.getMapItems().get(2).setItemFound(true);
-							currentInv.getInventory().get(2).setItemFound(true);
+							currentInv.getInventory().get(findDrinkPosition(currentInv)).setItemFound(true);
 						}
 
 					} else {
-						hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), currentItem.getInvX(),
-								currentInv.getDrinkDrawn(), "");
+						hud.addLatestFoundItemToInv(currentItem.getAtlasImage(), 
+													currentItem.getInvX(),
+													currentInv.getDrinkDrawn(), 
+													"");
 
 						currentItem.setInvDrawn(true);
 					}
@@ -625,15 +627,20 @@ public class GameScreen extends AbstractScreen {
 						hud.drawEquippedItem(null);
 
 						currentInv.getCurrentItem().setBeingUsed(false);
-						currentInv.getMapItems().get(2).setItemFound(false);
 						currentInv.setDrinkDrawn(false);
 						currentInv.setAsCurrentItem(null);
 
 					}
 				}
+			} else if (currentUsedItem.getName().contains("Potion")) {
+					if (playerControls.isOnVent()) {
+						//get item, remove from hud, remove from found, remove invDrawn etc. Same as Drink
+						
+					}
+				
 			}
 		}
-		
+
 		if(player.getX() == 92 && player.getY() == 4 && playerControls.getInteract()) {
 			elapsed += delta;
 			playerControls.resetDirection();
@@ -649,7 +656,7 @@ public class GameScreen extends AbstractScreen {
 			if(elapsed == delta) {
 				sound.play();
 			}
-			
+
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
 			handler.addNode(faint2);
@@ -662,20 +669,20 @@ public class GameScreen extends AbstractScreen {
 				elapsed = 0.0f;
 			}
 		}
-		
-		
+
+
 		if(maps.indexOf(map) == 0 && player.getX() > 51 && player.getY() > 45 && player.getX() < 57 && been == false) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nTime for another stressful day  [ENTER]", 0);
 			ScreenplayNode faint2 = new ScreenplayNode(
 					chosenCharacter + ":\nWhat's that sound?   [ENTER]", 1);
-			
+
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
 			handler.addNode(faint2);
 			dialogueController.startDialogue(handler);
-			
+
 			been = true;
 		}
 
@@ -706,9 +713,11 @@ public class GameScreen extends AbstractScreen {
 		exits = map.getExits();
 		loadedMap = new TmxMapLoader().load(map.getMapLocation());
 
+		int mapInv = currentInv.getMapNumber();
 		currentInv = new InventorySystem();
-		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), newMap);
+		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), mapInv + 1);
 		currentInv.setDrinkDrawn(false);
+		hud.removeAllFoundItems();
 	}
 
 	/**
@@ -773,6 +782,23 @@ public class GameScreen extends AbstractScreen {
 		player.setAnimations(animations);
 	}
 
+	public int findDrinkPosition(InventorySystem currentInv) {
+		int pos = 0;
+		
+		for (Item currentItem : currentInv.getInventory()) {
+			if (currentItem instanceof Drink) {
+				pos = currentInv.getInventory().indexOf(currentItem);
+				
+				break;
+				
+			}
+			
+		}
+		
+		return pos;
+		
+	}
+	
 	@Override
 	public void resize(int width, int height) {
 		camera.viewportWidth = width;
@@ -801,14 +827,14 @@ public class GameScreen extends AbstractScreen {
 
 	@Override
 	public void dispose() {
-    	inGameMp3.dispose();
-        loadedMap.dispose();
+		inGameMp3.dispose();
+		loadedMap.dispose();
 
-        assetManager.dispose();
-        batch.dispose();
-        mapBatch.dispose();
-        stage.dispose();
-        renderer.dispose();
+		assetManager.dispose();
+		batch.dispose();
+		mapBatch.dispose();
+		stage.dispose();
+		renderer.dispose();
 	}
 
 	public InventorySystem getInventory() {

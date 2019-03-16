@@ -29,7 +29,7 @@ public class PlayerController extends InputAdapter {
 	private ArrayList<Keyboard> keyboards;
 
 	private InventorySystem currentInv;	
-	
+
 	public PlayerController(Player p, TiledMapTileLayer collisions) {
 		this.p = p;
 		this.collisions = collisions;
@@ -127,36 +127,32 @@ public class PlayerController extends InputAdapter {
 			} else if (currentInv.getCurrentItem().getName() == "Book") {
 				books.add(p.shootBook(p.getDirection(), p.getX(), p.getY()));
 
-
 			} else if (currentInv.getCurrentItem().getName() == "Keyboard") {
 				keyboards.add(p.shootKeyboard(p.getDirection(), p.getX(), p.getY()));
-				
-				System.out.println("Keyboard Being Used");
-
 
 			} else if (currentInv.getCurrentItem().getName() == "Drink") {
 				System.out.println("Drink Being Used");
-				
+
 				currentInv.getCurrentItem().setBeingPressed(true);
 
 
 			} else if (currentInv.getCurrentItem().getName() == "Potion1") {
 				System.out.println("Potion1 Being Used");
-				
+
 				currentInv.getCurrentItem().setBeingPressed(true);
-				
+
 
 			} else if (currentInv.getCurrentItem().getName() == "Potion2") {
 				System.out.println("Potion2 Being Used");
-				
+
 				currentInv.getCurrentItem().setBeingPressed(true);
 
 
 			} else if (currentInv.getCurrentItem().getName() == "Potion3") {
 				System.out.println("Potion3 Being Used");
-				
+
 				currentInv.getCurrentItem().setBeingPressed(true);
-				
+
 			}
 
 		}
@@ -272,7 +268,23 @@ public class PlayerController extends InputAdapter {
 		}
 
 	}
-	
+
+	public boolean isOnVent() {
+		boolean answer = false;
+		
+		if (Gdx.input.isKeyPressed(Input.Keys.E)){
+			if (p.getX() == 24 && p.getY() == 42) {
+				return true;
+				
+			} else if (p.getX() == 25 && p.getY() == 42) {
+				return true;
+				
+			}
+		}
+		
+		return answer;
+	}
+
 	public InventorySystem equipItem(InventorySystem inventory) {
 		currentInv = inventory;
 
@@ -353,20 +365,20 @@ public class PlayerController extends InputAdapter {
 		} else if (currentInv.getCurrentItem().checkBeingUsed() == false && currentInv.getCurrentItem().checkBeingPressed() == true) {
 			currentInv.getCurrentItem().setBeingUsed(true);
 			currentInv.getCurrentItem().setBeingPressed(false);
-			
+
 			return currentInv.getCurrentItem();
 
 		} else {
 			return null;
-			
+
 		}
-		
+
 	}
 
-	
+
 	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
- 	public void updatePlayerCoordinates(int x, int y) {
+	public void updatePlayerCoordinates(int x, int y) {
 		p.updateCoordinates(x, y);
 	}
 
@@ -398,7 +410,7 @@ public class PlayerController extends InputAdapter {
 	public ArrayList<Book> getBooks() {
 		return books;
 	}
-	
+
 	public ArrayList<Keyboard> getKeyboards() {
 		return keyboards;
 	}

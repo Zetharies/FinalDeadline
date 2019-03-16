@@ -136,6 +136,8 @@ public class Hud {
 	// Adds the found item to the inventory bar, un-equipped
 	public void addLatestFoundItemToInv(String atlasName, int padRight, Boolean drinkDrawn, String objectType) {	
 		if (objectType.equals("drink") && drinkDrawn == false) {	
+			System.out.println("HUD: Drawing Drink");
+			
 			invItems = new Container<Image>();
 			invItems.top();
 			invItems.setFillParent(true);
@@ -151,6 +153,8 @@ public class Hud {
 			stage.addActor(invItems);	
 
 		} else {
+			System.out.println("HUD: Drawing " + atlasName);
+			
 			invItems = new Container<Image>();
 			invItems.top();
 			invItems.setFillParent(true);
@@ -214,6 +218,17 @@ public class Hud {
 			}
 
 		}
+	}
+	
+	public void removeAllFoundItems() {
+		for (Actor currentActor : stage.getActors()) {	
+			if (currentActor.getName().contains("invItems.")) {
+				currentActor.clear();
+
+			}
+
+		}
+		
 	}
 	
 	public void increaseScore(String monster) {

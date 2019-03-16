@@ -7,7 +7,7 @@ public class Potion1 extends Item{
 	
 	public Potion1(int startX, int startY) {
 		super("Potion1", startX, startY, 3, "images/items/itemPotion.png" ,"invPotion", -140, -140);
-	
+
 	}
 	
 	@Override
