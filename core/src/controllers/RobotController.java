@@ -20,7 +20,7 @@ public class RobotController {
     private int timer = 0;
     private boolean collision = false;
     private int playerX, playerY;
-    private final float RADIUS = 5;
+    private final float RADIUS = 10;
     private ArrayList<PlayerMovement> movements;
     private static String facing;
 
@@ -32,16 +32,18 @@ public class RobotController {
     }
     int toShoot = 0;
     boolean playAudio = false;
+
     @SuppressWarnings("static-access")
     public void update(float delta) {
         toShoot++;
         updateTimers(delta);
         updateCollisions();
         detectPlayer();
-        //keys();
+        keys();
         if (detectPlayer()) {
             moveToPlayer();
-            if (toShoot == 90) {
+            if (toShoot == 50) {
+                System.out.println("shoot");
                 robot.shoot();
                 robot.getBullets().get(robot.getBullets().size() - 1).setShotDirection(facing);
                 robot.getBullets().get(robot.getBullets().size() - 1).setShoot(true);
@@ -53,13 +55,13 @@ public class RobotController {
             robot.playAudio();
             playAudio = false;
         }
-        if (toShoot == 90) {
+        if (toShoot == 50) {
             toShoot = 0;
         }
     }
 
     private void moveToPlayer() {
-        if (up && robot.getY() < playerY) {
+        if (robot.getY() < playerY) {
 
             robot.getSprite().setRegion((TextureRegion) robot.getUp().getKeyFrame(incr));
             robot.y += Gdx.graphics.getDeltaTime() * robot.speed;
@@ -69,17 +71,29 @@ public class RobotController {
             }
 
         }
-        if (down && robot.getY() > playerY) {
+        if (robot.getY() > playerY) {
             robot.getSprite().setRegion((TextureRegion) robot.getDown().getKeyFrame(incr));
             robot.y -= Gdx.graphics.getDeltaTime() * robot.speed;
 
             if (isDownBlocked()) {
-                System.out.println("down is now blocked");
             }
+        }
+        if (robot.getX() > playerX) {
+            robot.getSprite().setRegion((TextureRegion) robot.getLeft().getKeyFrame(incr));
+            robot.x -= Gdx.graphics.getDeltaTime() * robot.speed;
+            facing = "left";
+
+        }
+        if (robot.getX() < playerX) {
+            System.out.println("need to go right");
+            robot.getSprite().setRegion((TextureRegion) robot.getRight().getKeyFrame(incr));
+            robot.x += Gdx.graphics.getDeltaTime() * robot.speed;
+            facing = "right";
+
         }
 
         if ((int) robot.getY() == (int) playerY) {
-            robot.getSprite().setRegion((TextureRegion) robot.getLeft().getKeyFrame(0));
+          //  robot.getSprite().setRegion((TextureRegion) robot.getLeft().getKeyFrame(0));
         }
     }
     private int count2 = 0;
@@ -164,40 +178,40 @@ public class RobotController {
 
     @SuppressWarnings("static-access")
     public void keys() {
-        if (Gdx.input.isKeyPressed(Keys.DPAD_LEFT) && !isLeftBlocked()) {
+        if (Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) {
 
             robot.x -= Gdx.graphics.getDeltaTime() * robot.speed;
-            robot.getSprite().setRegion((TextureRegion) robot.getLeft().getKeyFrame(10));
+            robot.getSprite().setRegion((TextureRegion) robot.getLeft().getKeyFrame(incr));
             facing = "left";
 
         }
-        if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT) && !isRightBlocked()) {
+        if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
 
             robot.x += Gdx.graphics.getDeltaTime() * robot.speed;
-            robot.getSprite().setRegion((TextureRegion) robot.getRight().getKeyFrame(5));
+            robot.getSprite().setRegion((TextureRegion) robot.getRight().getKeyFrame(incr));
             facing = "right";
 
         }
-        if (Gdx.input.isKeyPressed(Keys.DPAD_UP) && !isUpBlocked()) {
+        if (Gdx.input.isKeyPressed(Keys.DPAD_UP)) {
 
             robot.y += Gdx.graphics.getDeltaTime() * robot.speed;
-            robot.getSprite().setRegion((TextureRegion) robot.getUp().getKeyFrame(8));
+            robot.getSprite().setRegion((TextureRegion) robot.getUp().getKeyFrame(incr));
             facing = "up";
 
         }
-        if (Gdx.input.isKeyPressed(Keys.DPAD_DOWN) && !isDownBlocked()) {
+        if (Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
 
             robot.y -= Gdx.graphics.getDeltaTime() * robot.speed;
-            robot.getSprite().setRegion((TextureRegion) robot.getDown().getKeyFrame(1));
+            robot.getSprite().setRegion((TextureRegion) robot.getDown().getKeyFrame(incr));
             facing = "down";
 
         }
         if (Gdx.input.isKeyPressed(Keys.B)) {
-            System.out.println("test");
-            robot.shoot();
-            robot.getBullets().get(robot.getBullets().size() - 1).setShotDirection(facing);
-            robot.getBullets().get(robot.getBullets().size() - 1).setShoot(true);
-            moveToPlayer();
+          //  robot.kill(true);
+//            robot.shoot();
+//            robot.getBullets().get(robot.getBullets().size() - 1).setShotDirection(facing);
+//            robot.getBullets().get(robot.getBullets().size() - 1).setShoot(true);
+//            moveToPlayer();
         }
     }
 

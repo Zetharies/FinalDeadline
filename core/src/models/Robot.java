@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class Robot {
 
-    public static final float speed = 1.0f; // 10 pixels per second.
+    public static final float speed = 0.8f; // 10 pixels per second.
     public float x;
     public float y;
     private int currentFrame = 6;
@@ -27,7 +27,7 @@ public class Robot {
     private Animation walkingUp, walkingDown, walkingRight, walkingLeft;
     private ArrayList<Bullet> bullets;
     private TiledMapTileLayer collisions;
-
+    private boolean kill = false;
     private Sound audio;
 
     public Robot(int startX, int startY, TiledMapTileLayer collisions) {
@@ -47,7 +47,7 @@ public class Robot {
         y = (float) startY;
         walkingDown = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[0], walkFrames[1], walkFrames[2]);
         walkingRight = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[7], walkFrames[6], walkFrames[8]);
-        walkingLeft = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[4], walkFrames[3], walkFrames[5]);
+        walkingLeft = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[3], walkFrames[4], walkFrames[5]);
         walkingUp = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[10], walkFrames[9], walkFrames[11]);
         sprite.setRegion((TextureRegion) walkingRight.getKeyFrame(0));
         bullets = new ArrayList<Bullet>();
@@ -101,6 +101,26 @@ public class Robot {
 
     public void removeBullet(int index) {
         bullets.remove(index);
+    }
+    
+    public void setHealth(int value){
+        this.health = value;
+    }
+    
+    public int getHealth(){
+        return this.health;
+    }
+    
+    public void damage(int value){
+        this.health -= value;
+    }
+    
+    public void kill(boolean kill){
+        this.kill = kill;
+    }
+    
+    public boolean getKill(){
+        return this.kill;
     }
 
 }

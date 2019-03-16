@@ -10,22 +10,23 @@ import com.mygdx.game.GameSettings;
 import controllers.PlayerMovement;
 import controllers.ZombieController;
 import java.util.ArrayList;
+import static models.NPC.FRAME_COLS;
 
-public class Zombie {
+public class Zombie extends NPC {
 
-    public static final float speed = 2.3f; // 10 pixels per second.
-    public float x;
-    public float y;
-    private int currentFrame = 6;
-    private int health = 100;
-    private Sprite sprite;
-    private Texture texture;
-    private TextureRegion region[][];
-    private static final int FRAME_COLS = 3;
-    private static final int FRAME_ROWS = 4;
-    private TextureRegion[] walkFrames;
-    @SuppressWarnings("rawtypes")
-    private Animation walkingUp, walkingDown, walkingRight, walkingLeft;
+    public static final double speed = 1.5; // 10 pixels per second.
+//    public float x;
+//    public float y;
+//    private int currentFrame = 6;
+//    private int health = 100;
+//    private Sprite sprite;
+//    private Texture texture;
+//    private TextureRegion region[][];
+//    private static final int FRAME_COLS = 3;
+//    private static final int FRAME_ROWS = 4;
+//    private TextureRegion[] walkFrames;
+//    @SuppressWarnings("rawtypes")
+//    private Animation walkingUp, walkingDown, walkingRight, walkingLeft;
     private ZombieController controller;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -42,11 +43,11 @@ public class Zombie {
         }
         sprite = new Sprite(walkFrames[currentFrame + 1]);
         sprite.setOriginCenter();
-        x = (float) startX;
-        y = (float) startY;
+        x =  startX;
+        y =  startY;
         walkingDown = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[0], walkFrames[1], walkFrames[2]);
         walkingUp = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[7], walkFrames[6], walkFrames[8]);
-        walkingRight = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[4], walkFrames[3], walkFrames[5]);
+        walkingRight = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[3], walkFrames[4], walkFrames[5]);
         walkingLeft = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[10], walkFrames[9], walkFrames[11]);
     }
 
@@ -55,11 +56,11 @@ public class Zombie {
     }
 
     public void setPlayerMovements(ArrayList<PlayerMovement> movements) {
-        controller.setPlayerMovement(movements);
+//        controller.setPlayerMovement(movements);
     }
 
-    public void update(float delta) {
-        controller.update(delta);
+    public void update(float delta, ArrayList<Zombie>zombies) {
+        controller.update(delta,zombies);
     }
 
     public TextureRegion getZombies() {
@@ -85,24 +86,39 @@ public class Zombie {
     public Animation getDown() {
         return walkingDown;
     }
-
-    public void damage(int damage) {
-        health -= damage;
+    
+    public void setDown(boolean value){
+        controller.setDown(value);
+    }
+    
+    public boolean getDownBlocked(){
+        return controller.getDown();
+    }
+    
+    public void setUp(boolean value){
+        controller.setUp(value);
+    }
+    
+    public boolean getUpBlocked(){
+        return controller.getUp();
+    }
+    public void setRight(boolean value){
+        controller.setRight(value);
+    }
+    
+    public boolean getRightBlocked(){
+        return controller.getRight();
+    }
+    public void setLeft(boolean value){
+        controller.setLeft(value);
+    }
+    
+    public boolean getLeftBlocked(){
+        return controller.getRight();
     }
 
-    public int getX() {
-        return (int) x;
-    }
-
-    public int getY() {
-        return (int) y;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void die() {
-    }
-
+   
+   
+    
+    
 }
