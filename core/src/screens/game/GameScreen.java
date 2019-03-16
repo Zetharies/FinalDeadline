@@ -95,7 +95,7 @@ public class GameScreen extends AbstractScreen {
 
 	private float elapsed = 0.0f;
 
-	private boolean hasDrink = false;
+	private boolean hasDrink = false, beenTwo = false;
 
 	public GameScreen(String character) {
 		Assets.load();
@@ -725,8 +725,73 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 			playerControls.setInteractFalse();
 		}
+		
+		if(maps.indexOf(map) == 2 && player.getX() == 47  && player.getY() == 63 && beenTwo == false) {
+			playerControls.resetDirection();
+			handler = new ScreenplayHandler();
+			ScreenplayNode faint = new ScreenplayNode("There is nothing to see here  [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode("You have too much time on your hands...   [ENTER]", 1);
 
-		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 4) {
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+			beenTwo = true;
+		}
+		
+		if(maps.indexOf(map) == 2 && player.getX() == 21  && player.getY() == 21 && playerControls.getInteract()) {
+			playerControls.resetDirection();
+			handler = new ScreenplayHandler();
+			ScreenplayNode faint = new ScreenplayNode("There is nothing to see here  [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode("You have too much time on your hands...   [ENTER]", 1);
+
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+			playerControls.setInteractFalse();
+		}
+		
+		if(maps.indexOf(map) == 2 && player.getX() >= 34 && player.getX() <= 38  && player.getY() == 76 && playerControls.getInteract()) {
+			playerControls.resetDirection();
+			handler = new ScreenplayHandler();
+			ScreenplayNode faint = new ScreenplayNode("There are lots of drawing on these bits of paper  [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nLooks like plans but I can't make out what it is...   [ENTER]", 1);
+
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+			playerControls.setInteractFalse();
+		}
+		
+		if(maps.indexOf(map) == 2 && player.getX() == 78 && player.getY() == 38 && playerControls.getInteract()) {
+			playerControls.resetDirection();
+			handler = new ScreenplayHandler();
+			ScreenplayNode faint = new ScreenplayNode("Theres not much to see here  [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nBest keep going moving   [ENTER]", 1);
+
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+			playerControls.setInteractFalse();
+		}
+		
+		if(maps.indexOf(map) == 2 && player.getX() == 75 && player.getY() == 32 && playerControls.getInteract()) {
+			playerControls.resetDirection();
+			handler = new ScreenplayHandler();
+			ScreenplayNode faint = new ScreenplayNode("It's a full pot of coffee   [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nIt's still warm   [ENTER]", 1);
+
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+			playerControls.setInteractFalse();
+		}
+
+		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 2) {
 			zombies.removeAll(zombies);
 		}
 
