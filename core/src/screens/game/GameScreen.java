@@ -54,6 +54,7 @@ import models.Robot;
 import models.screenplay.Screenplay;
 import models.screenplay.ScreenplayHandler;
 import models.screenplay.ScreenplayNode;
+import riddleScreen.RiddleCard;
 import screens.intro.AbstractScreen;
 import screens.menu.MainMenuScreen;
 import models.BossZombie;
@@ -106,6 +107,12 @@ public class GameScreen extends AbstractScreen {
     private float elapsed = 0.0f;
 
     private BoobyTrap traps;
+
+	private RiddleCard riddle;
+
+	private RiddleCard riddle2;
+
+	private boolean wrong;
     public GameScreen(String character) {
         Assets.load();
         this.chosenCharacter = character; // Chosen characters are either Flynn or Jessica
@@ -724,6 +731,43 @@ public class GameScreen extends AbstractScreen {
         if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 4) {
             zombies.removeAll(zombies);
         }
+        
+        
+        riddle = new RiddleCard("card", 25, 60, "images/card 111px.png");
+		riddle2 =  new RiddleCard("card", 35, 60, "images/card 111px.png");
+
+		// riddleUI.windowAdd(ok, label);
+
+		if (playerControls.isOnRiddle(riddle) == true || playerControls.isOnRiddle(riddle2)==true) {
+			hud.addWindow();
+		}
+		// stage.addActor(riddleUI.getWindow());
+		if (Gdx.input.isKeyPressed(Input.Keys.V) ) {
+			hud.addWinLabel();
+		} else if (Gdx.input.isKeyPressed(Input.Keys.Z)
+				|| (Gdx.input.isKeyPressed(Input.Keys.X) || (Gdx.input.isKeyPressed(Input.Keys.C)))) {
+			
+			hud.addLoseLabel();
+			wrong = true;
+		}
+		else if ((Gdx.input.isKeyPressed(Input.Keys.R))){
+			hud.resetRiddle();
+		}
+
+		else {
+
+			hud.removeWindow();
+			
+
+		}
+
+		if (wrong == true) {
+
+		riddle2.render(batch);
+		}else {
+			riddle.render(batch);
+		}
+
 
         batch.end();
 

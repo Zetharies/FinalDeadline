@@ -10,6 +10,7 @@ import models.Keyboard;
 import models.Player;
 import models.Zombie;
 import models.inventory.Item;
+import riddleScreen.RiddleCard;
 
 import java.util.ArrayList;
 
@@ -373,6 +374,16 @@ public class PlayerController extends InputAdapter {
 
 		}
 
+	}
+	
+	public boolean isOnRiddle(RiddleCard collidedItem) {    	
+		if(collidedItem.getX() == p.getX() && collidedItem.getY() == p.getY() && Gdx.input.isKeyPressed(Input.Keys.E)) {
+			return true;
+
+		} else {
+			return false;
+
+		}
 	}
 
 

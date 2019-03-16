@@ -1,10 +1,14 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
@@ -12,11 +16,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import models.HealthBar;
 import models.inventory.Item;
+import riddleScreen.RiddleUI;
 
 public class Hud {
 	public Stage stage;
@@ -33,6 +39,10 @@ public class Hud {
 	private Image invBoxImage;
 	
 	private int currentScore, currentLives;
+	private Label.LabelStyle style = new Label.LabelStyle();
+	private RiddleUI riddleUI, riddleWin, riddleLose;
+	private Label imagination, nothing, air, darkness;
+	private Window temp, win, lose;
 	private static final int MAX_LIVES = 5;
 
 	public Hud(SpriteBatch batch) {
@@ -42,7 +52,17 @@ public class Hud {
 		
 		viewPort = new FitViewport(1200, 600);
 		stage = new Stage(viewPort, batch);
+		
 		skin = new Skin(Gdx.files.internal("fonts/Holo-dark-hdpi.json"));
+		
+		//skin = new Skin(Gdx.files.internal("fonts/Holo-dark-hdpi.json"));
+
+		style.font = generateFont(skin);
+
+		imagination = new Label("\t V: Imagination", style);
+		nothing = new Label("\t\t C: Nothing", style);
+		darkness = new Label("\t\t X:Imagination", style);
+		air = new Label("\t\t Z:air", style);
 
 		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -96,7 +116,24 @@ public class Hud {
 		invBox.setName("invBox");
 
 		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
+		
+		imagination.setPosition(100, 100);
+		air.setPosition(100, 100);
+		darkness.setPosition(100, 100);
+		nothing.setPosition(100, 100);
+		
+		riddleUI = new RiddleUI(
+				"If you look you cannot see me. \nAnd if you see me you cannot see anything else.  \n I can make anything you want happen, \n but later everything goes back to normal. What am I?");
+		riddleUI.windowAdd(imagination);
+		riddleUI.windowAdd(air);
+		riddleUI.windowAdd(darkness);
+		riddleUI.windowAdd(nothing);
+		
+		riddleWin = new RiddleUI("\n Correct! Go to the next map.\t  R:reset the riddle!");
+		riddleWin.getWindow().setSize(500, 200);
+		riddleLose = new RiddleUI("Worng! find the riddle again!");
+		
+		
 		stage.addActor(mapTable);
 		stage.addActor(health);	
 		stage.addActor(invTable);
@@ -253,4 +290,63 @@ public class Hud {
 		return currentLives;
 	}
 
+	public BitmapFont generateFont(Skin skin) {
+		// font for menu text
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/di-vari.ttf"));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 40;
+
+		BitmapFont font12 = generator.generateFont(parameter); // font size 12 pixels
+		// add the font to the skin
+		skin.add("font", font12);
+
+		generator.dispose();
+		return font12;
+	}
+	
+
+	public void addWindow() {
+		temp = riddleUI.getWindow();
+		temp.setName("window");
+		stage.addActor(temp);
+	}
+	
+	public void addWinLabel() {
+
+		// correct = new Label("Correct! Proceed to the next map", style);
+//		riddleWin.windowAdd(correct);
+		win = riddleWin.getWindow();
+		win.setName("win");
+		stage.addActor(win);
+
+	}
+	
+	public void addLoseLabel() {
+		lose = riddleLose.getWindow();
+		lose.setName("lose");
+		stage.addActor(lose);
+
+	}
+	
+	public void resetRiddle() {
+		for (Actor currentActor : stage.getActors()) {
+			if (currentActor.getName().equals("win")  ) {
+				currentActor.remove();
+			}
+		}
+	}
+
+	public void removeWindow() {
+		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+			for (Actor currentActor : stage.getActors()) {
+				if (currentActor.getName().equals("window") || currentActor.getName().equals("win")
+						||currentActor.getName().equals("lose")) {
+					currentActor.remove();
+
+				}
+
+			}
+		}
+
+	}
 }
