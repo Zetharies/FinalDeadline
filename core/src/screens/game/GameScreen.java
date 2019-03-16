@@ -1,12 +1,10 @@
 package screens.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -33,10 +31,6 @@ import controllers.ScreenplayController;
 import controllers.PlayerController;
 import controllers.RobotController;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.LinkedList;
-import java.util.Random;
 
 import models.AnimationSet;
 import models.Book;
@@ -100,6 +94,8 @@ public class GameScreen extends AbstractScreen {
 	private Particles smoke, smoke2, smoke3;
 
 	private float elapsed = 0.0f;
+
+	private boolean hasDrink = false;
 
 	public GameScreen(String character) {
 		Assets.load();
@@ -416,14 +412,14 @@ public class GameScreen extends AbstractScreen {
 				if (robot.getBullets().get(i).getShoot()) {
 					batch.draw(robot.getBullets().get(i).getSprite(),
 							(robot.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE)
-									- (GameSettings.SCALED_TILE_SIZE / 2),
+							- (GameSettings.SCALED_TILE_SIZE / 2),
 							robot.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE,
 							GameSettings.SCALED_TILE_SIZE / 5f, GameSettings.SCALED_TILE_SIZE / 5f);
 				}
 				if ((((int) (robot.getBullets().get(i).x) >= (int) (player.getX())
 						&& (int) (robot.getBullets().get(i).x) <= (int) (player.getX() + 1)))
 						&& (((int) (robot.getBullets().get(i).y) >= (int) (player.getY())
-								&& (int) (robot.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
+						&& (int) (robot.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
 					robot.getBullets().get(i).setShoot(false);
 					hud.reduceHealth(robot.getBullets().get(i).getDamage());
 					robot.getBullets().remove(robot.getBullets().get(i));
@@ -451,14 +447,14 @@ public class GameScreen extends AbstractScreen {
 				if (bossZombie.getBullets().get(i).getShoot()) {
 					batch.draw(bossZombie.getBullets().get(i).getSprite(),
 							(bossZombie.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE)
-									- (GameSettings.SCALED_TILE_SIZE / 2),
+							- (GameSettings.SCALED_TILE_SIZE / 2),
 							bossZombie.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE,
 							GameSettings.SCALED_TILE_SIZE / 3f, GameSettings.SCALED_TILE_SIZE / 3f);
 				}
 				if ((((int) (bossZombie.getBullets().get(i).x) >= (int) (player.getX())
 						&& (int) (bossZombie.getBullets().get(i).x) <= (int) (player.getX() + 1)))
 						&& (((int) (bossZombie.getBullets().get(i).y) >= (int) (player.getY())
-								&& (int) (bossZombie.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
+						&& (int) (bossZombie.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
 					bossZombie.getBullets().get(i).setShoot(false);
 					hud.reduceHealth(bossZombie.getBullets().get(i).getDamage());
 					bossZombie.getBullets().remove(bossZombie.getBullets().get(i));
@@ -506,7 +502,7 @@ public class GameScreen extends AbstractScreen {
 			b.update(delta);
 		}
 		books.removeAll(booksToRemove);
-		
+
 		keyboards = playerControls.getKeyboards();
 		ArrayList<Keyboard> keyboardsToRemove = new ArrayList<Keyboard>();
 		for (int i = 0; i < keyboards.size(); i++) {
@@ -626,8 +622,8 @@ public class GameScreen extends AbstractScreen {
 				}
 			}
 		}
-		
-		if(player.getX() == 92 && player.getY() == 4 && playerControls.getInteract()) {
+
+		if(player.getX() == 0 && player.getY() == 0 && playerControls.getInteract()) {
 			elapsed += delta;
 			playerControls.resetDirection();
 			table2.setFillParent(true);
@@ -642,7 +638,7 @@ public class GameScreen extends AbstractScreen {
 			if(elapsed == delta) {
 				sound.play();
 			}
-			
+
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
 			handler.addNode(faint2);
@@ -655,21 +651,79 @@ public class GameScreen extends AbstractScreen {
 				elapsed = 0.0f;
 			}
 		}
-		
-		
+
+
 		if(maps.indexOf(map) == 0 && player.getX() > 51 && player.getY() > 45 && player.getX() < 57 && been == false) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nTime for another stressful day  [ENTER]", 0);
 			ScreenplayNode faint2 = new ScreenplayNode(
 					chosenCharacter + ":\nWhat's that sound?   [ENTER]", 1);
-			
+
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
 			handler.addNode(faint2);
 			dialogueController.startDialogue(handler);
-			
+
 			been = true;
+		}
+
+		if(maps.indexOf(map) == 1 && (player.getX() == 62 || player.getX() == 63)  && player.getY() >= 61 && playerControls.getInteract()) {
+			if(hasDrink == false) {
+				playerControls.resetDirection();
+				handler = new ScreenplayHandler();
+				ScreenplayNode faint = new ScreenplayNode("You hear a rattling...  [ENTER]", 0);
+				ScreenplayNode faint2 = new ScreenplayNode("A can falls out of the bottom   [ENTER]", 1);
+
+				faint.makeLinear(faint2.getId());
+				handler.addNode(faint);
+				handler.addNode(faint2);
+				dialogueController.startDialogue(handler);
+				playerControls.setInteractFalse();
+				if (currentInv.getDrinkDrawn() == false) {
+					currentInv.setDrinkDrawn(true);
+					currentInv.getMapItems().get(2).setItemFound(true);
+					currentInv.getInventory().get(2).setItemFound(true);
+				}
+				hasDrink = true;
+			} else {
+				playerControls.resetDirection();
+				handler = new ScreenplayHandler();
+				ScreenplayNode faint = new ScreenplayNode("...  [ENTER]", 0);
+				ScreenplayNode faint2 = new ScreenplayNode("Nothing happened   [ENTER]", 1);
+
+				faint.makeLinear(faint2.getId());
+				handler.addNode(faint);
+				handler.addNode(faint2);
+				dialogueController.startDialogue(handler);
+				playerControls.setInteractFalse();
+			}
+		}
+		
+		if(maps.indexOf(map) == 1 && player.getX() == 86 && player.getY() == 49 && playerControls.getInteract()) {
+			playerControls.resetDirection();
+			handler = new ScreenplayHandler();
+			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nWhats is that smell!?  [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode("*Smells like rotting fish*   [ENTER]", 1);
+
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+			playerControls.setInteractFalse();
+		}
+		
+		if(maps.indexOf(map) == 1 && player.getX() > 33 && player.getX() < 42 && player.getY() == 44 && playerControls.getInteract()) {
+			playerControls.resetDirection();
+			handler = new ScreenplayHandler();
+			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nWasn't there supposed to be a speech today?  [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nWhy is it so empty?   [ENTER]", 1);
+
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+			playerControls.setInteractFalse();
 		}
 
 		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 4) {
