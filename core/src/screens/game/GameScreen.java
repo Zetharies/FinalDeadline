@@ -292,6 +292,10 @@ public class GameScreen extends AbstractScreen {
 		table = new Table();
 		table.setFillParent(true);
 		stage.addActor(table);
+		
+		table2 = new Table();
+		table2.setFillParent(true);
+		stage.addActor(table2);
 
 		dialogue = new Screenplay(chosenCharacter);
 		table.add(dialogue).expand().align(Align.bottom).pad(85f);
@@ -623,7 +627,7 @@ public class GameScreen extends AbstractScreen {
 			}
 		}
 		
-		if(player.getX() == 0 && player.getY() == 0 && playerControls.getInteract()) {
+		if(maps.indexOf(map) == 0 && player.getX() == 29 && player.getY() == 41 && playerControls.getInteract()) {
 			elapsed += delta;
 			playerControls.resetDirection();
 			table2.setFillParent(true);
