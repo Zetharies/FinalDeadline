@@ -24,7 +24,7 @@ public class Hud {
 	private Label currentMap;
 	private Skin skin;
 	private HealthBar health;
-
+        
 	private TextureAtlas invAtlas;
 	private TextureAtlas invBoxAtlas;
 
@@ -55,7 +55,8 @@ public class Hud {
 		health.getHealth(); // gets the value 
 		health.setPosition(555, 415);
 		health.setName("health");
-
+                
+              
 		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 		invAtlas = new TextureAtlas(Gdx.files.internal("inventory/InventoryAtlas.txt"));// atlas file
@@ -108,14 +109,13 @@ public class Hud {
 
 		} else {
 			health.setValue(health.getValue() + healthInc);
-
 		}
-
 	}
 
 	public float getHealth() {
 		return health.getValue();
 	}
+        
 
 	// Adds the found item to the inventory bar, un-equipped
 	public void addLatestFoundItemToInv(String atlasName, int padRight, Boolean drinkDrawn, String objectType) {	
