@@ -622,7 +622,7 @@ public class GameScreen extends AbstractScreen {
 				}
 			}
 		}
-
+		
 		if(player.getX() == 0 && player.getY() == 0 && playerControls.getInteract()) {
 			elapsed += delta;
 			playerControls.resetDirection();
@@ -651,8 +651,141 @@ public class GameScreen extends AbstractScreen {
 				elapsed = 0.0f;
 			}
 		}
+		
+		interacts();
 
+		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 4) {
+			zombies.removeAll(zombies);
+		}
 
+		batch.end();
+
+		mapBatch.begin();
+		smoke.smokeUpdateAndDraw(mapBatch, delta);
+		smoke2.smokeUpdateAndDraw2(mapBatch, delta);
+		mapBatch.end();
+		stage.draw();
+	}
+
+	/**
+	 * Updates {@link #map} to the next map in {@link #maps}. The player's
+	 * coordinates are updated for the new map. {@link #exits} is updated with the
+	 * new map's exit coordinates. {@link #loadedMap} is changed to be the
+	 * <code>TiledMap</code> for the new map.
+	 */
+	private void updateMap() {
+		int newMap = maps.indexOf(map) + 1;
+
+		map = maps.get(newMap);
+		player.updateCoordinates(map.getRespawnX(), map.getRespawnY());
+		exits = map.getExits();
+		loadedMap = new TmxMapLoader().load(map.getMapLocation());
+
+		currentInv = new InventorySystem();
+		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), newMap);
+		currentInv.setDrinkDrawn(false);
+	}
+
+	/**
+	 * Changes the player sprite so that it is equipped with a book.
+	 */
+	public void updateToBook() {
+		assetManager = new AssetManager();
+		assetManager.load("sprite/" + gender + "/book/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
+		assetManager.load("sprite/" + gender + "/book/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
+		assetManager.finishLoading();
+
+		TextureAtlas walking = this.getAssetManager()
+				.get("sprite/" + gender + "/book/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
+		TextureAtlas standing = this.getAssetManager()
+				.get("sprite/" + gender + "/book/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
+
+		AnimationSet animations = new AnimationSet(
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_north"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_south"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_east"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_west"), Animation.PlayMode.LOOP_PINGPONG),
+				standing.findRegion(chosenCharacter + "_standing_north"),
+				standing.findRegion(chosenCharacter + "_standing_south"),
+				standing.findRegion(chosenCharacter + "_standing_east"),
+				standing.findRegion(chosenCharacter + "_standing_west"));
+
+		player.setAnimations(animations);
+	}
+
+	/**
+	 * Changes the player sprite so that it is equipped with a keyboard.
+	 */
+	public void updateToKeyboard() {
+		assetManager = new AssetManager();
+		assetManager.load("sprite/" + gender + "/keyboard/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
+		assetManager.load("sprite/" + gender + "/keyboard/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
+		assetManager.finishLoading();
+
+		TextureAtlas walking = this.getAssetManager()
+				.get("sprite/" + gender + "/keyboard/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
+		TextureAtlas standing = this.getAssetManager()
+				.get("sprite/" + gender + "/keyboard/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
+
+		AnimationSet animations = new AnimationSet(
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_north"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_south"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_east"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_west"), Animation.PlayMode.LOOP_PINGPONG),
+				standing.findRegion(chosenCharacter + "_standing_north"),
+				standing.findRegion(chosenCharacter + "_standing_south"),
+				standing.findRegion(chosenCharacter + "_standing_east"),
+				standing.findRegion(chosenCharacter + "_standing_west"));
+
+		player.setAnimations(animations);
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		camera.viewportWidth = width;
+		camera.viewportHeight = height;
+		camera.update();
+		gamePort.update(width, height);
+		stage.getViewport().update(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, true);
+	}
+
+	@Override
+	public void pause() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void resume() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void hide() {
+		dispose();
+	}
+
+	@Override
+	public void dispose() {
+		loadedMap.dispose();
+		renderer.dispose();
+	}
+
+	public InventorySystem getInventory() {
+		return currentInv;
+
+	}
+	
+	private void interacts() {
 		if(maps.indexOf(map) == 0 && player.getX() > 51 && player.getY() > 45 && player.getX() < 57 && been == false) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
@@ -855,135 +988,5 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 			playerControls.setInteractFalse();
 		}
-
-		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 4) {
-			zombies.removeAll(zombies);
-		}
-
-		batch.end();
-
-		mapBatch.begin();
-		smoke.smokeUpdateAndDraw(mapBatch, delta);
-		smoke2.smokeUpdateAndDraw2(mapBatch, delta);
-		mapBatch.end();
-		stage.draw();
-	}
-
-	/**
-	 * Updates {@link #map} to the next map in {@link #maps}. The player's
-	 * coordinates are updated for the new map. {@link #exits} is updated with the
-	 * new map's exit coordinates. {@link #loadedMap} is changed to be the
-	 * <code>TiledMap</code> for the new map.
-	 */
-	private void updateMap() {
-		int newMap = maps.indexOf(map) + 1;
-
-		map = maps.get(newMap);
-		player.updateCoordinates(map.getRespawnX(), map.getRespawnY());
-		exits = map.getExits();
-		loadedMap = new TmxMapLoader().load(map.getMapLocation());
-
-		currentInv = new InventorySystem();
-		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), newMap);
-		currentInv.setDrinkDrawn(false);
-	}
-
-	/**
-	 * Changes the player sprite so that it is equipped with a book.
-	 */
-	public void updateToBook() {
-		assetManager = new AssetManager();
-		assetManager.load("sprite/" + gender + "/book/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
-		assetManager.load("sprite/" + gender + "/book/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
-		assetManager.finishLoading();
-
-		TextureAtlas walking = this.getAssetManager()
-				.get("sprite/" + gender + "/book/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
-		TextureAtlas standing = this.getAssetManager()
-				.get("sprite/" + gender + "/book/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
-
-		AnimationSet animations = new AnimationSet(
-				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
-						walking.findRegions(chosenCharacter + "_walking_north"), Animation.PlayMode.LOOP_PINGPONG),
-				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
-						walking.findRegions(chosenCharacter + "_walking_south"), Animation.PlayMode.LOOP_PINGPONG),
-				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
-						walking.findRegions(chosenCharacter + "_walking_east"), Animation.PlayMode.LOOP_PINGPONG),
-				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
-						walking.findRegions(chosenCharacter + "_walking_west"), Animation.PlayMode.LOOP_PINGPONG),
-				standing.findRegion(chosenCharacter + "_standing_north"),
-				standing.findRegion(chosenCharacter + "_standing_south"),
-				standing.findRegion(chosenCharacter + "_standing_east"),
-				standing.findRegion(chosenCharacter + "_standing_west"));
-
-		player.setAnimations(animations);
-	}
-
-	/**
-	 * Changes the player sprite so that it is equipped with a keyboard.
-	 */
-	public void updateToKeyboard() {
-		assetManager = new AssetManager();
-		assetManager.load("sprite/" + gender + "/keyboard/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
-		assetManager.load("sprite/" + gender + "/keyboard/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
-		assetManager.finishLoading();
-
-		TextureAtlas walking = this.getAssetManager()
-				.get("sprite/" + gender + "/keyboard/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
-		TextureAtlas standing = this.getAssetManager()
-				.get("sprite/" + gender + "/keyboard/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
-
-		AnimationSet animations = new AnimationSet(
-				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
-						walking.findRegions(chosenCharacter + "_walking_north"), Animation.PlayMode.LOOP_PINGPONG),
-				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
-						walking.findRegions(chosenCharacter + "_walking_south"), Animation.PlayMode.LOOP_PINGPONG),
-				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
-						walking.findRegions(chosenCharacter + "_walking_east"), Animation.PlayMode.LOOP_PINGPONG),
-				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
-						walking.findRegions(chosenCharacter + "_walking_west"), Animation.PlayMode.LOOP_PINGPONG),
-				standing.findRegion(chosenCharacter + "_standing_north"),
-				standing.findRegion(chosenCharacter + "_standing_south"),
-				standing.findRegion(chosenCharacter + "_standing_east"),
-				standing.findRegion(chosenCharacter + "_standing_west"));
-
-		player.setAnimations(animations);
-	}
-
-	@Override
-	public void resize(int width, int height) {
-		camera.viewportWidth = width;
-		camera.viewportHeight = height;
-		camera.update();
-		gamePort.update(width, height);
-		stage.getViewport().update(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, true);
-	}
-
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void hide() {
-		dispose();
-	}
-
-	@Override
-	public void dispose() {
-		loadedMap.dispose();
-		renderer.dispose();
-	}
-
-	public InventorySystem getInventory() {
-		return currentInv;
-
 	}
 }
