@@ -22,9 +22,10 @@ public class Item{
 	protected boolean found;
 	protected boolean onMap;
 
-	private Boolean invDrawn;
-	private Boolean beingUsed;
-	private Boolean beingPressed;
+	private boolean invDrawn;
+	private boolean beingUsed;
+	private boolean beingPressed;
+	private boolean potionUsed;
 
 	public Item(String impName, int startX, int startY, int impID, String texturePath, String atlasImage, int invX, int invBoxX) {
 		itemName = impName;
@@ -46,6 +47,8 @@ public class Item{
 		this.atlasImage = atlasImage;	
 		
 		drinkID = 0;
+		
+		potionUsed = false;
 	}
 
 	
@@ -53,6 +56,17 @@ public class Item{
 
 	}
 
+	
+	public void setPotionUsed(Boolean choice) {
+		potionUsed = choice;
+
+	}
+
+	public Boolean getPotionUsed() {
+		return potionUsed;
+
+	}
+	
 	
 	public void setDrinkID(int choice) {
 		drinkID = choice;

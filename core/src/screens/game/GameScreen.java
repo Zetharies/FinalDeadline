@@ -656,10 +656,7 @@ public class GameScreen extends AbstractScreen {
         for (Item currentItem : currentHUDItems) {
 
             if (currentItem.getFound() == true && currentItem.getInvDrawn() == false) {
-                hud.addLatestFoundItemToInv(currentItem.getAtlasImage(),
-                        currentItem.getInvX(),
-                        currentInv.getDrinkDrawn(),
-                        "");
+                hud.addLatestFoundItemToInv(currentItem, currentInv.getDrinkDrawn());
 
                 currentItem.setInvDrawn(true);
 
@@ -675,15 +672,13 @@ public class GameScreen extends AbstractScreen {
                 currentItem.setOnMap(false);
                 currentItem.setItemFound(true);
 
-                System.out.println("You have found: " + currentItem);
+                System.out.println();
+                System.out.println("GS: Item Found: " + currentItem);
 
                 if (currentItem.getInvDrawn() == false) {
                     if (currentItem.getName().equals("Drink")) {
                         if (currentInv.getDrinkDrawn() == false) {
-                            hud.addLatestFoundItemToInv(currentItem.getAtlasImage(),
-                                    currentItem.getInvX(),
-                                    currentInv.getDrinkDrawn(),
-                                    "drink");
+                            hud.addLatestFoundItemToInv(currentItem, currentInv.getDrinkDrawn());
 
                             currentDrinkID = currentItem.getDrinkID();
                             currentInv.setDrinkDrawn(true);
@@ -691,10 +686,7 @@ public class GameScreen extends AbstractScreen {
                         }
 
                     } else {
-                        hud.addLatestFoundItemToInv(currentItem.getAtlasImage(),
-                                currentItem.getInvX(),
-                                currentInv.getDrinkDrawn(),
-                                "");
+                        hud.addLatestFoundItemToInv(currentItem, currentInv.getDrinkDrawn());
 
                         currentItem.setInvDrawn(true);
                     }
@@ -713,32 +705,53 @@ public class GameScreen extends AbstractScreen {
         }
 
         Item currentUsedItem = playerControls.itemPressed();
-
+        
         if (currentUsedItem != null) {
-            if (currentUsedItem.getName().equals("Drink")) {
-                for (Item currentItem : currentInv.getInventory()) {
-                    if (currentInv.getCurrentItem() != null && currentItem.getDrinkID() == currentDrinkID) {
+			for (Item currentItem : currentInv.getInventory()) {
+				if (currentUsedItem.getName().equals("Drink")) {
+					if (currentInv.getCurrentItem() != null && currentItem.getDrinkID() == currentDrinkID) {
+						System.out.println("Increasing Health");	
 
-                        hud.increaseHealth(0.25f);
-                        hud.removeEquippedItem(currentItem);
-                        
-                        currentInv.setDrinkDrawn(false);
-                        currentInv.getInventory().get(findDrinkPosition(currentInv)).setItemFound(false);
-                        
-                        currentInv.getCurrentItem().setBeingUsed(false);
-                        currentInv.setAsCurrentItem(null);
-                        hud.drawEquippedItem(null);
+						hud.increaseHealth(0.25f);
+						hud.removeEquippedItem(currentItem);
 
-                    }
-                }
-            } else if (currentUsedItem.getName().contains("Potion")) {
-                if (playerControls.isOnVent()) {
-                    //get item, remove from hud, remove from found, remove invDrawn etc. Same as Drink
+						currentInv.setDrinkDrawn(false);
+						currentInv.getInventory().get(findDrinkPosition(currentInv)).setItemFound(false);
 
-                }
+						currentInv.getCurrentItem().setBeingUsed(false);
+						currentInv.setAsCurrentItem(null);
+						hud.drawEquippedItem(null);
 
-            }
+					}					
+
+				} else if (currentUsedItem.getName().contains("Potion")) {
+					if (currentItem.equals(currentUsedItem) && playerControls.isOnVent()) {
+						System.out.println("Using " + currentItem.getName() + " on Vent");
+
+						hud.removeEquippedItem(currentItem);
+
+						currentInv.getCurrentItem().setItemFound(false);
+						currentInv.getCurrentItem().setBeingUsed(false);
+						currentInv.getCurrentItem().setInvDrawn(false);
+						currentInv.getCurrentItem().setPotionUsed(true);
+
+						currentInv.setAsCurrentItem(null);
+						hud.drawEquippedItem(null);
+        				
+        			}
+        		}
+        	}
         }
+        
+        playerControls.getPlayerXY();
+        
+        if (currentInv.allDrinksUsed()) {
+        	System.out.println("POTIONS HAVE DEACTIVATED VIRUS");
+        	
+        	
+        }
+        
+        
 
         if (player.getX() == 92 && player.getY() == 4 && playerControls.getInteract()) {
             elapsed += delta;
