@@ -273,7 +273,7 @@ public class GameScreen extends AbstractScreen {
         TiledMap mapCollisionsBoss = new TmxMapLoader().load(maps.get(0).getMapLocation());
 
         currentInv = new InventorySystem();
-        currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), -1);
+        currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), 0);
 
         // player = new Player(14, 90, animations); // Create a new player object with
         // the coordinates 0, 0, player
@@ -867,6 +867,7 @@ public class GameScreen extends AbstractScreen {
         currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), mapInv + 1);
         currentInv.setDrinkDrawn(false);
         hud.removeAllFoundItems();
+        hud.drawEquippedItem(null);
     }
 
     /**
