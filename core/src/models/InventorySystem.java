@@ -3,10 +3,7 @@ package models;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
 import com.mygdx.game.GameSettings;
 
 import models.inventory.Book;
@@ -322,6 +319,19 @@ public class InventorySystem{
 		
 	}
 	
+	
+	
+	public boolean allDrinksUsed() {
+		boolean answer = false;
+		
+		if (inventory.get(3).getPotionUsed() == true && inventory.get(4).getPotionUsed() == true && inventory.get(5).getPotionUsed() == true) {
+			answer = true;
+			
+		}
+		
+		return answer;
+		
+	}
 	
 	public Boolean getDrinkDrawn() {
 		return drinkDrawn;

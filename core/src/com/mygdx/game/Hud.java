@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -70,7 +69,7 @@ public class Hud {
 		mapTable.top();
 		mapTable.setFillParent(true);
 
-		currentMap = new Label("Floor 1: Biology lab", skin);
+		currentMap = new Label("University Campus", skin);
 		currentMap.setFontScale((float) 0.5);
 		
 		score = new Label("Score: "+ currentScore, skin);
@@ -171,38 +170,34 @@ public class Hud {
 	}
 
 	// Adds the found item to the inventory bar, un-equipped
-	public void addLatestFoundItemToInv(String atlasName, int padRight, Boolean drinkDrawn, String objectType) {	
-		if (objectType.equals("drink") && drinkDrawn == false) {	
-			System.out.println("HUD: Drawing Drink");
-			
+	public void addLatestFoundItemToInv(Item impItem, Boolean drinkDrawn) {	
+		if (impItem.getName().equals("Drink") && drinkDrawn == false) {	
 			invItems = new Container<Image>();
 			invItems.top();
 			invItems.setFillParent(true);
-			invItems.setPosition(padRight, -535);
+			invItems.setPosition(impItem.getInvX(), -535);
 
-			Image currentItem = new Image(new TextureRegion(invAtlas.findRegion(atlasName)));
+			Image currentItem = new Image(new TextureRegion(invAtlas.findRegion(impItem.getAtlasImage())));
 
 			currentItem.scaleBy(0.9f);
 
 			invItems.setActor(currentItem);
-			invItems.setName("invItems." + atlasName);
+			invItems.setName("invItems." + impItem.getName());
 
 			stage.addActor(invItems);	
 
 		} else {
-			System.out.println("HUD: Drawing " + atlasName);
-			
 			invItems = new Container<Image>();
 			invItems.top();
 			invItems.setFillParent(true);
-			invItems.setPosition(padRight, -535);
+			invItems.setPosition(impItem.getInvX(), -535);
 
-			Image currentItem = new Image(new TextureRegion(invAtlas.findRegion(atlasName)));
+			Image currentItem = new Image(new TextureRegion(invAtlas.findRegion(impItem.getAtlasImage())));
 
 			currentItem.scaleBy(0.9f);
 
 			invItems.setActor(currentItem);
-			invItems.setName("invItems." + atlasName);
+			invItems.setName("invItems." + impItem.getName());
 
 			stage.addActor(invItems);	
 
@@ -248,8 +243,7 @@ public class Hud {
 
 	public void removeEquippedItem(Item equippedItem) {		
 		for (Actor currentActor : stage.getActors()) {	
-			if (currentActor.getName().equals("invItems." + equippedItem.getAtlasImage())) {
-				System.out.println("HUD: Removing Item");
+			if (currentActor.getName().equals("invItems." + equippedItem.getName())) {
 				currentActor.clear();
 
 			}

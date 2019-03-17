@@ -6,7 +6,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -35,10 +34,6 @@ import controllers.ScreenplayController;
 import controllers.PlayerController;
 import controllers.RobotController;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.LinkedList;
-import java.util.Random;
 
 import models.AnimationSet;
 import models.Book;
@@ -59,12 +54,12 @@ import screens.intro.AbstractScreen;
 import screens.menu.MainMenuScreen;
 import models.BossZombie;
 import controllers.BossController;
-import controllers.BulletController;
 import models.BoobyTrap;
 
 public class GameScreen extends AbstractScreen {
 
-    private Music inGameMp3;
+	private Music inGameMp3, cafe, library, engineering, gameOver, firstBoss;
+    private	ArrayList<String> currentMapLabel;
 
     private SpriteBatch batch, mapBatch; // Allows us to render sprite to screen really fast
     private Player player;
@@ -101,8 +96,11 @@ public class GameScreen extends AbstractScreen {
     private BossController bossController;
     private InventorySystem currentInv;
     private int currentDrinkID;
+    private int currentList = 0;
 
     private Particles smoke, smoke2, smoke3;
+    
+    private ArrayList<Music> musicList;
 
     private float elapsed = 0.0f;
 
@@ -124,10 +122,48 @@ public class GameScreen extends AbstractScreen {
         } else {
             gender = "custom";
         }
+        
         inGameMp3 = Gdx.audio.newMusic(Gdx.files.internal("music/floor2.mp3"));
         inGameMp3.setLooping(true); // loop the soundtrack
         inGameMp3.setVolume(0.15f);
-        inGameMp3.play(); // play the soundtrack
+        
+        cafe = Gdx.audio.newMusic(Gdx.files.internal("music/Cafe.wav"));
+        cafe.setLooping(true); // loop the soundtrack
+        cafe.setVolume(0.15f);
+        
+        library = Gdx.audio.newMusic(Gdx.files.internal("music/Library.wav"));
+        library.setLooping(true); // loop the soundtrack
+        library.setVolume(0.15f);
+        
+        engineering = Gdx.audio.newMusic(Gdx.files.internal("music/Engineering.wav"));
+        engineering.setLooping(true); // loop the soundtrack
+        engineering.setVolume(0.15f);
+        
+        gameOver = Gdx.audio.newMusic(Gdx.files.internal("music/GameOver.wav"));
+        gameOver.setVolume(0.15f);
+        
+        firstBoss = Gdx.audio.newMusic(Gdx.files.internal("music/FirstBoss.wav"));
+        firstBoss.setLooping(true); // loop the soundtrack
+        firstBoss.setVolume(0.15f);
+        
+        
+        musicList = new ArrayList<Music>();
+        musicList.add(inGameMp3);
+        musicList.add(cafe);
+        musicList.add(library);
+        musicList.add(engineering);
+        musicList.add(firstBoss);
+        
+        if(SettingsManager.getMusic()) {
+        	musicList.get(0).play();
+        }
+        
+        currentMapLabel = new ArrayList<String>();
+        currentMapLabel.add("Cafeteria");
+        currentMapLabel.add("Floor 1: Library");
+        currentMapLabel.add("Floor 2: Engineering");
+        currentMapLabel.add("Unknown: Floor Boss");
+        
         books = new ArrayList<Book>();
         keyboards = new ArrayList<Keyboard>();
         initUI();
@@ -237,7 +273,7 @@ public class GameScreen extends AbstractScreen {
         TiledMap mapCollisionsBoss = new TmxMapLoader().load(maps.get(0).getMapLocation());
 
         currentInv = new InventorySystem();
-        currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), 0);
+        currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), -1);
 
         // player = new Player(14, 90, animations); // Create a new player object with
         // the coordinates 0, 0, player
@@ -332,13 +368,21 @@ public class GameScreen extends AbstractScreen {
     public void render(float delta) {
         // Checks if the map needs changing
         if (playerControls.checkExit(exits)) {
+        	musicList.get(currentList).stop();
+        	hud.setLabel(currentMapLabel.get(currentList));
+        	currentList++;
+        	if(currentList > 4) {
+        		currentList = 4;
+        	}
             loadedMap.dispose();
             updateMap();
             renderer.setMap(loadedMap);
+            if(SettingsManager.getMusic()) {
+            	musicList.get(currentList).play();
+            }
             playerControls.setCollisions((TiledMapTileLayer) loadedMap.getLayers().get(0));
             herd.setCollisions((TiledMapTileLayer) loadedMap.getLayers().get(0));
             herd.respawnZombies();
-            hud.setLabel("Floor 2: Engineering Lab");
             playerControls.setMapChange(false);
 
             spawnX = map.getRespawnX();
@@ -370,8 +414,9 @@ public class GameScreen extends AbstractScreen {
             playerControls.updatePlayerCoordinates(spawnX, spawnY);
             hud.decreaseLife();
             if (hud.getLives() == 0) {
-                inGameMp3.stop();
+            	musicList.get(currentList).stop();
                 ScreenManager.setGameOver(); // game over
+                gameOver.play();
             }
         }
 
@@ -604,10 +649,7 @@ public class GameScreen extends AbstractScreen {
         for (Item currentItem : currentHUDItems) {
 
             if (currentItem.getFound() == true && currentItem.getInvDrawn() == false) {
-                hud.addLatestFoundItemToInv(currentItem.getAtlasImage(),
-                        currentItem.getInvX(),
-                        currentInv.getDrinkDrawn(),
-                        "");
+                hud.addLatestFoundItemToInv(currentItem, currentInv.getDrinkDrawn());
 
                 currentItem.setInvDrawn(true);
 
@@ -623,15 +665,13 @@ public class GameScreen extends AbstractScreen {
                 currentItem.setOnMap(false);
                 currentItem.setItemFound(true);
 
-                System.out.println("You have found: " + currentItem);
+                System.out.println();
+                System.out.println("GS: Item Found: " + currentItem);
 
                 if (currentItem.getInvDrawn() == false) {
                     if (currentItem.getName().equals("Drink")) {
                         if (currentInv.getDrinkDrawn() == false) {
-                            hud.addLatestFoundItemToInv(currentItem.getAtlasImage(),
-                                    currentItem.getInvX(),
-                                    currentInv.getDrinkDrawn(),
-                                    "drink");
+                            hud.addLatestFoundItemToInv(currentItem, currentInv.getDrinkDrawn());
 
                             currentDrinkID = currentItem.getDrinkID();
                             currentInv.setDrinkDrawn(true);
@@ -639,10 +679,7 @@ public class GameScreen extends AbstractScreen {
                         }
 
                     } else {
-                        hud.addLatestFoundItemToInv(currentItem.getAtlasImage(),
-                                currentItem.getInvX(),
-                                currentInv.getDrinkDrawn(),
-                                "");
+                        hud.addLatestFoundItemToInv(currentItem, currentInv.getDrinkDrawn());
 
                         currentItem.setInvDrawn(true);
                     }
@@ -654,37 +691,75 @@ public class GameScreen extends AbstractScreen {
         currentMapItems.removeAll(foundMapItems);
 
         currentInv = playerControls.equipItem(currentInv);
-
+        
+        
         if (currentInv.getCurrentItem() != null) {
             hud.drawEquippedItem(currentInv.getCurrentItem());
 
+            if (currentInv.getCurrentItem().getName().equals("Book")) {
+            	updateToBook();
+            	
+            } else if (currentInv.getCurrentItem().getName().equals("Keyboard")) {
+            	updateToKeyboard();
+            	
+            } else {
+            	resetPlayerAnimations();
+            	
+            }
+        	
+        } else {
+        	resetPlayerAnimations();
+        	
         }
 
         Item currentUsedItem = playerControls.itemPressed();
-
+        
         if (currentUsedItem != null) {
-            if (currentUsedItem.getName().equals("Drink")) {
-                for (Item currentItem : currentInv.getInventory()) {
-                    if (currentInv.getCurrentItem() != null && currentItem.getDrinkID() == currentDrinkID) {
+			for (Item currentItem : currentInv.getInventory()) {
+				if (currentUsedItem.getName().equals("Drink")) {
+					if (currentInv.getCurrentItem() != null && currentItem.getDrinkID() == currentDrinkID) {
+						System.out.println("GS: Increasing Health");	
 
-                        hud.increaseHealth(0.25f);
-                        hud.removeEquippedItem(currentItem);
-                        hud.drawEquippedItem(null);
+						hud.increaseHealth(0.25f);
+						hud.removeEquippedItem(currentItem);
 
-                        currentInv.getCurrentItem().setBeingUsed(false);
-                        currentInv.setDrinkDrawn(false);
-                        currentInv.setAsCurrentItem(null);
+						currentInv.setDrinkDrawn(false);
+						currentInv.getInventory().get(findDrinkPosition(currentInv)).setItemFound(false);
 
-                    }
-                }
-            } else if (currentUsedItem.getName().contains("Potion")) {
-                if (playerControls.isOnVent()) {
-                    //get item, remove from hud, remove from found, remove invDrawn etc. Same as Drink
+						currentInv.getCurrentItem().setBeingUsed(false);
+						currentInv.setAsCurrentItem(null);
+						hud.drawEquippedItem(null);
 
-                }
+					}					
 
-            }
+				} else if (currentUsedItem.getName().contains("Potion")) {
+					if (currentItem.equals(currentUsedItem) && playerControls.isOnVent()) {
+						System.out.println("GS: Using " + currentItem.getName() + " on Vent");
+
+						hud.removeEquippedItem(currentItem);
+
+						currentInv.getCurrentItem().setItemFound(false);
+						currentInv.getCurrentItem().setBeingUsed(false);
+						currentInv.getCurrentItem().setInvDrawn(false);
+						currentInv.getCurrentItem().setPotionUsed(true);
+
+						currentInv.setAsCurrentItem(null);
+						hud.drawEquippedItem(null);
+        				
+        			}
+        		}
+        	}
         }
+        
+        playerControls.getPlayerXY();
+        
+        if (currentInv.allDrinksUsed()) {
+        	System.out.println("POTIONS HAVE DEACTIVATED VIRUS");
+        	
+        	
+        }
+        
+        
 
         if (player.getX() == 92 && player.getY() == 4 && playerControls.getInteract()) {
             elapsed += delta;
@@ -855,7 +930,37 @@ public class GameScreen extends AbstractScreen {
 
         player.setAnimations(animations);
     }
+    
+    public void resetPlayerAnimations() {
+        assetManager = new AssetManager();
+        assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
+        assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
+        assetManager.load("sprite/" + gender + "/" + chosenCharacter + "Animation.atlas", TextureAtlas.class);
+        assetManager.finishLoading();
 
+        TextureAtlas walking = this.getAssetManager().get("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas",
+                TextureAtlas.class);
+        TextureAtlas standing = this.getAssetManager()
+                .get("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
+
+        AnimationSet animations = new AnimationSet(
+                new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+                        walking.findRegions(chosenCharacter + "_walking_north"), Animation.PlayMode.LOOP_PINGPONG),
+                new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+                        walking.findRegions(chosenCharacter + "_walking_south"), Animation.PlayMode.LOOP_PINGPONG),
+                new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+                        walking.findRegions(chosenCharacter + "_walking_east"), Animation.PlayMode.LOOP_PINGPONG),
+                new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+                        walking.findRegions(chosenCharacter + "_walking_west"), Animation.PlayMode.LOOP_PINGPONG),
+                standing.findRegion(chosenCharacter + "_standing_north"),
+                standing.findRegion(chosenCharacter + "_standing_south"),
+                standing.findRegion(chosenCharacter + "_standing_east"),
+                standing.findRegion(chosenCharacter + "_standing_west"));
+        
+        player.setAnimations(animations);   	
+    	
+    }
+    
     public int findDrinkPosition(InventorySystem currentInv) {
         int pos = 0;
 
@@ -903,7 +1008,6 @@ public class GameScreen extends AbstractScreen {
     public void dispose() {
         inGameMp3.dispose();
         loadedMap.dispose();
-
         assetManager.dispose();
         batch.dispose();
         mapBatch.dispose();

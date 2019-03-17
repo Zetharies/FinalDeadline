@@ -123,7 +123,7 @@ public class PlayerController extends InputAdapter {
 		}
 		if (keycode == Keys.SPACE) {
 			if (currentInv.getCurrentItem() == null) {
-				System.out.println("No Item has been equipped");
+				System.out.println("PC: No Item Used (No Equipped Item)");
 
 			} else if (currentInv.getCurrentItem().getName() == "Book") {
 				books.add(p.shootBook(p.getDirection(), p.getX(), p.getY()));
@@ -132,26 +132,18 @@ public class PlayerController extends InputAdapter {
 				keyboards.add(p.shootKeyboard(p.getDirection(), p.getX(), p.getY()));
 
 			} else if (currentInv.getCurrentItem().getName() == "Drink") {
-				System.out.println("Drink Being Used");
-
 				currentInv.getCurrentItem().setBeingPressed(true);
 
 
 			} else if (currentInv.getCurrentItem().getName() == "Potion1") {
-				System.out.println("Potion1 Being Used");
-
 				currentInv.getCurrentItem().setBeingPressed(true);
 
 
 			} else if (currentInv.getCurrentItem().getName() == "Potion2") {
-				System.out.println("Potion2 Being Used");
-
 				currentInv.getCurrentItem().setBeingPressed(true);
 
 
 			} else if (currentInv.getCurrentItem().getName() == "Potion3") {
-				System.out.println("Potion3 Being Used");
-
 				currentInv.getCurrentItem().setBeingPressed(true);
 
 			}
@@ -258,7 +250,6 @@ public class PlayerController extends InputAdapter {
 		return false;
 	}
 
-	//BHAVEN EDIT<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 	public boolean isOnItem(Item collidedItem) {    	
 		if(collidedItem.getX() == p.getX() && collidedItem.getY() == p.getY() && Gdx.input.isKeyPressed(Input.Keys.E)) {
 			return true;
@@ -272,17 +263,23 @@ public class PlayerController extends InputAdapter {
 
 	public boolean isOnVent() {
 		boolean answer = false;
+
+//		if (p.getX() == 24 && p.getY() == 42) {
+//			return true;
+//
+//		} else if (p.getX() == 25 && p.getY() == 42) {
+//			return true;
+//
+//		}
 		
-		if (Gdx.input.isKeyPressed(Input.Keys.E)){
-			if (p.getX() == 24 && p.getY() == 42) {
-				return true;
-				
-			} else if (p.getX() == 25 && p.getY() == 42) {
-				return true;
-				
-			}
+		if (p.getX() == 40 && p.getY() == 42) {
+			answer = true;
+
+		} else if (p.getX() == 41 && p.getY() == 42) {
+			answer = true;
+
 		}
-		
+
 		return answer;
 	}
 
@@ -293,10 +290,10 @@ public class PlayerController extends InputAdapter {
 			if (currentInv.getInventory().get(0).getFound() == true) {				
 				currentInv.setAsCurrentItem(currentInv.getInventory().get(0));
 
-				System.out.println("You have now equipped: " + currentInv.getCurrentItem().getName());
+				System.out.println("PC: Equipped: " + currentInv.getCurrentItem().getName());
 
 			} else {
-				System.out.println("You have not found this item yet, " + currentInv.getInventory().get(0).getName());
+				System.out.println("PC: Not Equipped (Item Not Found): " + currentInv.getInventory().get(0).getName());
 
 			}
 
@@ -304,10 +301,10 @@ public class PlayerController extends InputAdapter {
 			if (currentInv.getInventory().get(1).getFound() == true) {				
 				currentInv.setAsCurrentItem(currentInv.getInventory().get(1));
 
-				System.out.println("You have now equipped: " + currentInv.getCurrentItem().getName());
+				System.out.println("PC: Equipped: " + currentInv.getCurrentItem().getName());
 
 			} else {
-				System.out.println("You have not found this item yet, " + currentInv.getInventory().get(1).getName());
+				System.out.println("PC: Not Equipped (Item Not Found): " + currentInv.getInventory().get(1).getName());
 
 			}
 
@@ -315,10 +312,10 @@ public class PlayerController extends InputAdapter {
 			if (currentInv.getInventory().get(2).getFound() == true) {				
 				currentInv.setAsCurrentItem(currentInv.getInventory().get(2));
 
-				System.out.println("You have now equipped: " + currentInv.getCurrentItem().getName());
+				System.out.println("PC: Equipped: " + currentInv.getCurrentItem().getName());
 
 			} else {								
-				System.out.println("You have not found this item yet, " + currentInv.getInventory().get(2).getName());
+				System.out.println("PC: Not Equipped (Item Not Found): " + currentInv.getInventory().get(2).getName());
 
 			}
 
@@ -326,10 +323,10 @@ public class PlayerController extends InputAdapter {
 			if (currentInv.getInventory().get(3).getFound() == true) {			
 				currentInv.setAsCurrentItem(currentInv.getInventory().get(3));
 
-				System.out.println("You have now equipped: " + currentInv.getCurrentItem().getName());
+				System.out.println("PC: Equipped: " + currentInv.getCurrentItem().getName());
 
 			} else {
-				System.out.println("You have not found this item yet, " + currentInv.getInventory().get(3).getName());
+				System.out.println("PC: Not Equipped (Item Not Found): " + currentInv.getInventory().get(3).getName());
 
 			}
 
@@ -337,20 +334,20 @@ public class PlayerController extends InputAdapter {
 			if (currentInv.getInventory().get(4).getFound() == true) {			
 				currentInv.setAsCurrentItem(currentInv.getInventory().get(4));
 
-				System.out.println("You have now equipped: " + currentInv.getCurrentItem().getName());
+				System.out.println("PC: Equipped: " + currentInv.getCurrentItem().getName());
 
 			} else {
-				System.out.println("You have not found this item yet, " + currentInv.getInventory().get(4).getName());
+				System.out.println("PC: Not Equipped (Item Not Found): " + currentInv.getInventory().get(4).getName());
 
 			}
 		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_6)){
 			if (currentInv.getInventory().get(5).getFound() == true) {			
 				currentInv.setAsCurrentItem(currentInv.getInventory().get(5));
 
-				System.out.println("You have now equipped: " + currentInv.getCurrentItem().getName());
+				System.out.println("PC: Equipped: " + currentInv.getCurrentItem().getName());
 
 			} else {
-				System.out.println("You have not found this item yet, " + currentInv.getInventory().get(5).getName());
+				System.out.println("PC: Not Equipped (Item Not Found): " + currentInv.getInventory().get(5).getName());
 
 			}
 		}
@@ -375,6 +372,12 @@ public class PlayerController extends InputAdapter {
 		}
 
 	}
+
+	public void getPlayerXY() {
+		if (Gdx.input.isKeyPressed(Input.Keys.B)) {
+			System.out.println("Player X,Y: " + p.getX() + "," + p.getY());
+		}
+	}
 	
 	public boolean isOnRiddle(RiddleCard collidedItem) {    	
 		if(collidedItem.getX() == p.getX() && collidedItem.getY() == p.getY() && Gdx.input.isKeyPressed(Input.Keys.E)) {
@@ -385,9 +388,6 @@ public class PlayerController extends InputAdapter {
 
 		}
 	}
-
-
-	//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 	public void updatePlayerCoordinates(int x, int y) {
 		p.updateCoordinates(x, y);
