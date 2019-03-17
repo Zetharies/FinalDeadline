@@ -212,7 +212,7 @@ public class GameScreen extends AbstractScreen {
 		// map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); //
 		// map to load, extremely basic map,
 		// will be changed
-		map = maps.get(0);
+		map = maps.get(5);
 		loadedMap = new TmxMapLoader().load(map.getMapLocation());
 
 		currentInv = new InventorySystem();
@@ -367,7 +367,7 @@ public class GameScreen extends AbstractScreen {
 		// zombies.get(0).update(delta);
 		playerControls.update(delta);
 		player.update(delta);
-		//System.out.println(player.getX() + "." + player.getY());
+		System.out.println(player.getX() + "." + player.getY());
 		camera.position.set(player.getX() * GameSettings.SCALED_TILE_SIZE,
 				player.getY() * GameSettings.SCALED_TILE_SIZE, 0);
 		camera.position.y = player.getLinearY() * 64;
@@ -627,7 +627,7 @@ public class GameScreen extends AbstractScreen {
 			}
 		}
 		
-		if(maps.indexOf(map) == 0 && player.getX() == 29 && player.getY() == 41 && playerControls.getInteract()) {
+		if(maps.indexOf(map) == 5 && player.getX() == 21 && player.getY() == 78 && playerControls.getInteract()) {
 			elapsed += delta;
 			playerControls.resetDirection();
 			table2.setFillParent(true);
@@ -658,7 +658,7 @@ public class GameScreen extends AbstractScreen {
 		
 		interacts();
 
-		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 4) {
+		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 5) {
 			zombies.removeAll(zombies);
 		}
 
