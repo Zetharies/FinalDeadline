@@ -64,7 +64,8 @@ import models.BoobyTrap;
 
 public class GameScreen extends AbstractScreen {
 
-    private Music inGameMp3;
+	private Music inGameMp3, cafe, library, engineering, gameOver, firstBoss;
+    private	ArrayList<String> currentMapLabel;
 
     private SpriteBatch batch, mapBatch; // Allows us to render sprite to screen really fast
     private Player player;
@@ -101,8 +102,11 @@ public class GameScreen extends AbstractScreen {
     private BossController bossController;
     private InventorySystem currentInv;
     private int currentDrinkID;
+    private int currentList = 0;
 
     private Particles smoke, smoke2, smoke3;
+    
+    private ArrayList<Music> musicList;
 
     private float elapsed = 0.0f;
 
@@ -124,10 +128,48 @@ public class GameScreen extends AbstractScreen {
         } else {
             gender = "custom";
         }
+        
         inGameMp3 = Gdx.audio.newMusic(Gdx.files.internal("music/floor2.mp3"));
         inGameMp3.setLooping(true); // loop the soundtrack
         inGameMp3.setVolume(0.15f);
-        inGameMp3.play(); // play the soundtrack
+        
+        cafe = Gdx.audio.newMusic(Gdx.files.internal("music/Cafe.wav"));
+        cafe.setLooping(true); // loop the soundtrack
+        cafe.setVolume(0.15f);
+        
+        library = Gdx.audio.newMusic(Gdx.files.internal("music/Library.wav"));
+        library.setLooping(true); // loop the soundtrack
+        library.setVolume(0.15f);
+        
+        engineering = Gdx.audio.newMusic(Gdx.files.internal("music/Engineering.wav"));
+        engineering.setLooping(true); // loop the soundtrack
+        engineering.setVolume(0.15f);
+        
+        gameOver = Gdx.audio.newMusic(Gdx.files.internal("music/GameOver.wav"));
+        gameOver.setVolume(0.15f);
+        
+        firstBoss = Gdx.audio.newMusic(Gdx.files.internal("music/FirstBoss.wav"));
+        firstBoss.setLooping(true); // loop the soundtrack
+        firstBoss.setVolume(0.15f);
+        
+        
+        musicList = new ArrayList<Music>();
+        musicList.add(inGameMp3);
+        musicList.add(cafe);
+        musicList.add(library);
+        musicList.add(engineering);
+        musicList.add(firstBoss);
+        
+        if(SettingsManager.getMusic()) {
+        	musicList.get(0).play();
+        }
+        
+        currentMapLabel = new ArrayList<String>();
+        currentMapLabel.add("Cafeteria");
+        currentMapLabel.add("Floor 1: Library");
+        currentMapLabel.add("Floor 2: Engineering");
+        currentMapLabel.add("Unknown: Floor Boss");
+        
         books = new ArrayList<Book>();
         keyboards = new ArrayList<Keyboard>();
         initUI();
@@ -332,13 +374,21 @@ public class GameScreen extends AbstractScreen {
     public void render(float delta) {
         // Checks if the map needs changing
         if (playerControls.checkExit(exits)) {
+        	musicList.get(currentList).stop();
+        	hud.setLabel(currentMapLabel.get(currentList));
+        	currentList++;
+        	if(currentList > 4) {
+        		currentList = 4;
+        	}
             loadedMap.dispose();
             updateMap();
             renderer.setMap(loadedMap);
+            if(SettingsManager.getMusic()) {
+            	musicList.get(currentList).play();
+            }
             playerControls.setCollisions((TiledMapTileLayer) loadedMap.getLayers().get(0));
             herd.setCollisions((TiledMapTileLayer) loadedMap.getLayers().get(0));
             herd.respawnZombies();
-            hud.setLabel("Floor 2: Engineering Lab");
             playerControls.setMapChange(false);
 
             spawnX = map.getRespawnX();
@@ -370,8 +420,9 @@ public class GameScreen extends AbstractScreen {
             playerControls.updatePlayerCoordinates(spawnX, spawnY);
             hud.decreaseLife();
             if (hud.getLives() == 0) {
-                inGameMp3.stop();
+            	musicList.get(currentList).stop();
                 ScreenManager.setGameOver(); // game over
+                gameOver.play();
             }
         }
 
@@ -906,7 +957,6 @@ public class GameScreen extends AbstractScreen {
     public void dispose() {
         inGameMp3.dispose();
         loadedMap.dispose();
-
         assetManager.dispose();
         batch.dispose();
         mapBatch.dispose();

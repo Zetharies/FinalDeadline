@@ -70,7 +70,7 @@ public class Hud {
 		mapTable.top();
 		mapTable.setFillParent(true);
 
-		currentMap = new Label("Floor 1: Biology lab", skin);
+		currentMap = new Label("University Campus", skin);
 		currentMap.setFontScale((float) 0.5);
 		
 		score = new Label("Score: "+ currentScore, skin);

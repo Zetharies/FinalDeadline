@@ -3,10 +3,10 @@ package managers;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 
+import screens.game.GameOverScreen;
 import screens.game.GameScreen;
 import screens.intro.SplashScreen;
 import screens.menu.CharacterSelection;
-import screens.menu.GameOverScreen;
 import screens.menu.MainMenuScreen;
 
 public class ScreenManager {
