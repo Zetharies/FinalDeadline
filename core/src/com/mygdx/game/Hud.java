@@ -169,7 +169,12 @@ public class Hud {
 		return health.getValue();
 	}
 
-	// Adds the found item to the inventory bar, un-equipped
+	/**
+	 * <p> Method designed to draw the latest item found by the player onto the inventory 
+	 * 
+	 * @param impItem The last item which was found by the Player
+	 * @param drinkDrawn Variable to check if the Drink item has already been drawn within the Inventory
+	 */
 	public void addLatestFoundItemToInv(Item impItem, Boolean drinkDrawn) {	
 		if (impItem.getName().equals("Drink") && drinkDrawn == false) {	
 			invItems = new Container<Image>();
@@ -205,6 +210,11 @@ public class Hud {
 
 	}
 
+	/**
+	 * <p> Method designed to re-draw a square onto the position of the current item, within the inventory
+	 * 
+	 * @param equippedItem The item which has currently been equipped by the player
+	 */
 	public void drawEquippedItem(Item equippedItem) {	
 		for (Actor currentActor : stage.getActors()) {
 			if (currentActor.getName().equals("invBox")) {
@@ -241,6 +251,11 @@ public class Hud {
 
 	}
 
+	/**
+	 * <p> Method designed to remove the item from the inventory bar
+	 * 
+	 * @param equippedItem The item which has last been used
+	 */
 	public void removeEquippedItem(Item equippedItem) {		
 		for (Actor currentActor : stage.getActors()) {	
 			if (currentActor.getName().equals("invItems." + equippedItem.getName())) {
@@ -251,6 +266,10 @@ public class Hud {
 		}
 	}
 	
+	/**
+	 * <p> Method designed to remove all the items within the inventory bar
+	 * 
+	 */
 	public void removeAllFoundItems() {
 		for (Actor currentActor : stage.getActors()) {	
 			if (currentActor.getName().contains("invItems.")) {

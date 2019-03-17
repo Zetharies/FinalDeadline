@@ -7,25 +7,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Item{
 
-	private String itemName;
-	private String atlasImage;
+	private String itemName, atlasImage;
+	
 	private Texture texture;
 
-	private int id;
+	private int id, x, y, invX, invBoxX, drinkID;
 
-	private int x;
-	private int y;
-	private int invX;
-	private int invBoxX;
-	private int drinkID;
+	protected boolean found, onMap;
 
-	protected boolean found;
-	protected boolean onMap;
-
-	private boolean invDrawn;
-	private boolean beingUsed;
-	private boolean beingPressed;
-	private boolean potionUsed;
+	private boolean invDrawn, beingUsed, beingPressed, potionUsed;
 
 	public Item(String impName, int startX, int startY, int impID, String texturePath, String atlasImage, int invX, int invBoxX) {
 		itemName = impName;
@@ -51,7 +41,11 @@ public class Item{
 		potionUsed = false;
 	}
 
-	
+	/**
+	 * <p> Method overridden by the sub-classes of each Item object
+	 * 
+	 * @param batch SpriteBatch used to draw each of the items
+	 */
 	public void render(SpriteBatch batch) {
 
 	}
@@ -66,8 +60,7 @@ public class Item{
 		return potionUsed;
 
 	}
-	
-	
+		
 	public void setDrinkID(int choice) {
 		drinkID = choice;
 	}
@@ -75,8 +68,7 @@ public class Item{
 	public int getDrinkID() {
 		return drinkID;
 	}
-	
-	
+		
 	public void setInvDrawn(Boolean choice) {
 		invDrawn = choice;
 
@@ -86,7 +78,6 @@ public class Item{
 		return invDrawn;
 
 	}
-
 
 	public void setItemFound(Boolean choice) {
 		found = choice;
@@ -98,7 +89,6 @@ public class Item{
 
 	}
 	
-	
 	public void setOnMap(Boolean choice) {
 		onMap = choice;
 
@@ -108,7 +98,6 @@ public class Item{
 		return onMap;
 
 	}
-	
 	
 	public void setBeingUsed(Boolean choice) {
 		beingUsed = choice;
@@ -120,7 +109,6 @@ public class Item{
 		
 	}
 	
-	
 	public void setBeingPressed(Boolean choice) {
 		beingPressed = choice;
 		
@@ -130,7 +118,6 @@ public class Item{
 		return beingPressed;
 		
 	}
-	
 	
 	public int getInvBoxX() {
 		return invBoxX;

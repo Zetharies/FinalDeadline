@@ -753,7 +753,7 @@ public class GameScreen extends AbstractScreen {
         
         playerControls.getPlayerXY();
         
-        if (currentInv.allDrinksUsed()) {
+        if (currentInv.allPotionsUsed()) {
         	System.out.println("POTIONS HAVE DEACTIVATED VIRUS");
         	
         	
@@ -931,6 +931,9 @@ public class GameScreen extends AbstractScreen {
         player.setAnimations(animations);
     }
     
+    /**
+     * <p> Method used to reset the player animations, so that they are not holding any items
+     */
     public void resetPlayerAnimations() {
         assetManager = new AssetManager();
         assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
@@ -961,6 +964,12 @@ public class GameScreen extends AbstractScreen {
     	
     }
     
+    /**
+     * <p> Method used to find the current position of the Drink object within the current Inventory
+     * 
+     * @param currentInv InventorySystem used to find the Drink object
+     * @return Int of the position of the Drink object
+     */
     public int findDrinkPosition(InventorySystem currentInv) {
         int pos = 0;
 

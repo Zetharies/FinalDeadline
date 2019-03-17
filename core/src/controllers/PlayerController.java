@@ -250,6 +250,12 @@ public class PlayerController extends InputAdapter {
 		return false;
 	}
 
+	/**
+	 * <p> Method designed to check if the player is currently laying on the X and Y position of the given item
+	 * 
+	 * @param collidedItem The item which the player may be laying on
+	 * @return True/False depending on if the player is laying on the given item
+	 */
 	public boolean isOnItem(Item collidedItem) {    	
 		if(collidedItem.getX() == p.getX() && collidedItem.getY() == p.getY() && Gdx.input.isKeyPressed(Input.Keys.E)) {
 			return true;
@@ -260,7 +266,12 @@ public class PlayerController extends InputAdapter {
 		}
 
 	}
-
+	
+	/**
+	 * <p> Method designed to check if the player's current x and y position are equal to the vent location, on the biology map
+	 * 
+	 * @return True/False depending on if the player is on the vents location
+	 */
 	public boolean isOnVent() {
 		boolean answer = false;
 
@@ -283,6 +294,12 @@ public class PlayerController extends InputAdapter {
 		return answer;
 	}
 
+	/**
+	 * <p> Method designed to equip the item, as long as the item has been found
+	 * 
+	 * @param inventory Inventory which is being sent as a parameter from GameScreen, used to check for found items
+	 * @return Returns the new altered inventory, which includes a reference to the equipped item
+	 */
 	public InventorySystem equipItem(InventorySystem inventory) {
 		currentInv = inventory;
 
@@ -356,6 +373,11 @@ public class PlayerController extends InputAdapter {
 
 	}
 
+	/**
+	 * <p> Method designed to check if the current item is in use
+	 * 
+	 * @return Returns the item if it is in use, otherwise returns null
+	 */
 	public Item itemPressed() {
 		if (currentInv.getCurrentItem() == null){
 			return null;
@@ -373,6 +395,7 @@ public class PlayerController extends InputAdapter {
 
 	}
 
+	// METHOD ONLY USED FOR TESTING PURPOSES, TO BE REMOVED IN FINAL VERSION !!!
 	public void getPlayerXY() {
 		if (Gdx.input.isKeyPressed(Input.Keys.B)) {
 			System.out.println("Player X,Y: " + p.getX() + "," + p.getY());

@@ -10,6 +10,9 @@ public class Keyboard extends Item{
 
 	}
 	
+	/**
+	 * <p> Method designed to render the Keyboard item, using specific parameters
+	 */
 	@Override
 	public void render(SpriteBatch batch) {
 		batch.draw(getTexture(), // Print Texture

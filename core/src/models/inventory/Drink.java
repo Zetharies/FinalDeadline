@@ -10,6 +10,9 @@ public class Drink extends Item{
 
 	}
 	
+	/**
+	 * <p> Method designed to render the Drink item, using specific parameters
+	 */
 	@Override
 	public void render(SpriteBatch batch) {
 		batch.draw(getTexture(), // Print Texture

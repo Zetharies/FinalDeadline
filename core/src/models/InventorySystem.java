@@ -43,7 +43,13 @@ public class InventorySystem{
 
 	}
 	
-	
+	/**
+	 * <p> Method designed to define the inventory parameters, depending on the current map and its collisions
+	 * 
+	 * @param impCollisions TiledMap collisions of the current map
+	 * @param currentMap Integer to represent the number of the current map
+	 * 
+	 */
 	public void defineInventory(TiledMapTileLayer impCollisions, int currentMap) {
 		collisions = impCollisions;
 		addItemsToInventory();
@@ -51,6 +57,9 @@ public class InventorySystem{
 		
 	}
 
+	/**
+	 * <p> Method designed to create all of the item objects and add them to an Item Arraylist
+	 */
 	public void addItemsToInventory() {
 		// Creates all of the item objects		
 		//		generateRandomPos();
@@ -87,7 +96,11 @@ public class InventorySystem{
 
 	}
 	
-	// Choose number of drinks which should appear on the map (x <= 15)
+	/**
+	 * <p> Method designed to set the number of drinks which should appear on the current map 
+	 * 
+	 * @param numDrinks Number of drinks to be added to map
+	 */
 	public void setDrinksOnMap(int numDrinks) {
 		for (int i = 6; i <= (6 + numDrinks); i++) {
 			inventory.get(i).setOnMap(true);
@@ -97,7 +110,10 @@ public class InventorySystem{
 		
 	}
 	
-	// Choose max number of drinks which can be added to a map
+	/**
+	 * <p> Method designed to add 15 drink items to the Item Arraylist 
+	 * 
+	 */
 	public void addDrinks() {
 		for (int i = 6; i <= (6 + 15); i++) {
 			generateRandomPos();
@@ -108,11 +124,13 @@ public class InventorySystem{
 			inventory.add(tempDrink);
 
 		}	
-		
-
-		
 	}
 
+	/**
+	 * <p> Method designed to set the specific items which should appear on the map and which should already appear within the inventory bar
+	 * 
+	 * @param impMapNumber Integer to show the number of the current map
+	 */
 	public void changeMap(int impMapNumber) {
 		mapNumber = impMapNumber;
 		
@@ -292,6 +310,9 @@ public class InventorySystem{
 
 	}
 
+	/**
+	 * <p> Method designed to generate a X,Y position on the map, ensuring that the chosen position does not have a 'Blocked' property
+	 */
 	public void generateRandomPos() {
 		int randX = rnd.nextInt((int) GameSettings.SCALED_TILE_SIZE);
 		int randY = rnd.nextInt((int) GameSettings.SCALED_TILE_SIZE);
@@ -309,19 +330,12 @@ public class InventorySystem{
 
 	}
 
-	public void setAsCurrentItem(Item newItem) {
-		currentItem = newItem;
-
-	}
-	
-	public void setDrinkDrawn(Boolean choice) {
-		drinkDrawn = choice;
-		
-	}
-	
-	
-	
-	public boolean allDrinksUsed() {
+	/**
+	 * <p> Method designed to check if all of the Potion objects have been used appropriately
+	 * 
+	 * @return True/False depending if all of the Potion objects have been used
+	 */
+	public boolean allPotionsUsed() {
 		boolean answer = false;
 		
 		if (inventory.get(3).getPotionUsed() == true && inventory.get(4).getPotionUsed() == true && inventory.get(5).getPotionUsed() == true) {
@@ -333,6 +347,17 @@ public class InventorySystem{
 		
 	}
 	
+	
+	public void setAsCurrentItem(Item newItem) {
+		currentItem = newItem;
+
+	}
+	
+	public void setDrinkDrawn(Boolean choice) {
+		drinkDrawn = choice;
+		
+	}
+
 	public Boolean getDrinkDrawn() {
 		return drinkDrawn;
 	}
