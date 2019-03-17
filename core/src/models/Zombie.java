@@ -7,32 +7,26 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.mygdx.game.GameSettings;
-import controllers.PlayerMovement;
 import controllers.ZombieController;
 import java.util.ArrayList;
 import static models.NPC.FRAME_COLS;
 
 public class Zombie extends NPC {
 
-    public static final double SPEED = 1.5; // 10 pixels per second.
-    private ZombieController controller;
+    public static final double SPEED = 1.5; //speed for zombie to move
+    private ZombieController controller;//assoc controller
+    private static final int FRAME_COLS = 3;
+    private static final int FRAME_ROWS = 4;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
+    /**
+     * construct zombie object - link with assoc controller + animations
+     */
     public Zombie(int startX, int startY, TiledMapTileLayer collisions) {
-        texture = new Texture(Gdx.files.internal("sprite/zombie/2ZombieSpriteSheet.png"));
-        region = TextureRegion.split(texture, texture.getWidth() / FRAME_COLS, texture.getHeight() / FRAME_ROWS);
-        walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
         controller = new ZombieController(collisions, this);
-        int index = 0;
-        for (int i = 0; i < FRAME_ROWS; i++) {
-            for (int j = 0; j < FRAME_COLS; j++) {
-                walkFrames[index++] = region[i][j];
-            }
-        }
-        sprite = new Sprite(walkFrames[currentFrame + 1]);
-        sprite.setOriginCenter();
-        x =  startX;
-        y =  startY;
+        createSprite(FRAME_COLS,FRAME_ROWS, "sprite/zombie/2ZombieSpriteSheet.png", true);
+        x = startX;
+        y = startY;
         walkingDown = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[0], walkFrames[1], walkFrames[2]);
         walkingUp = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[7], walkFrames[6], walkFrames[8]);
         walkingRight = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[3], walkFrames[4], walkFrames[5]);
@@ -43,47 +37,84 @@ public class Zombie extends NPC {
         controller.setPlayerPosition(p.getX(), p.getY());
     }
 
-    public void update(float delta, ArrayList<Zombie>zombies) {
-        controller.update(delta,zombies);
+    public void update(float delta, ArrayList<Zombie> zombies) {
+        controller.update(delta, zombies);
     }
 
-    public void setDown(boolean value){
+    /**
+     * set down collision true/false
+     *
+     * @param value
+     */
+    public void setDown(boolean value) {
         controller.setDown(value);
     }
-    
-    public boolean getDownBlocked(){
+
+    /**
+     * get down collision true/false
+     *
+     * @param value
+     */
+    public boolean getDownBlocked() {
         return controller.getDown();
     }
-    
-    public void setUp(boolean value){
+
+    /**
+     * set up collision true/false
+     *
+     * @param value
+     */
+    public void setUp(boolean value) {
         controller.setUp(value);
     }
-    
-    public boolean getUpBlocked(){
+
+    /**
+     * get up collision true/false
+     *
+     * @param value
+     */
+    public boolean getUpBlocked() {
         return controller.getUp();
     }
-    public void setRight(boolean value){
+
+    /**
+     * set right collision true/false
+     *
+     * @param value
+     */
+    public void setRight(boolean value) {
         controller.setRight(value);
     }
-    
-    public boolean getRightBlocked(){
+
+    /**
+     * get right collision true/false
+     *
+     * @param value
+     */
+    public boolean getRightBlocked() {
         return controller.getRight();
     }
-    public void setLeft(boolean value){
+
+    /**
+     * set left collision true/false
+     *
+     * @param value
+     */
+    public void setLeft(boolean value) {
         controller.setLeft(value);
     }
-    
-    public boolean getLeftBlocked(){
+
+    /**
+     * get left collision true/false
+     *
+     * @param value
+     */
+    public boolean getLeftBlocked() {
         return controller.getRight();
     }
-    
-    public double getSpeed(){
+
+    public double getSpeed() {
         return SPEED;
     }
-    
 
-   
-   
-    
-    
 }

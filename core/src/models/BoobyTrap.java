@@ -9,6 +9,10 @@ public class BoobyTrap {
     private ArrayList<Trap> traps;
     private TiledMapTileLayer collisions; 
     
+    /**
+     * construct array of traps and add 
+     * @param collisions 
+     */
     public BoobyTrap(TiledMapTileLayer collisions) {
         traps = new ArrayList<Trap>();
         this.collisions = collisions;
@@ -19,6 +23,7 @@ public class BoobyTrap {
      * set traps at specific coordinates- used to render traps
      */
     private void addTraps() {
+        //x y collision set
         traps.add(new Trap(65, 75, collisions));
         traps.add(new Trap(65, 76, collisions));
         traps.add(new Trap(65, 77, collisions));

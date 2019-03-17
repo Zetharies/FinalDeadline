@@ -25,43 +25,49 @@ import screens.intro.AbstractScreen;
 
 public class CharacterSelection extends AbstractScreen {
 
-    private Stage stage;
-    private int currentCharacter;
-    private Skin skin;
-    private TextField usernameTextField;
+    private Stage stage;//screen
+    private int currentCharacter;//store current character showing
+    private Skin skin;//skin for text
+    private TextField usernameTextField;//input field
     //private Table testTable;
     
     //make sure can use the play button when exiting custom
     public static boolean EXIT = false;
-    
+   /**
+    * character selection UI
+    */
     public void prepareUI() {
         Label.LabelStyle style = new Label.LabelStyle();
-        style.font = generateFont(skin);
+        style.font = generateFont(skin);// create font 
 
         final TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = generateFont(skin);
-        buttonStyle.fontColor = Color.CYAN;
+        buttonStyle.font = generateFont(skin);//add button font style
+        buttonStyle.fontColor = Color.CYAN;//set button font color
 
+        //reset character to show to beginning
         if (currentCharacter >= 4) {
             currentCharacter = 1;
         }
+        //go to max character selection possible - previous pressed
         if (currentCharacter <= 0) {
             currentCharacter = 3;
         }
 
         usernameTextField = new TextField("", skin);
-//        usernameTextField.setPosition((stage.getWidth() - usernameTextField.getWidth()) / 2, (float) ((stage.getHeight()) / 6));
-//        usernameTextField.setSize(stage.getWidth() - usernameTextField.getWidth() / 6, stage.getHeight() / 6);
+        //field x y width height
         usernameTextField.setBounds((stage.getWidth() - usernameTextField.getWidth()) / 2, (float) ((stage.getHeight()) / 6),
                 stage.getWidth() - usernameTextField.getWidth() / 6, stage.getHeight() / 6);
         usernameTextField.setText("Name");
-        usernameTextField.pack();
-        stage.addActor(usernameTextField);
+        usernameTextField.pack();//remove space
+        stage.addActor(usernameTextField);//add to screen
 
+        //character sprite images
         Image customSprite = new Image(new TextureRegionDrawable(new TextureRegion(new Texture("images/custom" + currentCharacter + ".png"))));
+        //centre to screen
         customSprite.setPosition((stage.getWidth() - customSprite.getWidth()) / 2, (float) ((stage.getHeight() - customSprite.getHeight()) / 1.05));
-        stage.addActor(customSprite);
+        stage.addActor(customSprite);//add to screen
 
+        //button to move to next character
         TextButton next = new TextButton(">>", buttonStyle);
         next.addListener(new ClickListener() {
             @Override

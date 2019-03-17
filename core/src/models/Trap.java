@@ -32,9 +32,7 @@ public class Trap extends NPC {
     private static final int FRAME_ROWS = 1;
 
     public Trap(float thisX, float thisY, TiledMapTileLayer collisions) {
-        texture = new Texture(Gdx.files.internal("sprite/boss/spike-ball.png"));
-        region = TextureRegion.split(texture, texture.getWidth() / FRAME_COLS, texture.getHeight() / FRAME_ROWS);
-        sprite = new Sprite(region[0][0]);
+        createSprite(FRAME_COLS,FRAME_ROWS,"sprite/boss/spike-ball.png",false);
         this.x = thisX;
         this.y = thisY;
         this.startX = thisX;

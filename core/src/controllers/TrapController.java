@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package controllers;
 
 import com.badlogic.gdx.Gdx;
@@ -10,17 +6,20 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import models.Trap;
 
-/**
- *
- * @author User
- */
+
 public class TrapController extends NPCController {
 
     private int timer;
-
-    private Trap trap;
-    private Sound audio;
-    private TiledMapTileLayer collisions;
+    private Trap trap;//assoc object
+    private Sound audio;//audio when trap triggered
+    private TiledMapTileLayer collisions;//collsion set
+    /**
+     * trap controller for movement + reset trap
+     * @param trap
+     * @param thisX
+     * @param thisY
+     * @param collisions 
+     */
     public TrapController(Trap trap, float thisX, float thisY, TiledMapTileLayer collisions) {
         timer = 0;
         audio = Gdx.audio.newSound(Gdx.files.internal("fx/metronome.mp3"));
@@ -28,61 +27,59 @@ public class TrapController extends NPCController {
         this.collisions = collisions;
     }
 
+    /**
+     * update trap movement and collision detection
+     * @param delta 
+     */
     public void update(float delta) {
-        updateTimer(delta);
+        updateTimer(delta);//update timings 
         if (trap.getUsed()) {
             this.trap.setShoot(false);
             if (timer >= 200) {
-                this.trap.resetTrap();
+                this.trap.resetTrap();//reset trap once used - back to starting x y
                 timer = 0;
             }
             this.trap.setUsed(false);
         }
         if ( isLeftBlocked() || isRightBlocked() || isUpBlocked() || isDownBlocked()) {
-            this.trap.setShoot(false);
-            this.trap.setUsed(true);
-            audio.pause();
+            this.trap.setShoot(false);//stop moving trap
+            this.trap.setUsed(true);//get ready to reset
+            audio.pause();//stop playing audio
         }
         if (this.trap.getShoot()) {
-            //this.y -= Gdx.graphics.getDeltaTime() * this.SPEED;
-            this.trap.x -= Gdx.graphics.getDeltaTime() * Trap.SPEED;
-            audio.play();
+            this.trap.x -= Gdx.graphics.getDeltaTime() * Trap.SPEED;//move trap from right to left 
+            audio.play();//play audio when trap triggerd
         }
 
     }
 
+    /**
+     * update timing for trap reset 
+     * @param delta 
+     */
     public void updateTimer(float delta) {
         timer += (delta * 100);
-        if (timer >= 1000) {
-            // shoot = false;
-        }
     }
 
     protected boolean isUpBlocked() {
-        //System.out.println();
         return isBlocked((int) (trap.x), (int) (trap.y + 0.5), collisions);
     }
 
     protected boolean isDownBlocked() {
-        //return isBlocked((int) (trap.x), (int) (trap.y - 0.25), collisions);
         if (trap.getPosY() - 0.25 >= 0) {
             return isBlocked((int) trap.x, (int) (trap.getPosY() - 0.25), collisions);
-            // return false;
         }
         return true;
     }
 
     private boolean isLeftBlocked() {
-//        return isBlocked((int) (trap.x - 0.25), (int) trap.y, collisions);
         if (trap.getPosY() - 0.45 >= 0) {
             return isBlocked((int) (trap.getPosX() - 0.45), (int) trap.getPosY(), collisions);
-            //return false;
         }
         return true;
     }
 
     private boolean isRightBlocked() {
-        //  return isBlocked((int) (trap.x + 1), (int) trap.y, collisions);
         return isBlocked((int) (trap.x + 0.45), (int) trap.y, collisions);
     }
 }

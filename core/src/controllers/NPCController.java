@@ -3,16 +3,13 @@ package controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
-import java.util.ArrayList;
 import java.util.Random;
-import models.BossZombie;
 import models.NPC;
-import models.Zombie;
 
 public abstract class NPCController {
 
     protected Random random = new Random();
-    protected TiledMapTileLayer collisions;
+    protected TiledMapTileLayer collisions;//npcs use collision set 
     protected boolean up = false, right = true, left = false, down = false;
     protected int count = -1;
     protected int direction = 0;
@@ -40,9 +37,7 @@ public abstract class NPCController {
 
     protected void moveToPlayer(NPC zombie, double speed) {
         //right must be true meaning up is not blocked - updated in updatecollisions methods
-        //if (right && zombie.getX() < playerX || (right && !up) || (right && !down)) {
         if (right && zombie.getX() < playerX) {
-
             //set the zombie to face right and loop animation
             zombie.getSprite().setRegion((TextureRegion) zombie.getRight().getKeyFrame(incr));
             //increase zombie x coord to move right 
@@ -84,12 +79,12 @@ public abstract class NPCController {
             }
         }
     }
-    
+
     /**
-//     * player detection used with a radius field
-//     *
-//     * @return true if player detected else return false
-//     */
+     * player detection used with a radius field
+     *
+     * @return true if player detected else return false
+     */
     public boolean detectPlayer(NPC zombie, float radius) {
         if (((zombie.getX() <= (playerX + radius) && zombie.getX() >= playerX) || (zombie.getX() >= (playerX - radius)
                 && zombie.getX() <= playerX)) && ((zombie.getY() <= (playerY + radius) && zombie.getY() >= playerY)
@@ -100,11 +95,14 @@ public abstract class NPCController {
         return false;
     }
 
-  
-     protected void updateCollisions(NPC npc) {
+    /**
+     * checks collisions to update up down left right for npcs
+     * @param npc 
+     */
+    protected void updateCollisions(NPC npc) {
         //is right is blocked set false - cannot go right otherwise true and can go right
         if (isRightBlocked(npc)) {
-            right = false;	
+            right = false;
         } else {
             right = true;
 
@@ -130,38 +128,37 @@ public abstract class NPCController {
 
         }
     }
-     
 
     protected boolean isBlocked(int x, int y, TiledMapTileLayer collisionLayer) {
         return collisionLayer.getCell(x, y).getTile().getProperties().containsKey("blocked");
     }
 
-    protected boolean isUpBlocked(NPC zombie) {
+    protected boolean isUpBlocked(NPC npc) {
         //System.out.println();
-        return isBlocked((int) (zombie.x), (int) (zombie.y + 0.5), collisions);
+        return isBlocked((int) (npc.x), (int) (npc.y + 0.5), collisions);
     }
 
-    protected boolean isDownBlocked(NPC zombie) {
+    protected boolean isDownBlocked(NPC npc) {
         //return isBlocked((int) (zombie.x), (int) (zombie.y - 0.25), collisions);
-        if (zombie.y - 0.25 >= 0) {
-            return isBlocked((int) zombie.x, (int) (zombie.y - 0.25), collisions);
+        if (npc.y - 0.25 >= 0) {
+            return isBlocked((int) npc.x, (int) (npc.y - 0.25), collisions);
             // return false;
         }
         return true;
     }
 
-    protected boolean isLeftBlocked(NPC zombie) {
+    protected boolean isLeftBlocked(NPC npc) {
 //        return isBlocked((int) (zombie.x - 0.25), (int) zombie.y, collisions);
-        if (zombie.y - 0.45 >= 0) {
-            return isBlocked((int) (zombie.x - 0.45), (int) zombie.y, collisions);
+        if (npc.y - 0.45 >= 0) {
+            return isBlocked((int) (npc.x - 0.45), (int) npc.y, collisions);
             //return false;
         }
         return true;
     }
 
-    protected boolean isRightBlocked(NPC zombie) {
+    protected boolean isRightBlocked(NPC npc) {
         //  return isBlocked((int) (zombie.x + 1), (int) zombie.y, collisions);
-        return isBlocked((int) (zombie.x + 0.45), (int) zombie.y, collisions);
+        return isBlocked((int) (npc.x + 0.45), (int) npc.y, collisions);
     }
 
 }

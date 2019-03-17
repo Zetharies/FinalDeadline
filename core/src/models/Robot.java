@@ -8,78 +8,92 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.mygdx.game.GameSettings;
-import controllers.PlayerMovement;
 import java.util.ArrayList;
 import static models.NPC.FRAME_COLS;
 
 public class Robot extends NPC{
 
-    public static final float SPEED = 0.8f; // 10 pixels per second.
-//    public float x;
-//    public float y;
-//    private int currentFrame = 6;
-//    private int health = 100;
-//    private Sprite sprite;
-//    private Texture texture;
-//    private TextureRegion region[][];
-//    private static final int FRAME_COLS = 3;
-//    private static final int FRAME_ROWS = 4;
-//    private TextureRegion[] walkFrames;
-//    private Animation walkingUp, walkingDown, walkingRight, walkingLeft;
-    private ArrayList<Bullet> bullets;
-    private TiledMapTileLayer collisions;
-    private boolean kill = false;
-    private Sound audio;
-
+    public static final float SPEED = 0.8f; //movement speed - increase value to increase speed
+    private ArrayList<Bullet> bullets;//bullet set
+    private TiledMapTileLayer collisions;//collision set
+    private boolean kill = false; // detect robot hp = 0
+    private Sound audio; // shooting audio
+     protected static final int FRAME_COLS = 3;
+    protected static final int FRAME_ROWS = 4;
+    /**
+     * construct robot with assoc controller
+     * @param startX
+     * @param startY
+     * @param collisions 
+     */
     public Robot(int startX, int startY, TiledMapTileLayer collisions) {
         this.collisions = collisions;
-        texture = new Texture(Gdx.files.internal("sprite/boss/robot.png"));
-        region = TextureRegion.split(texture, texture.getWidth() / FRAME_COLS, texture.getHeight() / FRAME_ROWS);
-        walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
-        int index = 0;
-        for (int i = 0; i < FRAME_ROWS; i++) {
-            for (int j = 0; j < FRAME_COLS; j++) {
-                walkFrames[index++] = region[i][j];
-            }
-        }
-        sprite = new Sprite(walkFrames[currentFrame + 1]);
-        sprite.setOriginCenter();
+        createSprite(FRAME_COLS,FRAME_ROWS, "sprite/boss/robot.png", true);
         x = (float) startX;
         y = (float) startY;
+        //animation set
         walkingDown = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[0], walkFrames[1], walkFrames[2]);
         walkingRight = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[7], walkFrames[6], walkFrames[8]);
         walkingLeft = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[3], walkFrames[4], walkFrames[5]);
         walkingUp = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[10], walkFrames[9], walkFrames[11]);
+       
         sprite.setRegion((TextureRegion) walkingRight.getKeyFrame(0));
         bullets = new ArrayList<Bullet>();
-
         audio = Gdx.audio.newSound(Gdx.files.internal("fx/singleShot.mp3"));
     }
+    
+   
 
+    /**
+     * call to play audio 
+     */
     public void playAudio() {
         audio.play(0.5f);
     }
 
+    /**
+     * get bullets for updating rendering etc.
+     * @return 
+     */
     public ArrayList<Bullet> getBullets() {
         return bullets;
     }
 
+    /**
+     * load new bullet to shoot
+     */
     public void shoot() {
         bullets.add(new Bullet(x, y, collisions, "bullet.png",1,1));
     }
 
+    /**
+     * ensure bullets dont stack - called when bullet x y = p xy
+     * @param index 
+     */
     public void removeBullet(int index) {
         bullets.remove(index);
     }
     
+    /**
+     * method called when robot health = 0 
+     * @param kill 
+     */
     public void kill(boolean kill){
         this.kill = kill;
     }
     
+    /**
+     * get robot hp status
+     * @return 
+     */
     public boolean getKill(){
         return this.kill;
     }
     
+    /**
+     * robot speed returned for controller
+     * @return 
+     */
     public float getSpeed(){
         return SPEED;
     }

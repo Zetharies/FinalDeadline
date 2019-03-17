@@ -8,8 +8,8 @@ import models.Zombie;
 
 public class ZombieController extends NPCController {
 
-    private Zombie zombie;
-    private ArrayList<PlayerMovement> movements;
+    private Zombie zombie;//assoc zombie object
+    private int moveRandomTimer = 0;//time to begin next direction to move
 
     /**
      * constructor to initialise zombiecontroller used - to control movement and
@@ -44,15 +44,16 @@ public class ZombieController extends NPCController {
         updateTimers(delta);
         updateCollisions(this.zombie);
 
+        //if up/down blocked set timer = true for time to move randomly
         if (detectPlayer(this.zombie, radius) && !up) {
             setTimer = true;
         } else if (detectPlayer(this.zombie, radius) && !down) {
             setTimer = true;
         }
-
         if (setTimer) {
             testTimer++;
-        }//40
+        }
+        //once timer reached detect player again
         if (testTimer == 100) {
             setTimer = false;
             testTimer = 0;
@@ -61,18 +62,20 @@ public class ZombieController extends NPCController {
         for (int j = 0; j < zombies.size(); j++) {
             //check other zombies not associated one
             if (zombie != zombies.get(j)) {
+                //zombie next to zombie on left
                 if ((int) zombies.get(j).x == (int) zombie.x && (int) zombies.get(j).y == (int) zombie.y - 1) {
                     zombie.setDown(false);
                     break;
+                    //zombie next to other zombie on right
                 } else if ((int) zombies.get(j).x == (int) zombie.x && (int) zombies.get(j).y == (int) zombie.y + 1) {
                     zombie.setUp(false);
 
                     break;
-
+                    //zombie next to other zombie on 1 tile up
                 } else if ((int) zombies.get(j).x == (int) zombie.x + 1 && (int) zombies.get(j).y == (int) zombie.y) {
                     zombie.setRight(false);
                     break;
-
+                    //zombie next to other zombie 1 tile below
                 } else if ((int) zombies.get(j).x == (int) zombie.x - 1 && (int) zombies.get(j).y == (int) zombie.y) {
                     zombie.setLeft(false);
 
@@ -86,7 +89,7 @@ public class ZombieController extends NPCController {
         if (detectPlayer(this.zombie, radius) && !moveRandom && !setTimer) {
             moveToPlayer(this.zombie, Zombie.SPEED);
         } else {
-            randomMovement();
+            randomMovement();//move randomly 
         }
 
     }
@@ -109,7 +112,7 @@ public class ZombieController extends NPCController {
             if (isRightBlocked(this.zombie)) {
                 collision = true;
                 //changing direction values bounces sprite in the opposite direction
-                direction = 1;
+                direction = 1;//move in opposite direction
 
             }
             //ensures left is not blocked and npc has chosen to go left
@@ -123,7 +126,7 @@ public class ZombieController extends NPCController {
             }
             if (isLeftBlocked(this.zombie)) {
                 collision = true;
-                direction = 0;
+                direction = 0;//move in opposite direction
             }
             //ensure up is not blocked and npc has decided to go up
         } else if (up && direction == 2) {
@@ -136,7 +139,7 @@ public class ZombieController extends NPCController {
             }
             if (isUpBlocked(this.zombie)) {
                 collision = true;
-                direction = 3;
+                direction = 3;//move in opposite direction
             }
             //ensures down is not blocked and npc has decided to go down
         } else if (down && direction == 3) {
@@ -149,12 +152,11 @@ public class ZombieController extends NPCController {
             }
             if (isDownBlocked(this.zombie)) {
                 collision = true;
-                direction = 2;
+                direction = 2;//move in opposite direction
             }
 
         }
     }
-    private int count2 = 0;
 
     /**
      * timers for zombie abilities and movement
@@ -164,24 +166,24 @@ public class ZombieController extends NPCController {
     public void updateTimers(float delta) {
         timer += (delta * 100);
         count++;
-        count2++;
+        moveRandomTimer++;
         //counter to potentially change direction
         if ((count >= 80 || count == -1) && !collision) {
             //direction to move based on rng
             direction = shouldMove();
-            count = 0;
+            count = 0;//rest time to move next 
         }
-        if (count2 >= 80) {
+        if (moveRandomTimer >= 80) {
             moveRandom = false;
         }
-        //walking animation timer 10
+        //walking animation timer 50
         if (timer >= 50) {
-            timer = 0;
+            timer = 0;//reset timer
             incr++;
         }
         //increments through walking frames
         if (incr > 2) {
-            incr = 0;
+            incr = 0;//back to initial animation
         }
     }
 
@@ -217,34 +219,74 @@ public class ZombieController extends NPCController {
 //            zombie.getSprite().setRegion((TextureRegion) zombie.getDown().getKeyFrame(incr));
 //        }
 //    }
+    /**
+     * set down collision true / false
+     *
+     * @param value
+     */
     public void setDown(boolean value) {
         down = value;
     }
 
+    /**
+     * get down collision
+     *
+     * @return
+     */
     public boolean getDown() {
         return down;
     }
 
+    /**
+     * set up collision true / false
+     *
+     * @param value
+     */
     public void setUp(boolean value) {
         up = value;
     }
 
+    /**
+     * get up collision
+     *
+     * @return
+     */
     public boolean getUp() {
         return up;
     }
 
+    /**
+     * set right collision true / false
+     *
+     * @param value
+     */
     public void setRight(boolean value) {
         right = value;
     }
 
+    /**
+     * get right collision
+     *
+     * @return
+     */
     public boolean getRight() {
         return right;
     }
 
+    /**
+     * set left collision true/false
+     *
+     * @param value
+     */
     public void setLeft(boolean value) {
         left = value;
     }
 
+    /**
+     * get left collision
+     *
+     * @return
+     */
     public boolean getLeft() {
         return left;
     }

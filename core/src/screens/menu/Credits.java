@@ -10,12 +10,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
  * @author User
  */
 public class Credits {
-
+    
+    //labels for roles and names - programmer label use to set pref width of other labels
     private Label programmer, name1, name2, name3, name4, name5, name6, name7, name8, name9, name10;
-    Stage stage;
-    Table table; //constructor for the table
-    Label.LabelStyle style;
+    Stage stage;//screen
+    Table table; //construct table for labels
+    Label.LabelStyle style;//label style
 
+    /**
+     * credits to be constructed in main screen
+     * @param stage
+     * @param style
+     * @param table 
+     */
     public Credits(Stage stage, Label.LabelStyle style, Table table) {
         this.style = style;
         this.stage = stage;
@@ -33,15 +40,19 @@ public class Credits {
         name8 = new Label("AREEB MOHAMMAD", style);
         name9 = new Label("VIVIAN KNIGHT", style);
         name10 = new Label("KUNAL AGARWALA", style);
-        addToTable();
+        addToTable();//
+        //x y widht height
         this.table.setBounds((Gdx.graphics.getWidth() / 2) - (table.getPrefWidth()), (Gdx.graphics.getHeight() / 2) - (table.getPrefHeight()),
                 table.getPrefWidth(), table.getPrefHeight()); //specifies the size of the frame and location of the upper left corner
     }
 
+    /**
+     * add roles + width/height + positioning of labels
+     */
     private void addToTable() {
         table.add(new Label("Programmer", style)).width(programmer.getPrefWidth() + (programmer.getPrefWidth() / 2));
         table.add(name1);
-        table.row();
+        table.row();//new row for next labels
         table.add(new Label("Programmer", style)).width(programmer.getPrefWidth() + (programmer.getPrefWidth() / 2));
         table.add(name2);
         table.row();
@@ -72,6 +83,10 @@ public class Credits {
         table.setSize(table.getPrefWidth(), table.getPrefHeight()); //sets table size
     }
 
+    /**
+     * get table for table in main screen
+     * @return 
+     */
     public Table getTable() {
         return table; //shows all text in the screen
     }

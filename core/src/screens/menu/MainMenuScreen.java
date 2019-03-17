@@ -77,9 +77,8 @@ public class MainMenuScreen extends AbstractScreen {
     private Credits creditsWindow;
     public static int RES_INDEX;
 
-    //booleans to detect button swipes
+    //boolean to detect button swipes
     private boolean left = false;
-    private boolean right = false;
 
     public MainMenuScreen() {
         super();

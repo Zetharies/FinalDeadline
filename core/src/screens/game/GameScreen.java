@@ -416,19 +416,20 @@ public class GameScreen extends AbstractScreen {
 
         // changing height and width changes collisions
         for (int i = 0; i < zombies.size(); i++) {
-            // Access Each Zombie in the zombies arraylist
+            // Access Each Zombie in the zombies arraylist and render
             batch.draw(zombies.get(i).getSprite(),
                     ((int) zombies.get(i).x * GameSettings.SCALED_TILE_SIZE),
                     ((int) zombies.get(i).y) * GameSettings.SCALED_TILE_SIZE,
                     GameSettings.SCALED_TILE_SIZE * 1f,
                     GameSettings.SCALED_TILE_SIZE * 1f);
         }
-        if (maps.indexOf(map) == 1) {
+        if (maps.indexOf(map) == 1) {//traps located on second map
             for (int i = 0; i < traps.getTraps().size(); i++) {
                 traps.getTraps().get(i).setPlayerPosition(player.getX(), player.getY());
-                if ((int) player.getY() + 1 == (int) traps.getTraps().get(i).getPosY()) {
+                if ((int) player.getY() + 1 == (int) traps.getTraps().get(i).getPosY()) {//start trap when player in line with trrap
                     traps.getTraps().get(i).setShoot(true);
                 }
+                //update trap and render
                 if (traps.getTraps().get(i).getShoot() || traps.getTraps().get(i).getUsed()) {
                     traps.getTraps().get(i).update(delta);
                     batch.draw(traps.getTraps().get(i).getSprite(),
@@ -436,37 +437,31 @@ public class GameScreen extends AbstractScreen {
                             traps.getTraps().get(i).y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 0.4f,
                             GameSettings.SCALED_TILE_SIZE * 0.4f);
                 }
+                //detect whether trap  x y= player x y
                 if ((((int) (traps.getTraps().get(i).getPosX()) >= (int) (player.getX())
                         && (int) (traps.getTraps().get(i).getPosX()) <= (int) (player.getX() + 1)))
                         && (((int) (traps.getTraps().get(i).getPosY()) >= (int) (player.getY())
                         && (int) (traps.getTraps().get(i).getPosY()) <= (int) (player.getY()) + 1))) {
-                    hud.reduceHealth(0.01f);
-                    //hitTrap();
-                    //traps.getTraps().get(i).resetTrap();
+                    hud.reduceHealth(0.01f);//reduce player health
                 }
-
-//            if(traps.getTraps().get(i).getUsed()){
-//                batch.draw(traps.getTraps().get(i).getSprite(),
-//                        (traps.getTraps().get(i).x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
-//                        traps.getTraps().get(i).y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 0.4f,
-//                        GameSettings.SCALED_TILE_SIZE * 0.4f);
-//            }
             }
         }
-        if (maps.indexOf(map) == 4) {
+        if (maps.indexOf(map) == 4) {//show robot on 1st boss map
 
+            //update robot
             robotController.setPlayerPosition(playerControls.getPlayer().getX(), playerControls.getPlayer().getY());
             robotController.update(delta);
             for (int i = 0; i < robot.getBullets().size(); i++) {
                 robot.getBullets().get(i).setPlayerPosition(player.getX(), player.getY());
-                robot.getBullets().get(i).update(delta);
-                if (robot.getBullets().get(i).getShoot()) {
+                robot.getBullets().get(i).update(delta);//send bullet to player xy
+                if (robot.getBullets().get(i).getShoot()) {//if bullet shot render
                     batch.draw(robot.getBullets().get(i).getSprite(),
                             (robot.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE)
                             - (GameSettings.SCALED_TILE_SIZE / 2),
                             robot.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE,
                             GameSettings.SCALED_TILE_SIZE / 5f, GameSettings.SCALED_TILE_SIZE / 5f);
                 }
+                //if bullet xy = player xy reduce health and remove bullet
                 if ((((int) (robot.getBullets().get(i).x) >= (int) (player.getX())
                         && (int) (robot.getBullets().get(i).x) <= (int) (player.getX() + 1)))
                         && (((int) (robot.getBullets().get(i).y) >= (int) (player.getY())
@@ -475,17 +470,19 @@ public class GameScreen extends AbstractScreen {
                     hud.reduceHealth(robot.getBullets().get(i).getDamage());
                     robot.getBullets().remove(robot.getBullets().get(i));
                 }
+                //once player respawns any bullets previously shot remove
                 if (hud.getHealth() == 0) {
                     robot.getBullets().removeAll(robot.getBullets());
                 }
             }
+            //render robot
             batch.draw(robot.getSprite(),
                     (robot.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2) + 20,
                     robot.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1.7f,
                     GameSettings.SCALED_TILE_SIZE * 2f);
         }
 
-        if (maps.indexOf(map) == 6) {
+        if (maps.indexOf(map) == 6) {//second boss map
 
             bossController.setPlayerPosition(player.getX(), player.getY());
             bossController.update(delta);
@@ -494,16 +491,18 @@ public class GameScreen extends AbstractScreen {
                     bossZombie.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
                     GameSettings.SCALED_TILE_SIZE * 1f);
 
-            for (int i = 0; i < bossZombie.getBullets().size(); i++) {
+            for (int i = 0; i < bossZombie.getBullets().size(); i++) {//boss shooting heads
                 bossZombie.getBullets().get(i).setPlayerPosition(player.getX(), player.getY());
                 bossZombie.getBullets().get(i).update(delta);
                 if (bossZombie.getBullets().get(i).getShoot()) {
+                    //render head bullets
                     batch.draw(bossZombie.getBullets().get(i).getSprite(),
                             (bossZombie.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE)
                             - (GameSettings.SCALED_TILE_SIZE / 2),
                             bossZombie.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE,
                             GameSettings.SCALED_TILE_SIZE / 3f, GameSettings.SCALED_TILE_SIZE / 3f);
                 }
+                //if bullet/head xy = p xy reduce health and remove
                 if ((((int) (bossZombie.getBullets().get(i).x) >= (int) (player.getX())
                         && (int) (bossZombie.getBullets().get(i).x) <= (int) (player.getX() + 1)))
                         && (((int) (bossZombie.getBullets().get(i).y) >= (int) (player.getY())
@@ -530,7 +529,7 @@ public class GameScreen extends AbstractScreen {
                 float zombieWidth = zombieX + (GameSettings.SCALED_TILE_SIZE * 1f);
                 float zombieY = (zombie.y * GameSettings.SCALED_TILE_SIZE);
                 float zombieHeight = zombieY + (GameSettings.SCALED_TILE_SIZE * 1f);
-
+                
                 float bookX = (b.getX() * GameSettings.SCALED_TILE_SIZE) - 10;
                 float bookWidth = bookX + 9;
                 float bookY = (b.getY() * GameSettings.SCALED_TILE_SIZE) + 10;

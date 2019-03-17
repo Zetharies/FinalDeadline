@@ -1,77 +1,65 @@
 package controllers;
 
-
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
+import managers.SettingsManager;
 
 import models.Robot;
 
-public class RobotController extends NPCController{
+public class RobotController extends NPCController {
 
-    private Robot robot;
-    private final float RADIUS = 10;
-    
+    private Robot robot;//associated robot object
+    private final float RADIUS = 20;//radius to detect player
+    private int toShoot;//fire rate
+    private boolean playAudio; //bool audio - audio plays when shot taken
+
+    /**
+     * construct controller - game screen
+     *
+     * @param collisions
+     * @param robot
+     */
     public RobotController(TiledMapTileLayer collisions, Robot robot) {
         this.robot = robot;
         this.collisions = collisions;
-
+        toShoot = 0;
+        playAudio = false;
     }
-    int toShoot = 0;
-    boolean playAudio = false;
 
     @SuppressWarnings("static-access")
+    /**
+     * update robot
+     */
     public void update(float delta) {
-        toShoot++;
+        toShoot++;//timer for shooting fire rate
         updateTimers(delta);
         updateCollisions(this.robot);
-        detectPlayer(this.robot,RADIUS);
 //        keys();
-        if (detectPlayer(this.robot,RADIUS)) {
-            moveToPlayer(this.robot,Robot.SPEED);
-            if (toShoot == 50) {
+        //shoot when player detected and move to player
+        if (detectPlayer(this.robot, RADIUS)) {
+            moveToPlayer(this.robot, Robot.SPEED);
+            if (toShoot == 50) {//50 fire rate 
                 System.out.println("shoot");
-                robot.shoot();
-                robot.getBullets().get(robot.getBullets().size() - 1).setShoot(true);
-                toShoot = 0;
-                playAudio = true;
+                robot.shoot();//shoot - create new bullet
+                robot.getBullets().get(robot.getBullets().size() - 1).setShoot(true);//set shot to true to render
+                toShoot = 0;//reset rate 
+                if (SettingsManager.getSound()) { // only play audio if settings returns true
+                    robot.playAudio();
+                }
             }
-        }
-        if (playAudio) {
-            robot.playAudio();
-            playAudio = false;
         }
         if (toShoot == 50) {
             toShoot = 0;
         }
     }
 
-
-    private int count2 = 0;
-
-    public void updateTimers(float delta) {
-        timer += (delta * 100);
-        count++;
-        count2++;
-        //counter to potentially change direction
-        if ((count >= 80 || count == -1) && !collision) {
-            //direction to move based on rng
-            direction = shouldMove();
-            count = 0;
-        }
-        if (count2 >= 40) {
-            count2 = 0;
-        }
-        //walking animation timer
-        if (timer >= 10) {
-            timer = 0;
-            incr++;
-        }
-        //increments through walking frames
-        if (incr > 2) {
-            incr = 0;
-        }
+    public void setAudio(boolean audio) {
+        playAudio = audio;
     }
 
 
+    public void updateTimers(float delta) {
+       
+    }
 
 //    @SuppressWarnings("static-access")
 //    public void keys() {
@@ -107,10 +95,4 @@ public class RobotController extends NPCController{
 ////            moveToPlayer();
 //        }
 //    }
-
- 
-
-
-   
-
 }

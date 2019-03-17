@@ -7,28 +7,33 @@ package controllers;
 
 import com.badlogic.gdx.Gdx;
 import models.Bullet;
-import models.NPC;
 
 
 public class BulletController extends NPCController{
 
-    private Bullet bullet;
-    private int rangeTimer;
-    private final int RANGE = 130;
+    private Bullet bullet;//assoc bullet object
+    private int rangeTimer;//timer to detect when bullet has reached range
+    private final int RANGE = 130;//range of bullet
 
+    /**
+     * controller for bullet object
+     * @param bullet 
+     */
     public BulletController(Bullet bullet) {
         this.bullet = bullet;
         rangeTimer = 0;
     }
 
     public void update(float delta) {
-        // this.shoot = true;
-        rangeTimer++;
+        rangeTimer++;//update bullet distance
+        //delete bullet if hit collison or met ranged
         if (rangeTimer == RANGE) {
             bullet.setShoot(false);
             rangeTimer = 0;
         } else {
+            //update bullet timings
             bullet.updateTimer(delta);
+            //make bullet go to p x y - follows player to increase difficulty
             if (this.bullet.x < playerX + 1.5) {
                 this.bullet.x += Gdx.graphics.getDeltaTime() * Bullet.SPEED;
             }
@@ -44,31 +49,26 @@ public class BulletController extends NPCController{
         }
     }
     
+    
     protected boolean isUpBlocked() {
-        //System.out.println();
         return isBlocked((int) (bullet.x), (int) (bullet.y + 0.5), collisions);
     }
 
     protected boolean isDownBlocked() {
-        //return isBlocked((int) (bullet.x), (int) (bullet.y - 0.25), collisions);
         if (bullet.y - 0.25 >= 0) {
             return isBlocked((int) bullet.x, (int) (bullet.y - 0.25), collisions);
-            // return false;
         }
         return true;
     }
 
     private boolean isLeftBlocked() {
-//        return isBlocked((int) (bullet.x - 0.25), (int) bullet.y, collisions);
         if (bullet.y - 0.45 >= 0) {
             return isBlocked((int) (bullet.x - 0.45), (int) bullet.y, collisions);
-            //return false;
         }
         return true;
     }
 
     private boolean isRightBlocked() {
-        //  return isBlocked((int) (bullet.x + 1), (int) bullet.y, collisions);
         return isBlocked((int) (bullet.x + 0.45), (int) bullet.y, collisions);
     }
 }

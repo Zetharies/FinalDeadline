@@ -1,5 +1,6 @@
 package models;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -69,33 +70,79 @@ public abstract class NPC {
         this.health = health;
     }
 
+    /**
+     * kill npc
+     */
     public void die() {
     }
 
+    /**
+     * get sprite to render
+     *
+     * @return
+     */
     public TextureRegion getSprite() {
         return sprite;
     }
 
+    /**
+     * get left animation - loop through left walking animation
+     *
+     * @return
+     */
     @SuppressWarnings("rawtypes")
     public Animation getLeft() {
         return walkingLeft;
     }
 
+    /**
+     * get right animation - used to loop through right walking animation
+     *
+     * @return
+     */
     @SuppressWarnings("rawtypes")
     public Animation getRight() {
         return walkingRight;
     }
 
+    /**
+     * get up animation - used to loop through up walking animation
+     *
+     * @return
+     */
     @SuppressWarnings("rawtypes")
     public Animation getUp() {
         return walkingUp;
     }
 
+    /**
+     * get down animation - used to loop through down walking animation
+     *
+     * @return
+     */
     @SuppressWarnings("rawtypes")
     public Animation getDown() {
         return walkingDown;
     }
-    
-   
+
+    public void createSprite(int cols, int rows, String file, boolean split) {
+        texture = new Texture(Gdx.files.internal(file));//load texture
+        //split sprite sheet
+        region = TextureRegion.split(texture, texture.getWidth() / cols, texture.getHeight() / rows);
+        if (split) {
+            walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
+            int index = 0;
+            for (int i = 0; i < FRAME_ROWS; i++) {
+                for (int j = 0; j < FRAME_COLS; j++) {
+                    walkFrames[index++] = region[i][j];
+                }
+            }
+            sprite = new Sprite(walkFrames[currentFrame + 1]);//set starting animation
+            sprite.setOriginCenter();
+        }else{
+            sprite = new Sprite(region[0][0]);
+        }
+
+    }
 
 }

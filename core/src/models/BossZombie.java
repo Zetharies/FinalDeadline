@@ -15,35 +15,35 @@ import static models.NPC.FRAME_COLS;
 
 public class BossZombie extends NPC {
 
-    public static float speed = 2.3f; // 10 pixels per second.
+    public static float speed = 2.3f; // speed for zombie to move;
 
-    public float startX, startY;
-    private BossController controller;
-    private TiledMapTileLayer collisions;
+    public float startX, startY; // start x y required for teleportation
+    private BossController controller;//ref associated controller
+    private TiledMapTileLayer collisions;//collision set for collision detection
 
-    private boolean bite = false;
-    private ArrayList<Bullet> bullets;
-    private Sound biteAudio;
-
+    private ArrayList<Bullet> bullets;//have a set of bullets to shoot
+    private Sound biteAudio;//bite audio - used with ability
+    private boolean bite;
+    private static final int FRAME_COLS = 3;
+    private static final int FRAME_ROWS = 4;
+    /**
+     * construct boss zombie object with associated controller
+     *
+     * @param startX
+     * @param startY
+     * @param collisions
+     */
     @SuppressWarnings({"unchecked", "rawtypes"})
     public BossZombie(int startX, int startY, TiledMapTileLayer collisions) {
         this.collisions = collisions;
-        texture = new Texture(Gdx.files.internal("sprite/zombie/bossZombie.png"));
-        region = TextureRegion.split(texture, texture.getWidth() / FRAME_COLS, texture.getHeight() / FRAME_ROWS);
-        walkFrames = new TextureRegion[FRAME_COLS * FRAME_ROWS];
+        createSprite(FRAME_COLS,FRAME_ROWS,"sprite/zombie/bossZombie.png",true);
         controller = new BossController(collisions, this);
-        int index = 0;
-        for (int i = 0; i < FRAME_ROWS; i++) {
-            for (int j = 0; j < FRAME_COLS; j++) {
-                walkFrames[index++] = region[i][j];
-            }
-        }
-        sprite = new Sprite(walkFrames[currentFrame + 1]);
-        sprite.setOriginCenter();
-        x =  startX;
-        y =  startY;
+      
+        x = startX;
+        y = startY;
         this.startX = (float) startX;
         this.startY = (float) startY;
+        //animation set
         walkingDown = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[0], walkFrames[1], walkFrames[2]);
         walkingUp = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[7], walkFrames[6], walkFrames[8]);
         walkingRight = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[4], walkFrames[3], walkFrames[5]);
@@ -51,25 +51,44 @@ public class BossZombie extends NPC {
 
         bullets = new ArrayList<Bullet>();
         biteAudio = Gdx.audio.newSound(Gdx.files.internal("fx/bite.mp3"));
-
+        bite = false;
     }
 
+    /**
+     * get bullets - used to render method
+     *
+     * @return
+     */
     public ArrayList<Bullet> getBullets() {
         return bullets;
     }
 
+    /**
+     * called in controller class - create new bullet once boss decides to shoot
+     */
     public void shoot() {
         bullets.add(new Bullet(x, y, collisions, "spriteHead2.png", 1, 1));
     }
 
+    /**
+     * method to be called once bullet is redundant
+     *
+     * @param index
+     */
     public void removeBullet(int index) {
         bullets.remove(index);
     }
 
+    /**
+     * one ability of boss
+     */
     public void rushPlayer() {
         this.setSpeed(2.3f + 0.6f);
     }
 
+    /**
+     * second ability of boss
+     */
     public void resetHealth() {
         if (this.health <= 30) {
             teleport();
@@ -77,6 +96,11 @@ public class BossZombie extends NPC {
         }
     }
 
+    /**
+     * third ability of boss
+     *
+     * @param play
+     */
     public void bite(boolean play) {
         if (play) {
             biteAudio.play();
@@ -85,15 +109,28 @@ public class BossZombie extends NPC {
         }
     }
 
+    /**
+     * teleport to be used with reset health
+     */
     public void teleport() {
         this.x = this.startX;
         this.y = this.startY;
     }
 
+    /**
+     * call update method to update boss zombie - movement, abilities
+     *
+     * @param delta
+     */
     public void update(float delta) {
         controller.update(delta);
     }
 
+    /**
+     * change speed - required for rushing ability
+     *
+     * @param speed
+     */
     public void setSpeed(float speed) {
         this.speed = speed;
     }
