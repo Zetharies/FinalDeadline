@@ -6,7 +6,6 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -35,10 +34,6 @@ import controllers.ScreenplayController;
 import controllers.PlayerController;
 import controllers.RobotController;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.LinkedList;
-import java.util.Random;
 
 import models.AnimationSet;
 import models.Book;
@@ -59,7 +54,6 @@ import screens.intro.AbstractScreen;
 import screens.menu.MainMenuScreen;
 import models.BossZombie;
 import controllers.BossController;
-import controllers.BulletController;
 import models.BoobyTrap;
 
 public class GameScreen extends AbstractScreen {
@@ -698,10 +692,25 @@ public class GameScreen extends AbstractScreen {
         currentMapItems.removeAll(foundMapItems);
 
         currentInv = playerControls.equipItem(currentInv);
-
+        
+        
         if (currentInv.getCurrentItem() != null) {
             hud.drawEquippedItem(currentInv.getCurrentItem());
 
+            if (currentInv.getCurrentItem().getName().equals("Book")) {
+            	updateToBook();
+            	
+            } else if (currentInv.getCurrentItem().getName().equals("Keyboard")) {
+            	updateToKeyboard();
+            	
+            } else {
+            	resetPlayerAnimations();
+            	
+            }
+        	
+        } else {
+        	resetPlayerAnimations();
+        	
         }
 
         Item currentUsedItem = playerControls.itemPressed();
@@ -710,7 +719,7 @@ public class GameScreen extends AbstractScreen {
 			for (Item currentItem : currentInv.getInventory()) {
 				if (currentUsedItem.getName().equals("Drink")) {
 					if (currentInv.getCurrentItem() != null && currentItem.getDrinkID() == currentDrinkID) {
-						System.out.println("Increasing Health");	
+						System.out.println("GS: Increasing Health");	
 
 						hud.increaseHealth(0.25f);
 						hud.removeEquippedItem(currentItem);
@@ -726,7 +735,7 @@ public class GameScreen extends AbstractScreen {
 
 				} else if (currentUsedItem.getName().contains("Potion")) {
 					if (currentItem.equals(currentUsedItem) && playerControls.isOnVent()) {
-						System.out.println("Using " + currentItem.getName() + " on Vent");
+						System.out.println("GS: Using " + currentItem.getName() + " on Vent");
 
 						hud.removeEquippedItem(currentItem);
 
@@ -922,7 +931,37 @@ public class GameScreen extends AbstractScreen {
 
         player.setAnimations(animations);
     }
+    
+    public void resetPlayerAnimations() {
+        assetManager = new AssetManager();
+        assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
+        assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
+        assetManager.load("sprite/" + gender + "/" + chosenCharacter + "Animation.atlas", TextureAtlas.class);
+        assetManager.finishLoading();
 
+        TextureAtlas walking = this.getAssetManager().get("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas",
+                TextureAtlas.class);
+        TextureAtlas standing = this.getAssetManager()
+                .get("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
+
+        AnimationSet animations = new AnimationSet(
+                new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+                        walking.findRegions(chosenCharacter + "_walking_north"), Animation.PlayMode.LOOP_PINGPONG),
+                new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+                        walking.findRegions(chosenCharacter + "_walking_south"), Animation.PlayMode.LOOP_PINGPONG),
+                new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+                        walking.findRegions(chosenCharacter + "_walking_east"), Animation.PlayMode.LOOP_PINGPONG),
+                new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+                        walking.findRegions(chosenCharacter + "_walking_west"), Animation.PlayMode.LOOP_PINGPONG),
+                standing.findRegion(chosenCharacter + "_standing_north"),
+                standing.findRegion(chosenCharacter + "_standing_south"),
+                standing.findRegion(chosenCharacter + "_standing_east"),
+                standing.findRegion(chosenCharacter + "_standing_west"));
+        
+        player.setAnimations(animations);   	
+    	
+    }
+    
     public int findDrinkPosition(InventorySystem currentInv) {
         int pos = 0;
 
