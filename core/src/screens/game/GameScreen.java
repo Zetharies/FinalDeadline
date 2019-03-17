@@ -391,7 +391,6 @@ public class GameScreen extends AbstractScreen {
         for (int i = 0; i < zombies.size(); i++) {
             // update all zombies
             zombies.get(i).detectPlayerPosition(playerControls.getPlayer());
-            zombies.get(i).setPlayerMovements(playerControls.getPlayerMovements());
             zombies.get(i).update(delta, zombies);
         }
         // follow that zombie
@@ -416,7 +415,7 @@ public class GameScreen extends AbstractScreen {
         // changing height and width changes collisions
         for (int i = 0; i < zombies.size(); i++) {
             // Access Each Zombie in the zombies arraylist
-            batch.draw(zombies.get(i).getZombies(),
+            batch.draw(zombies.get(i).getSprite(),
                     ((int) zombies.get(i).x * GameSettings.SCALED_TILE_SIZE),
                     ((int) zombies.get(i).y) * GameSettings.SCALED_TILE_SIZE,
                     GameSettings.SCALED_TILE_SIZE * 1f,

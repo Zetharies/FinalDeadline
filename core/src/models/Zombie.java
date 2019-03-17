@@ -14,19 +14,7 @@ import static models.NPC.FRAME_COLS;
 
 public class Zombie extends NPC {
 
-    public static final double speed = 1.5; // 10 pixels per second.
-//    public float x;
-//    public float y;
-//    private int currentFrame = 6;
-//    private int health = 100;
-//    private Sprite sprite;
-//    private Texture texture;
-//    private TextureRegion region[][];
-//    private static final int FRAME_COLS = 3;
-//    private static final int FRAME_ROWS = 4;
-//    private TextureRegion[] walkFrames;
-//    @SuppressWarnings("rawtypes")
-//    private Animation walkingUp, walkingDown, walkingRight, walkingLeft;
+    public static final double SPEED = 1.5; // 10 pixels per second.
     private ZombieController controller;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
@@ -55,38 +43,10 @@ public class Zombie extends NPC {
         controller.setPlayerPosition(p.getX(), p.getY());
     }
 
-    public void setPlayerMovements(ArrayList<PlayerMovement> movements) {
-//        controller.setPlayerMovement(movements);
-    }
-
     public void update(float delta, ArrayList<Zombie>zombies) {
         controller.update(delta,zombies);
     }
 
-    public TextureRegion getZombies() {
-        return sprite;
-    }
-
-    @SuppressWarnings("rawtypes")
-    public Animation getLeft() {
-        return walkingLeft;
-    }
-
-    @SuppressWarnings("rawtypes")
-    public Animation getRight() {
-        return walkingRight;
-    }
-
-    @SuppressWarnings("rawtypes")
-    public Animation getUp() {
-        return walkingUp;
-    }
-
-    @SuppressWarnings("rawtypes")
-    public Animation getDown() {
-        return walkingDown;
-    }
-    
     public void setDown(boolean value){
         controller.setDown(value);
     }
@@ -116,6 +76,11 @@ public class Zombie extends NPC {
     public boolean getLeftBlocked(){
         return controller.getRight();
     }
+    
+    public double getSpeed(){
+        return SPEED;
+    }
+    
 
    
    
