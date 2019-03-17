@@ -99,11 +99,12 @@ public abstract class NPCController {
         }
         return false;
     }
+
   
      protected void updateCollisions(NPC npc) {
         //is right is blocked set false - cannot go right otherwise true and can go right
         if (isRightBlocked(npc)) {
-            right = false;
+            right = false;	
         } else {
             right = true;
 
@@ -130,7 +131,8 @@ public abstract class NPCController {
         }
     }
      
-     protected boolean isBlocked(int x, int y, TiledMapTileLayer collisionLayer) {
+
+    protected boolean isBlocked(int x, int y, TiledMapTileLayer collisionLayer) {
         return collisionLayer.getCell(x, y).getTile().getProperties().containsKey("blocked");
     }
 
@@ -161,5 +163,5 @@ public abstract class NPCController {
         //  return isBlocked((int) (zombie.x + 1), (int) zombie.y, collisions);
         return isBlocked((int) (zombie.x + 0.45), (int) zombie.y, collisions);
     }
-    
+
 }
