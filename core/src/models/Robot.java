@@ -10,21 +10,22 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.mygdx.game.GameSettings;
 import controllers.PlayerMovement;
 import java.util.ArrayList;
+import static models.NPC.FRAME_COLS;
 
-public class Robot {
+public class Robot extends NPC{
 
-    public static final float speed = 0.8f; // 10 pixels per second.
-    public float x;
-    public float y;
-    private int currentFrame = 6;
-    private int health = 100;
-    private Sprite sprite;
-    private Texture texture;
-    private TextureRegion region[][];
-    private static final int FRAME_COLS = 3;
-    private static final int FRAME_ROWS = 4;
-    private TextureRegion[] walkFrames;
-    private Animation walkingUp, walkingDown, walkingRight, walkingLeft;
+    public static final float SPEED = 0.8f; // 10 pixels per second.
+//    public float x;
+//    public float y;
+//    private int currentFrame = 6;
+//    private int health = 100;
+//    private Sprite sprite;
+//    private Texture texture;
+//    private TextureRegion region[][];
+//    private static final int FRAME_COLS = 3;
+//    private static final int FRAME_ROWS = 4;
+//    private TextureRegion[] walkFrames;
+//    private Animation walkingUp, walkingDown, walkingRight, walkingLeft;
     private ArrayList<Bullet> bullets;
     private TiledMapTileLayer collisions;
     private boolean kill = false;
@@ -59,38 +60,6 @@ public class Robot {
         audio.play(0.5f);
     }
 
-    public TextureRegion getSprite() {
-        return sprite;
-    }
-
-    public int getX() {
-        return (int) x;
-    }
-
-    public int getY() {
-        return (int) y;
-    }
-
-    @SuppressWarnings("rawtypes")
-    public Animation getLeft() {
-        return walkingLeft;
-    }
-
-    @SuppressWarnings("rawtypes")
-    public Animation getRight() {
-        return walkingRight;
-    }
-
-    @SuppressWarnings("rawtypes")
-    public Animation getUp() {
-        return walkingUp;
-    }
-
-    @SuppressWarnings("rawtypes")
-    public Animation getDown() {
-        return walkingDown;
-    }
-
     public ArrayList<Bullet> getBullets() {
         return bullets;
     }
@@ -103,24 +72,16 @@ public class Robot {
         bullets.remove(index);
     }
     
-    public void setHealth(int value){
-        this.health = value;
-    }
-    
-    public int getHealth(){
-        return this.health;
-    }
-    
-    public void damage(int value){
-        this.health -= value;
-    }
-    
     public void kill(boolean kill){
         this.kill = kill;
     }
     
     public boolean getKill(){
         return this.kill;
+    }
+    
+    public float getSpeed(){
+        return SPEED;
     }
 
 }

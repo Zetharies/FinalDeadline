@@ -59,6 +59,7 @@ import screens.intro.AbstractScreen;
 import screens.menu.MainMenuScreen;
 import models.BossZombie;
 import controllers.BossController;
+import controllers.BulletController;
 import models.BoobyTrap;
 
 public class GameScreen extends AbstractScreen {
@@ -98,7 +99,6 @@ public class GameScreen extends AbstractScreen {
     private RobotController robotController;
     private BossZombie bossZombie;
     private BossController bossController;
-
     private InventorySystem currentInv;
     private int currentDrinkID;
 
@@ -108,11 +108,12 @@ public class GameScreen extends AbstractScreen {
 
     private BoobyTrap traps;
 
-	private RiddleCard riddle;
+    private RiddleCard riddle;
 
-	private RiddleCard riddle2;
+    private RiddleCard riddle2;
 
-	private boolean wrong;
+    private boolean wrong;
+
     public GameScreen(String character) {
         Assets.load();
         this.chosenCharacter = character; // Chosen characters are either Flynn or Jessica
@@ -233,6 +234,7 @@ public class GameScreen extends AbstractScreen {
 
         TiledMap mapCollisionsTraps = new TmxMapLoader().load(maps.get(1).getMapLocation());
         TiledMap mapCollisionsRobot = new TmxMapLoader().load(maps.get(4).getMapLocation());
+        TiledMap mapCollisionsBoss = new TmxMapLoader().load(maps.get(0).getMapLocation());
 
         currentInv = new InventorySystem();
         currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), 0);
@@ -391,7 +393,6 @@ public class GameScreen extends AbstractScreen {
         for (int i = 0; i < zombies.size(); i++) {
             // update all zombies
             zombies.get(i).detectPlayerPosition(playerControls.getPlayer());
-            zombies.get(i).setPlayerMovements(playerControls.getPlayerMovements());
             zombies.get(i).update(delta, zombies);
         }
         // follow that zombie
@@ -416,7 +417,7 @@ public class GameScreen extends AbstractScreen {
         // changing height and width changes collisions
         for (int i = 0; i < zombies.size(); i++) {
             // Access Each Zombie in the zombies arraylist
-            batch.draw(zombies.get(i).getZombies(),
+            batch.draw(zombies.get(i).getSprite(),
                     ((int) zombies.get(i).x * GameSettings.SCALED_TILE_SIZE),
                     ((int) zombies.get(i).y) * GameSettings.SCALED_TILE_SIZE,
                     GameSettings.SCALED_TILE_SIZE * 1f,
@@ -424,8 +425,8 @@ public class GameScreen extends AbstractScreen {
         }
         if (maps.indexOf(map) == 1) {
             for (int i = 0; i < traps.getTraps().size(); i++) {
-                traps.getTraps().get(i).setPosition(player.getX(), player.getY());
-                if ((int) player.getY() + 1 == (int) traps.getTraps().get(i).getY()) {
+                traps.getTraps().get(i).setPlayerPosition(player.getX(), player.getY());
+                if ((int) player.getY() + 1 == (int) traps.getTraps().get(i).getPosY()) {
                     traps.getTraps().get(i).setShoot(true);
                 }
                 if (traps.getTraps().get(i).getShoot() || traps.getTraps().get(i).getUsed()) {
@@ -435,10 +436,10 @@ public class GameScreen extends AbstractScreen {
                             traps.getTraps().get(i).y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 0.4f,
                             GameSettings.SCALED_TILE_SIZE * 0.4f);
                 }
-                if ((((int) (traps.getTraps().get(i).getX()) >= (int) (player.getX())
-                        && (int) (traps.getTraps().get(i).getX()) <= (int) (player.getX() + 1)))
-                        && (((int) (traps.getTraps().get(i).getY()) >= (int) (player.getY())
-                        && (int) (traps.getTraps().get(i).getY()) <= (int) (player.getY()) + 1))) {
+                if ((((int) (traps.getTraps().get(i).getPosX()) >= (int) (player.getX())
+                        && (int) (traps.getTraps().get(i).getPosX()) <= (int) (player.getX() + 1)))
+                        && (((int) (traps.getTraps().get(i).getPosY()) >= (int) (player.getY())
+                        && (int) (traps.getTraps().get(i).getPosY()) <= (int) (player.getY()) + 1))) {
                     hud.reduceHealth(0.01f);
                     //hitTrap();
                     //traps.getTraps().get(i).resetTrap();
@@ -457,7 +458,7 @@ public class GameScreen extends AbstractScreen {
             robotController.setPlayerPosition(playerControls.getPlayer().getX(), playerControls.getPlayer().getY());
             robotController.update(delta);
             for (int i = 0; i < robot.getBullets().size(); i++) {
-                robot.getBullets().get(i).setPosition(player.getX(), player.getY());
+                robot.getBullets().get(i).setPlayerPosition(player.getX(), player.getY());
                 robot.getBullets().get(i).update(delta);
                 if (robot.getBullets().get(i).getShoot()) {
                     batch.draw(robot.getBullets().get(i).getSprite(),
@@ -474,6 +475,9 @@ public class GameScreen extends AbstractScreen {
                     hud.reduceHealth(robot.getBullets().get(i).getDamage());
                     robot.getBullets().remove(robot.getBullets().get(i));
                 }
+                if (hud.getHealth() == 0) {
+                    robot.getBullets().removeAll(robot.getBullets());
+                }
             }
             batch.draw(robot.getSprite(),
                     (robot.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2) + 20,
@@ -485,14 +489,13 @@ public class GameScreen extends AbstractScreen {
 
             bossController.setPlayerPosition(player.getX(), player.getY());
             bossController.update(delta);
-
-            batch.draw(bossZombie.getZombies(),
+            batch.draw(bossZombie.getSprite(),
                     (bossZombie.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
                     bossZombie.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
                     GameSettings.SCALED_TILE_SIZE * 1f);
 
             for (int i = 0; i < bossZombie.getBullets().size(); i++) {
-                bossZombie.getBullets().get(i).setPosition(player.getX(), player.getY());
+                bossZombie.getBullets().get(i).setPlayerPosition(player.getX(), player.getY());
                 bossZombie.getBullets().get(i).update(delta);
                 if (bossZombie.getBullets().get(i).getShoot()) {
                     batch.draw(bossZombie.getBullets().get(i).getSprite(),
@@ -731,43 +734,36 @@ public class GameScreen extends AbstractScreen {
         if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 4) {
             zombies.removeAll(zombies);
         }
-        
-        
+
         riddle = new RiddleCard("card", 25, 60, "images/card 111px.png");
-		riddle2 =  new RiddleCard("card", 35, 60, "images/card 111px.png");
+        riddle2 = new RiddleCard("card", 35, 60, "images/card 111px.png");
 
-		// riddleUI.windowAdd(ok, label);
+        // riddleUI.windowAdd(ok, label);
+        if (playerControls.isOnRiddle(riddle) == true || playerControls.isOnRiddle(riddle2) == true) {
+            hud.addWindow();
+        }
+        // stage.addActor(riddleUI.getWindow());
+        if (Gdx.input.isKeyPressed(Input.Keys.V)) {
+            hud.addWinLabel();
+        } else if (Gdx.input.isKeyPressed(Input.Keys.Z)
+                || (Gdx.input.isKeyPressed(Input.Keys.X) || (Gdx.input.isKeyPressed(Input.Keys.C)))) {
 
-		if (playerControls.isOnRiddle(riddle) == true || playerControls.isOnRiddle(riddle2)==true) {
-			hud.addWindow();
-		}
-		// stage.addActor(riddleUI.getWindow());
-		if (Gdx.input.isKeyPressed(Input.Keys.V) ) {
-			hud.addWinLabel();
-		} else if (Gdx.input.isKeyPressed(Input.Keys.Z)
-				|| (Gdx.input.isKeyPressed(Input.Keys.X) || (Gdx.input.isKeyPressed(Input.Keys.C)))) {
-			
-			hud.addLoseLabel();
-			wrong = true;
-		}
-		else if ((Gdx.input.isKeyPressed(Input.Keys.R))){
-			hud.resetRiddle();
-		}
+            hud.addLoseLabel();
+            wrong = true;
+        } else if ((Gdx.input.isKeyPressed(Input.Keys.R))) {
+            hud.resetRiddle();
+        } else {
 
-		else {
+            hud.removeWindow();
 
-			hud.removeWindow();
-			
+        }
 
-		}
+        if (wrong == true) {
 
-		if (wrong == true) {
-
-		riddle2.render(batch);
-		}else {
-			riddle.render(batch);
-		}
-
+            riddle2.render(batch);
+        } else {
+            riddle.render(batch);
+        }
 
         batch.end();
 

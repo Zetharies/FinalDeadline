@@ -11,26 +11,13 @@ import com.mygdx.game.GameSettings;
 import controllers.BossController;
 import controllers.PlayerMovement;
 import java.util.ArrayList;
+import static models.NPC.FRAME_COLS;
 
-/**
- *
- * @author User
- */
-public class BossZombie {
+public class BossZombie extends NPC {
 
     public static float speed = 2.3f; // 10 pixels per second.
-    public float x;
-    public float y;
-    private int currentFrame = 6;
-    private int health = 70;
-    private Sprite sprite;
-    private Texture texture;
-    private TextureRegion region[][];
-    private static final int FRAME_COLS = 3;
-    private static final int FRAME_ROWS = 4;
-    private TextureRegion[] walkFrames;
-    @SuppressWarnings("rawtypes")
-    private Animation walkingUp, walkingDown, walkingRight, walkingLeft;
+
+    public float startX, startY;
     private BossController controller;
     private TiledMapTileLayer collisions;
 
@@ -53,8 +40,10 @@ public class BossZombie {
         }
         sprite = new Sprite(walkFrames[currentFrame + 1]);
         sprite.setOriginCenter();
-        x = (float) startX;
-        y = (float) startY;
+        x =  startX;
+        y =  startY;
+        this.startX = (float) startX;
+        this.startY = (float) startY;
         walkingDown = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[0], walkFrames[1], walkFrames[2]);
         walkingUp = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[7], walkFrames[6], walkFrames[8]);
         walkingRight = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[4], walkFrames[3], walkFrames[5]);
@@ -81,72 +70,28 @@ public class BossZombie {
         this.setSpeed(2.3f + 0.6f);
     }
 
+    public void resetHealth() {
+        if (this.health <= 30) {
+            teleport();
+            this.health = 100;
+        }
+    }
+
     public void bite(boolean play) {
         if (play) {
             biteAudio.play();
-        }else{
+        } else {
             biteAudio.pause();
         }
     }
 
     public void teleport() {
-        this.x = this.x + -2;
-    }
-
-    public void detectPlayerPosition(Player p) {
-        controller.setPlayerPosition(p.getX(), p.getY());
-    }
-
-    public void setPlayerMovements(ArrayList<PlayerMovement> movements) {
-        controller.setPlayerMovement(movements);
+        this.x = this.startX;
+        this.y = this.startY;
     }
 
     public void update(float delta) {
         controller.update(delta);
-    }
-
-    public TextureRegion getZombies() {
-        return sprite;
-    }
-
-    @SuppressWarnings("rawtypes")
-    public Animation getLeft() {
-        return walkingLeft;
-    }
-
-    @SuppressWarnings("rawtypes")
-    public Animation getRight() {
-        return walkingRight;
-    }
-
-    @SuppressWarnings("rawtypes")
-    public Animation getUp() {
-        return walkingUp;
-    }
-
-    @SuppressWarnings("rawtypes")
-    public Animation getDown() {
-        return walkingDown;
-    }
-
-    public void damage(int damage) {
-        health -= damage;
-    }
-
-    public int getX() {
-        return (int) x;
-    }
-
-    public int getY() {
-        return (int) y;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
     }
 
     public void setSpeed(float speed) {

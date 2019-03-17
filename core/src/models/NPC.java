@@ -24,12 +24,11 @@ public abstract class NPC {
     protected static final int FRAME_ROWS = 4;
     //add individual sprites to walk frames 
     protected TextureRegion[] walkFrames;
-    @SuppressWarnings("rawtypes")
     //index of walkframes added to animation - will be incremented in required classes
     protected Animation walkingUp, walkingDown, walkingRight, walkingLeft;
 
     /**
-     * 
+     *
      * @return x cord of npc
      */
     public int getX() {
@@ -37,8 +36,8 @@ public abstract class NPC {
     }
 
     /**
-     * 
-     * @return y coord of npc 
+     *
+     * @return y coord of npc
      */
     public int getY() {
         return (int) y;
@@ -46,23 +45,25 @@ public abstract class NPC {
 
     /**
      * decrement damage of npc when player applies combot
-     * @param damage  amount to decrement boss
+     *
+     * @param damage amount to decrement boss
      */
     public void damage(int damage) {
         health -= damage;
     }
-    
+
     /**
-     * 
+     *
      * @return health of npc
      */
     public int getHealth() {
         return health;
     }
-    
+
     /**
      * set health used - when npc regens health
-     * @param health 
+     *
+     * @param health
      */
     public void setHealth(int health) {
         this.health = health;
@@ -70,5 +71,31 @@ public abstract class NPC {
 
     public void die() {
     }
+
+    public TextureRegion getSprite() {
+        return sprite;
+    }
+
+    @SuppressWarnings("rawtypes")
+    public Animation getLeft() {
+        return walkingLeft;
+    }
+
+    @SuppressWarnings("rawtypes")
+    public Animation getRight() {
+        return walkingRight;
+    }
+
+    @SuppressWarnings("rawtypes")
+    public Animation getUp() {
+        return walkingUp;
+    }
+
+    @SuppressWarnings("rawtypes")
+    public Animation getDown() {
+        return walkingDown;
+    }
+    
+   
 
 }
