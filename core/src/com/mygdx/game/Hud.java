@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -96,7 +95,7 @@ public class Hud {
 
 		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-		health = new HealthBar(145,8, Color.GREEN); // Create health bar
+		health = new HealthBar(145,8); // Create health bar
 		health.getHealth(); // gets the value 
 		health.setPosition(555, 415);
 		health.setName("health");
@@ -422,9 +421,4 @@ public class Hud {
 		}
 
 	}
-	public void setActor(Actor actor) {
-		stage.addActor(actor);
-
-	}
-
 }
