@@ -17,20 +17,20 @@ public class Robot {
     public float x;
     public float y;
     private int currentFrame = 6;
-    private int health = 100;
+    private int health = 100; //sets robot health
     private Sprite sprite;
     private Texture texture;
     private TextureRegion region[][];
     private static final int FRAME_COLS = 3;
     private static final int FRAME_ROWS = 4;
     private TextureRegion[] walkFrames;
-    private Animation walkingUp, walkingDown, walkingRight, walkingLeft;
+    private Animation walkingUp, walkingDown, walkingRight, walkingLeft; //loads robot animations
     private ArrayList<Bullet> bullets;
     private TiledMapTileLayer collisions;
 
     private Sound audio;
 
-    public Robot(int startX, int startY, TiledMapTileLayer collisions) {
+    public Robot(int startX, int startY, TiledMapTileLayer collisions) { 
         this.collisions = collisions;
         texture = new Texture(Gdx.files.internal("sprite/boss/robot.png"));
         region = TextureRegion.split(texture, texture.getWidth() / FRAME_COLS, texture.getHeight() / FRAME_ROWS);

@@ -17,7 +17,7 @@ public class ScreenManager {
    
    public static void initialize(Game game) {
       ScreenManager.game = game;
-//constructors for each screen
+      //constructors for each screen
       splashScreen = new SplashScreen();
       mainMenuScreen = new MainMenuScreen();
       characterSelection = new CharacterSelection();

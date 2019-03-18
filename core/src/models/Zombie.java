@@ -17,9 +17,9 @@ public class Zombie {
     public float x;
     public float y;
     private int currentFrame = 6;
-    private int health = 100;
+    private int health = 100; //sets zombie health
     private Sprite sprite;
-    private Texture texture;
+    private Texture texture; 
     private TextureRegion region[][];
     private static final int FRAME_COLS = 3;
     private static final int FRAME_ROWS = 4;
@@ -40,7 +40,7 @@ public class Zombie {
                 walkFrames[index++] = region[i][j];
             }
         }
-        sprite = new Sprite(walkFrames[currentFrame + 1]);
+        sprite = new Sprite(walkFrames[currentFrame + 1]); //how many frames for when the zombie walks
         sprite.setOriginCenter();
         x = (float) startX;
         y = (float) startY;

@@ -116,7 +116,7 @@ public class InventorySystem{
 		
 	}
 
-	public void changeMap(int impMapNumber) {
+	public void changeMap(int impMapNumber) { //sets the respective drink for each map the player is on
 		mapNumber = impMapNumber;
 		
 		if (mapNumber == 0) {

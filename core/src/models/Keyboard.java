@@ -12,7 +12,7 @@ public class Keyboard {
 	float x, y;
 	
 	public Keyboard(String direction, float x, float y) {
-		keyboardTexture = new Texture(Gdx.files.internal("images/items/itemKeyboard.png"));
+		keyboardTexture = new Texture(Gdx.files.internal("images/items/itemKeyboard.png")); //loads keyboard texture
 		this.direction = direction;
 		this.x = x;
 		this.y = y;
