@@ -46,7 +46,7 @@ public class RobotController extends NPCController {
                 robot.getBullets().get(robot.getBullets().size() - 1).setShoot(true);//set shot to true to render
                 toShoot = 0;//reset rate 
                 if (SettingsManager.getSound()) { // only play audio if settings returns true
-                    robot.playAudio();
+                   // robot.playAudio();
                 }
             }
         }
