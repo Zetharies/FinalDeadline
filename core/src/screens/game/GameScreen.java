@@ -412,10 +412,21 @@ public class GameScreen extends AbstractScreen {
             playerControls.resetDirection();
 
             handler = new ScreenplayHandler();
-            ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\n*You hear faint sounds far away*   [ENTER]",
-                    0);
-            ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\n.. ...   [ENTER]", 1);
-
+            ScreenplayNode faint;
+			ScreenplayNode faint2;
+			if(maps.indexOf(map) == 4) {
+				faint = new ScreenplayNode(chosenCharacter + ":\nI've never seen this room before.   [ENTER]", 0);
+				 faint2 = new ScreenplayNode(chosenCharacter + ":\n.. ...   [ENTER]", 1);
+			}else if(maps.indexOf(map) == 6) {
+				faint = new ScreenplayNode(chosenCharacter + ":\nAnother one?   [ENTER]", 0);
+				 faint2 = new ScreenplayNode(chosenCharacter + ":\n.. ...   [ENTER]", 1);
+			}else if(maps.indexOf(map) == 8) {
+				faint = new ScreenplayNode(chosenCharacter + ":\nChax?! What is happening?   [ENTER]", 0);
+				 faint2 = new ScreenplayNode(chosenCharacter + ":\nWait.. What are you doing?!   [ENTER]", 1);
+			}else {
+				faint = new ScreenplayNode(chosenCharacter + ":\n*You hear faint sounds far away*   [ENTER]", 0);
+				 faint2 = new ScreenplayNode(chosenCharacter + ":\n.. ...   [ENTER]", 1);
+			}
             faint.makeLinear(faint2.getId());
             handler.addNode(faint);
             handler.addNode(faint2);
@@ -1193,8 +1204,8 @@ public class GameScreen extends AbstractScreen {
 				playerControls.setInteractFalse();
 				if (currentInv.getDrinkDrawn() == false) {
 					currentInv.setDrinkDrawn(true);
-					currentInv.getMapItems().get(2).setItemFound(true);
-					currentInv.getInventory().get(2).setItemFound(true);
+					//currentInv.getMapItems().get(2).setItemFound(true);
+					//currentInv.getInventory().get(2).setItemFound(true);
 				}
 				hasDrink = true;
 			} else {
