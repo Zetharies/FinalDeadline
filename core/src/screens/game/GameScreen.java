@@ -220,6 +220,7 @@ public class GameScreen extends AbstractScreen {
 
     }
 
+
     @Override
     public void show() {
         MainMenuScreen.getMP3().pause();
@@ -345,8 +346,8 @@ public class GameScreen extends AbstractScreen {
             }
         }
 
-        dialogue1.makeLinear(dialogue2.getId());
-        dialogue2.makeLinear(instruction1.getId());
+
+
 
         handler.addNode(dialogue1);
         handler.addNode(dialogue2);
@@ -820,6 +821,611 @@ public class GameScreen extends AbstractScreen {
 
                         currentInv.setDrinkDrawn(false);
                         currentInv.getInventory().get(currentInv.findDrinkPosition()).setItemFound(false);
+
+	
+
+	@Override
+	public void show() {
+		MainMenuScreen.getMP3().pause();
+
+		batch = new SpriteBatch();
+		mapBatch = new SpriteBatch();
+		// batch.setBlendFunction(-1, -1);
+		// Gdx.gl.glBlendFuncSeparate(GL20.GL_SRC_ALPHA,
+		// GL20.GL_ONE_MINUS_SRC_ALPHA,GL20.GL_SRC_ALPHA, GL20.GL_DST_ALPHA);
+		hud = new Hud(batch);
+
+		assetManager = new AssetManager();
+		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
+		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
+		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "Animation.atlas", TextureAtlas.class);
+		assetManager.finishLoading();
+
+		
+		/**
+		 * Call upon the texture files within their directory
+		 */
+		TextureAtlas walking = this.getAssetManager().get("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas",
+				TextureAtlas.class);
+		TextureAtlas standing = this.getAssetManager()
+				.get("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
+		TextureAtlas poweredUp = this.getAssetManager()
+				.get("sprite/" + gender + "/" + chosenCharacter + "Animation.atlas", TextureAtlas.class);
+
+		/**
+		 * Call upon the sprite for the animations 'walking' and the texture region 'standing'
+		 */
+		AnimationSet animations = new AnimationSet(
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_north"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_south"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_east"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_west"), Animation.PlayMode.LOOP_PINGPONG),
+				standing.findRegion(chosenCharacter + "_standing_north"),
+				standing.findRegion(chosenCharacter + "_standing_south"),
+				standing.findRegion(chosenCharacter + "_standing_east"),
+				standing.findRegion(chosenCharacter + "_standing_west"));
+
+		/**
+		 * Call upon the sprite for the animation of Flynn being powered up
+		 */
+		AnimationSet flynnPoweredAnimation = new AnimationSet(
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						poweredUp.findRegions("flynnPowered1"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						poweredUp.findRegions("flynnPowered2"), Animation.PlayMode.LOOP_PINGPONG));
+		/**
+		 * Call upon the sprite for the animation of Jessica being powered up
+		 */
+		AnimationSet jessicaPoweredAnimation = new AnimationSet(
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						poweredUp.findRegions("jessicacPowered1"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						poweredUp.findRegions("jessicaPowered2"), Animation.PlayMode.LOOP_PINGPONG));
+
+		// map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); //
+		// map to load, extremely basic map,
+		// will be changed
+		map = maps.get(0);
+		loadedMap = new TmxMapLoader().load(map.getMapLocation());
+
+		TiledMap mapCollisionsTraps = new TmxMapLoader().load(maps.get(1).getMapLocation());
+		TiledMap mapCollisionsRobot = new TmxMapLoader().load(maps.get(4).getMapLocation());
+		TiledMap mapCollisionsBoss = new TmxMapLoader().load(maps.get(0).getMapLocation());
+
+		currentInv = new InventorySystem();
+		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), 0);
+
+		// player = new Player(14, 90, animations); // Create a new player object with
+		// the coordinates 0, 0, player
+		// animations
+		spawnX = map.getRespawnX();
+		spawnY = map.getRespawnY();
+		player = new Player(spawnX, spawnY, animations);
+		playerControls = new PlayerController(player, (TiledMapTileLayer) loadedMap.getLayers().get(0));
+
+		traps = new BoobyTrap((TiledMapTileLayer) mapCollisionsTraps.getLayers().get(0));
+
+		robot = new Robot(46, 47, (TiledMapTileLayer) mapCollisionsRobot.getLayers().get(0));
+		robotController = new RobotController((TiledMapTileLayer) mapCollisionsRobot.getLayers().get(0), robot);
+		bossZombie = new BossZombie(47, 41, (TiledMapTileLayer) loadedMap.getLayers().get(0));
+		bossController = new BossController((TiledMapTileLayer) loadedMap.getLayers().get(0), bossZombie);
+		renderer = new OrthogonalTiledMapRenderer(loadedMap, 2f); // 1.5658f
+		setGameScreen();
+
+		// camera = new OrthographicCamera();
+		// //gamePort = new ScreenViewport(camera);
+		// gamePort = new StretchViewport(1200, 600, camera);
+		// // herd a group of zombies
+		// herd = new Herd((TiledMapTileLayer) map.getLayers().get(0));
+		// // put zombies in list
+		// zombies = herd.getZombiesList();
+		processor.addProcessor(0, dialogueController);
+		processor.addProcessor(1, playerControls);
+		handler = new ScreenplayHandler();
+
+		// Create a new dialogue or instruction. Then add the order in which it comes.
+		if (chosenCharacter == "Jessica") {
+			Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/jessica/Jessica_what_the.wav"));
+			sound.play();
+		}
+		if (chosenCharacter == "Flynn") {
+			Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/flynn/Flynn_what_the2.wav"));
+			sound.play();
+		}
+		ScreenplayNode dialogue1 = new ScreenplayNode(chosenCharacter + ":\nWhat the...\nWhere am I?...   [ENTER]", 0);
+		ScreenplayNode dialogue2 = new ScreenplayNode(
+				chosenCharacter + ":\nWhat's going on here...\nWhere is everyone?!   [ENTER]", 1);
+
+		ScreenplayNode instruction1 = null;
+		if (SettingsManager.KEYS) {
+			instruction1 = new ScreenplayNode("Press your arrow keys to move around the map   [ENTER]", 2);
+		} else {
+			if (SettingsManager.WASD) {
+				instruction1 = new ScreenplayNode("Press 'W','A','S','D' to move around the map   [ENTER]", 2);
+			}
+		}
+
+		dialogue1.makeLinear(dialogue2.getId());
+		dialogue2.makeLinear(instruction1.getId());
+
+		handler.addNode(dialogue1);
+		handler.addNode(dialogue2);
+		handler.addNode(instruction1);
+
+		dialogueController.startDialogue(handler);
+		Gdx.input.setInputProcessor(processor);
+	}
+
+	private AssetManager getAssetManager() {
+		// TODO Auto-generated method stub
+		return assetManager;
+	}
+
+	private void initUI() {
+		stage = new Stage(new ScreenViewport());
+
+		table = new Table();
+		table.setFillParent(true);
+		stage.addActor(table);
+
+		dialogue = new Screenplay(chosenCharacter);
+		table.add(dialogue).expand().align(Align.bottom).pad(85f);
+	}
+
+	public void setGameScreen() {
+		// renderer = new OrthogonalTiledMapRenderer(map, 2f); // 1.5658f
+		camera = new OrthographicCamera();
+		// gamePort = new ScreenViewport(camera);
+		gamePort = new StretchViewport(1200, 600, camera);
+		// herd a group of zombies
+		herd = new Herd((TiledMapTileLayer) loadedMap.getLayers().get(0));
+		// put zombies in list
+		zombies = herd.getZombiesList();
+
+	}
+
+	@Override
+	public void render(float delta) {
+		// Checks if the map needs changing
+		if (playerControls.checkExit(exits)) {
+			musicList.get(currentList).stop();
+			hud.setMapLabel(currentMapLabel.get(currentList));
+			currentList++;
+			if(currentList > 4) {
+				currentList = 4;
+			}
+			loadedMap.dispose();
+			updateMap();
+			renderer.setMap(loadedMap);
+			if(SettingsManager.getMusic()) {
+				musicList.get(currentList).play();
+			}
+			playerControls.setCollisions((TiledMapTileLayer) loadedMap.getLayers().get(0));
+			herd.setCollisions((TiledMapTileLayer) loadedMap.getLayers().get(0));
+			herd.respawnZombies();
+			playerControls.setMapChange(false);
+
+			spawnX = map.getRespawnX();
+			spawnY = map.getRespawnY();
+
+			playerControls.resetDirection();
+
+			handler = new ScreenplayHandler();
+			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\n*You hear faint sounds far away*   [ENTER]",
+					0);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\n.. ...   [ENTER]", 1);
+
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+
+			Gdx.input.setInputProcessor(processor);
+		}
+
+		// Checks if the player's health needs reducing due to a zombie
+		if (playerControls.isOnZombie(herd.getZombiesList())) {
+			hud.reduceHealth(0.01f); // Parameter may need changing
+		}
+
+		// Checks if the player's health is 0, if so re-spawn them
+		if (hud.getHealth() == 0.0f) {
+			hud.resetHealth();
+			playerControls.updatePlayerCoordinates(spawnX, spawnY);
+			hud.decreaseLife();
+			if (hud.getLives() == 0) {
+				musicList.get(currentList).stop();
+				ScreenManager.setGameOver(); // game over
+				gameOver.play();
+			}
+		}
+
+		// control one zombie to test collisions
+		// zombies.get(0).update(delta);
+		playerControls.update(delta);
+		player.update(delta);
+
+		camera.position.set(player.getX() * GameSettings.SCALED_TILE_SIZE,
+				player.getY() * GameSettings.SCALED_TILE_SIZE, 0);
+		camera.position.y = player.getLinearY() * 64;
+		camera.position.x = player.getLinearX() * 64;
+		for (int i = 0; i < zombies.size(); i++) {
+			zombies.get(i).setDown(true);
+			zombies.get(i).setUp(true);
+			zombies.get(i).setRight(true);
+			zombies.get(i).setLeft(true);
+		}
+		for (int i = 0; i < zombies.size(); i++) {
+			// update all zombies
+			zombies.get(i).detectPlayerPosition(playerControls.getPlayer());
+			zombies.get(i).update(delta, zombies);
+		}
+		// follow that zombie
+		// camera.position.y = zombies.get(0).y * 64;
+		// camera.position.x = zombies.get(0).x * 64;
+		camera.update();
+
+		Gdx.gl.glClearColor(0f, 0f, 0f, 1);
+		Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
+		renderer.setView(camera);
+		renderer.render();
+		batch.setProjectionMatrix(hud.stage.getCamera().combined);
+		hud.stage.draw();
+		stage.act(delta);
+		gamePort.apply(); // Changes how the graphics is drawn on the screen
+		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
+		batch.draw(player.getSprite(), (player.getLinearX() * GameSettings.SCALED_TILE_SIZE) - 10,
+				(player.getLinearY() * GameSettings.SCALED_TILE_SIZE) + 10, GameSettings.SCALED_TILE_SIZE * 1.3f,
+				GameSettings.SCALED_TILE_SIZE * 1.5f); // Players character / X,Y position on screen / Width / Height
+
+		// changing height and width changes collisions
+		for (int i = 0; i < zombies.size(); i++) {
+			// Access Each Zombie in the zombies arraylist and render
+			batch.draw(zombies.get(i).getSprite(),
+					((int) zombies.get(i).x * GameSettings.SCALED_TILE_SIZE),
+					((int) zombies.get(i).y) * GameSettings.SCALED_TILE_SIZE,
+					GameSettings.SCALED_TILE_SIZE * 1f,
+					GameSettings.SCALED_TILE_SIZE * 1f);
+		}
+		if (maps.indexOf(map) == 1) {//traps located on second map
+			for (int i = 0; i < traps.getTraps().size(); i++) {
+				traps.getTraps().get(i).setPlayerPosition(player.getX(), player.getY());
+				if ((int) player.getY() + 1 == (int) traps.getTraps().get(i).getPosY()) {//start trap when player in line with trrap
+					traps.getTraps().get(i).setShoot(true);
+				}
+				//update trap and render
+				if (traps.getTraps().get(i).getShoot() || traps.getTraps().get(i).getUsed()) {
+					traps.getTraps().get(i).update(delta);
+					batch.draw(traps.getTraps().get(i).getSprite(),
+							(traps.getTraps().get(i).x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
+							traps.getTraps().get(i).y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 0.4f,
+							GameSettings.SCALED_TILE_SIZE * 0.4f);
+				}
+				//detect whether trap  x y= player x y
+				if ((((int) (traps.getTraps().get(i).getPosX()) >= (int) (player.getX())
+						&& (int) (traps.getTraps().get(i).getPosX()) <= (int) (player.getX() + 1)))
+						&& (((int) (traps.getTraps().get(i).getPosY()) >= (int) (player.getY())
+						&& (int) (traps.getTraps().get(i).getPosY()) <= (int) (player.getY()) + 1))) {
+					hud.reduceHealth(0.01f);//reduce player health
+				}
+			}
+		}
+		if (maps.indexOf(map) == 4) {//show robot on 1st boss map
+
+			//update robot
+			if(!robot.isDead()) {
+				robotController.setPlayerPosition(playerControls.getPlayer().getX(), playerControls.getPlayer().getY());
+				robotController.update(delta);
+				for (int i = 0; i < robot.getBullets().size(); i++) {
+					robot.getBullets().get(i).setPlayerPosition(player.getX(), player.getY());
+					robot.getBullets().get(i).update(delta);//send bullet to player xy
+					if (robot.getBullets().get(i).getShoot()) {//if bullet shot render
+						batch.draw(robot.getBullets().get(i).getSprite(),
+								(robot.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE)
+								- (GameSettings.SCALED_TILE_SIZE / 2),
+								robot.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE,
+								GameSettings.SCALED_TILE_SIZE / 5f, GameSettings.SCALED_TILE_SIZE / 5f);
+					}
+					//if bullet xy = player xy reduce health and remove bullet
+					if ((((int) (robot.getBullets().get(i).x) >= (int) (player.getX())
+							&& (int) (robot.getBullets().get(i).x) <= (int) (player.getX() + 1)))
+							&& (((int) (robot.getBullets().get(i).y) >= (int) (player.getY())
+							&& (int) (robot.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
+						robot.getBullets().get(i).setShoot(false);
+						hud.reduceHealth(robot.getBullets().get(i).getDamage());
+						robot.getBullets().remove(robot.getBullets().get(i));
+					}
+					//once player respawns any bullets previously shot remove
+					if (hud.getHealth() == 0) {
+						robot.getBullets().removeAll(robot.getBullets());
+					}
+				}
+				//render robot
+				batch.draw(robot.getSprite(),
+						(robot.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2) + 20,
+						robot.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1.7f,
+						GameSettings.SCALED_TILE_SIZE * 2f);
+
+				books = playerControls.getBooks();
+				ArrayList<Book> booksToRemove = new ArrayList<Book>();
+				for (int i = 0; i < books.size(); i++) {
+					Book b = books.get(i);
+					b.render(batch);
+					if (playerControls.isBlocked((int) b.getX(), (int) b.getY(), playerControls.getCollisionLayer())) {
+						booksToRemove.add(b);
+					}
+					float robotX = (robot.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2);
+					float robotWidth = robotX + (GameSettings.SCALED_TILE_SIZE * 2f);
+					float robotY = (robot.y * GameSettings.SCALED_TILE_SIZE);
+					float robotHeight = robotY + (GameSettings.SCALED_TILE_SIZE * 2f);
+
+					float bookX = (b.getX() * GameSettings.SCALED_TILE_SIZE) - 10;
+					float bookWidth = bookX + 9;
+					float bookY = (b.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
+					float bookHeight = bookY + 9;
+
+					if ((robotWidth >= bookWidth) && (robotX <= bookWidth)) {
+						if ((robotHeight >= bookHeight) && (robotY <= bookHeight)) {
+							robot.damage(5);
+							if (robot.getHealth() <= 0) {
+								hud.increaseScore("boss");
+								robot.setDead();
+							}
+							booksToRemove.add(b);
+
+						}
+					}
+					b.update(delta);
+				}
+				books.removeAll(booksToRemove);
+
+				keyboards = playerControls.getKeyboards();
+				ArrayList<Keyboard> keyboardsToRemove = new ArrayList<Keyboard>();
+				for (int i = 0; i < keyboards.size(); i++) {
+					Keyboard k = keyboards.get(i);
+					k.render(batch);
+
+					if (playerControls.isBlocked((int) k.getX(), (int) k.getY(), playerControls.getCollisionLayer())) {
+						keyboardsToRemove.add(k);
+					}
+					float robotX = (robot.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2);
+					float robotWidth = robotX + (GameSettings.SCALED_TILE_SIZE * 2f);
+					float robotY = (robot.y * GameSettings.SCALED_TILE_SIZE);
+					float robotHeight = robotY + (GameSettings.SCALED_TILE_SIZE * 2f);
+
+					float keyboardX = (k.getX() * GameSettings.SCALED_TILE_SIZE) - 10;
+					float keyboardWidth = keyboardX + 9;
+					float keyboardY = (k.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
+					float keyboardHeight = keyboardY + 9;
+
+					if ((robotWidth >= keyboardWidth) && (robotX <= keyboardWidth)) {
+						if ((robotHeight >= keyboardHeight) && (robotY <= keyboardHeight)) {
+							System.out.println(robot.getHealth());
+							System.out.println(k.getX());
+							System.out.println("Keyboard Hit");
+							robot.damage(7);
+							if (robot.getHealth() <= 0) {
+								hud.increaseScore("boss");
+								robot.setDead();
+							}
+							keyboardsToRemove.add(k);
+
+						}
+					}
+					k.update(delta);
+				}
+				keyboards.removeAll(keyboardsToRemove);
+			}
+			if(robot.isDead()) {
+				updateMap();
+			}
+		}
+
+		if (maps.indexOf(map) == 6) {//second boss map
+
+			bossController.setPlayerPosition(player.getX(), player.getY());
+			bossController.update(delta);
+			batch.draw(bossZombie.getSprite(),
+					(bossZombie.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
+					bossZombie.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
+					GameSettings.SCALED_TILE_SIZE * 1f);
+
+			for (int i = 0; i < bossZombie.getBullets().size(); i++) {//boss shooting heads
+				bossZombie.getBullets().get(i).setPlayerPosition(player.getX(), player.getY());
+				bossZombie.getBullets().get(i).update(delta);
+				if (bossZombie.getBullets().get(i).getShoot()) {
+					//render head bullets
+					batch.draw(bossZombie.getBullets().get(i).getSprite(),
+							(bossZombie.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE)
+							- (GameSettings.SCALED_TILE_SIZE / 2),
+							bossZombie.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE,
+							GameSettings.SCALED_TILE_SIZE / 3f, GameSettings.SCALED_TILE_SIZE / 3f);
+				}
+				//if bullet/head xy = p xy reduce health and remove
+				if ((((int) (bossZombie.getBullets().get(i).x) >= (int) (player.getX())
+						&& (int) (bossZombie.getBullets().get(i).x) <= (int) (player.getX() + 1)))
+						&& (((int) (bossZombie.getBullets().get(i).y) >= (int) (player.getY())
+						&& (int) (bossZombie.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
+					bossZombie.getBullets().get(i).setShoot(false);
+					hud.reduceHealth(bossZombie.getBullets().get(i).getDamage());
+					bossZombie.getBullets().remove(bossZombie.getBullets().get(i));
+				}
+			}
+		}
+		books = playerControls.getBooks();
+		ArrayList<Book> booksToRemove = new ArrayList<Book>();
+		for (int i = 0; i < books.size(); i++) {
+			Book b = books.get(i);
+			b.render(batch);
+
+			if (playerControls.isBlocked((int) b.getX(), (int) b.getY(), playerControls.getCollisionLayer())) {
+				booksToRemove.add(b);
+			}
+			for (int j = 0; j < herd.getZombiesList().size(); j++) {
+				Zombie zombie = herd.getZombiesList().get(j);
+
+				float zombieX = (zombie.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2);
+				float zombieWidth = zombieX + (GameSettings.SCALED_TILE_SIZE * 1f);
+				float zombieY = (zombie.y * GameSettings.SCALED_TILE_SIZE);
+				float zombieHeight = zombieY + (GameSettings.SCALED_TILE_SIZE * 1f);
+
+				float bookX = (b.getX() * GameSettings.SCALED_TILE_SIZE) - 10;
+				float bookWidth = bookX + 9;
+				float bookY = (b.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
+				float bookHeight = bookY + 9;
+
+				if ((zombieWidth >= bookWidth) && (zombieX <= bookWidth)) {
+					if ((zombieHeight >= bookHeight) && (zombieY <= bookHeight)) {
+						System.out.println(zombie.getHealth());
+						System.out.println(b.getX());
+						System.out.println("hit");
+						zombie.damage(30);
+						if (zombie.getHealth() <= 0) {
+							herd.getZombiesList().remove(j);
+							hud.increaseScore("zombie");
+						}
+						booksToRemove.add(b);
+
+					}
+				}
+			}
+			b.update(delta);
+		}
+		books.removeAll(booksToRemove);
+
+		keyboards = playerControls.getKeyboards();
+		ArrayList<Keyboard> keyboardsToRemove = new ArrayList<Keyboard>();
+		for (int i = 0; i < keyboards.size(); i++) {
+			Keyboard k = keyboards.get(i);
+			k.render(batch);
+
+			if (playerControls.isBlocked((int) k.getX(), (int) k.getY(), playerControls.getCollisionLayer())) {
+				keyboardsToRemove.add(k);
+			}
+			for (int j = 0; j < herd.getZombiesList().size(); j++) {
+				Zombie zombie = herd.getZombiesList().get(j);
+
+				float zombieX = (zombie.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2);
+				float zombieWidth = zombieX + (GameSettings.SCALED_TILE_SIZE * 1f);
+				float zombieY = (zombie.y * GameSettings.SCALED_TILE_SIZE);
+				float zombieHeight = zombieY + (GameSettings.SCALED_TILE_SIZE * 1f);
+
+				float keyboardX = (k.getX() * GameSettings.SCALED_TILE_SIZE) - 10;
+				float keyboardWidth = keyboardX + 9;
+				float keyboardY = (k.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
+				float keyboardHeight = keyboardY + 9;
+
+				if ((zombieWidth >= keyboardWidth) && (zombieX <= keyboardWidth)) {
+					if ((zombieHeight >= keyboardHeight) && (zombieY <= keyboardHeight)) {
+						System.out.println(zombie.getHealth());
+						System.out.println(k.getX());
+						System.out.println("Keyboard Hit");
+						zombie.damage(50);
+						if (zombie.getHealth() <= 0) {
+							herd.getZombiesList().remove(j);
+							hud.increaseScore("zombie");
+						}
+						keyboardsToRemove.add(k);
+
+					}
+				}
+			}
+			k.update(delta);
+		}
+		keyboards.removeAll(keyboardsToRemove);
+
+		ArrayList<Item> currentMapItems = currentInv.getMapItems();
+		ArrayList<Item> currentHUDItems = currentInv.getHUDItems();
+		ArrayList<Item> foundMapItems = new ArrayList<Item>();
+
+		for (Item currentItem : currentHUDItems) {
+
+			if (currentItem.getFound() == true && currentItem.getInvDrawn() == false) {
+				hud.addLatestFoundItemToInv(currentItem, currentInv.getDrinkDrawn());
+
+				currentItem.setInvDrawn(true);
+
+			}
+
+		}
+
+		for (Item currentItem : currentMapItems) {
+			currentItem.render(batch);
+
+			if (playerControls.isOnItem(currentItem) == true) {
+				foundMapItems.add(currentItem);
+				currentItem.setOnMap(false);
+				currentItem.setItemFound(true);
+
+				System.out.println();
+				System.out.println("GS: Item Found: " + currentItem);
+
+				if (currentItem.getInvDrawn() == false) {
+					if (currentItem.getName().equals("Drink")) {
+						if (currentInv.getDrinkDrawn() == false) {
+							hud.addLatestFoundItemToInv(currentItem, currentInv.getDrinkDrawn());
+
+							currentDrinkID = currentItem.getDrinkID();
+							currentInv.setDrinkDrawn(true);
+							currentInv.getInventory().get(currentInv.findDrinkPosition()).setItemFound(true);
+						}
+
+					} else {
+						hud.addLatestFoundItemToInv(currentItem, currentInv.getDrinkDrawn());
+
+						currentItem.setInvDrawn(true);
+					}
+
+				}
+			}
+		}
+
+		currentMapItems.removeAll(foundMapItems);
+
+		currentInv = playerControls.equipItem(currentInv);
+
+
+		if (currentInv.getCurrentItem() != null) {
+			hud.drawEquippedItem(currentInv.getCurrentItem());
+
+			if (currentInv.getCurrentItem().getName().equals("Book")) {
+				updateToBook();
+
+			} else if (currentInv.getCurrentItem().getName().equals("Keyboard")) {
+				updateToKeyboard();
+
+			} else {
+				resetPlayerAnimations();
+
+			}
+
+		} else {
+			resetPlayerAnimations();
+
+		}
+
+		Item currentUsedItem = playerControls.itemPressed();
+
+		if (currentUsedItem != null) {
+			for (Item currentItem : currentInv.getInventory()) {
+				if (currentUsedItem.getName().equals("Drink")) {
+					if (currentInv.getCurrentItem() != null && currentItem.getDrinkID() == currentDrinkID) {
+						System.out.println("GS: Increasing Health");	
+						
+						//showDrinkAnimation();
+						//resetPlayerAnimations();
+					
+						hud.increaseHealth(0.25f);
+						hud.removeEquippedItem(currentItem);
+
+						currentInv.setDrinkDrawn(false);
+						currentInv.getInventory().get(currentInv.findDrinkPosition()).setItemFound(false);
+
 
                         currentInv.getCurrentItem().setBeingUsed(false);
                         currentInv.setAsCurrentItem(null);
