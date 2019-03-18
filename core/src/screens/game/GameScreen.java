@@ -116,9 +116,10 @@ public class GameScreen extends AbstractScreen {
 
 	private boolean wrong;
 
-	private boolean hasDrink = false, beenTwo = false, beenThree = false, beenFour = false;
+	private boolean hasDrink = false, beenTwo = false, beenThree = false, beenFour = false, activated = false;
 	private boolean isPaused;
 	private HealthBar bossHealth, robotHealth;
+	private boolean solved = true;
 
 	public GameScreen(String character) {
 		Assets.load();
@@ -411,8 +412,12 @@ public class GameScreen extends AbstractScreen {
 	@Override
 	public void render(float delta) {
 		// Checks if the map needs changing
-		if (playerControls.checkExit(exits)) {
+		if (playerControls.checkExit(exits) && solved) {
 			updateMap();
+			if(maps.indexOf(map) == 2) {
+				solved = false;
+				System.out.println("SOLVED YOU HAVE NOT!");
+			}
 
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint;
@@ -1155,6 +1160,7 @@ public class GameScreen extends AbstractScreen {
 			if (Gdx.input.isKeyPressed(Input.Keys.V)) {
 				hud.addWinLabel();
 				isPaused = true;
+				solved = true;
 			} else if (Gdx.input.isKeyPressed(Input.Keys.Z)
 					|| (Gdx.input.isKeyPressed(Input.Keys.X) || (Gdx.input.isKeyPressed(Input.Keys.C)))) {
 
@@ -1663,6 +1669,19 @@ public class GameScreen extends AbstractScreen {
 			handler.addNode(faint2);
 			dialogueController.startDialogue(handler);
 			playerControls.setInteractFalse();
+		}
+		
+		if (playerControls.checkExit(exits) && !solved && !activated) {
+			playerControls.resetDirection();
+			handler = new ScreenplayHandler();
+			ScreenplayNode locked1 = new ScreenplayNode(chosenCharacter + ":\nIt's locked...	[ENTER]", 0);
+			ScreenplayNode locked2 = new ScreenplayNode(chosenCharacter + ":\nWhat was that riddle again?	[ENTER]", 1);
+			
+			locked1.makeLinear(locked2.getId());
+			handler.addNode(locked1);
+			handler.addNode(locked2);
+			dialogueController.startDialogue(handler);
+			activated = true;
 		}
 
 	}
