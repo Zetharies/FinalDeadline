@@ -9,6 +9,11 @@ public class Book extends Item{
 		super("Book", startX, startY, 0, "images/items/itemBook.png" ,"invBook", -380, -377);
 	
 	}
+	
+	public Book(int startX, int startY, String choice) {
+		super("Book", startX, startY, 0,"invBook", -380, -377);
+	
+	}
 
 	/**
 	 * <p> Method designed to render the Book item, using specific parameters

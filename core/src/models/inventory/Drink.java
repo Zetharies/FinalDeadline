@@ -10,6 +10,11 @@ public class Drink extends Item{
 
 	}
 	
+	public Drink(int startX, int startY, String choice) {
+		super("Drink", startX, startY, 2,"invDrink", -222, -219);
+
+	}
+	
 	/**
 	 * <p> Method designed to render the Drink item, using specific parameters
 	 */

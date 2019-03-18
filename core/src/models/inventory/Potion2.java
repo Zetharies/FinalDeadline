@@ -10,6 +10,11 @@ public class Potion2 extends Item{
 	
 	}
 	
+	public Potion2(int startX, int startY, String choice) {
+		super("Potion2", startX, startY, 4, "invPotion", -60, -60);
+	
+	}
+	
 	/**
 	 * <p> Method designed to render the Potion2 item, using specific parameters
 	 */

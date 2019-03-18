@@ -37,6 +37,7 @@ public class GameOverScreen extends AbstractScreen {
     private Label menu, exit;
     private boolean playing = false;
 
+
     /**
      * Constructor for GameOverScreen Creates GameOver background along with
      * options such as returning to main menu or exiting game
@@ -45,6 +46,7 @@ public class GameOverScreen extends AbstractScreen {
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
         skin = new Skin(Gdx.files.internal("fonts/Holo-dark-hdpi.json"));
+
         menu = new Label("RETURN TO MENU", skin);
         exit = new Label("EXIT GAME", skin);
         bg = new Image(new TextureRegion((new Texture("images/gameOver.png"))));
@@ -59,6 +61,7 @@ public class GameOverScreen extends AbstractScreen {
         stage.addActor(bg);
         stage.addActor(menu);
         stage.addActor(exit);
+
     }
 
     /**
