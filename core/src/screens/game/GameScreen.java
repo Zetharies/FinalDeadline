@@ -397,7 +397,7 @@ public class GameScreen extends AbstractScreen {
 	public void render(float delta) {
 		// Checks if the map needs changing
 		if (playerControls.checkExit(exits)) {
-			updateMap();  
+			updateMap();
 
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint;
@@ -625,35 +625,112 @@ public class GameScreen extends AbstractScreen {
 
 		if (maps.indexOf(map) == 6) {// second boss map
 
-			bossController.setPlayerPosition(player.getX(), player.getY());
-			bossController.update(delta);
-			batch.draw(bossZombie.getSprite(),
-					(bossZombie.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
-					bossZombie.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
-					GameSettings.SCALED_TILE_SIZE * 1f);
+			if (!bossZombie.isDead()) {
+				bossController.setPlayerPosition(player.getX(), player.getY());
+				bossController.update(delta);
+				batch.draw(bossZombie.getSprite(),
+						(bossZombie.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
+						bossZombie.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
+						GameSettings.SCALED_TILE_SIZE * 1f);
 
-			for (int i = 0; i < bossZombie.getBullets().size(); i++) {// boss shooting heads
-				bossZombie.getBullets().get(i).setPlayerPosition(player.getX(), player.getY());
-				bossZombie.getBullets().get(i).update(delta);
-				if (bossZombie.getBullets().get(i).getShoot()) {
-					// render head bullets
-					batch.draw(bossZombie.getBullets().get(i).getSprite(),
-							(bossZombie.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE)
-									- (GameSettings.SCALED_TILE_SIZE / 2),
-							bossZombie.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE,
-							GameSettings.SCALED_TILE_SIZE / 3f, GameSettings.SCALED_TILE_SIZE / 3f);
+				for (int i = 0; i < bossZombie.getBullets().size(); i++) {// boss shooting heads
+					bossZombie.getBullets().get(i).setPlayerPosition(player.getX(), player.getY());
+					bossZombie.getBullets().get(i).update(delta);
+					if (bossZombie.getBullets().get(i).getShoot()) {
+						// render head bullets
+						batch.draw(bossZombie.getBullets().get(i).getSprite(),
+								(bossZombie.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE)
+										- (GameSettings.SCALED_TILE_SIZE / 2),
+								bossZombie.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE,
+								GameSettings.SCALED_TILE_SIZE / 3f, GameSettings.SCALED_TILE_SIZE / 3f);
+					}
+					// if bullet/head xy = p xy reduce health and remove
+					if ((((int) (bossZombie.getBullets().get(i).x) >= (int) (player.getX())
+							&& (int) (bossZombie.getBullets().get(i).x) <= (int) (player.getX() + 1)))
+							&& (((int) (bossZombie.getBullets().get(i).y) >= (int) (player.getY())
+									&& (int) (bossZombie.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
+						bossZombie.getBullets().get(i).setShoot(false);
+						hud.reduceHealth(bossZombie.getBullets().get(i).getDamage());
+						bossZombie.getBullets().remove(bossZombie.getBullets().get(i));
+					}
 				}
-				// if bullet/head xy = p xy reduce health and remove
-				if ((((int) (bossZombie.getBullets().get(i).x) >= (int) (player.getX())
-						&& (int) (bossZombie.getBullets().get(i).x) <= (int) (player.getX() + 1)))
-						&& (((int) (bossZombie.getBullets().get(i).y) >= (int) (player.getY())
-								&& (int) (bossZombie.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
-					bossZombie.getBullets().get(i).setShoot(false);
-					hud.reduceHealth(bossZombie.getBullets().get(i).getDamage());
-					bossZombie.getBullets().remove(bossZombie.getBullets().get(i));
+				books = playerControls.getBooks();
+				ArrayList<Book> booksToRemove = new ArrayList<Book>();
+				for (int i = 0; i < books.size(); i++) {
+					Book b = books.get(i);
+					b.render(batch);
+					if (playerControls.isBlocked((int) b.getX(), (int) b.getY(), playerControls.getCollisionLayer())) {
+						booksToRemove.add(b);
+					}
+					float bossZombieX = (bossZombie.x * GameSettings.SCALED_TILE_SIZE)
+							- (GameSettings.SCALED_TILE_SIZE / 2);
+					float bossZombieWidth = bossZombieX + (GameSettings.SCALED_TILE_SIZE * 2f);
+					float bossZombieY = (bossZombie.y * GameSettings.SCALED_TILE_SIZE);
+					float bossZombieHeight = bossZombieY + (GameSettings.SCALED_TILE_SIZE * 2f);
+
+					float bookX = (b.getX() * GameSettings.SCALED_TILE_SIZE) - 10;
+					float bookWidth = bookX + 9;
+					float bookY = (b.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
+					float bookHeight = bookY + 9;
+
+					if ((bossZombieWidth >= bookWidth) && (bossZombieX <= bookWidth)) {
+						if ((bossZombieHeight >= bookHeight) && (bossZombieY <= bookHeight)) {
+							bossZombie.damage(5);
+							System.out.println("hit boss");
+							if (bossZombie.getHealth() <= 0) {
+								hud.increaseScore("boss");
+								bossZombie.setDead();
+							}
+							booksToRemove.add(b);
+
+						}
+					}
+					b.update(delta);
 				}
+				books.removeAll(booksToRemove);
+
+				keyboards = playerControls.getKeyboards();
+				ArrayList<Keyboard> keyboardsToRemove = new ArrayList<Keyboard>();
+				for (int i = 0; i < keyboards.size(); i++) {
+					Keyboard k = keyboards.get(i);
+					k.render(batch);
+
+					if (playerControls.isBlocked((int) k.getX(), (int) k.getY(), playerControls.getCollisionLayer())) {
+						keyboardsToRemove.add(k);
+					}
+					float bossZombieX = (bossZombie.x * GameSettings.SCALED_TILE_SIZE)
+							- (GameSettings.SCALED_TILE_SIZE / 2);
+					float bossZombieWidth = bossZombieX + (GameSettings.SCALED_TILE_SIZE * 2f);
+					float bossZombieY = (bossZombie.y * GameSettings.SCALED_TILE_SIZE);
+					float bossZombieHeight = bossZombieY + (GameSettings.SCALED_TILE_SIZE * 2f);
+
+					float keyboardX = (k.getX() * GameSettings.SCALED_TILE_SIZE) - 10;
+					float keyboardWidth = keyboardX + 9;
+					float keyboardY = (k.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
+					float keyboardHeight = keyboardY + 9;
+
+					if ((bossZombieWidth >= keyboardWidth) && (bossZombieX <= keyboardWidth)) {
+						if ((bossZombieHeight >= keyboardHeight) && (bossZombieY <= keyboardHeight)) {
+							System.out.println(robot.getHealth());
+							System.out.println(k.getX());
+							System.out.println("Keyboard Hit");
+							bossZombie.damage(7);
+							if (bossZombie.getHealth() <= 0) {
+								hud.increaseScore("boss");
+								bossZombie.setDead();
+							}
+							keyboardsToRemove.add(k);
+
+						}
+					}
+					k.update(delta);
+				}
+				keyboards.removeAll(keyboardsToRemove);
+			} else {
+				updateMap();
 			}
 		}
+
 		books = playerControls.getBooks();
 		ArrayList<Book> booksToRemove = new ArrayList<Book>();
 		for (int i = 0; i < books.size(); i++) {
@@ -948,8 +1025,8 @@ public class GameScreen extends AbstractScreen {
 
 		interacts();
 
-		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 4) {
-			zombies.removeAll(zombies);
+		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 4 || maps.indexOf(map) == 6) {
+			zombies.clear();
 		}
 
 		riddle = new RiddleCard("card", 25, 60, "images/card 111px.png");
@@ -1001,11 +1078,8 @@ public class GameScreen extends AbstractScreen {
 		musicList.get(currentList).stop();
 		hud.setMapLabel(currentMapLabel.get(currentList));
 		currentList++;
-		if (currentList > 4) {
-			currentList = 4;
-		}
 		loadedMap.dispose();
-		
+
 		int newMap = maps.indexOf(map) + 1;
 
 		map = maps.get(newMap);
@@ -1019,7 +1093,7 @@ public class GameScreen extends AbstractScreen {
 		currentInv.setDrinkDrawn(false);
 		hud.removeAllFoundItems();
 		hud.drawEquippedItem(null);
-		
+
 		renderer.setMap(loadedMap);
 		if (SettingsManager.getMusic()) {
 			musicList.get(currentList).play();
