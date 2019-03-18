@@ -212,7 +212,7 @@ public class GameScreen extends AbstractScreen {
 		// map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); //
 		// map to load, extremely basic map,
 		// will be changed
-		map = maps.get(0);
+		map = maps.get(7);
 		loadedMap = new TmxMapLoader().load(map.getMapLocation());
 
 		currentInv = new InventorySystem();
@@ -340,7 +340,10 @@ public class GameScreen extends AbstractScreen {
 			if(maps.indexOf(map) == 4) {
 				faint = new ScreenplayNode(chosenCharacter + ":\nI've never seen this room before.   [ENTER]", 0);
 				 faint2 = new ScreenplayNode(chosenCharacter + ":\n.. ...   [ENTER]", 1);
-			} else {
+			}else if(maps.indexOf(map) == 6) {
+				faint = new ScreenplayNode(chosenCharacter + ":\nAnother one?   [ENTER]", 0);
+				 faint2 = new ScreenplayNode(chosenCharacter + ":\n.. ...   [ENTER]", 1);
+			}else {
 				faint = new ScreenplayNode(chosenCharacter + ":\n*You hear faint sounds far away*   [ENTER]", 0);
 				 faint2 = new ScreenplayNode(chosenCharacter + ":\n.. ...   [ENTER]", 1);
 			}
@@ -670,7 +673,7 @@ public class GameScreen extends AbstractScreen {
 
 		interacts();
 
-		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 4) {
+		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 7) {
 			zombies.removeAll(zombies);
 		}
 
