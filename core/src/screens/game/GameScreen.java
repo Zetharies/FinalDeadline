@@ -896,21 +896,6 @@ public class GameScreen extends AbstractScreen {
 			}
 		}
 
-		if (maps.indexOf(map) == 0 && player.getX() > 51 && player.getY() > 45 && player.getX() < 57 && been == false) {
-			playerControls.resetDirection();
-			handler = new ScreenplayHandler();
-			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nTime for another stressful day  [ENTER]", 0);
-			ScreenplayNode faint2 = new ScreenplayNode(
-					chosenCharacter + ":\nWhat's that sound?   [ENTER]", 1);
-
-			faint.makeLinear(faint2.getId());
-			handler.addNode(faint);
-			handler.addNode(faint2);
-			dialogueController.startDialogue(handler);
-
-			been = true;
-		}
-
 		if(maps.indexOf(map) == 5 && player.getX() == 21 && player.getY() == 78 && playerControls.getInteract()) {
 			elapsed += delta;
 			playerControls.resetDirection();
@@ -1185,7 +1170,7 @@ public class GameScreen extends AbstractScreen {
 			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nTime for another boring day  [ENTER]", 0);
 			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nWhat's that sound?   [ENTER]", 1);
 			if(chosenCharacter == "Flynn") {
-				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/flynn/New recordings/Time for another boring day.wav"));
+				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/flynn/Time for another boring day.wav"));
 				sound.play();
 			}
 			faint.makeLinear(faint2.getId());
