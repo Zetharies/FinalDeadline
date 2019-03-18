@@ -212,7 +212,7 @@ public class GameScreen extends AbstractScreen {
 		// map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); //
 		// map to load, extremely basic map,
 		// will be changed
-		map = maps.get(7);
+		map = maps.get(8);
 		loadedMap = new TmxMapLoader().load(map.getMapLocation());
 
 		currentInv = new InventorySystem();
@@ -343,6 +343,9 @@ public class GameScreen extends AbstractScreen {
 			}else if(maps.indexOf(map) == 6) {
 				faint = new ScreenplayNode(chosenCharacter + ":\nAnother one?   [ENTER]", 0);
 				 faint2 = new ScreenplayNode(chosenCharacter + ":\n.. ...   [ENTER]", 1);
+			}else if(maps.indexOf(map) == 8) {
+				faint = new ScreenplayNode(chosenCharacter + ":\nChax?! What is happening?   [ENTER]", 0);
+				 faint2 = new ScreenplayNode(chosenCharacter + ":\nWait.. What are you doing?!   [ENTER]", 1);
 			}else {
 				faint = new ScreenplayNode(chosenCharacter + ":\n*You hear faint sounds far away*   [ENTER]", 0);
 				 faint2 = new ScreenplayNode(chosenCharacter + ":\n.. ...   [ENTER]", 1);
@@ -1039,7 +1042,7 @@ public class GameScreen extends AbstractScreen {
 			playerControls.setInteractFalse();
 		}
 		
-		if(maps.indexOf(map) == 5 && (player.getX() <= 85 && player.getX() >= 80) && 
+		if(maps.indexOf(map) == 7 && (player.getX() <= 85 && player.getX() >= 80) && 
 				player.getY() == 80 && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
