@@ -38,7 +38,7 @@ public class InventorySystem{
 		rnd = new Random();
 
 		currentItem = null;
-		currentItem = null;
+		lastEquippedItem = null;
 		
 		drinkDrawn = false;
 		drinkAnimated = false;
