@@ -1,14 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controllers;
 
 import com.badlogic.gdx.Gdx;
 import models.Bullet;
 
-
+/**
+ * BulletController class creates bullets that can be used for bosses
+ * @author Team 2f
+ *
+ */
 public class BulletController extends NPCController{
 
     private Bullet bullet;//assoc bullet object
@@ -23,7 +22,11 @@ public class BulletController extends NPCController{
         this.bullet = bullet;
         rangeTimer = 0;
     }
-
+    
+    /**
+     * Update that can be used for bullet distance
+     * @param delta
+     */
     public void update(float delta) {
         rangeTimer++;//update bullet distance
         //delete bullet if hit collison or met ranged
@@ -49,11 +52,18 @@ public class BulletController extends NPCController{
         }
     }
     
-    
+    /**
+     * Check if there is a collision for above layer
+     * @return if up is blocked
+     */
     protected boolean isUpBlocked() {
         return isBlocked((int) (bullet.x), (int) (bullet.y + 0.5), collisions);
     }
 
+    /**
+     * Check if there is a collision for below layer
+     * @return if down is blocked
+     */
     protected boolean isDownBlocked() {
         if (bullet.y - 0.25 >= 0) {
             return isBlocked((int) bullet.x, (int) (bullet.y - 0.25), collisions);
@@ -61,6 +71,10 @@ public class BulletController extends NPCController{
         return true;
     }
 
+    /**
+     * Check if there is a collision for left layer
+     * @return if left is blocked
+     */
     private boolean isLeftBlocked() {
         if (bullet.y - 0.45 >= 0) {
             return isBlocked((int) (bullet.x - 0.45), (int) bullet.y, collisions);
@@ -68,6 +82,10 @@ public class BulletController extends NPCController{
         return true;
     }
 
+    /**
+     * Check if there is a collision for right layer
+     * @return if right is blocked
+     */
     private boolean isRightBlocked() {
         return isBlocked((int) (bullet.x + 0.45), (int) bullet.y, collisions);
     }

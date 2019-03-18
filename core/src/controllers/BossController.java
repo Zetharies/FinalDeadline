@@ -4,6 +4,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import managers.SettingsManager;
 import models.BossZombie;
 
+/**
+ * Controller for the Bosses, can be used to test collisions for Boss NPCs
+ * @author Team 2f
+ *
+ */
 public class BossController extends NPCController {
 
     private BossZombie zombie;//ref associated object

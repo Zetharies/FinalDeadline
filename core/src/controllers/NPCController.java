@@ -6,6 +6,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import java.util.Random;
 import models.NPC;
 
+/**
+ * NPCController class that allows us to control NPCs
+ * @author Team 2f
+ *
+ */
 public abstract class NPCController {
 
     protected Random random = new Random();
@@ -129,15 +134,32 @@ public abstract class NPCController {
         }
     }
 
+    /**
+     * Check if a layer is blocked
+     * @param x
+     * @param y
+     * @param collisionLayer
+     * @return
+     */
     protected boolean isBlocked(int x, int y, TiledMapTileLayer collisionLayer) {
         return collisionLayer.getCell(x, y).getTile().getProperties().containsKey("blocked");
     }
 
+    /**
+     * Check if the above layer is a collision
+     * @param npc
+     * @return if there is a collision
+     */
     protected boolean isUpBlocked(NPC npc) {
         //System.out.println();
         return isBlocked((int) (npc.x), (int) (npc.y + 0.5), collisions);
     }
 
+    /**
+     * Check if the below layer is a collision
+     * @param npc
+     * @return if there is a collision below
+     */
     protected boolean isDownBlocked(NPC npc) {
         //return isBlocked((int) (zombie.x), (int) (zombie.y - 0.25), collisions);
         if (npc.y - 0.25 >= 0) {
@@ -147,6 +169,11 @@ public abstract class NPCController {
         return true;
     }
 
+    /**
+     * Check if the left layer is a collision
+     * @param npc
+     * @return if there is a collision towards the left
+     */
     protected boolean isLeftBlocked(NPC npc) {
 //        return isBlocked((int) (zombie.x - 0.25), (int) zombie.y, collisions);
         if (npc.y - 0.45 >= 0) {
@@ -156,6 +183,11 @@ public abstract class NPCController {
         return true;
     }
 
+    /**
+     * Check if the right layer is a collision
+     * @param npc
+     * @return if there is a collision towards the right
+     */
     protected boolean isRightBlocked(NPC npc) {
         //  return isBlocked((int) (zombie.x + 1), (int) zombie.y, collisions);
         return isBlocked((int) (npc.x + 0.45), (int) npc.y, collisions);
