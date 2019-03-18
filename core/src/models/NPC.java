@@ -12,6 +12,8 @@ public abstract class NPC {
     public float x;
     //y cord for sprite will be converted to int
     public float y;
+    // check if the NPC is dead
+    public boolean dead = false;
     //start frame of sprite set to 6 up
     protected int currentFrame = 6;
     //health of all npc will be 100
@@ -71,9 +73,15 @@ public abstract class NPC {
     }
 
     /**
-     * kill npc
+     * Check if npc is dead
+     * @return false if not dead, true if dead
      */
-    public void die() {
+    public boolean isDead() {
+		return dead;
+    }
+    
+    public void setDead() {
+    	dead = true;
     }
 
     /**

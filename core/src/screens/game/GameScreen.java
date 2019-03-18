@@ -494,6 +494,7 @@ public class GameScreen extends AbstractScreen {
         if (maps.indexOf(map) == 4) {//show robot on 1st boss map
 
             //update robot
+        	if(!robot.isDead()) {
             robotController.setPlayerPosition(playerControls.getPlayer().getX(), playerControls.getPlayer().getY());
             robotController.update(delta);
             for (int i = 0; i < robot.getBullets().size(); i++) {
@@ -525,6 +526,77 @@ public class GameScreen extends AbstractScreen {
                     (robot.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2) + 20,
                     robot.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1.7f,
                     GameSettings.SCALED_TILE_SIZE * 2f);
+            
+            books = playerControls.getBooks();
+            ArrayList<Book> booksToRemove = new ArrayList<Book>();
+            for (int i = 0; i < books.size(); i++) {
+                Book b = books.get(i);
+                b.render(batch);
+                if (playerControls.isBlocked((int) b.getX(), (int) b.getY(), playerControls.getCollisionLayer())) {
+                    booksToRemove.add(b);
+                }
+                    float robotX = (robot.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2);
+                    float robotWidth = robotX + (GameSettings.SCALED_TILE_SIZE * 2f);
+                    float robotY = (robot.y * GameSettings.SCALED_TILE_SIZE);
+                    float robotHeight = robotY + (GameSettings.SCALED_TILE_SIZE * 2f);
+                    
+                    float bookX = (b.getX() * GameSettings.SCALED_TILE_SIZE) - 10;
+                    float bookWidth = bookX + 9;
+                    float bookY = (b.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
+                    float bookHeight = bookY + 9;
+
+                    if ((robotWidth >= bookWidth) && (robotX <= bookWidth)) {
+                        if ((robotHeight >= bookHeight) && (robotY <= bookHeight)) {
+                            robot.damage(5);
+                            if (robot.getHealth() <= 0) {
+                                hud.increaseScore("boss");
+                                robot.setDead();
+                            }
+                            booksToRemove.add(b);
+
+                        }
+                    }
+                b.update(delta);
+            }
+            books.removeAll(booksToRemove);
+            
+            keyboards = playerControls.getKeyboards();
+            ArrayList<Keyboard> keyboardsToRemove = new ArrayList<Keyboard>();
+            for (int i = 0; i < keyboards.size(); i++) {
+                Keyboard k = keyboards.get(i);
+                k.render(batch);
+
+                if (playerControls.isBlocked((int) k.getX(), (int) k.getY(), playerControls.getCollisionLayer())) {
+                    keyboardsToRemove.add(k);
+                }
+                    float robotX = (robot.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2);
+                    float robotWidth = robotX + (GameSettings.SCALED_TILE_SIZE * 2f);
+                    float robotY = (robot.y * GameSettings.SCALED_TILE_SIZE);
+                    float robotHeight = robotY + (GameSettings.SCALED_TILE_SIZE * 2f);
+
+                    float keyboardX = (k.getX() * GameSettings.SCALED_TILE_SIZE) - 10;
+                    float keyboardWidth = keyboardX + 9;
+                    float keyboardY = (k.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
+                    float keyboardHeight = keyboardY + 9;
+
+                    if ((robotWidth >= keyboardWidth) && (robotX <= keyboardWidth)) {
+                        if ((robotHeight >= keyboardHeight) && (robotY <= keyboardHeight)) {
+                            System.out.println(robot.getHealth());
+                            System.out.println(k.getX());
+                            System.out.println("Keyboard Hit");
+                            robot.damage(7);
+                            if (robot.getHealth() <= 0) {
+                            	hud.increaseScore("boss");
+                                robot.setDead();
+                            }
+                            keyboardsToRemove.add(k);
+
+                        }
+                    }
+                k.update(delta);
+            }
+            keyboards.removeAll(keyboardsToRemove);
+        }
         }
 
         if (maps.indexOf(map) == 6) {//second boss map
@@ -594,8 +666,6 @@ public class GameScreen extends AbstractScreen {
 
                     }
                 }
-                // if(zombie.getX() == b.getX() && zombie.getY() == b.getY()) {
-                // }
             }
             b.update(delta);
         }
