@@ -24,7 +24,7 @@ public class InventorySystem{
 
 	private int[] randomPos;
 
-	private Item currentItem;
+	private Item currentItem, lastEquippedItem;
 	
 	private int mapNumber;
 	
@@ -37,6 +37,7 @@ public class InventorySystem{
 
 		rnd = new Random();
 
+		currentItem = null;
 		currentItem = null;
 		
 		drinkDrawn = false;
@@ -371,6 +372,15 @@ public class InventorySystem{
 
     }
 
+    
+    public void setLastEquippedItem(Item impItem) {
+    	lastEquippedItem = impItem;
+    	
+    }
+    
+    public Item getLastEquippedItem() {
+    	return lastEquippedItem;
+    }
     
     public void setDrinkAnimated(boolean choice) {
     	drinkAnimated = choice;

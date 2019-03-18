@@ -68,8 +68,7 @@ public class GameScreen extends AbstractScreen {
 	private Player player;
 	private PlayerController playerControls;
 	private ScreenplayController dialogueController;
-	private int spawnX;
-	private int spawnY;
+	private int spawnX, spawnY;
 	private boolean been = false;
 
 	private TiledMap loadedMap;
@@ -109,9 +108,7 @@ public class GameScreen extends AbstractScreen {
 
 	private BoobyTrap traps;
 
-	private RiddleCard riddle;
-
-	private RiddleCard riddle2;
+	private RiddleCard riddle, riddle2;
 
 	private boolean wrong;
 
@@ -815,10 +812,14 @@ public class GameScreen extends AbstractScreen {
 
 			}
 
-		} else if (currentInv.getDrinkAnimated()){
+		} else if (currentInv.getDrinkAnimated() && currentInv.getLastEquippedItem() instanceof Drink){
 			resetPlayerAnimations();
 			
 			currentInv.setDrinkAnimated(false);
+			currentInv.setLastEquippedItem(null);
+
+		} else {
+			resetPlayerAnimations();
 
 		}
 
@@ -845,6 +846,7 @@ public class GameScreen extends AbstractScreen {
 
 						currentInv.setDrinkDrawn(false);
 						currentInv.getInventory().get(currentInv.findDrinkPosition()).setItemFound(false);
+						currentInv.setLastEquippedItem(currentItem);
 
 						currentInv.getCurrentItem().setBeingUsed(false);
 						currentInv.setAsCurrentItem(null);
