@@ -13,22 +13,20 @@ public class BoobyTrap {
      *
      * @param collisions
      */
-    public BoobyTrap(TiledMapTileLayer collisions, int trap) {
+    public BoobyTrap(TiledMapTileLayer collisions) {
         traps = new ArrayList<Trap>();
         this.collisions = collisions;
-        addTraps(trap);
+        addTraps();
     }
 
     /**
      * set traps at specific coordinates- used to render traps
      */
-    private void addTraps(int trap) {
+    private void addTraps() {
         //x y collision set
-        if (trap == 0) {
-            traps.add(new Trap(65, 76, collisions));
-            traps.add(new Trap(65, 77, collisions));
-            traps.add(new Trap(65, 78, collisions));
-        }
+        traps.add(new Trap(65, 76, collisions));
+        traps.add(new Trap(65, 77, collisions));
+        traps.add(new Trap(65, 78, collisions));
     }
 
     /**
