@@ -212,7 +212,7 @@ public class GameScreen extends AbstractScreen {
 		// map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); //
 		// map to load, extremely basic map,
 		// will be changed
-		map = maps.get(8);
+		map = maps.get(0);
 		loadedMap = new TmxMapLoader().load(map.getMapLocation());
 
 		currentInv = new InventorySystem();
@@ -818,7 +818,12 @@ public class GameScreen extends AbstractScreen {
 			handler.addNode(faint);
 			handler.addNode(faint2);
 			dialogueController.startDialogue(handler);
-
+			Sound sound;
+			if(chosenCharacter == "Flynn") {
+				sound = Gdx.audio.newSound(Gdx.files.internal("voices/flynn/New recordings/Time for another boring day.wav"));
+				sound.play();
+			}
+			
 			been = true;
 		}
 
