@@ -111,49 +111,49 @@ public class GameScreen extends AbstractScreen {
 		} else {
 			gender = "custom";
 		}
-		inGameMp3 = Gdx.audio.newMusic(Gdx.files.internal("music/floor2.mp3"));
+		inGameMp3 = Gdx.audio.newMusic(Gdx.files.internal("music/floor2.mp3")); //loads the soundtrack
 		inGameMp3.setLooping(true); // loop the soundtrack
 		inGameMp3.play(); // play the soundtrack
-		books = new ArrayList<Book>();
-		keyboards = new ArrayList<Keyboard>();
+		books = new ArrayList<Book>(); //allows player to add books to inventory
+		keyboards = new ArrayList<Keyboard>(); //allows player to add keyboards to inventory
 		initUI();
 		processor = new InputMultiplexer(); // Ordered lists of processors we can use for prioritising controls
 		dialogueController = new ScreenplayController(dialogue, chosenCharacter);
 		maps = new ArrayList<Map>();
 
-		Map entrance = new Map(29, 41, "maps/entrance/universityEntrance.tmx");
+		Map entrance = new Map(29, 41, "maps/entrance/universityEntrance.tmx"); //loads entrance map
 		entrance.addExit(52, 48);
 		entrance.addExit(53, 48);
 		entrance.addExit(54, 48);
 		entrance.addExit(55, 48);
 
-		Map cafeteria = new Map(50, 23, "maps/cafeteria/cafeteria.tmx");
+		Map cafeteria = new Map(50, 23, "maps/cafeteria/cafeteria.tmx"); //loads cafeteria map
 		cafeteria.addExit(61, 79);
 		cafeteria.addExit(62, 79);
 		cafeteria.addExit(63, 79);
 		cafeteria.addExit(64, 79);
 		cafeteria.addExit(65, 79);
 
-		Map floor1 = new Map(21, 56, "maps/floor1/library.tmx");
+		Map floor1 = new Map(21, 56, "maps/floor1/library.tmx"); //loads floor 1 map
 		floor1.addExit(76, 21);
 
-		Map floor2 = new Map(14, 90, "maps/floor2/updatedEngineeringLab.tmx");
+		Map floor2 = new Map(14, 90, "maps/floor2/updatedEngineeringLab.tmx"); //loads floor 2 map
 		floor2.addExit(88, 15);
 		floor2.addExit(89, 15);
 
-		Map floor3 = new Map(91, 3, "maps/floor3/optometry.tmx");
+		Map floor3 = new Map(91, 3, "maps/floor3/optometry.tmx"); //loads floor 3 map
 		floor3.addExit(5, 94);
 		floor3.addExit(6, 94);
 		floor3.addExit(7, 94);
 		floor3.addExit(8, 94);
 		floor3.addExit(9, 94);
 
-		Map floor4 = new Map(87, 13, "maps/floor4/Floor4.tmx");
+		Map floor4 = new Map(87, 13, "maps/floor4/Floor4.tmx"); //loads floor 4 map
 
 		Map boss1 = new Map(46, 40, "maps/Minimaps/Boss 1/1stBossMap.tmx");
 		Map boss2 = new Map(47, 34, "maps/Minimaps/Boss 2/2ndBossMap.tmx");
 		Map chaxMap = new Map(51, 24, "maps/Minimaps/Chax boss map/ChaxMap.tmx");
-
+		//loads boss maps
 		maps.add(entrance);
 		maps.add(cafeteria);
 		maps.add(floor1);
@@ -164,15 +164,15 @@ public class GameScreen extends AbstractScreen {
 		maps.add(floor4);
 		maps.add(chaxMap);
 		exits = entrance.getExits();
-
+		//adds all maps
 		smoke = new Particles();
 		smoke2 = new Particles();
-
+		//adds particles as smoke
 	}
 
 	@Override
 	public void show() {
-		MainMenuScreen.getMP3().pause();
+		MainMenuScreen.getMP3().pause(); //pauses soundtrack on main menu screen
 
 		batch = new SpriteBatch();
 		mapBatch = new SpriteBatch();
@@ -248,7 +248,7 @@ public class GameScreen extends AbstractScreen {
 		processor.addProcessor(1, playerControls);
 		handler = new ScreenplayHandler();
 
-		// Create a new dialogue or instruction. Then add the order in which it comes.
+		// Create a new dialogue or instruction. Then add the order in which it comes, including voice mp3s.
 		if (chosenCharacter == "Jessica") {
 			Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/jessica/Jessica_what_the.wav"));
 			sound.play();
@@ -261,7 +261,7 @@ public class GameScreen extends AbstractScreen {
 		ScreenplayNode dialogue2 = new ScreenplayNode(
 				chosenCharacter + ":\nWhat's going on here...\nWhere is everyone?!   [ENTER]", 1);
 
-		ScreenplayNode instruction1 = null;
+		ScreenplayNode instruction1 = null; //prompts user to press enter in order to continue
 		if (SettingsManager.KEYS) {
 			instruction1 = new ScreenplayNode("Press your arrow keys to move around the map   [ENTER]", 2);
 		} else {
@@ -325,7 +325,7 @@ public class GameScreen extends AbstractScreen {
 			renderer.setMap(loadedMap);
 			playerControls.setCollisions((TiledMapTileLayer) loadedMap.getLayers().get(0));
 			herd.setCollisions((TiledMapTileLayer) loadedMap.getLayers().get(0));
-			herd.respawnZombies();
+			herd.respawnZombies(); //new zombies appear
 			hud.setLabel("Floor 2: Engineering Lab");
 			playerControls.setMapChange(false);
 
@@ -347,9 +347,9 @@ public class GameScreen extends AbstractScreen {
 			Gdx.input.setInputProcessor(processor);
 		}
 
-		// Checks if the player's health needs reducing due to a zombie
+		// Checks if the player's health needs reducing due to a zombie attack
 		if (playerControls.isOnZombie(herd.getZombiesList())) {
-			hud.reduceHealth(0.01f); // Parameter may need changing
+			hud.reduceHealth(0.01f); // reduces zombie health
 		}
 
 		// Checks if the player's health is 0, if so re-spawn them
@@ -407,7 +407,7 @@ public class GameScreen extends AbstractScreen {
 		}
 
 		if (maps.indexOf(map) == 4) {
-
+			//projectile attacks from robot
 			robotController.setPlayerPosition(playerControls.getPlayer().getX(), playerControls.getPlayer().getY());
 			robotController.update(delta);
 			for (int i = 0; i < robot.getBullets().size(); i++) {
@@ -439,7 +439,7 @@ public class GameScreen extends AbstractScreen {
 
 			bossController.setPlayerPosition(player.getX(), player.getY());
 			bossController.update(delta);
-
+			//projectile attacks from boss zombie
 			batch.draw(bossZombie.getZombies(),
 					(bossZombie.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
 					bossZombie.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
@@ -487,7 +487,7 @@ public class GameScreen extends AbstractScreen {
 				float bookY = (b.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
 				float bookHeight = bookY + 9;
 
-				if ((zombieWidth >= bookWidth) && (zombieX <= bookWidth)) {
+				if ((zombieWidth >= bookWidth) && (zombieX <= bookWidth)) { //zombie health reduces once hit with book
 					if ((zombieHeight >= bookHeight) && (zombieY <= bookHeight)) {
 						System.out.println(zombie.getHealth());
 						System.out.println(b.getX());
@@ -529,7 +529,7 @@ public class GameScreen extends AbstractScreen {
 				float keyboardY = (k.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
 				float keyboardHeight = keyboardY + 9;
 
-				if ((zombieWidth >= keyboardWidth) && (zombieX <= keyboardWidth)) {
+				if ((zombieWidth >= keyboardWidth) && (zombieX <= keyboardWidth)) { //zombie health reduce once hit with a keyboard
 					if ((zombieHeight >= keyboardHeight) && (zombieY <= keyboardHeight)) {
 						System.out.println(zombie.getHealth());
 						System.out.println(k.getX());
@@ -599,14 +599,14 @@ public class GameScreen extends AbstractScreen {
 
 		currentMapItems.removeAll(foundMapItems);
 
-		currentInv = playerControls.equipItem(currentInv);
+		currentInv = playerControls.equipItem(currentInv); //equip an item and add it to inventory
 
 		if (currentInv.getCurrentItem() != null) {
 			hud.drawEquippedItem(currentInv.getCurrentItem());
 
 		}
 
-		Item currentUsedItem = playerControls.itemPressed();
+		Item currentUsedItem = playerControls.itemPressed(); //allows player to use a drink item that increases health
 
 		if (currentUsedItem != null) {
 			if (currentUsedItem.getName().equals("Drink")) {
@@ -627,7 +627,7 @@ public class GameScreen extends AbstractScreen {
 			}
 		}
 		
-		if(player.getX() == 92 && player.getY() == 4 && playerControls.getInteract()) {
+		if(player.getX() == 92 && player.getY() == 4 && playerControls.getInteract()) { //interactable object
 			elapsed += delta;
 			playerControls.resetDirection();
 			table2.setFillParent(true);
@@ -718,7 +718,7 @@ public class GameScreen extends AbstractScreen {
 		TextureAtlas standing = this.getAssetManager()
 				.get("sprite/" + gender + "/book/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
 
-		AnimationSet animations = new AnimationSet(
+		AnimationSet animations = new AnimationSet( //animation for walking with a book
 				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
 						walking.findRegions(chosenCharacter + "_walking_north"), Animation.PlayMode.LOOP_PINGPONG),
 				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
@@ -749,7 +749,7 @@ public class GameScreen extends AbstractScreen {
 		TextureAtlas standing = this.getAssetManager()
 				.get("sprite/" + gender + "/keyboard/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
 
-		AnimationSet animations = new AnimationSet(
+		AnimationSet animations = new AnimationSet( //animation for walking with a keyboard
 				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
 						walking.findRegions(chosenCharacter + "_walking_north"), Animation.PlayMode.LOOP_PINGPONG),
 				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
