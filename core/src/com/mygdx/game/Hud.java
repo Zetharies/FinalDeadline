@@ -319,7 +319,7 @@ public class Hud {
 			currentScore += 10;
 			score.setText("Score: "+ currentScore);
 		} else if(monster.equalsIgnoreCase("boss")) {
-			currentScore += 30;
+			currentScore += 50;
 			score.setText("Score: "+ currentScore);
 		}
 	}
