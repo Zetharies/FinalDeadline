@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,8 +17,10 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.RemoveAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -56,6 +59,7 @@ import riddleScreen.RiddleCard;
 import screens.intro.AbstractScreen;
 import screens.menu.MainMenuScreen;
 import models.BossZombie;
+import models.HealthBar;
 import controllers.BossController;
 import models.BoobyTrap;
 
@@ -113,6 +117,8 @@ public class GameScreen extends AbstractScreen {
 	private boolean wrong;
 
 	private boolean hasDrink = false, beenTwo = false, beenThree = false, beenFour = false;
+	private boolean isPaused;
+	private HealthBar bossHealth, robotHealth;
 
 	public GameScreen(String character) {
 		Assets.load();
@@ -147,6 +153,15 @@ public class GameScreen extends AbstractScreen {
 		firstBoss = Gdx.audio.newMusic(Gdx.files.internal("music/FirstBoss.wav"));
 		firstBoss.setLooping(true); // loop the soundtrack
 		firstBoss.setVolume(0.15f);
+
+		robotHealth = new HealthBar(580, 8 + (1 / 2), Color.BLUE);
+
+		robotHealth.setName("robotHealth");
+		robotHealth.getHealthValue();
+
+		bossHealth = new HealthBar(580, 8 + (1 / 2), Color.RED);
+		bossHealth.setName("robotHealth");
+		bossHealth.getHealthValue();
 
 		musicList = new ArrayList<Music>();
 		musicList.add(inGameMp3);
@@ -547,6 +562,13 @@ public class GameScreen extends AbstractScreen {
 						robot.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1.7f,
 						GameSettings.SCALED_TILE_SIZE * 2f);
 
+				robotHealth.setPosition(300, 110);
+				hud.setActor(robotHealth);
+
+				// bossHealth.getHealth();
+
+				// hud.setActor(bossHealth);
+
 				books = playerControls.getBooks();
 				ArrayList<Book> booksToRemove = new ArrayList<Book>();
 				for (int i = 0; i < books.size(); i++) {
@@ -567,9 +589,13 @@ public class GameScreen extends AbstractScreen {
 
 					if ((robotWidth >= bookWidth) && (robotX <= bookWidth)) {
 						if ((robotHeight >= bookHeight) && (robotY <= bookHeight)) {
-							robot.damage(5);
-							System.out.println("hit boss");
-							if (robot.getHealth() <= 0) {
+							robotHealth.setValue(robotHealth.getValue() - 0.01f);
+
+							// System.out.println(bossHealth.getValue());
+
+//                            bossHealth.setValue( robot.damage(5));
+							/// bossHealth.getValue();
+							if (robotHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
 								robot.setDead();
 							}
@@ -602,11 +628,12 @@ public class GameScreen extends AbstractScreen {
 
 					if ((robotWidth >= keyboardWidth) && (robotX <= keyboardWidth)) {
 						if ((robotHeight >= keyboardHeight) && (robotY <= keyboardHeight)) {
-							System.out.println(robot.getHealth());
+							// System.out.println(bossHealth.getValue());
 							System.out.println(k.getX());
 							System.out.println("Keyboard Hit");
-							robot.damage(7);
-							if (robot.getHealth() <= 0) {
+							robotHealth.setValue(robotHealth.getValue() - 0.02f);
+							// hud.reduceBossHealth(0.07f);
+							if (robotHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
 								robot.setDead();
 							}
@@ -618,8 +645,8 @@ public class GameScreen extends AbstractScreen {
 				}
 				keyboards.removeAll(keyboardsToRemove);
 			} else {
+				robotHealth.remove();
 				updateMap();
-				System.out.println("Boss map updated to normal one...");
 			}
 		}
 
@@ -728,6 +755,88 @@ public class GameScreen extends AbstractScreen {
 				keyboards.removeAll(keyboardsToRemove);
 			} else {
 				updateMap();
+			}
+
+			books = playerControls.getBooks();
+			ArrayList<Book> booksToRemove = new ArrayList<Book>();
+			for (int i = 0; i < books.size(); i++) {
+				Book b = books.get(i);
+				b.render(batch);
+				if (playerControls.isBlocked((int) b.getX(), (int) b.getY(), playerControls.getCollisionLayer())) {
+					booksToRemove.add(b);
+				}
+				float bossX = (bossZombie.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2);
+				float bossZombieWidth = bossX + (GameSettings.SCALED_TILE_SIZE * 2f);
+				float bossY = (bossZombie.y * GameSettings.SCALED_TILE_SIZE);
+				float bossZombieHeight = bossY + (GameSettings.SCALED_TILE_SIZE * 2f);
+
+				float bookX = (b.getX() * GameSettings.SCALED_TILE_SIZE) - 10;
+				float bookWidth = bookX + 9;
+				float bookY = (b.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
+				float bookHeight = bookY + 9;
+
+				if ((bossZombieWidth >= bookWidth) && (bossX <= bookWidth)) {
+					if ((bossZombieHeight >= bookHeight) && (bossY <= bookHeight)) {
+						bossHealth.setValue(bossHealth.getValue() - 0.01f);
+
+						// System.out.println(bossHealth.getValue());
+
+//                        bossHealth.setValue( robot.damage(5));
+						/// bossHealth.getValue();
+						if (bossHealth.getValue() <= 0) {
+							hud.increaseScore("boss");
+							robot.setDead();
+						}
+						booksToRemove.add(b);
+
+					}
+				}
+				b.update(delta);
+			}
+			books.removeAll(booksToRemove);
+
+			keyboards = playerControls.getKeyboards();
+			ArrayList<Keyboard> keyboardsToRemove = new ArrayList<Keyboard>();
+			for (int i = 0; i < keyboards.size(); i++) {
+				Keyboard k = keyboards.get(i);
+				k.render(batch);
+
+				if (playerControls.isBlocked((int) k.getX(), (int) k.getY(), playerControls.getCollisionLayer())) {
+					keyboardsToRemove.add(k);
+				}
+				float bossX = (bossZombie.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2);
+				float bossZombieWidth = bossX + (GameSettings.SCALED_TILE_SIZE * 2f);
+				float bossY = (bossZombie.y * GameSettings.SCALED_TILE_SIZE);
+				float bossZombieHeight = bossY + (GameSettings.SCALED_TILE_SIZE * 2f);
+
+				float keyboardX = (k.getX() * GameSettings.SCALED_TILE_SIZE) - 10;
+				float keyboardWidth = keyboardX + 9;
+				float keyboardY = (k.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
+				float keyboardHeight = keyboardY + 9;
+
+				if ((bossZombieWidth >= keyboardWidth) && (bossX <= keyboardWidth)) {
+					if ((bossZombieHeight >= keyboardHeight) && (bossY <= keyboardHeight)) {
+						// System.out.println(bossHealth.getValue());
+						System.out.println(k.getX());
+						System.out.println("Keyboard Hit");
+						bossHealth.setValue(bossHealth.getValue() - 0.02f);
+						// hud.reduceBossHealth(0.07f);
+						if (bossHealth.getValue() <= 0) {
+							hud.increaseScore("boss");
+							robot.setDead();
+						}
+						keyboardsToRemove.add(k);
+
+					}
+				}
+				k.update(delta);
+			}
+			keyboards.removeAll(keyboardsToRemove);
+
+			if (bossZombie.isDead()) {
+				robotHealth.remove();
+				updateMap();
+
 			}
 		}
 
@@ -1029,34 +1138,41 @@ public class GameScreen extends AbstractScreen {
 			zombies.clear();
 		}
 
-		riddle = new RiddleCard("card", 25, 60, "images/card 111px.png");
-		riddle2 = new RiddleCard("card", 35, 60, "images/card 111px.png");
+		if (maps.indexOf(map) == 2) {
+			riddle = new RiddleCard("card", 25, 60, "images/card 111px.png");
+			riddle2 = new RiddleCard("card", 35, 60, "images/card 111px.png");
 
-		// riddleUI.windowAdd(ok, label);
-		if (playerControls.isOnRiddle(riddle) == true || playerControls.isOnRiddle(riddle2) == true) {
-			hud.addWindow();
-		}
-		// stage.addActor(riddleUI.getWindow());
-		if (Gdx.input.isKeyPressed(Input.Keys.V)) {
-			hud.addWinLabel();
-		} else if (Gdx.input.isKeyPressed(Input.Keys.Z)
-				|| (Gdx.input.isKeyPressed(Input.Keys.X) || (Gdx.input.isKeyPressed(Input.Keys.C)))) {
+			// riddleUI.windowAdd(ok, label);
+			if (playerControls.isOnRiddle(riddle) == true || playerControls.isOnRiddle(riddle2) == true && !isPaused) {
+				hud.addWindow();
 
-			hud.addLoseLabel();
-			wrong = true;
-		} else if ((Gdx.input.isKeyPressed(Input.Keys.R))) {
-			hud.resetRiddle();
-		} else {
+			}
+			// stage.addActor(riddleUI.getWindow());
 
-			hud.removeWindow();
+			if (Gdx.input.isKeyPressed(Input.Keys.V)) {
+				hud.addWinLabel();
+				isPaused = true;
+			} else if (Gdx.input.isKeyPressed(Input.Keys.Z)
+					|| (Gdx.input.isKeyPressed(Input.Keys.X) || (Gdx.input.isKeyPressed(Input.Keys.C)))) {
 
-		}
+				hud.addLoseLabel();
+				isPaused = true;
+				wrong = true;
+			} else if ((Gdx.input.isKeyPressed(Input.Keys.R))) {
+				hud.resetRiddle();
+				isPaused = true;
+			} else {
 
-		if (wrong == true) {
+				hud.removeWindow();
 
-			riddle2.render(batch);
-		} else {
-			riddle.render(batch);
+			}
+
+			if (wrong == true) {
+
+				riddle2.render(batch);
+			} else {
+				riddle.render(batch);
+			}
 		}
 
 		batch.end();
