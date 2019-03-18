@@ -178,6 +178,10 @@ public class GameScreen extends AbstractScreen {
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "Animation.atlas", TextureAtlas.class);
 		assetManager.finishLoading();
 
+		
+		/**
+		 * Call upon the texture files within their directory
+		 */
 		TextureAtlas walking = this.getAssetManager().get("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas",
 				TextureAtlas.class);
 		TextureAtlas standing = this.getAssetManager()
@@ -185,6 +189,9 @@ public class GameScreen extends AbstractScreen {
 		TextureAtlas poweredUp = this.getAssetManager()
 				.get("sprite/" + gender + "/" + chosenCharacter + "Animation.atlas", TextureAtlas.class);
 
+		/**
+		 * Call upon the sprite for the animations 'walking' and the texture region 'standing'
+		 */
 		AnimationSet animations = new AnimationSet(
 				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
 						walking.findRegions(chosenCharacter + "_walking_north"), Animation.PlayMode.LOOP_PINGPONG),
@@ -199,12 +206,17 @@ public class GameScreen extends AbstractScreen {
 				standing.findRegion(chosenCharacter + "_standing_east"),
 				standing.findRegion(chosenCharacter + "_standing_west"));
 
+		/**
+		 * Call upon the sprite for the animation of Flynn being powered up
+		 */
 		AnimationSet flynnPoweredAnimation = new AnimationSet(
 				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
 						poweredUp.findRegions("flynnPowered1"), Animation.PlayMode.LOOP_PINGPONG),
 				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
 						poweredUp.findRegions("flynnPowered2"), Animation.PlayMode.LOOP_PINGPONG));
-		
+		/**
+		 * Call upon the sprite for the animation of Jessica being powered up
+		 */
 		AnimationSet jessicaPoweredAnimation = new AnimationSet(
 				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
 						poweredUp.findRegions("jessicacPowered1"), Animation.PlayMode.LOOP_PINGPONG),
