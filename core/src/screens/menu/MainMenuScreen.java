@@ -104,7 +104,7 @@ public class MainMenuScreen extends AbstractScreen {
      * @return
      */
     public static Music getMP3() {
-        return mp3Sound;
+        return mp3Sound; //plays the music for the main menu screen
     }
 
     /**
@@ -284,17 +284,17 @@ public class MainMenuScreen extends AbstractScreen {
         floor4.setSize((float) (getWidth() / 1.25), (float) (getHeight() / 1.25));
         floor4.addAction(Actions.hide());
 
-        //add fonts to butotn
+        //add fonts to button
         settings.setFontScale((float) (settings.getFontScaleX() + (settings.getFontScaleX() + 0.8)), (float) (settings.getFontScaleY() + (settings.getFontScaleY() + 0.8)));
         play.setFontScale((float) (play.getFontScaleX() + (play.getFontScaleX() + 0.8)), (float) (play.getFontScaleY() + (play.getFontScaleY() + 0.8)));
         levels.setFontScale((float) (levels.getFontScaleX() + (levels.getFontScaleX() + 0.8)), (float) (levels.getFontScaleY() + (levels.getFontScaleY() + 0.8)));
         about.setFontScale((float) (about.getFontScaleX() + 0.6), (float) (about.getFontScaleY() + 0.6));
         credits.setFontScale((float) (credits.getFontScaleX() + 0.6), (float) (credits.getFontScaleY() + 0.6));
         quit.setFontScale((float) (quit.getFontScaleX() + 0.6), (float) (quit.getFontScaleY() + 0.6));
-        //set back butotn size for spec size
+        //set back button size for spec size
         back.setSize(settings.getPrefWidth() / 2, settings.getPrefHeight() / 2);
 
-        //set buttons x y widht height
+        //set buttons x y width height
         play.setBounds(10, (float) (getHeight() / 2), play.getPrefWidth(), play.getPrefHeight());
         levels.setBounds(10, play.getY() - (float) (play.getHeight() / 1.2), settings.getPrefWidth(), settings.getPrefHeight());
         settings.setBounds(10, levels.getY() - (float) (levels.getHeight() / 1.2), settings.getPrefWidth(), settings.getPrefHeight());
@@ -520,7 +520,7 @@ public class MainMenuScreen extends AbstractScreen {
 
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                //swpies back to main screen
+                //swipes back to main screen
 //                if (testTable.hasChildren() && settingsClicked) {
 //                    for (int i = 0; i < testTable.getChildren().size; i++) {
 //                        if (testTable.getChildren().get(i) == settingsUI.getTable()) {
@@ -599,7 +599,7 @@ public class MainMenuScreen extends AbstractScreen {
             }
         });
         
-        //customize button listener
+        //Customise button listener
         customizeSelection.addListener(new ClickListener() {
             //default height and width for button
             float selectionHeight = customizeSelection.getHeight(), selectionWidth = customizeSelection.getWidth();
@@ -894,7 +894,6 @@ public class MainMenuScreen extends AbstractScreen {
             moveButtonsRight();
             stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 0.85)));
             testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenuBlur.jpg"))));
-
             floor2.addAction(Actions.show());
             floor2.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
             floor4.addAction(Actions.show());

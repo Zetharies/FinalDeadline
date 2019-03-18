@@ -21,7 +21,7 @@ public class Credits {
         this.stage = stage;
         this.table = new Table(); //creates a table to store text in
 
-        table.debug();
+        table.debug(); //adds labels to each row in the table
         programmer = new Label("Programmer", style);
         name1 = new Label("ZETH OSHARODE", style);
         name2 = new Label("JACOB WILLIAMS", style);
@@ -38,7 +38,7 @@ public class Credits {
                 table.getPrefWidth(), table.getPrefHeight()); //specifies the size of the frame and location of the upper left corner
     }
 
-    private void addToTable() {
+    private void addToTable() { //adds text with styles to each row in the table
         table.add(new Label("Programmer", style)).width(programmer.getPrefWidth() + (programmer.getPrefWidth() / 2));
         table.add(name1);
         table.row();

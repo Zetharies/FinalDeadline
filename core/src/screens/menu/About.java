@@ -15,7 +15,7 @@ public class About {
         line1 = new Label("FinalDeadline is a RPG based horror game.", skin);
         line2 = new Label("You spawn in a University looking for answers and the ability to survive.", skin);
         line3 = new Label("Make your way throughout the map solving puzzles, battling zombies and completing the quest.", skin);
-        table.add(line1);
+        table.add(line1); //add a line to store text in
         table.row();
         table.add(line2);
         table.row();
@@ -28,7 +28,7 @@ public class About {
                 line2.getPrefWidth(), line2.getPrefHeight());
         line3.setBounds((table.getWidth() / 2) - (line3.getPrefWidth() / 2), (table.getHeight() / 2) - (line3.getPrefHeight()),
                 line3.getPrefWidth(), line3.getPrefHeight());
-
+        //sets the size of the table which stores all the text that's displayed
     }
 
     public Table getTable() {

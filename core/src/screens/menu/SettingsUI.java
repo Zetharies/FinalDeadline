@@ -40,7 +40,7 @@ public class SettingsUI {
         settings(stage);
     }
 
-    private void addResolutions() {
+    private void addResolutions() { //specifies available resolution sizes for user
         resolutionsSizes.add(oWidth + "x" + oHeight);
         resolutionsSizes.add("1280x720");
         resolutionsSizes.add("1920x1080");
@@ -53,12 +53,12 @@ public class SettingsUI {
           }
     }
 
-    private void addControls() {
-        controlOptions.add("WASD");
+    private void addControls() { //specifies the control options available to the user
+        controlOptions.add("WASD"); 
         controlOptions.add("ARROWS");
     }
 
-    public void settingsListener() {
+    public void settingsListener() {//applies chosen control set 
         controls.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
@@ -75,31 +75,31 @@ public class SettingsUI {
                 }
             }
         });
-        music.addListener(new ClickListener() {
+        music.addListener(new ClickListener() { //toggles music on and off function
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 System.out.println("music clicked");
                 if (musicResp) {
-                    music.setText("MUSIC: OFF");
+                    music.setText("MUSIC: OFF"); //outputs text indicating music has been turned off
                     musicResp = false;
                     //  SettingsManager.setMusic(false);
                 } else if (!musicResp) {
-                    music.setText("MUSIC: ON");
+                    music.setText("MUSIC: ON"); //outputs text indicating music has been turned on
                     musicResp = true;
                     //  SettingsManager.setMusic(true);
                 }
 
             }
         });
-        sound.addListener(new ClickListener() {
+        sound.addListener(new ClickListener() { //toggles sound on and off function
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 if (soundResp) {
-                    sound.setText("SOUND: OFF");
+                    sound.setText("SOUND: OFF"); //outputs text indicating sound has been turned off
                     soundResp = false;
                     // SettingsManager.setSound(false);
                 } else {
-                    sound.setText("SOUND: ON");
+                    sound.setText("SOUND: ON"); //outputs text indicating sound has been turned on
                     soundResp = true;
                     // SettingsManager.setSound(true);
                 }
@@ -136,15 +136,15 @@ public class SettingsUI {
                 resChange = true;
             }
         });
-        skipDialogue.addListener(new ClickListener() {
+        skipDialogue.addListener(new ClickListener() { //adds option to skip in-game dialogue
             @Override
             public void clicked(InputEvent e, float x, float y) {
 
                 if (!checkDialogue) {
-                    skipDialogue.setText("SKIP DIALOGUE: TRUE");
+                    skipDialogue.setText("SKIP DIALOGUE: TRUE"); //outputs text to show skip dialogue has been toggled
                     checkDialogue = true;
                 } else {
-                	skipDialogue.setText("SKIP DIALOGUE: FALSE");
+                	skipDialogue.setText("SKIP DIALOGUE: FALSE"); //outputs text to show skip dialogue has been toggled (off)
                 	checkDialogue = false;
                 }
             }

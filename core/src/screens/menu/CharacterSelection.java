@@ -39,8 +39,8 @@ public class CharacterSelection extends AbstractScreen {
         style.font = generateFont(skin);
 
         final TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle();
-        buttonStyle.font = generateFont(skin);
-        buttonStyle.fontColor = Color.CYAN;
+        buttonStyle.font = generateFont(skin); //sets the font style for text
+        buttonStyle.fontColor = Color.CYAN;  //sets font colour for text
 
         if (currentCharacter >= 4) {
             currentCharacter = 1;
