@@ -347,7 +347,30 @@ public class InventorySystem{
 		
 	}
 	
-	
+    /**
+     * <p> Method used to find the current position of the Drink object within the current Inventory
+     * 
+     * @param currentInv InventorySystem used to find the Drink object
+     * @return Int of the position of the Drink object
+     */
+    public int findDrinkPosition() {
+        int pos = 0;
+
+        for (Item currentItem : inventory) {
+            if (currentItem instanceof Drink) {
+                pos = inventory.indexOf(currentItem);
+
+                break;
+
+            }
+
+        }
+
+        return pos;
+
+    }
+
+    
 	public void setAsCurrentItem(Item newItem) {
 		currentItem = newItem;
 
