@@ -1,16 +1,16 @@
-flynnAnimationAtlas.png
+flynn_powered_walking.png
 size: 407, 54
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-eastwalk1
+eastwalk
   rotate: false
   xy: 262, 1
   size: 28, 49
   orig: 39, 57
   offset: 5, 6
   index: -1
-eastwalk2
+eastwalk
   rotate: false
   xy: 231, 1
   size: 29, 49
@@ -38,56 +38,56 @@ FlynnfacingWest
   orig: 36, 58
   offset: 1, 1
   index: -1
-flynnPowered1
+flynnPowered
   rotate: false
   xy: 35, 1
   size: 33, 51
   orig: 36, 58
   offset: 2, 7
   index: -1
-flynnPowered2
+flynnPowered
   rotate: false
   xy: 1, 1
   size: 32, 52
   orig: 32, 72
   offset: 0, 13
   index: -1
-northwalk1
+northwalk
   rotate: false
   xy: 292, 1
   size: 28, 49
   orig: 39, 54
   offset: 5, 3
   index: -1
-northwalk2
+northwalk
   rotate: false
   xy: 322, 1
   size: 28, 49
   orig: 33, 51
   offset: 4, 1
   index: -1
-southwalk1
+southwalk
   rotate: false
   xy: 161, 1
   size: 35, 49
   orig: 38, 54
   offset: 3, 3
   index: -1
-southwalk2
+southwalk
   rotate: false
   xy: 198, 1
   size: 31, 49
   orig: 37, 51
   offset: 6, 2
   index: -1
-westwalk1
+westwalk
   rotate: false
   xy: 352, 1
   size: 26, 49
   orig: 32, 53
   offset: 4, 3
   index: -1
-westwalk2
+westwalk
   rotate: false
   xy: 380, 1
   size: 26, 49

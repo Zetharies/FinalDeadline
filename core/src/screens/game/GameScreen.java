@@ -234,7 +234,6 @@ public class GameScreen extends AbstractScreen {
 		assetManager = new AssetManager();
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
-		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "Animation.atlas", TextureAtlas.class);
 		assetManager.finishLoading();
 
 		TextureAtlas walking = this.getAssetManager().get("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas",
@@ -257,11 +256,11 @@ public class GameScreen extends AbstractScreen {
 				standing.findRegion(chosenCharacter + "_standing_east"),
 				standing.findRegion(chosenCharacter + "_standing_west"));
 
-		AnimationSet animations1 = new AnimationSet(
+		/*AnimationSet animations1 = new AnimationSet(
 				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
 						walking.findRegions("flynnPowered1"), Animation.PlayMode.LOOP_PINGPONG),
 				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
-						walking.findRegions("flynnPowered2"), Animation.PlayMode.LOOP_PINGPONG));
+						walking.findRegions("flynnPowered2"), Animation.PlayMode.LOOP_PINGPONG));*/
 
 		// map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); //
 		// map to load, extremely basic map,
@@ -1011,24 +1010,35 @@ public class GameScreen extends AbstractScreen {
 	/**
 	 * <p> Method used to reset the player animations, so that they are not holding any items
 	 */
-	public void showDrinkAnimation() {
+	public void showDrinkAnimation() {		
 		assetManager = new AssetManager();
+		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_powered_walking.atlas", TextureAtlas.class);
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
-		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "Animation.atlas", TextureAtlas.class);
 		assetManager.finishLoading();
 
 		TextureAtlas drinking = this.getAssetManager()
-				.get("sprite/" + gender + "/" + chosenCharacter + "Animation.atlas", TextureAtlas.class);
+				.get("sprite/" + gender + "/" + chosenCharacter + "_powered_walking.atlas", TextureAtlas.class);
+		TextureAtlas walking = this.getAssetManager()
+				.get("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
+		TextureAtlas standing = this.getAssetManager()
+				.get("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
 
 		AnimationSet animations1 = new AnimationSet(
 				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
-						drinking.findRegions("flynnPowered1"), Animation.PlayMode.LOOP_PINGPONG),
+						walking.findRegions(chosenCharacter + "_walking_north"), Animation.PlayMode.LOOP_PINGPONG),
 				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
-						drinking.findRegions("flynnPowered2"), Animation.PlayMode.LOOP_PINGPONG));
+						walking.findRegions(chosenCharacter + "_walking_south"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_east"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						walking.findRegions(chosenCharacter + "_walking_west"), Animation.PlayMode.LOOP_PINGPONG),
+				standing.findRegion(chosenCharacter + "_standing_north"),
+				drinking.findRegion("flynnPowered"),
+				standing.findRegion(chosenCharacter + "_standing_east"),
+				standing.findRegion(chosenCharacter + "_standing_west"));
 
-		player.setAnimations(animations1);   	
-
+		player.setAnimations(animations1);
 	}
 
 	/**
@@ -1038,7 +1048,6 @@ public class GameScreen extends AbstractScreen {
 		assetManager = new AssetManager();
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
-		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "Animation.atlas", TextureAtlas.class);
 		assetManager.finishLoading();
 
 		TextureAtlas walking = this.getAssetManager().get("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas",
