@@ -2,7 +2,6 @@ package models.inventory;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
-
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class Item{
@@ -17,6 +16,18 @@ public class Item{
 
 	private boolean invDrawn, beingUsed, beingPressed, potionUsed;
 
+	/**
+	 * <p> Constructor used for to define an item, is inherited by sub-classes of the Items
+	 * 
+	 * @param impName Name of the Item
+	 * @param startX X Position of Item on the Map
+	 * @param startY Y Position of Item on the Map
+	 * @param impID ID of the Item
+	 * @param texturePath Path of Texture of the Item
+	 * @param atlasImage Path for the Atlas Image for the Item
+	 * @param invX X Position of Item within the Inventory Bar
+	 * @param invBoxX X Position of the Equip box of the item within the Inventory Bar
+	 */
 	public Item(String impName, int startX, int startY, int impID, String texturePath, String atlasImage, int invX, int invBoxX) {
 		itemName = impName;
 
@@ -41,6 +52,40 @@ public class Item{
 		potionUsed = false;
 	}
 
+	/**
+	 * <p> Constructor used for testing purposes. Not able to use previous constructor as you are not able to use 
+	 * 	   majority of LibGDX before it is initialized. This throws an error when trying to use the Texture files
+	 * 
+	 * @param impName Name of the Item
+	 * @param startX X Position of Item on the Map
+	 * @param startY Y Position of Item on the Map
+	 * @param impID ID of the Item
+	 * @param atlasImage Path for the Atlas Image for the Item
+	 * @param invX X Position of Item within the Inventory Bar
+	 * @param invBoxX X Position of the Equip box of the item within the Inventory Bar
+	 */
+	public Item(String impName, int startX, int startY, int impID, String atlasImage, int invX, int invBoxX) {
+		itemName = impName;
+
+		id = impID;
+		x = startX;
+		y = startY;
+		this.invX = invX;
+		this.invBoxX = invBoxX;
+
+		found = false;
+		onMap = false;
+		invDrawn = false;
+		beingUsed = false;
+		beingPressed = false;
+		
+		this.atlasImage = atlasImage;	
+		
+		drinkID = 0;
+		
+		potionUsed = false;
+	}
+	
 	/**
 	 * <p> Method overridden by the sub-classes of each Item object
 	 * 

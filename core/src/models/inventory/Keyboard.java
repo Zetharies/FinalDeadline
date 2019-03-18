@@ -10,6 +10,11 @@ public class Keyboard extends Item{
 
 	}
 	
+	public Keyboard(int startX, int startY, String choice) {
+		super("Keyboard", startX, startY, 1, "invKeyboard", -305, -298);
+
+	}
+	
 	/**
 	 * <p> Method designed to render the Keyboard item, using specific parameters
 	 */
