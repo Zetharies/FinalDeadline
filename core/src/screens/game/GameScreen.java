@@ -1074,8 +1074,7 @@ public class GameScreen extends AbstractScreen {
     }
 
     /**
-     * <p>
-     * Method used to reset the player animations, so that they are not holding
+     * <p> Method used to reset the player animations, so that they are not holding
      * any items
      */
     public void resetPlayerAnimations() {
@@ -1105,31 +1104,6 @@ public class GameScreen extends AbstractScreen {
                 standing.findRegion(chosenCharacter + "_standing_west"));
 
         player.setAnimations(animations);
-
-    }
-
-    /**
-     * <p>
-     * Method used to find the current position of the Drink object within the
-     * current Inventory
-     *
-     * @param currentInv InventorySystem used to find the Drink object
-     * @return Int of the position of the Drink object
-     */
-    public int findDrinkPosition(InventorySystem currentInv) {
-        int pos = 0;
-
-        for (Item currentItem : currentInv.getInventory()) {
-            if (currentItem instanceof Drink) {
-                pos = currentInv.getInventory().indexOf(currentItem);
-
-                break;
-
-            }
-
-        }
-
-        return pos;
 
     }
 
