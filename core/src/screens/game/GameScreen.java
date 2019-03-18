@@ -745,7 +745,7 @@ public class GameScreen extends AbstractScreen {
 
                             currentDrinkID = currentItem.getDrinkID();
                             currentInv.setDrinkDrawn(true);
-                            currentInv.getInventory().get(findDrinkPosition(currentInv)).setItemFound(true);
+                            currentInv.getInventory().get(currentInv.findDrinkPosition()).setItemFound(true);
                         }
 
                     } else {
@@ -794,7 +794,7 @@ public class GameScreen extends AbstractScreen {
 						hud.removeEquippedItem(currentItem);
 
 						currentInv.setDrinkDrawn(false);
-						currentInv.getInventory().get(findDrinkPosition(currentInv)).setItemFound(false);
+						currentInv.getInventory().get(currentInv.findDrinkPosition()).setItemFound(false);
 
 						currentInv.getCurrentItem().setBeingUsed(false);
 						currentInv.setAsCurrentItem(null);
@@ -1033,29 +1033,6 @@ public class GameScreen extends AbstractScreen {
         
         player.setAnimations(animations);   	
     	
-    }
-    
-    /**
-     * <p> Method used to find the current position of the Drink object within the current Inventory
-     * 
-     * @param currentInv InventorySystem used to find the Drink object
-     * @return Int of the position of the Drink object
-     */
-    public int findDrinkPosition(InventorySystem currentInv) {
-        int pos = 0;
-
-        for (Item currentItem : currentInv.getInventory()) {
-            if (currentItem instanceof Drink) {
-                pos = currentInv.getInventory().indexOf(currentItem);
-
-                break;
-
-            }
-
-        }
-
-        return pos;
-
     }
 
     @Override
