@@ -49,7 +49,7 @@ public class CharacterSelection extends AbstractScreen {
             currentCharacter = 3;
         }
 
-        usernameTextField = new TextField("", skin);
+        usernameTextField = new TextField("", skin); 
 //        usernameTextField.setPosition((stage.getWidth() - usernameTextField.getWidth()) / 2, (float) ((stage.getHeight()) / 6));
 //        usernameTextField.setSize(stage.getWidth() - usernameTextField.getWidth() / 6, stage.getHeight() / 6);
         usernameTextField.setBounds((stage.getWidth() - usernameTextField.getWidth()) / 2, (float) ((stage.getHeight()) / 6),
@@ -62,12 +62,12 @@ public class CharacterSelection extends AbstractScreen {
         customSprite.setPosition((stage.getWidth() - customSprite.getWidth()) / 2, (float) ((stage.getHeight() - customSprite.getHeight()) / 1.05));
         stage.addActor(customSprite);
 
-        TextButton next = new TextButton(">>", buttonStyle);
+        TextButton next = new TextButton(">>", buttonStyle); //creates 'next' button to move through sprites in selection screen
         next.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 System.out.println("clicked");
-                currentCharacter++;
+                currentCharacter++; //once clicked, shows next sprite
                 stage.clear();
                 prepareUI();
             }
@@ -79,11 +79,11 @@ public class CharacterSelection extends AbstractScreen {
 //                 stage.getWidth() * 5 / 6 - next.getWidth() / 2, stage.getHeight() / 2);
         stage.addActor(next);
 
-        TextButton previous = new TextButton("<<", buttonStyle);
+        TextButton previous = new TextButton("<<", buttonStyle); //creates 'previous' button to move through sprites in selection screen
         previous.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                System.out.println("clicked");
+                System.out.println("clicked"); //once clicked, displays previous sprite
                 currentCharacter--;
                 stage.clear();
                 prepareUI();
@@ -99,7 +99,7 @@ public class CharacterSelection extends AbstractScreen {
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                EXIT = true;
+                EXIT = true; //exits to main menu screen
                 ScreenManager.setMainMenuScreen();
                 MainMenuScreen.characterSelectSwipe = false;
             }
