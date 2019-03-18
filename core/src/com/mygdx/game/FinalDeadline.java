@@ -7,9 +7,14 @@ import com.badlogic.gdx.utils.Timer;
 
 import managers.ScreenManager;
 
+/**
+ * FinalDeadline class responsible for setting up the game and showing the current version
+ * @author Team 2f
+ *
+ */
 public class FinalDeadline extends Game {
 
-	public static final String VERSION = "3.5";
+	public static final String VERSION = "3.5"; // Current version number
 	private static long MINIMUM_TIME = 6400L; // How long "Aston University" intro screen appears. 6500L = 6.4 seconds
 	private final long introTime = System.currentTimeMillis(); // How long intro should last for
 

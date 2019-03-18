@@ -23,27 +23,36 @@ import models.HealthBar;
 import models.inventory.Item;
 import riddleScreen.RiddleUI;
 
+/**
+ * Hud class, sets up a hud for the game.
+ * @author Team 2f
+ *
+ */
 public class Hud {
 	public Stage stage;
 	private Viewport viewPort;
-	private Label currentMap, score, lives;
+	private Label currentMap, score, lives; // Labels to use
 	private Skin skin;
-	private HealthBar health;
+	private HealthBar health; // Hud health bar for the player
 
 	private TextureAtlas invAtlas;
 	private TextureAtlas invBoxAtlas;
 
-	private Container<Image> invItems;
-	private Container<Image> invBox;
-	private Image invBoxImage;
+	private Container<Image> invItems; // Inventory items
+	private Container<Image> invBox; // Inventory boxes
+	private Image invBoxImage; // Inventory images
 	
 	private int currentScore, currentLives;
 	private Label.LabelStyle style = new Label.LabelStyle();
 	private RiddleUI riddleUI, riddleWin, riddleLose;
 	private Label imagination, nothing, air, darkness;
 	private Window temp, win, lose;
-	private static final int MAX_LIVES = 5;
+	private static final int MAX_LIVES = 5; // Max lives the player can have
 
+	/**
+	 * Constructor for out Hud class, sets up the game hud.
+	 * @param batch
+	 */
 	public Hud(SpriteBatch batch) {
 		
 		currentScore = 0;
@@ -141,19 +150,34 @@ public class Hud {
 
 	}
 
-	public void setLabel(String label) {
-		currentMap.setText(label);
+	/**
+	 * Set the map label of the hud
+	 * @param newMapLabel The currentMap label
+	 */
+	public void setMapLabel(String newMapLabel) {
+		currentMap.setText(newMapLabel);
 	}
-
+	
+	/**
+	 * Reset players health
+	 */
 	public void resetHealth() {
 		health.setValue(1.0f);
 	}
 
+	/**
+	 * Reduce health of the player
+	 * @param damage
+	 */
 	public void reduceHealth(float damage) {
 		health.setValue(health.getValue() - damage);
 
 	}
 
+	/**
+	 * Increase health of the player
+	 * @param healthInc
+	 */
 	public void increaseHealth(float healthInc) {
 		if ((health.getValue() + healthInc) >= 1.0f) {
 			health.setValue(1.0f);
@@ -165,6 +189,10 @@ public class Hud {
 
 	}
 
+	/**
+	 * Get the health of the player
+	 * @return
+	 */
 	public float getHealth() {
 		return health.getValue();
 	}
@@ -267,6 +295,7 @@ public class Hud {
 	}
 	
 	/**
+	 * Remove the items that have been found
 	 * <p> Method designed to remove all the items within the inventory bar
 	 * 
 	 */
@@ -281,6 +310,10 @@ public class Hud {
 		
 	}
 	
+	/**
+	 * <p>Increase the score of the player depending on the monster
+	 * @param monster
+	 */
 	public void increaseScore(String monster) {
 		if(monster.equalsIgnoreCase("zombie")) {
 			currentScore += 10;
@@ -291,6 +324,9 @@ public class Hud {
 		}
 	}
 	
+	/**
+	 * Decrease the life of the player
+	 */
 	public void decreaseLife() {
 		currentLives--;
 		if(currentLives < 0) {
@@ -299,10 +335,19 @@ public class Hud {
 		lives.setText("Lives: "+ currentLives + "/" + MAX_LIVES);
 	}
 	
+	/**
+	 * Get the lives of the player
+	 * @return
+	 */
 	public int getLives() {
 		return currentLives;
 	}
 
+	/**
+	 * Generate the font of the BitMap
+	 * @param skin
+	 * @return
+	 */
 	public BitmapFont generateFont(Skin skin) {
 		// font for menu text
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/di-vari.ttf"));
@@ -317,13 +362,18 @@ public class Hud {
 		return font12;
 	}
 	
-
+	/**
+	 * Add a window for the stage.
+	 */
 	public void addWindow() {
 		temp = riddleUI.getWindow();
 		temp.setName("window");
 		stage.addActor(temp);
 	}
 	
+	/**
+	 * Add a win label to the stage.
+	 */
 	public void addWinLabel() {
 
 		// correct = new Label("Correct! Proceed to the next map", style);
@@ -334,6 +384,9 @@ public class Hud {
 
 	}
 	
+	/**
+	 * Add a lsoe label to the stage.
+	 */
 	public void addLoseLabel() {
 		lose = riddleLose.getWindow();
 		lose.setName("lose");
@@ -341,6 +394,9 @@ public class Hud {
 
 	}
 	
+	/**
+	 * Reset the riddle
+	 */
 	public void resetRiddle() {
 		for (Actor currentActor : stage.getActors()) {
 			if (currentActor.getName().equals("win")  ) {
@@ -349,6 +405,9 @@ public class Hud {
 		}
 	}
 
+	/**
+	 * Remove the window of the riddle.
+	 */
 	public void removeWindow() {
 		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
 			for (Actor currentActor : stage.getActors()) {

@@ -2,6 +2,11 @@ package actions;
 
 import com.badlogic.gdx.scenes.scene2d.Action;
 
+/**
+ * Fade out action for our game
+ * @author Team 2f
+ *
+ */
 public class FadeOutAction extends Action {
 
 	float alpha;

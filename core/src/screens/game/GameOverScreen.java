@@ -18,6 +18,11 @@ import managers.ScreenManager;
 import managers.SettingsManager;
 import screens.intro.AbstractScreen;
 
+/**
+ * Our GameOverScreen class, used to signify the game is over
+ * @author Team 2f
+ *
+ */
 public class GameOverScreen extends AbstractScreen {
 	
 	private Image bg; // background for image

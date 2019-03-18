@@ -1,5 +1,10 @@
 package com.mygdx.game;
 
+/**
+ * GameSettings class, responsible for the main settings of the game
+ * @author Team 2f
+ *
+ */
 public class GameSettings {
 	public static int TILE_SIZE = 32;
 	public static float SCALE = 2f;

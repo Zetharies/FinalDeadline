@@ -369,7 +369,7 @@ public class GameScreen extends AbstractScreen {
         // Checks if the map needs changing
         if (playerControls.checkExit(exits)) {
         	musicList.get(currentList).stop();
-        	hud.setLabel(currentMapLabel.get(currentList));
+        	hud.setMapLabel(currentMapLabel.get(currentList));
         	currentList++;
         	if(currentList > 4) {
         		currentList = 4;
