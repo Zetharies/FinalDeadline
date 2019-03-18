@@ -896,6 +896,44 @@ public class GameScreen extends AbstractScreen {
 
             been = true;
         }
+        
+        if(maps.indexOf(map) == 5 && player.getX() == 21 && player.getY() == 78 && playerControls.getInteract()) {
+			elapsed += delta;
+			playerControls.resetDirection();
+			table2.setFillParent(true);
+			table2.setDebug(true);
+			table2.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/horror.png"))));
+			stage.addActor(table2);
+			String chosenOutput;
+			if(chosenCharacter == "Flynn") {
+				chosenOutput = ":\nWas that supposed to be scary?";
+			} else if(chosenCharacter == "Jessica") {
+				chosenOutput = ":\nSomeone has too much time on their hands!  [ENTER]";
+			} else {
+				chosenOutput = ":\nWow I'm shocketh   [ENTER]";
+			}
+			handler = new ScreenplayHandler();
+			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\n.....   [ENTER]", 1);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + chosenOutput, 0);
+			Sound sound = Gdx.audio.newSound(Gdx.files.internal("music/scream.mp3"));
+			if(elapsed == delta) {
+				sound.play();
+			}
+
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+
+			if(elapsed > 1.0f) {
+				table2.clear();
+				stage.addAction(Actions.removeActor(table2));
+				playerControls.setInteractFalse();
+				elapsed = 0.0f;
+			}
+		}
+
+		interacts();
 
         if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 4) {
             zombies.removeAll(zombies);
