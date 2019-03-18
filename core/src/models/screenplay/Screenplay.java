@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.mygdx.game.GameSettings;
 
+import managers.SettingsManager;
 import models.EnumPlayerState;
 
 /**
@@ -31,17 +32,19 @@ public class Screenplay extends Table {
 		text.setFontScale((float) 0.5);
 		if(sceneDirection.equalsIgnoreCase("Flynn")) {
 			this.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("sprite/male/Flynn_Texture_Bg.png"))));
-			//this.setColor(46, 193, 231, 0.7f); // R-G-B & Opacity should be blue
+			this.setColor(46, 193, 231, 0.7f); // R-G-B & Opacity should be blue
 		}
 		if(sceneDirection.equalsIgnoreCase("Jessica")) {
 			this.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("sprite/female/Jessica_Texture_Bg.png"))));
-			//this.setColor(255, 192, 203, 0.7f); // R-G-B & Opacity should be pink
+			this.setColor(255, 192, 203, 0.7f); // R-G-B & Opacity should be pink
 		}
 		if(sceneDirection.contains("Custom")) {
 			this.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("sprite/male/Flynn_Texture_Bg.png"))));
-			//this.setColor(127,255,0, 0.7f); // R-G-B & Opacity should be green
+			this.setColor(127,255,0, 0.7f); // R-G-B & Opacity should be green
 		}
-		this.setColor(0, 0, 0, 0.7f); // R-G-B & Opacity (If we don't want both characters to have a certain background)
+		if(!SettingsManager.getCustomDialogue()) {
+			this.setColor(0, 0, 0, 0.7f); // R-G-B & Opacity (If we don't want characters to have a certain background)
+		}
 		this.add(text).expand().align(Align.left).pad(5f);
 	}
 	

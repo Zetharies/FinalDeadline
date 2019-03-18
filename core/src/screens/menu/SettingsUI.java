@@ -7,17 +7,20 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Timer;
+
 import java.util.ArrayList;
 import managers.SettingsManager;
 
 public class SettingsUI {
 
     @SuppressWarnings("unused")
-    private TextButton music, sound, resolution, controls, skipDialogue, apply;//settings buttons
+    private TextButton music, sound, resolution, controls, skipDialogue, customDialog, apply; //settings buttons
     private ArrayList<String> resolutionsSizes;//res sizes to support
     private ArrayList<String> controlOptions;//control options - wasd / keys
     private Table table; // table to add elements to 
     private boolean checkDialogue = false;//to show/skip dialogue
+    private boolean customDialogue = false; // custom dialogue for characters
     private boolean soundResp = true;//play sound
     private boolean musicResp = true;//play music
     private boolean resChange = false, defaultRes = false;//check for res change
@@ -38,9 +41,10 @@ public class SettingsUI {
         apply = new TextButton("APPLY", skin);
         music = new TextButton("MUSIC: ON", skin);
         sound = new TextButton("SOUND: ON", skin);
+        customDialog = new TextButton("CUSTOM DIALOGUE: FALSE", skin);
         skipDialogue = new TextButton("SKIP DIALOGUE: FALSE", skin);
         resolution = new TextButton("" + getWidth() + "x" + getHeight(), skin);
-        controls = new TextButton("CONTROL:ARROWS", skin);
+        controls = new TextButton("CONTROL: ARROWS", skin);
         resolutionsSizes = new ArrayList<String>();
         controlOptions = new ArrayList<String>();
         addResolutions();
@@ -80,13 +84,13 @@ public class SettingsUI {
             public void clicked(InputEvent e, float x, float y) {
                 //starting index = 0 default controls = keys
                 if (controlIndex == 0) {
-                    controls.setText("CONTROL:" + controlOptions.get(controlIndex));
+                    controls.setText("CONTROL: " + controlOptions.get(controlIndex));
                     controlIndex++;
                     //update settings
                     SettingsManager.WASD = true;
                     SettingsManager.KEYS = false;
                 } else if (controlIndex == 1) {
-                    controls.setText("CONTROL:" + controlOptions.get(controlIndex));
+                    controls.setText("CONTROL: " + controlOptions.get(controlIndex));
                     controlIndex = 0;
                     //update settings
                     SettingsManager.KEYS = true;
@@ -135,6 +139,19 @@ public class SettingsUI {
                 resChange = true;
             }
         });
+        // listener for custom dialogue
+        customDialog.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent e, float x, float y) {
+                if (!customDialogue) {
+                	customDialog.setText("CUSTOM DIALOGUE: TRUE");
+                	customDialogue = true;
+                } else {
+                	customDialog.setText("CUSTOM DIALOGUE: FALSE");
+                	customDialogue = false;
+                }
+            }
+        });
         //listener for skip button to skip in game dialogue
         skipDialogue.addListener(new ClickListener() {
             @Override
@@ -152,6 +169,8 @@ public class SettingsUI {
         apply.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
+            	apply.setText("APPLIED");
+            	
                 if (!musicResp) {
                     SettingsManager.setMusic(false);//set music off
                 } else if (musicResp) {
@@ -161,6 +180,11 @@ public class SettingsUI {
                     SettingsManager.setSound(false);//set sound off
                 } else {
                     SettingsManager.setSound(true);//set sound on
+                }
+                if(!customDialogue) {
+                	SettingsManager.setCustomDialogue(false);
+                } else if (customDialogue) {
+                	SettingsManager.setCustomDialogue(true);
                 }
                 if (!checkDialogue) {
                     SettingsManager.setDialogueSkipper(false);//set dialogue off 
@@ -185,7 +209,28 @@ public class SettingsUI {
                     SettingsManager.KEYS = true;
                     SettingsManager.WASD = false;
                 }
-
+                
+                final long introTime = System.currentTimeMillis();
+                new Thread(new Runnable() {
+        			@Override
+        			public void run() {
+        				Gdx.app.postRunnable(new Runnable() {
+        					@Override
+        					public void run() {
+        						long elapsedTime = System.currentTimeMillis() - introTime; // Current time - intro time
+        						if (elapsedTime < 750) { // Checks if current time is less than minimum time
+        							Timer.schedule(new Timer.Task() {
+        								@Override
+        								public void run() {
+        									apply.setText("APPLY");
+        								}
+        							}, (float) (750 - elapsedTime) / 1000f);
+        						} 
+        					}
+        				});
+        			}
+        		}).start();
+                
             }
         });
     }
@@ -196,6 +241,8 @@ public class SettingsUI {
         table.row();
         table.add(music).width(controls.getPrefWidth() + (controls.getPrefWidth() / 2));
         table.add(sound).width(controls.getPrefWidth() + (controls.getPrefWidth() / 2));
+        table.row();
+        table.add(customDialog).colspan(3).expandX().fillX();
         table.row();
         table.add(skipDialogue).colspan(3).expandX().fillX();
         table.row();
