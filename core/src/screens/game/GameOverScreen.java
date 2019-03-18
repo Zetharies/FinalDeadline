@@ -20,12 +20,16 @@ import screens.intro.AbstractScreen;
 
 public class GameOverScreen extends AbstractScreen {
 	
-	private Image bg;
+	private Image bg; // background for image
 	private Stage stage;
 	private Skin skin;
 	private Label menu, exit;
 	private boolean playing = false;
 	
+	/**
+	 * Constructor for GameOverScreen
+	 * Creates GameOver background along with options such as returning to main menu or exiting game
+	 */
 	public GameOverScreen() {
 		stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 		skin = new Skin(Gdx.files.internal("fonts/Holo-dark-hdpi.json"));
@@ -52,6 +56,9 @@ public class GameOverScreen extends AbstractScreen {
 
 	}
 	
+	/**
+	 * Set buttons for the game over screen
+	 */
 	public void buttonListener() {
         //go to the main menu screen
 		

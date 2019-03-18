@@ -2,6 +2,11 @@ package screens.intro;
 
 import com.badlogic.gdx.Screen;
 
+/**
+ * Abstract screen is used for all of our game screens
+ * @author Team 2f
+ *
+ */
 public abstract class AbstractScreen implements Screen {
 
 	@Override
