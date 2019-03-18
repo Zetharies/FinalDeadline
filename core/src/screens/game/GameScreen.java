@@ -598,6 +598,9 @@ public class GameScreen extends AbstractScreen {
 				}
 				keyboards.removeAll(keyboardsToRemove);
 			}
+			if(robot.isDead()) {
+				updateMap();
+			}
 		}
 
 		if (maps.indexOf(map) == 6) {//second boss map
