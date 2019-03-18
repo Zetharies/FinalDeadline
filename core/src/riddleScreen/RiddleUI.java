@@ -66,41 +66,15 @@ public class RiddleUI {
 		Label.LabelStyle style = new Label.LabelStyle();
 		style.font = generateFont(skin);
 
-		// this.window = window;
-		window = new Window(
-				string,
-				skin);
 		
-		// window2 = new Window("Wrong answer, find the riddle again!", skin);
+		window = new Window(string, skin);
+
 		window.getTitleLabel().setStyle(style);
-		
-		
-		window.setBounds(220,60, (Gdx.graphics.getWidth() / 2) - (window.getWidth() / 4), Gdx.graphics.getHeight() / 4);
-		
 
-		// ok.setBounds(100, 0, (Gdx.graphics.getWidth() / 2) - (window.getWidth() / 2),
-		// Gdx.graphics.getHeight() / 2);
+		window.setBounds(220, 60, (Gdx.graphics.getWidth() / 2) - (window.getWidth() / 4),
+				Gdx.graphics.getHeight() / 4);
+
 		window.add(ok).pad(5);
-
-		// ok.setPosition(500, window.getHeight());
-		//window.setSize(window.getPrefWidth(), window.getPrefHeight());
-		//window.setPosition((Gdx.graphics.getWidth() / 5) - (window.getWidth() / 5), Gdx.graphics.getHeight() / 5);
-
-	}
-
-	public void removeWindow(final Stage stage) {
-
-//		if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE))
-//
-//			stage.addAction(Actions.removeActor(window));
-//
-//		ok.addListener(new ClickListener() {
-//			@Override
-//			public void clicked(InputEvent e, float x, float y) {
-//				stage.addAction(Actions.removeActor(window));	
-//				}	
-//			});
-//		
 
 	}
 
@@ -124,8 +98,8 @@ public class RiddleUI {
 
 	public void windowAdd(Label label) {
 		this.ok = label;
-		
+
 		window.add(label);
-		}
+	}
 
 }

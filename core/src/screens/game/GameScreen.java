@@ -689,6 +689,9 @@ public class GameScreen extends AbstractScreen {
 					if (playerControls.isBlocked((int) b.getX(), (int) b.getY(), playerControls.getCollisionLayer())) {
 						booksToRemove.add(b);
 					}
+					
+					bossHealth.setPosition(300, 110);
+					hud.setActor(bossHealth);
 					float bossZombieX = (bossZombie.x * GameSettings.SCALED_TILE_SIZE)
 							- (GameSettings.SCALED_TILE_SIZE / 2);
 					float bossZombieWidth = bossZombieX + (GameSettings.SCALED_TILE_SIZE * 2f);
@@ -702,9 +705,9 @@ public class GameScreen extends AbstractScreen {
 
 					if ((bossZombieWidth >= bookWidth) && (bossZombieX <= bookWidth)) {
 						if ((bossZombieHeight >= bookHeight) && (bossZombieY <= bookHeight)) {
-							bossZombie.damage(5);
+							bossHealth.setValue(bossHealth.getValue() - 0.01f);
 							System.out.println("hit boss");
-							if (bossZombie.getHealth() <= 0) {
+							if (bossHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
 								bossZombie.setDead();
 							}
@@ -741,8 +744,8 @@ public class GameScreen extends AbstractScreen {
 							System.out.println(robot.getHealth());
 							System.out.println(k.getX());
 							System.out.println("Keyboard Hit");
-							bossZombie.damage(7);
-							if (bossZombie.getHealth() <= 0) {
+							bossHealth.setValue(bossHealth.getValue() - 0.002f);
+							if (bossHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
 								bossZombie.setDead();
 							}
@@ -834,7 +837,7 @@ public class GameScreen extends AbstractScreen {
 			keyboards.removeAll(keyboardsToRemove);
 
 			if (bossZombie.isDead()) {
-				robotHealth.remove();
+				bossHealth.remove();
 				updateMap();
 
 			}
