@@ -273,7 +273,7 @@ public class GameScreen extends AbstractScreen {
 		TiledMap mapCollisionsBoss = new TmxMapLoader().load(maps.get(0).getMapLocation());
 
 		currentInv = new InventorySystem();
-		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), -1);
+		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), 0);
 
 		// player = new Player(14, 90, animations); // Create a new player object with
 		// the coordinates 0, 0, player
@@ -793,7 +793,8 @@ public class GameScreen extends AbstractScreen {
 					if (currentInv.getCurrentItem() != null && currentItem.getDrinkID() == currentDrinkID) {
 						System.out.println("GS: Increasing Health");	
 						
-						showDrinkAnimation();
+						//showDrinkAnimation();
+						//resetPlayerAnimations();
 					
 						hud.increaseHealth(0.25f);
 						hud.removeEquippedItem(currentItem);
