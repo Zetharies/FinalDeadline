@@ -22,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import actions.FadeOutAction;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -34,8 +35,8 @@ import screens.intro.AbstractScreen;
 
 public class MainMenuScreen extends AbstractScreen {
 
-	// Background image for main menu
-	private Image bg;
+    // Background image for main menu
+    private Image bg;
     //main screen background image added to 
     private Table testTable;
     //stage for screen
@@ -45,7 +46,7 @@ public class MainMenuScreen extends AbstractScreen {
     //to display user ability to press on character / levels
     private Texture maleCard, femaleCard, customizeCard, level1, level2;
     //booleans to check animation is in play and audio playing
-    private boolean swipe, playing = false;
+    public static boolean swipe, playing = false;
     //window for quit button pop up
     private Window window;
     //labels for associated buttons 
@@ -84,10 +85,10 @@ public class MainMenuScreen extends AbstractScreen {
         super();
         //create stage for screen
         stage = new Stage(new StretchViewport(getWidth(), getHeight()));
-        
+
         bg = new Image(new TextureRegion((new Texture("images/gamemenu.png"))));
         bg.setSize(getWidth(), getHeight());
-        
+
         testTable = new Table();
         //fit stage into screen
 
@@ -98,7 +99,7 @@ public class MainMenuScreen extends AbstractScreen {
         mp3Sound.setVolume(0.25f);
         skin = new Skin(Gdx.files.internal("fonts/Holo-dark-hdpi.json")); // skin to be applied to buttons 
         skin.getFont("default-font").getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-
+       
 //        camera = new PerspectiveCamera();
 //        viewPort = new StretchViewport(800, 480, camera);
     }
@@ -328,8 +329,8 @@ public class MainMenuScreen extends AbstractScreen {
      * add buttons to screen called in render method
      */
     public void addButtons() { //buttons for each selection
-    	stage.addActor(testTable);
-    	stage.addActor(bg);
+        stage.addActor(testTable);
+        stage.addActor(bg);
         stage.addActor(play);
         stage.addActor(levels);
         stage.addActor(settings);
@@ -606,7 +607,7 @@ public class MainMenuScreen extends AbstractScreen {
                 enterSettings(); // go into settings
             }
         });
-        
+
         //customize button listener
         customizeSelection.addListener(new ClickListener() {
             //default height and width for button
@@ -629,7 +630,7 @@ public class MainMenuScreen extends AbstractScreen {
                 //customizeSelection.setSize(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2);
                 customizeSelection.setSize(selectionWidth, selectionHeight);//reset size back to default
             }
-            
+
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 mp3Sound.stop();//stop audio playing
@@ -665,7 +666,6 @@ public class MainMenuScreen extends AbstractScreen {
                 maleSelection.setSize(selectionWidth, selectionHeight);
             }
 
-            
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 mp3Sound.stop();//stop playing music
@@ -738,7 +738,7 @@ public class MainMenuScreen extends AbstractScreen {
             quit.addAction(Actions.moveBy(+(quit.getWidth() * 2), 0, 0.8f));
             //button is hiden after move by action is completed
             back.addAction(Actions.sequence(action, Actions.hide()));
-            
+
             left = false;//ensures only swipes once
         }
 
@@ -855,8 +855,8 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     /**
-     * swipe right into character selection page 
-    */
+     * swipe right into character selection page
+     */
     private void enterCharacterSelection() {
         if (!characterSelectSwipe && back.getActions().size == 0 || CharacterSelection.EXIT == true) {
             System.out.println("bool check " + characterSelectSwipe);
@@ -885,10 +885,10 @@ public class MainMenuScreen extends AbstractScreen {
 //            }
         }
     }
-    
+
     /**
      * swipe right into settings ui
-    */
+     */
     private void enterSettings() {
         if (!swipe && back.getActions().size == 0 || CharacterSelection.EXIT == true) {
             moveButtonsRight();
@@ -900,10 +900,10 @@ public class MainMenuScreen extends AbstractScreen {
             swipe = true;
         }
     }
-    
+
     /**
      * swipe right into levels screen
-    */
+     */
     private void enterLevels() {
         if (!levelsSwipe && back.getActions().size == 0 || CharacterSelection.EXIT == true) {
             moveButtonsRight();
@@ -921,8 +921,8 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     /**
-     * swipe right into about screen 
-    */
+     * swipe right into about screen
+     */
     private void enterAbout() {
         if (!aboutSwipe && back.getActions().size == 0 || CharacterSelection.EXIT == true) {
             moveButtonsRight();
@@ -933,10 +933,10 @@ public class MainMenuScreen extends AbstractScreen {
             aboutSwipe = true;
         }
     }
-    
+
     /**
-     * swipe right into credits page 
-    */
+     * swipe right into credits page
+     */
     private void enterCredits() {
         if (!creditsSwipe && back.getActions().size == 0 || CharacterSelection.EXIT == true) {
             moveButtonsRight();
@@ -950,8 +950,9 @@ public class MainMenuScreen extends AbstractScreen {
 
     /**
      * create font for buttons to use
+     *
      * @param skin
-     * @return 
+     * @return
      */
     public BitmapFont generateFont(Skin skin) {
         //font for menu text 
@@ -975,7 +976,8 @@ public class MainMenuScreen extends AbstractScreen {
 
     /**
      * height of screen
-     * @return 
+     *
+     * @return
      */
     public static int getHeight() {
         return Gdx.graphics.getHeight();
@@ -983,7 +985,8 @@ public class MainMenuScreen extends AbstractScreen {
 
     /**
      * width of screen
-     * @return 
+     *
+     * @return
      */
     public static int getWidth() {
         return Gdx.graphics.getWidth();

@@ -33,9 +33,9 @@ public class Robot extends NPC{
         y = (float) startY;
         //animation set
         walkingDown = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[0], walkFrames[1], walkFrames[2]);
-        walkingRight = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[7], walkFrames[6], walkFrames[8]);
+        walkingRight = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[8], walkFrames[7], walkFrames[6]);
         walkingLeft = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[3], walkFrames[4], walkFrames[5]);
-        walkingUp = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[10], walkFrames[9], walkFrames[11]);
+        walkingUp = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[11], walkFrames[10], walkFrames[9]);
        
         sprite.setRegion((TextureRegion) walkingRight.getKeyFrame(0));
         bullets = new ArrayList<Bullet>();
@@ -96,6 +96,10 @@ public class Robot extends NPC{
      */
     public float getSpeed(){
         return SPEED;
+    }
+    
+    public Sound getAudio(){
+        return audio;
     }
 
 }

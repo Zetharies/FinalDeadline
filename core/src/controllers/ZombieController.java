@@ -112,9 +112,17 @@ public class ZombieController extends NPCController {
             if (isRightBlocked(this.zombie)) {
                 collision = true;
                 //changing direction values bounces sprite in the opposite direction
-                direction = 1;//move in opposite direction
+                if (!isUpBlocked(this.zombie)) {
+                    direction = 2;
+                } else if (!isDownBlocked(this.zombie)) {
+                    direction = 3;
+                } else {
+                    direction = 1;//move in opposite direction
+
+                }
 
             }
+            // 1 =left 2 = up 3 = down 4=right
             //ensures left is not blocked and npc has chosen to go left
         } else if (left && direction == 1) {
             if (!isLeftBlocked(this.zombie)) {
@@ -126,7 +134,14 @@ public class ZombieController extends NPCController {
             }
             if (isLeftBlocked(this.zombie)) {
                 collision = true;
-                direction = 0;//move in opposite direction
+                if (!isUpBlocked(this.zombie)) {
+                    direction = 2;
+                } else if (!isDownBlocked(this.zombie)) {
+                    direction = 3;
+                } else {
+                    direction = 4;//move in opposite direction
+
+                }
             }
             //ensure up is not blocked and npc has decided to go up
         } else if (up && direction == 2) {
@@ -139,7 +154,14 @@ public class ZombieController extends NPCController {
             }
             if (isUpBlocked(this.zombie)) {
                 collision = true;
-                direction = 3;//move in opposite direction
+                if (!isLeftBlocked(this.zombie)) {
+                    direction = 1;
+                } else if (!isRightBlocked(this.zombie)) {
+                    direction = 4;
+                } else {
+                    direction = 3;//move in opposite direction
+
+                }
             }
             //ensures down is not blocked and npc has decided to go down
         } else if (down && direction == 3) {
@@ -150,9 +172,16 @@ public class ZombieController extends NPCController {
                 zombie.y -= Gdx.graphics.getDeltaTime() * Zombie.SPEED;
                 collision = false;
             }
-            if (isDownBlocked(this.zombie)) {
+            if (isDownBlocked(this.zombie)) {// 1 =left 2 = up 3 = down 4=right
                 collision = true;
-                direction = 2;//move in opposite direction
+                if (!isLeftBlocked(this.zombie)) {
+                    direction = 1;
+                } else if (!isRightBlocked(this.zombie)) {
+                    direction = 4;
+                } else {
+                    direction = 3;//move in opposite direction
+
+                }
             }
 
         }
@@ -291,4 +320,7 @@ public class ZombieController extends NPCController {
         return left;
     }
 
+    public TiledMapTileLayer getCollisions() {
+        return this.collisions;
+    }
 }

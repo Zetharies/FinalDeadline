@@ -58,8 +58,8 @@ import models.BoobyTrap;
 
 public class GameScreen extends AbstractScreen {
 
-	private Music inGameMp3, cafe, library, engineering, gameOver, firstBoss;
-    private	ArrayList<String> currentMapLabel;
+    private Music inGameMp3, cafe, library, engineering, gameOver, firstBoss;
+    private ArrayList<String> currentMapLabel;
 
     private SpriteBatch batch, mapBatch; // Allows us to render sprite to screen really fast
     private Player player;
@@ -99,7 +99,7 @@ public class GameScreen extends AbstractScreen {
     private int currentList = 0;
 
     private Particles smoke, smoke2, smoke3;
-    
+
     private ArrayList<Music> musicList;
 
     private float elapsed = 0.0f;
@@ -122,48 +122,47 @@ public class GameScreen extends AbstractScreen {
         } else {
             gender = "custom";
         }
-        
+
         inGameMp3 = Gdx.audio.newMusic(Gdx.files.internal("music/floor2.mp3"));
         inGameMp3.setLooping(true); // loop the soundtrack
         inGameMp3.setVolume(0.15f);
-        
+
         cafe = Gdx.audio.newMusic(Gdx.files.internal("music/Cafe.wav"));
         cafe.setLooping(true); // loop the soundtrack
         cafe.setVolume(0.15f);
-        
+
         library = Gdx.audio.newMusic(Gdx.files.internal("music/Library.wav"));
         library.setLooping(true); // loop the soundtrack
         library.setVolume(0.15f);
-        
+
         engineering = Gdx.audio.newMusic(Gdx.files.internal("music/Engineering.wav"));
         engineering.setLooping(true); // loop the soundtrack
         engineering.setVolume(0.15f);
-        
+
         gameOver = Gdx.audio.newMusic(Gdx.files.internal("music/GameOver.wav"));
         gameOver.setVolume(0.15f);
-        
+
         firstBoss = Gdx.audio.newMusic(Gdx.files.internal("music/FirstBoss.wav"));
         firstBoss.setLooping(true); // loop the soundtrack
         firstBoss.setVolume(0.15f);
-        
-        
+
         musicList = new ArrayList<Music>();
         musicList.add(inGameMp3);
         musicList.add(cafe);
         musicList.add(library);
         musicList.add(engineering);
         musicList.add(firstBoss);
-        
-        if(SettingsManager.getMusic()) {
-        	musicList.get(0).play();
+
+        if (SettingsManager.getMusic()) {
+            musicList.get(0).play();
         }
-        
+
         currentMapLabel = new ArrayList<String>();
         currentMapLabel.add("Cafeteria");
         currentMapLabel.add("Floor 1: Library");
         currentMapLabel.add("Floor 2: Engineering");
         currentMapLabel.add("Unknown: Floor Boss");
-        
+
         books = new ArrayList<Book>();
         keyboards = new ArrayList<Keyboard>();
         initUI();
@@ -270,7 +269,6 @@ public class GameScreen extends AbstractScreen {
 
         TiledMap mapCollisionsTraps = new TmxMapLoader().load(maps.get(1).getMapLocation());
         TiledMap mapCollisionsRobot = new TmxMapLoader().load(maps.get(4).getMapLocation());
-        TiledMap mapCollisionsBoss = new TmxMapLoader().load(maps.get(0).getMapLocation());
 
         currentInv = new InventorySystem();
         currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), 0);
@@ -283,7 +281,8 @@ public class GameScreen extends AbstractScreen {
         player = new Player(spawnX, spawnY, animations);
         playerControls = new PlayerController(player, (TiledMapTileLayer) loadedMap.getLayers().get(0));
 
-        traps = new BoobyTrap((TiledMapTileLayer) mapCollisionsTraps.getLayers().get(0));
+        traps = new BoobyTrap((TiledMapTileLayer) mapCollisionsTraps.getLayers().get(0), 0);
+        //81 13
 
         robot = new Robot(46, 47, (TiledMapTileLayer) mapCollisionsRobot.getLayers().get(0));
         robotController = new RobotController((TiledMapTileLayer) mapCollisionsRobot.getLayers().get(0), robot);
@@ -368,17 +367,17 @@ public class GameScreen extends AbstractScreen {
     public void render(float delta) {
         // Checks if the map needs changing
         if (playerControls.checkExit(exits)) {
-        	musicList.get(currentList).stop();
-        	hud.setMapLabel(currentMapLabel.get(currentList));
-        	currentList++;
-        	if(currentList > 4) {
-        		currentList = 4;
-        	}
+            musicList.get(currentList).stop();
+            hud.setMapLabel(currentMapLabel.get(currentList));
+            currentList++;
+            if (currentList > 4) {
+                currentList = 4;
+            }
             loadedMap.dispose();
             updateMap();
             renderer.setMap(loadedMap);
-            if(SettingsManager.getMusic()) {
-            	musicList.get(currentList).play();
+            if (SettingsManager.getMusic()) {
+                musicList.get(currentList).play();
             }
             playerControls.setCollisions((TiledMapTileLayer) loadedMap.getLayers().get(0));
             herd.setCollisions((TiledMapTileLayer) loadedMap.getLayers().get(0));
@@ -414,7 +413,7 @@ public class GameScreen extends AbstractScreen {
             playerControls.updatePlayerCoordinates(spawnX, spawnY);
             hud.decreaseLife();
             if (hud.getLives() == 0) {
-            	musicList.get(currentList).stop();
+                musicList.get(currentList).stop();
                 ScreenManager.setGameOver(); // game over
                 gameOver.play();
             }
@@ -424,7 +423,6 @@ public class GameScreen extends AbstractScreen {
         // zombies.get(0).update(delta);
         playerControls.update(delta);
         player.update(delta);
-
         camera.position.set(player.getX() * GameSettings.SCALED_TILE_SIZE,
                 player.getY() * GameSettings.SCALED_TILE_SIZE, 0);
         camera.position.y = player.getLinearY() * 64;
@@ -462,11 +460,12 @@ public class GameScreen extends AbstractScreen {
         // changing height and width changes collisions
         for (int i = 0; i < zombies.size(); i++) {
             // Access Each Zombie in the zombies arraylist and render
-            batch.draw(zombies.get(i).getSprite(),
-                    ((int) zombies.get(i).x * GameSettings.SCALED_TILE_SIZE),
-                    ((int) zombies.get(i).y) * GameSettings.SCALED_TILE_SIZE,
-                    GameSettings.SCALED_TILE_SIZE * 1f,
-                    GameSettings.SCALED_TILE_SIZE * 1f);
+                batch.draw(zombies.get(i).getSprite(),
+                        ((int) zombies.get(i).x * GameSettings.SCALED_TILE_SIZE),
+                        ((int) zombies.get(i).y) * GameSettings.SCALED_TILE_SIZE,
+                        GameSettings.SCALED_TILE_SIZE * 1f,
+                        GameSettings.SCALED_TILE_SIZE * 1f);
+            
         }
         if (maps.indexOf(map) == 1) {//traps located on second map
             for (int i = 0; i < traps.getTraps().size(); i++) {
@@ -574,7 +573,7 @@ public class GameScreen extends AbstractScreen {
                 float zombieWidth = zombieX + (GameSettings.SCALED_TILE_SIZE * 1f);
                 float zombieY = (zombie.y * GameSettings.SCALED_TILE_SIZE);
                 float zombieHeight = zombieY + (GameSettings.SCALED_TILE_SIZE * 1f);
-                
+
                 float bookX = (b.getX() * GameSettings.SCALED_TILE_SIZE) - 10;
                 float bookWidth = bookX + 9;
                 float bookY = (b.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
@@ -691,75 +690,71 @@ public class GameScreen extends AbstractScreen {
         currentMapItems.removeAll(foundMapItems);
 
         currentInv = playerControls.equipItem(currentInv);
-        
-        
+
         if (currentInv.getCurrentItem() != null) {
             hud.drawEquippedItem(currentInv.getCurrentItem());
 
             if (currentInv.getCurrentItem().getName().equals("Book")) {
-            	updateToBook();
-            	
+                updateToBook();
+
             } else if (currentInv.getCurrentItem().getName().equals("Keyboard")) {
-            	updateToKeyboard();
-            	
+                updateToKeyboard();
+
             } else {
-            	resetPlayerAnimations();
-            	
+                resetPlayerAnimations();
+
             }
-        	
+
         } else {
-        	resetPlayerAnimations();
-        	
+            resetPlayerAnimations();
+
         }
 
         Item currentUsedItem = playerControls.itemPressed();
-        
+
         if (currentUsedItem != null) {
-			for (Item currentItem : currentInv.getInventory()) {
-				if (currentUsedItem.getName().equals("Drink")) {
-					if (currentInv.getCurrentItem() != null && currentItem.getDrinkID() == currentDrinkID) {
-						System.out.println("GS: Increasing Health");	
+            for (Item currentItem : currentInv.getInventory()) {
+                if (currentUsedItem.getName().equals("Drink")) {
+                    if (currentInv.getCurrentItem() != null && currentItem.getDrinkID() == currentDrinkID) {
+                        System.out.println("GS: Increasing Health");
 
-						hud.increaseHealth(0.25f);
-						hud.removeEquippedItem(currentItem);
+                        hud.increaseHealth(0.25f);
+                        hud.removeEquippedItem(currentItem);
 
-						currentInv.setDrinkDrawn(false);
-						currentInv.getInventory().get(findDrinkPosition(currentInv)).setItemFound(false);
+                        currentInv.setDrinkDrawn(false);
+                        currentInv.getInventory().get(findDrinkPosition(currentInv)).setItemFound(false);
 
-						currentInv.getCurrentItem().setBeingUsed(false);
-						currentInv.setAsCurrentItem(null);
-						hud.drawEquippedItem(null);
+                        currentInv.getCurrentItem().setBeingUsed(false);
+                        currentInv.setAsCurrentItem(null);
+                        hud.drawEquippedItem(null);
 
-					}					
+                    }
 
-				} else if (currentUsedItem.getName().contains("Potion")) {
-					if (currentItem.equals(currentUsedItem) && playerControls.isOnVent()) {
-						System.out.println("GS: Using " + currentItem.getName() + " on Vent");
+                } else if (currentUsedItem.getName().contains("Potion")) {
+                    if (currentItem.equals(currentUsedItem) && playerControls.isOnVent()) {
+                        System.out.println("GS: Using " + currentItem.getName() + " on Vent");
 
-						hud.removeEquippedItem(currentItem);
+                        hud.removeEquippedItem(currentItem);
 
-						currentInv.getCurrentItem().setItemFound(false);
-						currentInv.getCurrentItem().setBeingUsed(false);
-						currentInv.getCurrentItem().setInvDrawn(false);
-						currentInv.getCurrentItem().setPotionUsed(true);
+                        currentInv.getCurrentItem().setItemFound(false);
+                        currentInv.getCurrentItem().setBeingUsed(false);
+                        currentInv.getCurrentItem().setInvDrawn(false);
+                        currentInv.getCurrentItem().setPotionUsed(true);
 
-						currentInv.setAsCurrentItem(null);
-						hud.drawEquippedItem(null);
-        				
-        			}
-        		}
-        	}
+                        currentInv.setAsCurrentItem(null);
+                        hud.drawEquippedItem(null);
+
+                    }
+                }
+            }
         }
-        
+
         playerControls.getPlayerXY();
-        
+
         if (currentInv.allPotionsUsed()) {
-        	System.out.println("POTIONS HAVE DEACTIVATED VIRUS");
-        	
-        	
+            System.out.println("POTIONS HAVE DEACTIVATED VIRUS");
+
         }
-        
-        
 
         if (player.getX() == 92 && player.getY() == 4 && playerControls.getInteract()) {
             elapsed += delta;
@@ -931,9 +926,11 @@ public class GameScreen extends AbstractScreen {
 
         player.setAnimations(animations);
     }
-    
+
     /**
-     * <p> Method used to reset the player animations, so that they are not holding any items
+     * <p>
+     * Method used to reset the player animations, so that they are not holding
+     * any items
      */
     public void resetPlayerAnimations() {
         assetManager = new AssetManager();
@@ -960,14 +957,16 @@ public class GameScreen extends AbstractScreen {
                 standing.findRegion(chosenCharacter + "_standing_south"),
                 standing.findRegion(chosenCharacter + "_standing_east"),
                 standing.findRegion(chosenCharacter + "_standing_west"));
-        
-        player.setAnimations(animations);   	
-    	
+
+        player.setAnimations(animations);
+
     }
-    
+
     /**
-     * <p> Method used to find the current position of the Drink object within the current Inventory
-     * 
+     * <p>
+     * Method used to find the current position of the Drink object within the
+     * current Inventory
+     *
      * @param currentInv InventorySystem used to find the Drink object
      * @return Int of the position of the Drink object
      */

@@ -22,7 +22,6 @@ public class BulletController extends NPCController{
         this.bullet = bullet;
         rangeTimer = 0;
     }
-    
     /**
      * Update that can be used for bullet distance
      * @param delta
@@ -50,43 +49,5 @@ public class BulletController extends NPCController{
                 this.bullet.y -= Gdx.graphics.getDeltaTime() * Bullet.SPEED;
             }
         }
-    }
-    
-    /**
-     * Check if there is a collision for above layer
-     * @return if up is blocked
-     */
-    protected boolean isUpBlocked() {
-        return isBlocked((int) (bullet.x), (int) (bullet.y + 0.5), collisions);
-    }
-
-    /**
-     * Check if there is a collision for below layer
-     * @return if down is blocked
-     */
-    protected boolean isDownBlocked() {
-        if (bullet.y - 0.25 >= 0) {
-            return isBlocked((int) bullet.x, (int) (bullet.y - 0.25), collisions);
-        }
-        return true;
-    }
-
-    /**
-     * Check if there is a collision for left layer
-     * @return if left is blocked
-     */
-    private boolean isLeftBlocked() {
-        if (bullet.y - 0.45 >= 0) {
-            return isBlocked((int) (bullet.x - 0.45), (int) bullet.y, collisions);
-        }
-        return true;
-    }
-
-    /**
-     * Check if there is a collision for right layer
-     * @return if right is blocked
-     */
-    private boolean isRightBlocked() {
-        return isBlocked((int) (bullet.x + 0.45), (int) bullet.y, collisions);
     }
 }
