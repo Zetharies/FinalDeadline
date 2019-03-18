@@ -212,7 +212,7 @@ public class GameScreen extends AbstractScreen {
 		// map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); //
 		// map to load, extremely basic map,
 		// will be changed
-		map = maps.get(5);
+		map = maps.get(0);
 		loadedMap = new TmxMapLoader().load(map.getMapLocation());
 
 		currentInv = new InventorySystem();
@@ -292,7 +292,7 @@ public class GameScreen extends AbstractScreen {
 		table = new Table();
 		table.setFillParent(true);
 		stage.addActor(table);
-		
+
 		table2 = new Table();
 		table2.setFillParent(true);
 		stage.addActor(table2);
@@ -335,10 +335,15 @@ public class GameScreen extends AbstractScreen {
 			playerControls.resetDirection();
 
 			handler = new ScreenplayHandler();
-			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\n*You hear faint sounds far away*   [ENTER]",
-					0);
-			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\n.. ...   [ENTER]", 1);
-
+			ScreenplayNode faint;
+			ScreenplayNode faint2;
+			if(maps.indexOf(map) == 4) {
+				faint = new ScreenplayNode(chosenCharacter + ":\nI've never seen this room before.   [ENTER]", 0);
+				 faint2 = new ScreenplayNode(chosenCharacter + ":\n.. ...   [ENTER]", 1);
+			} else {
+				faint = new ScreenplayNode(chosenCharacter + ":\n*You hear faint sounds far away*   [ENTER]", 0);
+				 faint2 = new ScreenplayNode(chosenCharacter + ":\n.. ...   [ENTER]", 1);
+			}
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
 			handler.addNode(faint2);
@@ -626,7 +631,7 @@ public class GameScreen extends AbstractScreen {
 				}
 			}
 		}
-		
+
 		if(maps.indexOf(map) == 5 && player.getX() == 21 && player.getY() == 78 && playerControls.getInteract()) {
 			elapsed += delta;
 			playerControls.resetDirection();
@@ -634,10 +639,17 @@ public class GameScreen extends AbstractScreen {
 			table2.setDebug(true);
 			table2.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/horror.png"))));
 			stage.addActor(table2);
+			String chosenOutput;
+			if(chosenCharacter == "Flynn") {
+				chosenOutput = ":\nWas that supposed to be scary?";
+			} else if(chosenCharacter == "Jessica") {
+				chosenOutput = ":\nSomeone has too much time on their hands!  [ENTER]";
+			} else {
+				chosenOutput = ":\nWow I'm shocketh   [ENTER]";
+			}
 			handler = new ScreenplayHandler();
-			ScreenplayNode faint = new ScreenplayNode("Someone has too much time on their hands!  [ENTER]", 0);
-			ScreenplayNode faint2 = new ScreenplayNode(
-					chosenCharacter + ":\n.....   [ENTER]", 1);
+			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\n.....   [ENTER]", 1);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + chosenOutput, 0);
 			Sound sound = Gdx.audio.newSound(Gdx.files.internal("music/scream.mp3"));
 			if(elapsed == delta) {
 				sound.play();
@@ -655,10 +667,10 @@ public class GameScreen extends AbstractScreen {
 				elapsed = 0.0f;
 			}
 		}
-		
+
 		interacts();
 
-		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 5) {
+		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 4) {
 			zombies.removeAll(zombies);
 		}
 
@@ -788,14 +800,13 @@ public class GameScreen extends AbstractScreen {
 		return currentInv;
 
 	}
-	
+
 	private void interacts() {
 		if(maps.indexOf(map) == 0 && player.getX() > 51 && player.getY() > 45 && player.getX() < 57 && been == false) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
-			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nTime for another stressful day  [ENTER]", 0);
-			ScreenplayNode faint2 = new ScreenplayNode(
-					chosenCharacter + ":\nWhat's that sound?   [ENTER]", 1);
+			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nTime for another boring day  [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nWhat's that sound?   [ENTER]", 1);
 
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
@@ -836,12 +847,12 @@ public class GameScreen extends AbstractScreen {
 				playerControls.setInteractFalse();
 			}
 		}
-		
+
 		if(maps.indexOf(map) == 1 && player.getX() == 86 && player.getY() == 49 && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
-			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nWhats is that smell!?  [ENTER]", 0);
-			ScreenplayNode faint2 = new ScreenplayNode("*Smells like rotting fish*   [ENTER]", 1);
+			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nWho leaves raw food out in the open like that...  [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode("*It smells like rotting fish*   [ENTER]", 1);
 
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
@@ -849,7 +860,7 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 			playerControls.setInteractFalse();
 		}
-		
+
 		if(maps.indexOf(map) == 1 && player.getX() > 33 && player.getX() < 42 && player.getY() == 44 && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
@@ -862,7 +873,7 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 			playerControls.setInteractFalse();
 		}
-		
+
 		if(maps.indexOf(map) == 2 && player.getX() == 47  && player.getY() == 63 && beenTwo == false) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
@@ -875,7 +886,7 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 			beenTwo = true;
 		}
-		
+
 		if(maps.indexOf(map) == 2 && player.getX() == 21  && player.getY() == 21 && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
@@ -888,7 +899,7 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 			playerControls.setInteractFalse();
 		}
-		
+
 		if(maps.indexOf(map) == 2 && player.getX() >= 34 && player.getX() <= 38  && player.getY() == 76 && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
@@ -901,7 +912,7 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 			playerControls.setInteractFalse();
 		}
-		
+
 		if(maps.indexOf(map) == 2 && player.getX() == 78 && player.getY() == 38 && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
@@ -914,7 +925,7 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 			playerControls.setInteractFalse();
 		}
-		
+
 		if(maps.indexOf(map) == 2 && player.getX() == 75 && player.getY() == 32 && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
@@ -927,12 +938,15 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 			playerControls.setInteractFalse();
 		}
-		
+
 		if(maps.indexOf(map) == 3 && player.getX() >= 86 && player.getX() <= 88 && player.getY() == 89 && beenThree == false) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode("*Floor boards creak*   [ENTER]", 0);
 			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nBetter be careful\nLooks like it might fall down   [ENTER]", 1);
+
+			Sound sound = Gdx.audio.newSound(Gdx.files.internal("music/Creaking.mp3"));
+			sound.play();
 
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
@@ -940,7 +954,7 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 			beenThree = true;
 		}
-		
+
 		if(maps.indexOf(map) == 3 && player.getX() == 86 && player.getY() == 79 && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
@@ -953,7 +967,7 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 			playerControls.setInteractFalse();
 		}
-		
+
 		if(maps.indexOf(map) == 3 && player.getX() == 72 && player.getY() == 64 && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
@@ -966,12 +980,15 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 			playerControls.setInteractFalse();
 		}
-		
+
 		if(maps.indexOf(map) == 3 && player.getX() >= 41 && player.getX() <= 43 && player.getY() >= 13 && player.getY() <= 14 && beenFour == false) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode("*Floor boards creak*   [ENTER]", 0);
 			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nBetter be careful\nLooks like it might fall down   [ENTER]", 1);
+
+			Sound sound = Gdx.audio.newSound(Gdx.files.internal("music/Creaking.mp3"));
+			sound.play();
 
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
@@ -979,7 +996,7 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 			beenFour = true;
 		}
-		
+
 		if(maps.indexOf(map) == 3 && ((player.getX() == 79 && player.getY() == 26) || (player.getX() == 79 && player.getY() == 46)) && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
@@ -992,5 +1009,32 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 			playerControls.setInteractFalse();
 		}
+
+
+
+		if(maps.indexOf(map) == 5 && (player.getX() <= 83 && player.getX() >= 80) && 
+				(player.getY() >= 68 && player.getY() <= 71) && playerControls.getInteract()) {
+			playerControls.resetDirection();
+			handler = new ScreenplayHandler();
+			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nA containment pod...    [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nIt looks like it was broken from the inside   [ENTER]", 1);
+
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+			playerControls.setInteractFalse();
+		}
+
+		if(maps.indexOf(map) == 5 && (player.getX() <= 48 && player.getX() >= 43) && 
+				(player.getY() >= 67 && player.getY() <= 69) && playerControls.getInteract()) {
+			playerControls.resetDirection();
+
+			Sound sound = Gdx.audio.newSound(Gdx.files.internal("music/Satellite noise.wav"));
+			sound.play();
+
+			playerControls.setInteractFalse();
+		}
+
 	}
 }
