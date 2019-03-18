@@ -28,7 +28,7 @@ public class InventorySystem{
 	
 	private int mapNumber;
 	
-	private Boolean drinkDrawn;
+	private boolean drinkDrawn, drinkAnimated;
 
 	public InventorySystem() {	
 		inventory = new ArrayList<Item>();
@@ -40,6 +40,7 @@ public class InventorySystem{
 		currentItem = null;
 		
 		drinkDrawn = false;
+		drinkAnimated = false;
 
 	}
 	
@@ -370,6 +371,14 @@ public class InventorySystem{
 
     }
 
+    
+    public void setDrinkAnimated(boolean choice) {
+    	drinkAnimated = choice;
+    }
+    
+    public boolean getDrinkAnimated() {
+    	return drinkAnimated;
+    }
     
 	public void setAsCurrentItem(Item newItem) {
 		currentItem = newItem;
