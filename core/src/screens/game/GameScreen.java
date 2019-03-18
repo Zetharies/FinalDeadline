@@ -1038,6 +1038,20 @@ public class GameScreen extends AbstractScreen {
 
 			playerControls.setInteractFalse();
 		}
+		
+		if(maps.indexOf(map) == 5 && (player.getX() <= 85 && player.getX() >= 80) && 
+				player.getY() == 80 && playerControls.getInteract()) {
+			playerControls.resetDirection();
+			handler = new ScreenplayHandler();
+			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nWhat is this thing?    [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nIt looks like it's been used recently   [ENTER]", 1);
+
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+			playerControls.setInteractFalse();
+		}
 
 	}
 }
