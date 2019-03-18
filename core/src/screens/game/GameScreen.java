@@ -286,7 +286,7 @@ public class GameScreen extends AbstractScreen {
         // map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); //
         // map to load, extremely basic map,
         // will be changed
-        map = maps.get(0);
+        map = maps.get(5);
         loadedMap = new TmxMapLoader().load(map.getMapLocation());
 
         TiledMap mapCollisionsTraps = new TmxMapLoader().load(maps.get(1).getMapLocation());
@@ -368,6 +368,9 @@ public class GameScreen extends AbstractScreen {
         table = new Table();
         table.setFillParent(true);
         stage.addActor(table);
+        
+        table2 = new Table();
+        stage.addActor(table2);
 
         dialogue = new Screenplay(chosenCharacter);
         table.add(dialogue).expand().align(Align.bottom).pad(85f);
