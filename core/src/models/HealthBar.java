@@ -15,20 +15,21 @@ public class HealthBar extends ProgressBar {
 	/**
 	 * @param width  of the health bar
 	 * @param height of the health bar
+	 * @param color of the health
 	 */
 	private TextureRegion leftBorder;
 	private TextureRegion rightBorder;
 
 	// Health bar properties
-	public HealthBar(int width, int height) {
+	public HealthBar(int width, int height, Color color) {
 		super(0f, 1f, 0.01f, false, new ProgressBarStyle());
 		TextureAtlas textureAtlas = new TextureAtlas(Gdx.files.internal("images/progress-bars.pack"));
 		getStyle().background = new TextureRegionDrawable(textureAtlas.findRegion("loading-bar-2-background")); // background
 																												// of
 																												// the
 																												// bar
-		getStyle().knob = ImageBar.getColoredDrawable(0, height, Color.GREEN);
-		getStyle().knobBefore = ImageBar.getColoredDrawable(width, height, Color.GREEN);
+		getStyle().knob = ImageBar.getColoredDrawable(0, height, color);
+		getStyle().knobBefore = ImageBar.getColoredDrawable(width, height, color);
 
 		leftBorder = textureAtlas.findRegion("loading-bar-2-left"); // left border of the bar
 		rightBorder = textureAtlas.findRegion("loading-bar-2-right"); // right border
@@ -39,7 +40,21 @@ public class HealthBar extends ProgressBar {
 		setAnimateDuration(0.0f); // animation of the health
 
 	}
+	
+	/**
+	 * testing constructor
+	 */
 
+	public HealthBar() {
+		// TODO Auto-generated constructor stub
+		super(0f, 1f, 0.01f, false, new ProgressBarStyle());
+	}
+	
+	/**
+	 * Rendering a complete health bar texture 
+	 * @param batch
+	 * @param delta float to render it
+	 */
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		// First draw the left border.
@@ -62,9 +77,15 @@ public class HealthBar extends ProgressBar {
 		setWidth(prevWidth);
 	}
 
-	public boolean getHealth() {
+	public boolean getHealthValue() {
 		// returns the health bar value,
 		return setValue(health);
+	}
+
+	public float getHealth() {
+		//health float value dfor testing
+		return health;
+		
 	}
 
 	public void setHealth(boolean health) {
