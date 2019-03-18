@@ -1,0 +1,20 @@
+
+jessicaAnimation.png
+size: 128,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+jessica_poweredUp1
+  rotate: false
+  xy: 2, 2
+  size: 35, 54
+  orig: 35, 54
+  offset: 0, 0
+  index: -1
+jessica_poweredUp2
+  rotate: false
+  xy: 39, 4
+  size: 31, 52
+  orig: 31, 52
+  offset: 0, 0
+  index: -1

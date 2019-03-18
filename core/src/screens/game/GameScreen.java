@@ -219,9 +219,9 @@ public class GameScreen extends AbstractScreen {
 		 */
 		AnimationSet jessicaPoweredAnimation = new AnimationSet(
 				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
-						poweredUp.findRegions("jessicacPowered1"), Animation.PlayMode.LOOP_PINGPONG),
+						poweredUp.findRegions("jessica_poweredUp1"), Animation.PlayMode.LOOP_PINGPONG),
 				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
-						poweredUp.findRegions("jessicaPowered2"), Animation.PlayMode.LOOP_PINGPONG));
+						poweredUp.findRegions("jessica_PoweredUp2"), Animation.PlayMode.LOOP_PINGPONG));
 
 
 
