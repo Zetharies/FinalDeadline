@@ -1,39 +1,42 @@
-
 package models;
 
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import java.util.ArrayList;
 
-
 public class BoobyTrap {
+
     private ArrayList<Trap> traps;
-    private TiledMapTileLayer collisions; 
-    
+    private TiledMapTileLayer collisions;
+
     /**
-     * construct array of traps and add 
-     * @param collisions 
+     * construct array of traps and add
+     *
+     * @param collisions
      */
-    public BoobyTrap(TiledMapTileLayer collisions) {
+    public BoobyTrap(TiledMapTileLayer collisions, int trap) {
         traps = new ArrayList<Trap>();
         this.collisions = collisions;
-        addTraps();
+        addTraps(trap);
     }
 
     /**
      * set traps at specific coordinates- used to render traps
      */
-    private void addTraps() {
+    private void addTraps(int trap) {
         //x y collision set
-        traps.add(new Trap(65, 75, collisions));
-        traps.add(new Trap(65, 76, collisions));
-        traps.add(new Trap(65, 77, collisions));
+        if (trap == 0) {
+            traps.add(new Trap(65, 76, collisions));
+            traps.add(new Trap(65, 77, collisions));
+            traps.add(new Trap(65, 78, collisions));
+        }
     }
-    
+
     /**
      * return list of traps used for rendering and updating
-     * @return 
+     *
+     * @return
      */
-    public ArrayList<Trap> getTraps(){
+    public ArrayList<Trap> getTraps() {
         return traps;
     }
 }

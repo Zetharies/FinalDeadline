@@ -36,7 +36,7 @@ public class GameOverScreen extends AbstractScreen {
     private Skin skin;
     private Label menu, exit;
     private boolean playing = false;
-    Table table; //construct table for labels
+
 
     /**
      * Constructor for GameOverScreen Creates GameOver background along with
@@ -46,7 +46,6 @@ public class GameOverScreen extends AbstractScreen {
         stage = new Stage(new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
 
         skin = new Skin(Gdx.files.internal("fonts/Holo-dark-hdpi.json"));
-
 
         menu = new Label("RETURN TO MENU", skin);
         exit = new Label("EXIT GAME", skin);

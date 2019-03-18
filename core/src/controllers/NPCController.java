@@ -40,46 +40,46 @@ public abstract class NPCController {
         this.playerY = playerY;
     }
 
-    protected void moveToPlayer(NPC zombie, double speed) {
+    protected void moveToPlayer(NPC npc, double speed) {
         //right must be true meaning up is not blocked - updated in updatecollisions methods
-        if (right && zombie.getX() < playerX) {
+        if (right && npc.getX() < playerX) {
             //set the zombie to face right and loop animation
-            zombie.getSprite().setRegion((TextureRegion) zombie.getRight().getKeyFrame(incr));
+            npc.getSprite().setRegion((TextureRegion) npc.getRight().getKeyFrame(incr));
             //increase zombie x coord to move right 
-            zombie.x += Gdx.graphics.getDeltaTime() * speed;
+            npc.x += Gdx.graphics.getDeltaTime() * speed;
             //if right is blocked sprite should bounce off wall and move randomly.
-            if (isRightBlocked(zombie) || !right) {
+            if (isRightBlocked(npc) || !right) {
                 moveRandom = true;
             }
             //left must be true meaning up is not blocked - updated in updatecollisions methods
-        } else if (left && zombie.getX() > playerX) {
+        } else if (left && npc.getX() > playerX) {
             //set the zombie to face left and increment animation
-            zombie.getSprite().setRegion((TextureRegion) zombie.getLeft().getKeyFrame(incr));
+            npc.getSprite().setRegion((TextureRegion) npc.getLeft().getKeyFrame(incr));
             //to move left decrement x 
-            zombie.x -= Gdx.graphics.getDeltaTime() * speed;
+            npc.x -= Gdx.graphics.getDeltaTime() * speed;
 
             //detection of left collision tile should move randomly
-            if (isLeftBlocked(zombie) || !left) {
+            if (isLeftBlocked(npc) || !left) {
                 moveRandom = true;
             }
             //up must be true meaning up is not blocked - updated in updatecollisions methods
 
-        } else if (up && zombie.getY() < playerY) {
+        } else if (up && npc.getY() < playerY) {
             //
-            zombie.getSprite().setRegion((TextureRegion) zombie.getUp().getKeyFrame(incr));
-            zombie.y += Gdx.graphics.getDeltaTime() * speed;
+            npc.getSprite().setRegion((TextureRegion) npc.getUp().getKeyFrame(incr));
+            npc.y += Gdx.graphics.getDeltaTime() * speed;
 
-            if (isUpBlocked(zombie) || !up) {
+            if (isUpBlocked(npc) || !up) {
                 moveRandom = true;
             }
             //down must be true meaning up is not blocked - updated in updatecollisions methods
-        } else if (down && zombie.getY() > playerY) {
+        } else if (down && npc.getY() > playerY) {
             //zombie to face down and increment through the associated aniamtion
-            zombie.getSprite().setRegion((TextureRegion) zombie.getDown().getKeyFrame(incr));
+            npc.getSprite().setRegion((TextureRegion) npc.getDown().getKeyFrame(incr));
             //decrement y coord to move left 
-            zombie.y -= Gdx.graphics.getDeltaTime() * speed;
+            npc.y -= Gdx.graphics.getDeltaTime() * speed;
 
-            if (isDownBlocked(zombie) || !down) {
+            if (isDownBlocked(npc) || !down) {
                 moveRandom = true;
             }
         }

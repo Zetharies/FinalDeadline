@@ -1,7 +1,10 @@
 package controllers;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import managers.SettingsManager;
+import models.NPC;
 
 import models.Robot;
 
@@ -37,7 +40,7 @@ public class RobotController extends NPCController {
         //shoot when player detected and move to player
         if (detectPlayer(this.robot, RADIUS)) {
             moveToPlayer(this.robot, Robot.SPEED);
-            if (toShoot == 50) {//50 fire rate 
+            if (toShoot == 80) {//50 fire rate 
                 System.out.println("shoot");
                 robot.shoot();//shoot - create new bullet
                 robot.getBullets().get(robot.getBullets().size() - 1).setShoot(true);//set shot to true to render
@@ -47,8 +50,39 @@ public class RobotController extends NPCController {
                 }
             }
         }
-        if (toShoot == 50) {
+        if (toShoot == 80) {
             toShoot = 0;
+        }
+    }
+
+    @Override
+    public void moveToPlayer(NPC npc, double speed) {
+        //right must be true meaning up is not blocked - updated in updatecollisions methods
+        if (npc.getX() < playerX) {
+            //set the zombie to face right and loop animation
+            npc.getSprite().setRegion((TextureRegion) npc.getRight().getKeyFrame(incr));
+            //increase zombie x coord to move right 
+            npc.x += Gdx.graphics.getDeltaTime() * speed;
+
+        }
+        if (npc.getX() > playerX) {
+            //set the zombie to face left and increment animation
+            npc.getSprite().setRegion((TextureRegion) npc.getLeft().getKeyFrame(incr));
+            //to move left decrement x 
+            npc.x -= Gdx.graphics.getDeltaTime() * speed;
+
+        }
+        if (npc.getY() < playerY) {
+            //
+            npc.getSprite().setRegion((TextureRegion) npc.getUp().getKeyFrame(incr));
+            npc.y += Gdx.graphics.getDeltaTime() * speed;
+
+        }
+        if (npc.getY() > playerY) {
+            //zombie to face down and increment through the associated aniamtion
+            npc.getSprite().setRegion((TextureRegion) npc.getDown().getKeyFrame(incr));
+            //decrement y coord to move left 
+            npc.y -= Gdx.graphics.getDeltaTime() * speed;
         }
     }
 
@@ -56,9 +90,18 @@ public class RobotController extends NPCController {
         playAudio = audio;
     }
 
-
     public void updateTimers(float delta) {
-       
+        timer += (delta * 100);
+
+        //walking animation timer 50
+        if (timer >= 30) {
+            timer = 0;//reset timer
+            incr++;
+        }
+        //increments through walking frames
+        if (incr == 3) {
+            incr = 0;//back to initial animation
+        }
     }
 
 //    @SuppressWarnings("static-access")

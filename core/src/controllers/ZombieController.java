@@ -320,4 +320,7 @@ public class ZombieController extends NPCController {
         return left;
     }
 
+    public TiledMapTileLayer getCollisions() {
+        return this.collisions;
+    }
 }

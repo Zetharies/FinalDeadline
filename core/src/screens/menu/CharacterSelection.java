@@ -101,7 +101,7 @@ public class CharacterSelection extends AbstractScreen {
 //                stage.getWidth() * 5 / 6 - previous.getWidth() / 2, stage.getHeight() / 2);
         stage.addActor(previous);
 
-        TextButton back = new TextButton("[ESC] BACK", skin);
+        TextButton back = new TextButton("BACK", skin);
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
@@ -161,9 +161,7 @@ public class CharacterSelection extends AbstractScreen {
     @Override
     public void render(float delta) {
         // TODO Auto-generated method stub
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            ScreenManager.setMainMenuScreen();
-        }
+        
         Gdx.gl.glClearColor(0f, 0f, 0f, 1);
         Gdx.gl.glClear(GL30.GL_COLOR_BUFFER_BIT);
         stage.act(delta);

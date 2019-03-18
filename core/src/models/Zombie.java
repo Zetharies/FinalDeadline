@@ -116,5 +116,9 @@ public class Zombie extends NPC {
     public double getSpeed() {
         return SPEED;
     }
+    
+    public TiledMapTileLayer getCollisions(){
+        return controller.getCollisions();
+    }
 
 }
