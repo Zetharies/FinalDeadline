@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,8 +17,10 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.RemoveAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -56,6 +59,7 @@ import riddleScreen.RiddleCard;
 import screens.intro.AbstractScreen;
 import screens.menu.MainMenuScreen;
 import models.BossZombie;
+import models.HealthBar;
 import controllers.BossController;
 import models.BoobyTrap;
 
@@ -113,6 +117,8 @@ public class GameScreen extends AbstractScreen {
 	private boolean wrong;
 
 	private boolean hasDrink = false, beenTwo = false, beenThree = false, beenFour = false;
+	private boolean isPaused;
+	private HealthBar bossHealth, robotHealth;
 
 	public GameScreen(String character) {
 		Assets.load();
@@ -147,6 +153,15 @@ public class GameScreen extends AbstractScreen {
 		firstBoss = Gdx.audio.newMusic(Gdx.files.internal("music/FirstBoss.wav"));
 		firstBoss.setLooping(true); // loop the soundtrack
 		firstBoss.setVolume(0.15f);
+
+		robotHealth = new HealthBar(580, 8 + (1 / 2), Color.BLUE);
+
+		robotHealth.setName("robotHealth");
+		robotHealth.getHealthValue();
+
+		bossHealth = new HealthBar(580, 8 + (1 / 2), Color.RED);
+		bossHealth.setName("robotHealth");
+		bossHealth.getHealthValue();
 
 		musicList = new ArrayList<Music>();
 		musicList.add(inGameMp3);
@@ -249,8 +264,8 @@ public class GameScreen extends AbstractScreen {
 				.get("sprite/" + gender + "/" + chosenCharacter + "_powered_walking.atlas", TextureAtlas.class);
 
 		/**
-		 * Call upon the sprite for the animations 'walking' and the texture
-		 * region 'standing'
+		 * Call upon the sprite for the animations 'walking' and the texture region
+		 * 'standing'
 		 */
 		AnimationSet animations = new AnimationSet(
 				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
@@ -270,18 +285,18 @@ public class GameScreen extends AbstractScreen {
 		 * Call upon the sprite for the animation of Flynn being powered up
 		 */
 		AnimationSet flynnPoweredAnimation = new AnimationSet(
-				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
-						poweredUp.findRegions("flynnPowered1"), Animation.PlayMode.LOOP_PINGPONG),
-				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
-						poweredUp.findRegions("flynnPowered2"), Animation.PlayMode.LOOP_PINGPONG));
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f, poweredUp.findRegions("flynnPowered1"),
+						Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f, poweredUp.findRegions("flynnPowered2"),
+						Animation.PlayMode.LOOP_PINGPONG));
 		/**
 		 * Call upon the sprite for the animation of Jessica being powered up
 		 */
 		AnimationSet jessicaPoweredAnimation = new AnimationSet(
-				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
-						poweredUp.findRegions("jessicacPowered1"), Animation.PlayMode.LOOP_PINGPONG),
-				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
-						poweredUp.findRegions("jessicaPowered2"), Animation.PlayMode.LOOP_PINGPONG));
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f, poweredUp.findRegions("jessicacPowered1"),
+						Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f, poweredUp.findRegions("jessicaPowered2"),
+						Animation.PlayMode.LOOP_PINGPONG));
 
 		// map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); //
 		// map to load, extremely basic map,
@@ -414,16 +429,16 @@ public class GameScreen extends AbstractScreen {
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint;
 			ScreenplayNode faint2;
-			if(maps.indexOf(map) == 4) {
+			if (maps.indexOf(map) == 4) {
 				faint = new ScreenplayNode(chosenCharacter + ":\nI've never seen this room before.   [ENTER]", 0);
 				faint2 = new ScreenplayNode(chosenCharacter + ":\n.. ...   [ENTER]", 1);
-			}else if(maps.indexOf(map) == 6) {
+			} else if (maps.indexOf(map) == 6) {
 				faint = new ScreenplayNode(chosenCharacter + ":\nAnother one?   [ENTER]", 0);
 				faint2 = new ScreenplayNode(chosenCharacter + ":\n.. ...   [ENTER]", 1);
-			}else if(maps.indexOf(map) == 8) {
+			} else if (maps.indexOf(map) == 8) {
 				faint = new ScreenplayNode(chosenCharacter + ":\nChax?! What is happening?   [ENTER]", 0);
 				faint2 = new ScreenplayNode(chosenCharacter + ":\nWait.. What are you doing?!   [ENTER]", 1);
-			}else {
+			} else {
 				faint = new ScreenplayNode(chosenCharacter + ":\n*You hear faint sounds far away*   [ENTER]", 0);
 				faint2 = new ScreenplayNode(chosenCharacter + ":\n.. ...   [ENTER]", 1);
 			}
@@ -494,70 +509,77 @@ public class GameScreen extends AbstractScreen {
 		// changing height and width changes collisions
 		for (int i = 0; i < zombies.size(); i++) {
 			// Access Each Zombie in the zombies arraylist and render
-			batch.draw(zombies.get(i).getSprite(),
-					((int) zombies.get(i).x * GameSettings.SCALED_TILE_SIZE),
-					((int) zombies.get(i).y) * GameSettings.SCALED_TILE_SIZE,
-					GameSettings.SCALED_TILE_SIZE * 1f,
+			batch.draw(zombies.get(i).getSprite(), ((int) zombies.get(i).x * GameSettings.SCALED_TILE_SIZE),
+					((int) zombies.get(i).y) * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
 					GameSettings.SCALED_TILE_SIZE * 1f);
 		}
-		if (maps.indexOf(map) == 1) {//traps located on second map
+		if (maps.indexOf(map) == 1) {// traps located on second map
 			for (int i = 0; i < traps.getTraps().size(); i++) {
 				traps.getTraps().get(i).setPlayerPosition(player.getX(), player.getY());
-				if ((int) player.getY() + 1 == (int) traps.getTraps().get(i).getPosY()) {//start trap when player in line with trrap
+				if ((int) player.getY() + 1 == (int) traps.getTraps().get(i).getPosY()) {// start trap when player in
+																							// line with trrap
 					traps.getTraps().get(i).setShoot(true);
 				}
-				//update trap and render
+				// update trap and render
 				if (traps.getTraps().get(i).getShoot() || traps.getTraps().get(i).getUsed()) {
 					traps.getTraps().get(i).update(delta);
 					batch.draw(traps.getTraps().get(i).getSprite(),
-							(traps.getTraps().get(i).x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
-							traps.getTraps().get(i).y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 0.4f,
-							GameSettings.SCALED_TILE_SIZE * 0.4f);
+							(traps.getTraps().get(i).x * GameSettings.SCALED_TILE_SIZE)
+									- (GameSettings.SCALED_TILE_SIZE / 2),
+							traps.getTraps().get(i).y * GameSettings.SCALED_TILE_SIZE,
+							GameSettings.SCALED_TILE_SIZE * 0.4f, GameSettings.SCALED_TILE_SIZE * 0.4f);
 				}
-				//detect whether trap  x y= player x y
+				// detect whether trap x y= player x y
 				if ((((int) (traps.getTraps().get(i).getPosX()) >= (int) (player.getX())
 						&& (int) (traps.getTraps().get(i).getPosX()) <= (int) (player.getX() + 1)))
 						&& (((int) (traps.getTraps().get(i).getPosY()) >= (int) (player.getY())
-						&& (int) (traps.getTraps().get(i).getPosY()) <= (int) (player.getY()) + 1))) {
-					hud.reduceHealth(0.01f);//reduce player health
+								&& (int) (traps.getTraps().get(i).getPosY()) <= (int) (player.getY()) + 1))) {
+					hud.reduceHealth(0.01f);// reduce player health
 				}
 			}
 		}
-		if (maps.indexOf(map) == 4) {//show robot on 1st boss map
+		if (maps.indexOf(map) == 4) {// show robot on 1st boss map
 
-			//update robot
+			// update robot
 			if (!robot.isDead()) {
 				robotController.setPlayerPosition(playerControls.getPlayer().getX(), playerControls.getPlayer().getY());
 				robotController.update(delta);
 				for (int i = 0; i < robot.getBullets().size(); i++) {
 					robot.getBullets().get(i).setPlayerPosition(player.getX(), player.getY());
-					robot.getBullets().get(i).update(delta);//send bullet to player xy
-					if (robot.getBullets().get(i).getShoot()) {//if bullet shot render
+					robot.getBullets().get(i).update(delta);// send bullet to player xy
+					if (robot.getBullets().get(i).getShoot()) {// if bullet shot render
 						batch.draw(robot.getBullets().get(i).getSprite(),
 								(robot.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE)
-								- (GameSettings.SCALED_TILE_SIZE / 2),
+										- (GameSettings.SCALED_TILE_SIZE / 2),
 								robot.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE,
 								GameSettings.SCALED_TILE_SIZE / 5f, GameSettings.SCALED_TILE_SIZE / 5f);
 					}
-					//if bullet xy = player xy reduce health and remove bullet
+					// if bullet xy = player xy reduce health and remove bullet
 					if ((((int) (robot.getBullets().get(i).x) >= (int) (player.getX())
 							&& (int) (robot.getBullets().get(i).x) <= (int) (player.getX() + 1)))
 							&& (((int) (robot.getBullets().get(i).y) >= (int) (player.getY())
-							&& (int) (robot.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
+									&& (int) (robot.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
 						robot.getBullets().get(i).setShoot(false);
 						hud.reduceHealth(robot.getBullets().get(i).getDamage());
 						robot.getBullets().remove(robot.getBullets().get(i));
 					}
-					//once player respawns any bullets previously shot remove
+					// once player respawns any bullets previously shot remove
 					if (hud.getHealth() == 0) {
 						robot.getBullets().removeAll(robot.getBullets());
 					}
 				}
-				//render robot
+				// render robot
 				batch.draw(robot.getSprite(),
 						(robot.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2) + 20,
 						robot.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1.7f,
 						GameSettings.SCALED_TILE_SIZE * 2f);
+
+				robotHealth.setPosition(300, 110);
+				hud.setActor(robotHealth);
+
+				// bossHealth.getHealth();
+
+				// hud.setActor(bossHealth);
 
 				books = playerControls.getBooks();
 				ArrayList<Book> booksToRemove = new ArrayList<Book>();
@@ -579,9 +601,13 @@ public class GameScreen extends AbstractScreen {
 
 					if ((robotWidth >= bookWidth) && (robotX <= bookWidth)) {
 						if ((robotHeight >= bookHeight) && (robotY <= bookHeight)) {
-							robot.damage(5);
-							System.out.println("hit boss");
-							if (robot.getHealth() <= 0) {
+							robotHealth.setValue(robotHealth.getValue() - 0.01f);
+
+							// System.out.println(bossHealth.getValue());
+
+//                            bossHealth.setValue( robot.damage(5));
+							/// bossHealth.getValue();
+							if (robotHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
 								robot.setDead();
 							}
@@ -614,11 +640,12 @@ public class GameScreen extends AbstractScreen {
 
 					if ((robotWidth >= keyboardWidth) && (robotX <= keyboardWidth)) {
 						if ((robotHeight >= keyboardHeight) && (robotY <= keyboardHeight)) {
-							System.out.println(robot.getHealth());
+							// System.out.println(bossHealth.getValue());
 							System.out.println(k.getX());
 							System.out.println("Keyboard Hit");
-							robot.damage(7);
-							if (robot.getHealth() <= 0) {
+							robotHealth.setValue(robotHealth.getValue() - 0.02f);
+							// hud.reduceBossHealth(0.07f);
+							if (robotHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
 								robot.setDead();
 							}
@@ -630,12 +657,14 @@ public class GameScreen extends AbstractScreen {
 				}
 				keyboards.removeAll(keyboardsToRemove);
 			}
+
 			if (robot.isDead()) {
+				robotHealth.remove();
 				updateMap();
 			}
 		}
 
-		if (maps.indexOf(map) == 6) {//second boss map
+		if (maps.indexOf(map) == 6) {// second boss map
 
 			bossController.setPlayerPosition(player.getX(), player.getY());
 			bossController.update(delta);
@@ -644,28 +673,114 @@ public class GameScreen extends AbstractScreen {
 					bossZombie.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
 					GameSettings.SCALED_TILE_SIZE * 1f);
 
-			for (int i = 0; i < bossZombie.getBullets().size(); i++) {//boss shooting heads
+			for (int i = 0; i < bossZombie.getBullets().size(); i++) {// boss shooting heads
 				bossZombie.getBullets().get(i).setPlayerPosition(player.getX(), player.getY());
 				bossZombie.getBullets().get(i).update(delta);
 				if (bossZombie.getBullets().get(i).getShoot()) {
-					//render head bullets
+					// render head bullets
 					batch.draw(bossZombie.getBullets().get(i).getSprite(),
 							(bossZombie.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE)
-							- (GameSettings.SCALED_TILE_SIZE / 2),
+									- (GameSettings.SCALED_TILE_SIZE / 2),
 							bossZombie.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE,
 							GameSettings.SCALED_TILE_SIZE / 3f, GameSettings.SCALED_TILE_SIZE / 3f);
 				}
-				//if bullet/head xy = p xy reduce health and remove
+				bossHealth.setPosition(300, 110);
+				hud.setActor(bossHealth);
+
+				// if bullet/head xy = p xy reduce health and remove
 				if ((((int) (bossZombie.getBullets().get(i).x) >= (int) (player.getX())
 						&& (int) (bossZombie.getBullets().get(i).x) <= (int) (player.getX() + 1)))
 						&& (((int) (bossZombie.getBullets().get(i).y) >= (int) (player.getY())
-						&& (int) (bossZombie.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
+								&& (int) (bossZombie.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
 					bossZombie.getBullets().get(i).setShoot(false);
 					hud.reduceHealth(bossZombie.getBullets().get(i).getDamage());
 					bossZombie.getBullets().remove(bossZombie.getBullets().get(i));
 				}
 			}
+
+			books = playerControls.getBooks();
+			ArrayList<Book> booksToRemove = new ArrayList<Book>();
+			for (int i = 0; i < books.size(); i++) {
+				Book b = books.get(i);
+				b.render(batch);
+				if (playerControls.isBlocked((int) b.getX(), (int) b.getY(), playerControls.getCollisionLayer())) {
+					booksToRemove.add(b);
+				}
+				float bossX = (bossZombie.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2);
+				float bossZombieWidth = bossX + (GameSettings.SCALED_TILE_SIZE * 2f);
+				float bossY = (bossZombie.y * GameSettings.SCALED_TILE_SIZE);
+				float bossZombieHeight = bossY + (GameSettings.SCALED_TILE_SIZE * 2f);
+
+				float bookX = (b.getX() * GameSettings.SCALED_TILE_SIZE) - 10;
+				float bookWidth = bookX + 9;
+				float bookY = (b.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
+				float bookHeight = bookY + 9;
+
+				if ((bossZombieWidth >= bookWidth) && (bossX <= bookWidth)) {
+					if ((bossZombieHeight >= bookHeight) && (bossY <= bookHeight)) {
+						bossHealth.setValue(bossHealth.getValue() - 0.01f);
+
+						// System.out.println(bossHealth.getValue());
+
+//                        bossHealth.setValue( robot.damage(5));
+						/// bossHealth.getValue();
+						if (bossHealth.getValue() <= 0) {
+							hud.increaseScore("boss");
+							robot.setDead();
+						}
+						booksToRemove.add(b);
+
+					}
+				}
+				b.update(delta);
+			}
+			books.removeAll(booksToRemove);
+
+			keyboards = playerControls.getKeyboards();
+			ArrayList<Keyboard> keyboardsToRemove = new ArrayList<Keyboard>();
+			for (int i = 0; i < keyboards.size(); i++) {
+				Keyboard k = keyboards.get(i);
+				k.render(batch);
+
+				if (playerControls.isBlocked((int) k.getX(), (int) k.getY(), playerControls.getCollisionLayer())) {
+					keyboardsToRemove.add(k);
+				}
+				float bossX = (bossZombie.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2);
+				float bossZombieWidth = bossX + (GameSettings.SCALED_TILE_SIZE * 2f);
+				float bossY = (bossZombie.y * GameSettings.SCALED_TILE_SIZE);
+				float bossZombieHeight = bossY + (GameSettings.SCALED_TILE_SIZE * 2f);
+
+				float keyboardX = (k.getX() * GameSettings.SCALED_TILE_SIZE) - 10;
+				float keyboardWidth = keyboardX + 9;
+				float keyboardY = (k.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
+				float keyboardHeight = keyboardY + 9;
+
+				if ((bossZombieWidth >= keyboardWidth) && (bossX <= keyboardWidth)) {
+					if ((bossZombieHeight >= keyboardHeight) && (bossY <= keyboardHeight)) {
+						// System.out.println(bossHealth.getValue());
+						System.out.println(k.getX());
+						System.out.println("Keyboard Hit");
+						bossHealth.setValue(bossHealth.getValue() - 0.02f);
+						// hud.reduceBossHealth(0.07f);
+						if (bossHealth.getValue() <= 0) {
+							hud.increaseScore("boss");
+							robot.setDead();
+						}
+						keyboardsToRemove.add(k);
+
+					}
+				}
+				k.update(delta);
+			}
+			keyboards.removeAll(keyboardsToRemove);
+
+			if (bossZombie.isDead()) {
+				robotHealth.remove();
+				updateMap();
+
+			}
 		}
+
 		books = playerControls.getBooks();
 		ArrayList<Book> booksToRemove = new ArrayList<Book>();
 		for (int i = 0; i < books.size(); i++) {
@@ -812,9 +927,9 @@ public class GameScreen extends AbstractScreen {
 
 			}
 
-		} else if (currentInv.getDrinkAnimated() && currentInv.getLastEquippedItem() instanceof Drink){
+		} else if (currentInv.getDrinkAnimated() && currentInv.getLastEquippedItem() instanceof Drink) {
 			resetPlayerAnimations();
-			
+
 			currentInv.setDrinkAnimated(false);
 			currentInv.setLastEquippedItem(null);
 
@@ -830,17 +945,17 @@ public class GameScreen extends AbstractScreen {
 				if (currentUsedItem.getName().equals("Drink")) {
 					if (currentInv.getCurrentItem() != null && currentItem.getDrinkID() == currentDrinkID) {
 						System.out.println("GS: Increasing Health");
-						
+
 						showDrinkAnimation();
-										
-						Timer.schedule(new Task(){
-						    @Override
-						    public void run() {
-						    	currentInv.setDrinkAnimated(true);			
-						    	
-						    }
+
+						Timer.schedule(new Task() {
+							@Override
+							public void run() {
+								currentInv.setDrinkAnimated(true);
+
+							}
 						}, (float) 1);
-						
+
 						hud.increaseHealth(0.25f);
 						hud.removeEquippedItem(currentItem);
 
@@ -888,8 +1003,7 @@ public class GameScreen extends AbstractScreen {
 			stage.addActor(table2);
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode("Someone has too much time on their hands!  [ENTER]", 0);
-			ScreenplayNode faint2 = new ScreenplayNode(
-					chosenCharacter + ":\n.....   [ENTER]", 1);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\n.....   [ENTER]", 1);
 			Sound sound = Gdx.audio.newSound(Gdx.files.internal("music/scream.mp3"));
 			if (elapsed == delta) {
 				sound.play();
@@ -911,9 +1025,9 @@ public class GameScreen extends AbstractScreen {
 		if (maps.indexOf(map) == 0 && player.getX() > 51 && player.getY() > 45 && player.getX() < 57 && been == false) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
-			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nTime for another stressful day  [ENTER]", 0);
-			ScreenplayNode faint2 = new ScreenplayNode(
-					chosenCharacter + ":\nWhat's that sound?   [ENTER]", 1);
+			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nTime for another stressful day  [ENTER]",
+					0);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nWhat's that sound?   [ENTER]", 1);
 
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
@@ -923,7 +1037,7 @@ public class GameScreen extends AbstractScreen {
 			been = true;
 		}
 
-		if(maps.indexOf(map) == 5 && player.getX() == 21 && player.getY() == 78 && playerControls.getInteract()) {
+		if (maps.indexOf(map) == 5 && player.getX() == 21 && player.getY() == 78 && playerControls.getInteract()) {
 			elapsed += delta;
 			playerControls.resetDirection();
 			table2.setFillParent(true);
@@ -931,9 +1045,9 @@ public class GameScreen extends AbstractScreen {
 			table2.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/horror.png"))));
 			stage.addActor(table2);
 			String chosenOutput;
-			if(chosenCharacter == "Flynn") {
+			if (chosenCharacter == "Flynn") {
 				chosenOutput = ":\nWas that supposed to be scary?";
-			} else if(chosenCharacter == "Jessica") {
+			} else if (chosenCharacter == "Jessica") {
 				chosenOutput = ":\nSomeone has too much time on their hands!  [ENTER]";
 			} else {
 				chosenOutput = ":\nWow I'm shocketh   [ENTER]";
@@ -942,7 +1056,7 @@ public class GameScreen extends AbstractScreen {
 			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\n.....   [ENTER]", 1);
 			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + chosenOutput, 0);
 			Sound sound = Gdx.audio.newSound(Gdx.files.internal("music/scream.mp3"));
-			if(elapsed == delta) {
+			if (elapsed == delta) {
 				sound.play();
 			}
 
@@ -951,7 +1065,7 @@ public class GameScreen extends AbstractScreen {
 			handler.addNode(faint2);
 			dialogueController.startDialogue(handler);
 
-			if(elapsed > 1.0f) {
+			if (elapsed > 1.0f) {
 				table2.clear();
 				stage.addAction(Actions.removeActor(table2));
 				playerControls.setInteractFalse();
@@ -969,30 +1083,37 @@ public class GameScreen extends AbstractScreen {
 		riddle2 = new RiddleCard("card", 35, 60, "images/card 111px.png");
 
 		// riddleUI.windowAdd(ok, label);
-		if (playerControls.isOnRiddle(riddle) == true || playerControls.isOnRiddle(riddle2) == true) {
+		if (playerControls.isOnRiddle(riddle) == true || playerControls.isOnRiddle(riddle2) == true && !isPaused) {
 			hud.addWindow();
+
 		}
 		// stage.addActor(riddleUI.getWindow());
+
 		if (Gdx.input.isKeyPressed(Input.Keys.V)) {
 			hud.addWinLabel();
+			isPaused = true;
 		} else if (Gdx.input.isKeyPressed(Input.Keys.Z)
 				|| (Gdx.input.isKeyPressed(Input.Keys.X) || (Gdx.input.isKeyPressed(Input.Keys.C)))) {
 
 			hud.addLoseLabel();
+			isPaused = true;
 			wrong = true;
 		} else if ((Gdx.input.isKeyPressed(Input.Keys.R))) {
 			hud.resetRiddle();
+			isPaused = true;
 		} else {
 
 			hud.removeWindow();
 
 		}
 
-		if (wrong == true) {
+		if (maps.indexOf(map) == 2) {
+			if (wrong == true) {
 
-			riddle2.render(batch);
-		} else {
-			riddle.render(batch);
+				riddle2.render(batch);
+			} else {
+				riddle.render(batch);
+			}
 		}
 
 		batch.end();
@@ -1006,8 +1127,8 @@ public class GameScreen extends AbstractScreen {
 
 	/**
 	 * Updates {@link #map} to the next map in {@link #maps}. The player's
-	 * coordinates are updated for the new map. {@link #exits} is updated with
-	 * the new map's exit coordinates. {@link #loadedMap} is changed to be the
+	 * coordinates are updated for the new map. {@link #exits} is updated with the
+	 * new map's exit coordinates. {@link #loadedMap} is changed to be the
 	 * <code>TiledMap</code> for the new map.
 	 */
 	private void updateMap() {
@@ -1089,9 +1210,11 @@ public class GameScreen extends AbstractScreen {
 	}
 
 	/**
-	 * <p> Method used to reset the player animations, so that they are not holding any items
+	 * <p>
+	 * Method used to reset the player animations, so that they are not holding any
+	 * items
 	 */
-	public void showDrinkAnimation() {		
+	public void showDrinkAnimation() {
 		assetManager = new AssetManager();
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_powered_walking.atlas", TextureAtlas.class);
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
@@ -1100,8 +1223,8 @@ public class GameScreen extends AbstractScreen {
 
 		TextureAtlas drinking = this.getAssetManager()
 				.get("sprite/" + gender + "/" + chosenCharacter + "_powered_walking.atlas", TextureAtlas.class);
-		TextureAtlas walking = this.getAssetManager()
-				.get("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
+		TextureAtlas walking = this.getAssetManager().get("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas",
+				TextureAtlas.class);
 		TextureAtlas standing = this.getAssetManager()
 				.get("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
 
@@ -1114,8 +1237,7 @@ public class GameScreen extends AbstractScreen {
 						walking.findRegions(chosenCharacter + "_walking_east"), Animation.PlayMode.LOOP_PINGPONG),
 				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
 						walking.findRegions(chosenCharacter + "_walking_west"), Animation.PlayMode.LOOP_PINGPONG),
-				standing.findRegion(chosenCharacter + "_standing_north"),
-				drinking.findRegion("flynnPowered"),
+				standing.findRegion(chosenCharacter + "_standing_north"), drinking.findRegion("flynnPowered"),
 				standing.findRegion(chosenCharacter + "_standing_east"),
 				standing.findRegion(chosenCharacter + "_standing_west"));
 
@@ -1123,8 +1245,9 @@ public class GameScreen extends AbstractScreen {
 	}
 
 	/**
-	 * <p> Method used to reset the player animations, so that they are not holding
-	 * any items
+	 * <p>
+	 * Method used to reset the player animations, so that they are not holding any
+	 * items
 	 */
 	public void resetPlayerAnimations() {
 		assetManager = new AssetManager();
@@ -1179,7 +1302,7 @@ public class GameScreen extends AbstractScreen {
 
 	@Override
 	public void hide() {
-		//dispose();
+		// dispose();
 	}
 
 	@Override
@@ -1199,7 +1322,7 @@ public class GameScreen extends AbstractScreen {
 	}
 
 	private void interacts() {
-		if(maps.indexOf(map) == 0 && player.getX() > 51 && player.getY() > 45 && player.getX() < 57 && been == false) {
+		if (maps.indexOf(map) == 0 && player.getX() > 51 && player.getY() > 45 && player.getX() < 57 && been == false) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nTime for another boring day  [ENTER]", 0);
@@ -1213,8 +1336,9 @@ public class GameScreen extends AbstractScreen {
 			been = true;
 		}
 
-		if(maps.indexOf(map) == 1 && (player.getX() == 62 || player.getX() == 63)  && player.getY() >= 61 && playerControls.getInteract()) {
-			if(hasDrink == false) {
+		if (maps.indexOf(map) == 1 && (player.getX() == 62 || player.getX() == 63) && player.getY() >= 61
+				&& playerControls.getInteract()) {
+			if (hasDrink == false) {
 				playerControls.resetDirection();
 				handler = new ScreenplayHandler();
 				ScreenplayNode faint = new ScreenplayNode("You hear a rattling...  [ENTER]", 0);
@@ -1227,8 +1351,8 @@ public class GameScreen extends AbstractScreen {
 				playerControls.setInteractFalse();
 				if (currentInv.getDrinkDrawn() == false) {
 					currentInv.setDrinkDrawn(true);
-					//currentInv.getMapItems().get(2).setItemFound(true);
-					//currentInv.getInventory().get(2).setItemFound(true);
+					// currentInv.getMapItems().get(2).setItemFound(true);
+					// currentInv.getInventory().get(2).setItemFound(true);
 				}
 				hasDrink = true;
 			} else {
@@ -1245,10 +1369,11 @@ public class GameScreen extends AbstractScreen {
 			}
 		}
 
-		if(maps.indexOf(map) == 1 && player.getX() == 86 && player.getY() == 49 && playerControls.getInteract()) {
+		if (maps.indexOf(map) == 1 && player.getX() == 86 && player.getY() == 49 && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
-			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nWho leaves raw food out in the open like that...  [ENTER]", 0);
+			ScreenplayNode faint = new ScreenplayNode(
+					chosenCharacter + ":\nWho leaves raw food out in the open like that...  [ENTER]", 0);
 			ScreenplayNode faint2 = new ScreenplayNode("*It smells like rotting fish*   [ENTER]", 1);
 
 			faint.makeLinear(faint2.getId());
@@ -1258,10 +1383,12 @@ public class GameScreen extends AbstractScreen {
 			playerControls.setInteractFalse();
 		}
 
-		if(maps.indexOf(map) == 1 && player.getX() > 33 && player.getX() < 42 && player.getY() == 44 && playerControls.getInteract()) {
+		if (maps.indexOf(map) == 1 && player.getX() > 33 && player.getX() < 42 && player.getY() == 44
+				&& playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
-			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nWasn't there supposed to be a speech today?  [ENTER]", 0);
+			ScreenplayNode faint = new ScreenplayNode(
+					chosenCharacter + ":\nWasn't there supposed to be a speech today?  [ENTER]", 0);
 			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nWhy is it so empty?   [ENTER]", 1);
 
 			faint.makeLinear(faint2.getId());
@@ -1271,7 +1398,7 @@ public class GameScreen extends AbstractScreen {
 			playerControls.setInteractFalse();
 		}
 
-		if(maps.indexOf(map) == 2 && player.getX() == 47  && player.getY() == 63 && beenTwo == false) {
+		if (maps.indexOf(map) == 2 && player.getX() == 47 && player.getY() == 63 && beenTwo == false) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode("There is nothing to see here  [ENTER]", 0);
@@ -1284,7 +1411,7 @@ public class GameScreen extends AbstractScreen {
 			beenTwo = true;
 		}
 
-		if(maps.indexOf(map) == 2 && player.getX() == 21  && player.getY() == 21 && playerControls.getInteract()) {
+		if (maps.indexOf(map) == 2 && player.getX() == 21 && player.getY() == 21 && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode("There is nothing to see here  [ENTER]", 0);
@@ -1297,11 +1424,13 @@ public class GameScreen extends AbstractScreen {
 			playerControls.setInteractFalse();
 		}
 
-		if(maps.indexOf(map) == 2 && player.getX() >= 34 && player.getX() <= 38  && player.getY() == 76 && playerControls.getInteract()) {
+		if (maps.indexOf(map) == 2 && player.getX() >= 34 && player.getX() <= 38 && player.getY() == 76
+				&& playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode("There are lots of drawing on these bits of paper  [ENTER]", 0);
-			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nLooks like plans but I can't make out what it is...   [ENTER]", 1);
+			ScreenplayNode faint2 = new ScreenplayNode(
+					chosenCharacter + ":\nLooks like plans but I can't make out what it is...   [ENTER]", 1);
 
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
@@ -1310,7 +1439,7 @@ public class GameScreen extends AbstractScreen {
 			playerControls.setInteractFalse();
 		}
 
-		if(maps.indexOf(map) == 2 && player.getX() == 78 && player.getY() == 38 && playerControls.getInteract()) {
+		if (maps.indexOf(map) == 2 && player.getX() == 78 && player.getY() == 38 && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode("Theres not much to see here  [ENTER]", 0);
@@ -1323,7 +1452,7 @@ public class GameScreen extends AbstractScreen {
 			playerControls.setInteractFalse();
 		}
 
-		if(maps.indexOf(map) == 2 && player.getX() == 75 && player.getY() == 32 && playerControls.getInteract()) {
+		if (maps.indexOf(map) == 2 && player.getX() == 75 && player.getY() == 32 && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode("It's a full pot of coffee   [ENTER]", 0);
@@ -1336,11 +1465,13 @@ public class GameScreen extends AbstractScreen {
 			playerControls.setInteractFalse();
 		}
 
-		if(maps.indexOf(map) == 3 && player.getX() >= 86 && player.getX() <= 88 && player.getY() == 89 && beenThree == false) {
+		if (maps.indexOf(map) == 3 && player.getX() >= 86 && player.getX() <= 88 && player.getY() == 89
+				&& beenThree == false) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode("*Floor boards creak*   [ENTER]", 0);
-			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nBetter be careful\nLooks like it might fall down   [ENTER]", 1);
+			ScreenplayNode faint2 = new ScreenplayNode(
+					chosenCharacter + ":\nBetter be careful\nLooks like it might fall down   [ENTER]", 1);
 
 			Sound sound = Gdx.audio.newSound(Gdx.files.internal("music/Creaking.mp3"));
 			sound.play();
@@ -1352,7 +1483,7 @@ public class GameScreen extends AbstractScreen {
 			beenThree = true;
 		}
 
-		if(maps.indexOf(map) == 3 && player.getX() == 86 && player.getY() == 79 && playerControls.getInteract()) {
+		if (maps.indexOf(map) == 3 && player.getX() == 86 && player.getY() == 79 && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode("Nice try but there's nothing here   [ENTER]", 0);
@@ -1365,11 +1496,12 @@ public class GameScreen extends AbstractScreen {
 			playerControls.setInteractFalse();
 		}
 
-		if(maps.indexOf(map) == 3 && player.getX() == 72 && player.getY() == 64 && playerControls.getInteract()) {
+		if (maps.indexOf(map) == 3 && player.getX() == 72 && player.getY() == 64 && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode("There are some documents open on this computer   [ENTER]", 0);
-			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nLooks like a formula...\nWonder what it's for...   [ENTER]", 1);
+			ScreenplayNode faint2 = new ScreenplayNode(
+					chosenCharacter + ":\nLooks like a formula...\nWonder what it's for...   [ENTER]", 1);
 
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
@@ -1378,11 +1510,13 @@ public class GameScreen extends AbstractScreen {
 			playerControls.setInteractFalse();
 		}
 
-		if(maps.indexOf(map) == 3 && player.getX() >= 41 && player.getX() <= 43 && player.getY() >= 13 && player.getY() <= 14 && beenFour == false) {
+		if (maps.indexOf(map) == 3 && player.getX() >= 41 && player.getX() <= 43 && player.getY() >= 13
+				&& player.getY() <= 14 && beenFour == false) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode("*Floor boards creak*   [ENTER]", 0);
-			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nBetter be careful\nLooks like it might fall down   [ENTER]", 1);
+			ScreenplayNode faint2 = new ScreenplayNode(
+					chosenCharacter + ":\nBetter be careful\nLooks like it might fall down   [ENTER]", 1);
 
 			Sound sound = Gdx.audio.newSound(Gdx.files.internal("music/Creaking.mp3"));
 			sound.play();
@@ -1394,11 +1528,14 @@ public class GameScreen extends AbstractScreen {
 			beenFour = true;
 		}
 
-		if(maps.indexOf(map) == 3 && ((player.getX() == 79 && player.getY() == 26) || (player.getX() == 79 && player.getY() == 46)) && playerControls.getInteract()) {
+		if (maps.indexOf(map) == 3
+				&& ((player.getX() == 79 && player.getY() == 26) || (player.getX() == 79 && player.getY() == 46))
+				&& playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode("There some text here but it is too small to read   [ENTER]", 0);
-			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + "\nI should've brought my glasses   [ENTER]", 1);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + "\nI should've brought my glasses   [ENTER]",
+					1);
 
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
@@ -1407,14 +1544,13 @@ public class GameScreen extends AbstractScreen {
 			playerControls.setInteractFalse();
 		}
 
-
-
-		if(maps.indexOf(map) == 5 && (player.getX() <= 83 && player.getX() >= 80) && 
-				(player.getY() >= 68 && player.getY() <= 71) && playerControls.getInteract()) {
+		if (maps.indexOf(map) == 5 && (player.getX() <= 83 && player.getX() >= 80)
+				&& (player.getY() >= 68 && player.getY() <= 71) && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nA containment pod...    [ENTER]", 0);
-			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nIt looks like it was broken from the inside   [ENTER]", 1);
+			ScreenplayNode faint2 = new ScreenplayNode(
+					chosenCharacter + ":\nIt looks like it was broken from the inside   [ENTER]", 1);
 
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
@@ -1423,8 +1559,8 @@ public class GameScreen extends AbstractScreen {
 			playerControls.setInteractFalse();
 		}
 
-		if(maps.indexOf(map) == 5 && (player.getX() <= 48 && player.getX() >= 43) && 
-				(player.getY() >= 67 && player.getY() <= 69) && playerControls.getInteract()) {
+		if (maps.indexOf(map) == 5 && (player.getX() <= 48 && player.getX() >= 43)
+				&& (player.getY() >= 67 && player.getY() <= 69) && playerControls.getInteract()) {
 			playerControls.resetDirection();
 
 			Sound sound = Gdx.audio.newSound(Gdx.files.internal("music/Satellite noise.wav"));
@@ -1433,12 +1569,13 @@ public class GameScreen extends AbstractScreen {
 			playerControls.setInteractFalse();
 		}
 
-		if(maps.indexOf(map) == 7 && (player.getX() <= 85 && player.getX() >= 80) && 
-				player.getY() == 80 && playerControls.getInteract()) {
+		if (maps.indexOf(map) == 7 && (player.getX() <= 85 && player.getX() >= 80) && player.getY() == 80
+				&& playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nWhat is this thing?    [ENTER]", 0);
-			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nIt looks like it's been used recently   [ENTER]", 1);
+			ScreenplayNode faint2 = new ScreenplayNode(
+					chosenCharacter + ":\nIt looks like it's been used recently   [ENTER]", 1);
 
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
