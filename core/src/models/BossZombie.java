@@ -143,4 +143,9 @@ public class BossZombie extends NPC {
     public void die() {
     }
 
+	public float getSpeed() {
+		// TODO Auto-generated method stub
+		return speed;
+	}
+
 }

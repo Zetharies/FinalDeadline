@@ -33,6 +33,17 @@ public class RiddleCard {
 	}
 	
 	
+	public RiddleCard(String string, int x, int y) {
+		itemName = string;
+		
+		//this.layer = layer;
+
+		 this.x = x;
+		 this.y = y;
+		// TODO Auto-generated constructor stub
+	}
+
+
 	public void render(SpriteBatch batch) {
 		
 		batch.draw(texture, // Print Texture

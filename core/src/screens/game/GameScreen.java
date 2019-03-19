@@ -602,6 +602,7 @@ public class GameScreen extends AbstractScreen {
 							if (robotHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
 								robot.setDead();
+								
 							}
 							booksToRemove.add(b);
 
@@ -636,6 +637,7 @@ public class GameScreen extends AbstractScreen {
 							if (robotHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
 								robot.setDead();
+								
 							}
 							keyboardsToRemove.add(k);
 
@@ -645,6 +647,7 @@ public class GameScreen extends AbstractScreen {
 				}
 				keyboards.removeAll(keyboardsToRemove);
 			} else {
+				robotHealth.remove();
 				updateMap();
 			}
 
@@ -711,6 +714,7 @@ public class GameScreen extends AbstractScreen {
 							if (bossHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
 								bossZombie.setDead();
+								
 							}
 							booksToRemove.add(b);
 
@@ -748,7 +752,9 @@ public class GameScreen extends AbstractScreen {
 							bossHealth.setValue(bossHealth.getValue() - 0.02f);
 							if (bossHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
+							
 								bossZombie.setDead();
+								
 							}
 							keyboardsToRemove.add(k);
 
@@ -758,7 +764,9 @@ public class GameScreen extends AbstractScreen {
 				}
 				keyboards.removeAll(keyboardsToRemove);
 			} else {
+				bossHealth.remove();
 				updateMap();
+				
 			}
 		}
 

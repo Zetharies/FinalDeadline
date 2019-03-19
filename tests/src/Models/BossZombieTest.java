@@ -35,8 +35,7 @@ public class BossZombieTest {
     public void tearDown() {
     }
 
-   
-    
+
     
     
     /**

@@ -91,5 +91,11 @@ public class Bullet extends NPC {
     public void setSpeed(float speed){
         SPEED = speed;
     }
+
+
+	public double getSpeed() {
+		// TODO Auto-generated method stub
+		return SPEED;
+	}
 }
 
