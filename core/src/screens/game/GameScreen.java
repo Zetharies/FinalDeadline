@@ -180,6 +180,10 @@ public class GameScreen extends AbstractScreen {
 		musicList.add(library);
 		musicList.add(engineering);
 		musicList.add(firstBoss);
+		musicList.add(cafe);
+		musicList.add(firstBoss);
+		musicList.add(engineering);
+		musicList.add(firstBoss);
 
 		if (SettingsManager.getMusic()) {
 			musicList.get(0).play();
@@ -426,6 +430,10 @@ public class GameScreen extends AbstractScreen {
 		if (playerControls.checkExit(exits) && solved) {
 
 			updateMap();
+			
+			if(maps.indexOf(map) == 2) {
+				solved = false;
+			}
 
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint;
@@ -944,7 +952,6 @@ public class GameScreen extends AbstractScreen {
 
 				} else if (currentUsedItem.getName().contains("Potion")) {
 					if (currentItem.equals(currentUsedItem) && playerControls.isOnVent()) {
-
 						hud.removeEquippedItem(currentItem);
 
 						currentInv.getCurrentItem().setItemFound(false);
@@ -1041,7 +1048,7 @@ public class GameScreen extends AbstractScreen {
 
 		interacts();
 
-		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 4) {
+		if (maps.indexOf(map) == 0 || maps.indexOf(map) == 1 || maps.indexOf(map) == 4 || maps.indexOf(map) == 6) {
 			zombies.removeAll(zombies);
 		}
 
@@ -1057,6 +1064,7 @@ public class GameScreen extends AbstractScreen {
 			// stage.addActor(riddleUI.getWindow());
 			if (Gdx.input.isKeyPressed(Input.Keys.V)) {
 				hud.addWinLabel();
+				solved = true;
 			} else if (Gdx.input.isKeyPressed(Input.Keys.Z)
 					|| (Gdx.input.isKeyPressed(Input.Keys.X) || (Gdx.input.isKeyPressed(Input.Keys.C)))) {
 
@@ -1097,9 +1105,7 @@ public class GameScreen extends AbstractScreen {
 		musicList.get(currentList).stop();
 		hud.setMapLabel(currentMapLabel.get(currentList));
 		currentList++;
-		if (currentList > 4) {
-			currentList = 4;
-		}
+
 		loadedMap.dispose();
 
 		int newMap = maps.indexOf(map) + 1;
@@ -1658,6 +1664,20 @@ public class GameScreen extends AbstractScreen {
 			handler.addNode(faint2);
 			dialogueController.startDialogue(handler);
 			playerControls.setInteractFalse();
+		}
+		
+		
+		if (playerControls.checkExit(exits) && !solved && !activated) {
+			playerControls.resetDirection();
+			handler = new ScreenplayHandler();
+			ScreenplayNode locked1 = new ScreenplayNode(chosenCharacter + ":\nIt's locked...	[ENTER]", 0);
+			ScreenplayNode locked2 = new ScreenplayNode(chosenCharacter + ":\nWhat was that riddle again?	[ENTER]", 1);
+			
+			locked1.makeLinear(locked2.getId());
+			handler.addNode(locked1);
+			handler.addNode(locked2);
+			dialogueController.startDialogue(handler);
+			activated = true;
 		}
 
 	}
