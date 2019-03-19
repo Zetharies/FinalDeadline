@@ -70,7 +70,7 @@ public class Hud {
 
 		imagination = new Label("\t V: Imagination", style);
 		nothing = new Label("\t\t C: Nothing", style);
-		darkness = new Label("\t\t X:Imagination", style);
+		darkness = new Label("\t\t X:Darkness", style);
 		air = new Label("\t\t Z:air", style);
 
 		//<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<

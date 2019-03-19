@@ -415,27 +415,8 @@ public class GameScreen extends AbstractScreen {
 	public void render(float delta) {
 		// Checks if the map needs changing
 		if (playerControls.checkExit(exits)) {
-			musicList.get(currentList).stop();
-			hud.setMapLabel(currentMapLabel.get(currentList));
-			currentList++;
-			if (currentList > 4) {
-				currentList = 4;
-			}
-			loadedMap.dispose();
+			
 			updateMap();
-			renderer.setMap(loadedMap);
-			if (SettingsManager.getMusic()) {
-				musicList.get(currentList).play();
-			}
-			playerControls.setCollisions((TiledMapTileLayer) loadedMap.getLayers().get(0));
-			herd.setCollisions((TiledMapTileLayer) loadedMap.getLayers().get(0));
-			herd.respawnZombies();
-			playerControls.setMapChange(false);
-
-			spawnX = map.getRespawnX();
-			spawnY = map.getRespawnY();
-
-			playerControls.resetDirection();
 
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint;
@@ -1121,6 +1102,14 @@ public class GameScreen extends AbstractScreen {
 	 * <code>TiledMap</code> for the new map.
 	 */
 	private void updateMap() {
+		musicList.get(currentList).stop();
+		hud.setMapLabel(currentMapLabel.get(currentList));
+		currentList++;
+		if (currentList > 4) {
+			currentList = 4;
+		}
+		loadedMap.dispose();
+		
 		int newMap = maps.indexOf(map) + 1;
 
 		map = maps.get(newMap);
@@ -1134,6 +1123,20 @@ public class GameScreen extends AbstractScreen {
 		currentInv.setDrinkDrawn(false);
 		hud.removeAllFoundItems();
 		hud.drawEquippedItem(null);
+		
+		renderer.setMap(loadedMap);
+		if (SettingsManager.getMusic()) {
+			musicList.get(currentList).play();
+		}
+		playerControls.setCollisions((TiledMapTileLayer) loadedMap.getLayers().get(0));
+		herd.setCollisions((TiledMapTileLayer) loadedMap.getLayers().get(0));
+		herd.respawnZombies();
+		playerControls.setMapChange(false);
+
+		spawnX = map.getRespawnX();
+		spawnY = map.getRespawnY();
+
+		playerControls.resetDirection();
 	}
 
 	/**

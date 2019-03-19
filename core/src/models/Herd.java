@@ -10,7 +10,7 @@ public class Herd {
 	/**
 	 * Caps the number of Zombies to 50.
 	 */
-    private static final int MAX_ZOMBIES = 50;
+    private static final int MAX_ZOMBIES = 25;
     /**
      * An <code>ArrayList</code> of type <code>Zombie</code>.
      */
