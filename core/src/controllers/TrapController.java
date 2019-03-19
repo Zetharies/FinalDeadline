@@ -65,6 +65,17 @@ public class TrapController extends NPCController {
         timer += (delta * 100);
     }
 
+    protected boolean isUpBlocked() {
+        return isBlocked((int) (trap.x), (int) (trap.y + 0.5), collisions);
+    }
+
+    protected boolean isDownBlocked() {
+        if (trap.getPosY() - 0.25 >= 0) {
+            return isBlocked((int) trap.x, (int) (trap.getPosY() - 0.25), collisions);
+        }
+        return true;
+    }
+
     private boolean isLeftBlocked() {
         if (trap.getPosY() - 0.65 >= 0) {
             return isBlocked((int) (trap.getPosX() - 0.65), (int) trap.getPosY(), collisions);

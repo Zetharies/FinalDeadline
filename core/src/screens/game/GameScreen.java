@@ -13,6 +13,9 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -40,6 +43,7 @@ import java.util.ArrayList;
 import models.AnimationSet;
 import models.Book;
 import models.Herd;
+import models.InteractParticles;
 import models.InventorySystem;
 import models.Keyboard;
 import models.Map;
@@ -100,6 +104,8 @@ public class GameScreen extends AbstractScreen {
 	private int currentDrinkID;
 	private int currentList = 0;
 
+	boolean sameMap = true;
+	
 	private Particles smoke, smoke2;
 
 	private ArrayList<Music> musicList;
@@ -111,6 +117,8 @@ public class GameScreen extends AbstractScreen {
 	private RiddleCard riddle, riddle2;
 
 	private boolean wrong;
+	
+	private ArrayList<InteractParticles> ipList;
 
 	private boolean hasDrink = false, beenTwo = false, beenThree = false, beenFour = false, activated = false;
 	private boolean isPaused;
@@ -238,6 +246,7 @@ public class GameScreen extends AbstractScreen {
 
 		smoke = new Particles();
 		smoke2 = new Particles();
+		ipList = new ArrayList<InteractParticles>();
 
 	}
 
@@ -308,7 +317,7 @@ public class GameScreen extends AbstractScreen {
 		// will be changed
 		map = maps.get(0);
 		loadedMap = new TmxMapLoader().load(map.getMapLocation());
-
+	    	
 		TiledMap mapCollisionsTraps = new TmxMapLoader().load(maps.get(1).getMapLocation());
 		TiledMap mapCollisionsRobot = new TmxMapLoader().load(maps.get(4).getMapLocation());
 		TiledMap mapCollisionsBoss = new TmxMapLoader().load(maps.get(0).getMapLocation());
@@ -977,6 +986,13 @@ public class GameScreen extends AbstractScreen {
 		currentMapItems.removeAll(foundMapItems);
 
 		currentInv = playerControls.equipItem(currentInv);
+		
+		
+        if(loadedMap.getLayers().get("Particles") != null) {
+	        for(InteractParticles ip : ipList) {
+	        	ip.render(batch);
+	        }
+        }
 
 		if (currentInv.getCurrentItem() != null) {
 			hud.drawEquippedItem(currentInv.getCurrentItem());
@@ -1209,6 +1225,29 @@ public class GameScreen extends AbstractScreen {
 		player.updateCoordinates(map.getRespawnX(), map.getRespawnY());
 		exits = map.getExits();
 		loadedMap = new TmxMapLoader().load(map.getMapLocation());
+		
+		for(int i = 0; i < ipList.size(); i++) {
+			ipList.remove(i);
+		}
+		
+		if(loadedMap.getLayers().get("Particles") != null) {
+			for(int i = 0; i < ipList.size(); i++) {
+				ipList.remove(i);
+			}
+			MapObjects mapObjects = loadedMap.getLayers().get("Particles").getObjects();
+	    	
+		   	 for (MapObject mapObject : mapObjects) {
+		   		 if(mapObject instanceof RectangleMapObject) {
+		   			 int x = (int) (((RectangleMapObject) mapObject).getRectangle().getX() / GameSettings.TILE_SIZE);
+		   			 int y = (int) (((RectangleMapObject) mapObject).getRectangle().getY() / GameSettings.TILE_SIZE);
+		   			 
+		   			 ipList.add(new InteractParticles(x, y));
+			    	 System.out.println("Particle X: " + x + " Y: "+ y);
+		   		 }
+		   	 }
+		}
+		
+		
 
 		int mapInv = currentInv.getMapNumber();
 		currentInv = new InventorySystem();

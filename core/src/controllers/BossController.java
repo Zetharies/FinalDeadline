@@ -57,6 +57,7 @@ public class BossController extends NPCController {
                     zombie.rushPlayer();// rush player to bite them - speed increased 
                     moveToPlayer();
                 }
+
             } else {
                 this.zombie.setSpeed(BossZombie.speed);//reset speed
             }
