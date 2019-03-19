@@ -242,8 +242,9 @@ public class GameScreen extends AbstractScreen {
 		maps.add(boss2);
 		maps.add(floor4);
 		maps.add(chaxMap);
-		exits = entrance.getExits();
-
+		//exits = entrance.getExits();
+		exits = floor4.getExits();
+		
 		smoke = new Particles();
 		smoke2 = new Particles();
 		ipList = new ArrayList<InteractParticles>();
@@ -316,7 +317,7 @@ public class GameScreen extends AbstractScreen {
 		// map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); //
 		// map to load, extremely basic map,
 		// will be changed
-		map = maps.get(0);
+		map = maps.get(7);
 		loadedMap = new TmxMapLoader().load(map.getMapLocation());
 
 		TiledMap mapCollisionsTraps = new TmxMapLoader().load(maps.get(1).getMapLocation());
@@ -324,7 +325,7 @@ public class GameScreen extends AbstractScreen {
 		TiledMap mapCollisionsBoss = new TmxMapLoader().load(maps.get(0).getMapLocation());
 
 		currentInv = new InventorySystem();
-		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), 0);
+		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), 7);
 
 		// player = new Player(14, 90, animations); // Create a new player object with
 		// the coordinates 0, 0, player
