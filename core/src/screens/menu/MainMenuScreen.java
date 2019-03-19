@@ -99,7 +99,7 @@ public class MainMenuScreen extends AbstractScreen {
         mp3Sound.setVolume(0.25f);
         skin = new Skin(Gdx.files.internal("fonts/Holo-dark-hdpi.json")); // skin to be applied to buttons 
         skin.getFont("default-font").getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-       
+
 //        camera = new PerspectiveCamera();
 //        viewPort = new StretchViewport(800, 480, camera);
     }
@@ -184,6 +184,7 @@ public class MainMenuScreen extends AbstractScreen {
      */
     @Override
     public void resize(int width, int height) {
+        characterSelectionClicked = false;
         CharacterSelection.EXIT = false; // set to false as rendered to main screen - set to true once button pressed
         swipe = false;
 
@@ -249,10 +250,14 @@ public class MainMenuScreen extends AbstractScreen {
 
         //viewPort.update(width, height);
         int heightView = stage.getViewport().getScreenHeight();
+        int widthView = stage.getViewport().getScreenWidth();
+        stage.getViewport().getScreenHeight();
         stage.getViewport().getScreenWidth();
+        stage.getViewport().update(width, height, true);
 
         //when res changed set to home screen 
-        if (heightView != stage.getViewport().getScreenHeight()) {
+        if (heightView != stage.getViewport().getScreenHeight() || widthView != stage.getViewport().getScreenWidth()) {
+            System.out.println("resized");
             // moveButtonsRight();
             stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
             //reset background
@@ -267,11 +272,21 @@ public class MainMenuScreen extends AbstractScreen {
             creditsClicked = false;
             aboutClicked = false;
             levelsClicked = false;
+            levelsSwipe = false;
+            creditsSwipe = false;
+            aboutSwipe = false;
+            characterSelectSwipe = false;
             characterSelectionClicked = false;
+            swipe = false;
+            characterSelectionClicked = false;
+            CharacterSelection.EXIT = false;
+          //  setButtons();
+            buttonListener(); // Call the buttonListener method - listen for events
+            //add buttons to screen x y and width height
+            addButtons();
         }
         settingsUI.settingsListener();//button listeners for elements in setting ui
 
-        stage.getViewport().update(width, height, true);
         Gdx.input.setInputProcessor(stage);
     }
 

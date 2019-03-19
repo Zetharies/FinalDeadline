@@ -39,7 +39,7 @@ public class RobotController extends NPCController {
 //        keys();
         //shoot when player detected and move to player
         if (detectPlayer(this.robot, RADIUS)) {
-            moveToPlayer(this.robot, Robot.SPEED);
+            moveToPlayer();
             if (toShoot == 80) {//50 fire rate 
                 System.out.println("shoot");
                 robot.shoot();//shoot - create new bullet
@@ -55,34 +55,30 @@ public class RobotController extends NPCController {
         }
     }
 
-    @Override
-    public void moveToPlayer(NPC npc, double speed) {
+    
+    public void moveToPlayer() {
         //right must be true meaning up is not blocked - updated in updatecollisions methods
-        if (npc.getX() < playerX) {
+        if (robot.getX() < playerX) {
             //set the zombie to face right and loop animation
-            npc.getSprite().setRegion((TextureRegion) npc.getRight().getKeyFrame(incr));
+            robot.getSprite().setRegion((TextureRegion) robot.getRight().getKeyFrame(incr));
             //increase zombie x coord to move right 
-            npc.x += Gdx.graphics.getDeltaTime() * speed;
+            robot.x += Gdx.graphics.getDeltaTime() * robot.getSpeed();
 
-        }
-        if (npc.getX() > playerX) {
+        }else if (robot.getX() > playerX) {
             //set the zombie to face left and increment animation
-            npc.getSprite().setRegion((TextureRegion) npc.getLeft().getKeyFrame(incr));
+            robot.getSprite().setRegion((TextureRegion) robot.getLeft().getKeyFrame(incr));
             //to move left decrement x 
-            npc.x -= Gdx.graphics.getDeltaTime() * speed;
+            robot.x -= Gdx.graphics.getDeltaTime() * robot.getSpeed();
 
-        }
-        if (npc.getY() < playerY) {
-            //
-            npc.getSprite().setRegion((TextureRegion) npc.getUp().getKeyFrame(incr));
-            npc.y += Gdx.graphics.getDeltaTime() * speed;
+        }else if (robot.getY() < playerY) {
+            robot.getSprite().setRegion((TextureRegion) robot.getUp().getKeyFrame(incr));
+            robot.y += Gdx.graphics.getDeltaTime() * robot.getSpeed();
 
-        }
-        if (npc.getY() > playerY) {
+        }else if (robot.getY() > playerY) {
             //zombie to face down and increment through the associated aniamtion
-            npc.getSprite().setRegion((TextureRegion) npc.getDown().getKeyFrame(incr));
+            robot.getSprite().setRegion((TextureRegion) robot.getDown().getKeyFrame(incr));
             //decrement y coord to move left 
-            npc.y -= Gdx.graphics.getDeltaTime() * speed;
+            robot.y -= Gdx.graphics.getDeltaTime() * robot.getSpeed();
         }
     }
 
@@ -104,38 +100,4 @@ public class RobotController extends NPCController {
         }
     }
 
-//    @SuppressWarnings("static-access")
-//    public void keys() {
-//        if (Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) {
-//
-//            robot.x -= Gdx.graphics.getDeltaTime() * robot.speed;
-//            robot.getSprite().setRegion((TextureRegion) robot.getLeft().getKeyFrame(incr));
-//
-//        }
-//        if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
-//
-//            robot.x += Gdx.graphics.getDeltaTime() * robot.speed;
-//            robot.getSprite().setRegion((TextureRegion) robot.getRight().getKeyFrame(incr));
-//
-//        }
-//        if (Gdx.input.isKeyPressed(Keys.DPAD_UP)) {
-//
-//            robot.y += Gdx.graphics.getDeltaTime() * robot.speed;
-//            robot.getSprite().setRegion((TextureRegion) robot.getUp().getKeyFrame(incr));
-//
-//        }
-//        if (Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
-//
-//            robot.y -= Gdx.graphics.getDeltaTime() * robot.speed;
-//            robot.getSprite().setRegion((TextureRegion) robot.getDown().getKeyFrame(incr));
-//
-//        }
-//        if (Gdx.input.isKeyPressed(Keys.B)) {
-//          //  robot.kill(true);
-////            robot.shoot();
-////            robot.getBullets().get(robot.getBullets().size() - 1).setShotDirection(facing);
-////            robot.getBullets().get(robot.getBullets().size() - 1).setShoot(true);
-////            moveToPlayer();
-//        }
-//    }
 }
