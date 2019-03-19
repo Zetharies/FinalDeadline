@@ -1169,10 +1169,15 @@ public class GameScreen extends AbstractScreen {
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nTime for another boring day  [ENTER]", 0);
 			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nWhat's that sound?   [ENTER]", 1);
+			
 			if(chosenCharacter == "Flynn") {
 				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/flynn/Flynn - time for another boring day.wav"));
 				sound.play();
+			} else if(chosenCharacter == "Jessica") {
+				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/jessica/Jessica - time for another day.wav"));
+				sound.play();
 			}
+			
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
 			handler.addNode(faint2);
@@ -1219,6 +1224,14 @@ public class GameScreen extends AbstractScreen {
 			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nWho leaves raw food out in the open like that...  [ENTER]", 0);
 			ScreenplayNode faint2 = new ScreenplayNode("*It smells like rotting fish*   [ENTER]", 1);
 
+			if(chosenCharacter == "Flynn") {
+				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/flynn/Flynn - who leaves raw food.wav"));
+				sound.play();
+			} else if(chosenCharacter == "Jessica") {
+				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/jessica/Jessica - who leaves raw food.wav"));
+				sound.play();
+			}
+			
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
 			handler.addNode(faint2);
@@ -1384,6 +1397,14 @@ public class GameScreen extends AbstractScreen {
 			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nA containment pod...    [ENTER]", 0);
 			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nIt looks like it was broken from the inside   [ENTER]", 1);
 
+			if(chosenCharacter == "Flynn") {
+				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/flynn/Flynn - a containment pod.wav"));
+				sound.play();
+			} else if(chosenCharacter == "Jessica") {
+				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/jessica/Jessica - a containment pod.wav"));
+				sound.play();
+			}
+			
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
 			handler.addNode(faint2);
