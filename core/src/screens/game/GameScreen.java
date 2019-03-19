@@ -534,6 +534,9 @@ public class GameScreen extends AbstractScreen {
 		}
 		if (maps.indexOf(map) == 4) {//show robot on 1st boss map
 
+			robotHealth.setPosition(300, 110);
+			hud.setActor(robotHealth);
+			
 			//update robot
 			if (!robot.isDead()) {
 				robotController.setPlayerPosition(playerControls.getPlayer().getX(), playerControls.getPlayer().getY());
@@ -588,8 +591,8 @@ public class GameScreen extends AbstractScreen {
 
 					if ((robotWidth >= bookWidth) && (robotX <= bookWidth)) {
 						if ((robotHeight >= bookHeight) && (robotY <= bookHeight)) {
-							robot.damage(5);
-							if (robot.getHealth() <= 0) {
+							robotHealth.setValue(robotHealth.getValue() - 0.002f);
+							if (robotHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
 								robot.setDead();
 							}
@@ -622,8 +625,8 @@ public class GameScreen extends AbstractScreen {
 
 					if ((robotWidth >= keyboardWidth) && (robotX <= keyboardWidth)) {
 						if ((robotHeight >= keyboardHeight) && (robotY <= keyboardHeight)) {
-							robot.damage(7);
-							if (robot.getHealth() <= 0) {
+							robotHealth.setValue(robotHealth.getValue() - 0.002f);
+							if (robotHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
 								robot.setDead();
 							}
