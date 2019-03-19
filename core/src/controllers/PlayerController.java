@@ -123,7 +123,7 @@ public class PlayerController extends InputAdapter {
 		}
 		if (keycode == Keys.SPACE) {
 			if (currentInv.getCurrentItem() == null) {
-				System.out.println("PC: No Item Used (No Equipped Item)");
+				
 
 			} else if (currentInv.getCurrentItem().getName() == "Book") {
 				books.add(p.shootBook(p.getDirection(), p.getX(), p.getY()));
@@ -307,21 +307,11 @@ public class PlayerController extends InputAdapter {
 			if (currentInv.getInventory().get(0).getFound() == true) {				
 				currentInv.setAsCurrentItem(currentInv.getInventory().get(0));
 
-				System.out.println("PC: Equipped: " + currentInv.getCurrentItem().getName());
-
-			} else {
-				System.out.println("PC: Not Equipped (Item Not Found): " + currentInv.getInventory().get(0).getName());
-
 			}
 
 		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
 			if (currentInv.getInventory().get(1).getFound() == true) {				
 				currentInv.setAsCurrentItem(currentInv.getInventory().get(1));
-
-				System.out.println("PC: Equipped: " + currentInv.getCurrentItem().getName());
-
-			} else {
-				System.out.println("PC: Not Equipped (Item Not Found): " + currentInv.getInventory().get(1).getName());
 
 			}
 
@@ -329,21 +319,11 @@ public class PlayerController extends InputAdapter {
 			if (currentInv.getInventory().get(2).getFound() == true) {				
 				currentInv.setAsCurrentItem(currentInv.getInventory().get(2));
 
-				System.out.println("PC: Equipped: " + currentInv.getCurrentItem().getName());
-
-			} else {								
-				System.out.println("PC: Not Equipped (Item Not Found): " + currentInv.getInventory().get(2).getName());
-
 			}
 
 		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_4)){
 			if (currentInv.getInventory().get(3).getFound() == true) {			
 				currentInv.setAsCurrentItem(currentInv.getInventory().get(3));
-
-				System.out.println("PC: Equipped: " + currentInv.getCurrentItem().getName());
-
-			} else {
-				System.out.println("PC: Not Equipped (Item Not Found): " + currentInv.getInventory().get(3).getName());
 
 			}
 
@@ -351,20 +331,10 @@ public class PlayerController extends InputAdapter {
 			if (currentInv.getInventory().get(4).getFound() == true) {			
 				currentInv.setAsCurrentItem(currentInv.getInventory().get(4));
 
-				System.out.println("PC: Equipped: " + currentInv.getCurrentItem().getName());
-
-			} else {
-				System.out.println("PC: Not Equipped (Item Not Found): " + currentInv.getInventory().get(4).getName());
-
 			}
 		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_6)){
 			if (currentInv.getInventory().get(5).getFound() == true) {			
 				currentInv.setAsCurrentItem(currentInv.getInventory().get(5));
-
-				System.out.println("PC: Equipped: " + currentInv.getCurrentItem().getName());
-
-			} else {
-				System.out.println("PC: Not Equipped (Item Not Found): " + currentInv.getInventory().get(5).getName());
 
 			}
 		}
