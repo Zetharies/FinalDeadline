@@ -15,7 +15,7 @@ public class HealthBar extends ProgressBar {
 	/**
 	 * @param width  of the health bar
 	 * @param height of the health bar
-	 * @param color of the health
+	 * @param color of the health  
 	 */
 	private TextureRegion leftBorder;
 	private TextureRegion rightBorder;

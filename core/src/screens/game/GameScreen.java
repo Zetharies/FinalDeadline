@@ -189,6 +189,10 @@ public class GameScreen extends AbstractScreen {
 		currentMapLabel.add("Floor 1: Library");
 		currentMapLabel.add("Floor 2: Engineering");
 		currentMapLabel.add("Unknown: Floor Boss");
+		currentMapLabel.add("Floor 3: Optomotry");
+		currentMapLabel.add("Unknown: Floor Boss");
+		currentMapLabel.add("Floor 4: Biology");
+		currentMapLabel.add("Unknown: Chax");
 
 		books = new ArrayList<Book>();
 		keyboards = new ArrayList<Keyboard>();
@@ -591,7 +595,7 @@ public class GameScreen extends AbstractScreen {
 
 					if ((robotWidth >= bookWidth) && (robotX <= bookWidth)) {
 						if ((robotHeight >= bookHeight) && (robotY <= bookHeight)) {
-							robotHealth.setValue(robotHealth.getValue() - 0.002f);
+							robotHealth.setValue(robotHealth.getValue() - 0.02f);
 							if (robotHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
 								robot.setDead();
@@ -625,7 +629,7 @@ public class GameScreen extends AbstractScreen {
 
 					if ((robotWidth >= keyboardWidth) && (robotX <= keyboardWidth)) {
 						if ((robotHeight >= keyboardHeight) && (robotY <= keyboardHeight)) {
-							robotHealth.setValue(robotHealth.getValue() - 0.002f);
+							robotHealth.setValue(robotHealth.getValue() - 0.02f);
 							if (robotHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
 								robot.setDead();
@@ -740,7 +744,7 @@ public class GameScreen extends AbstractScreen {
 							System.out.println(robot.getHealth());
 							System.out.println(k.getX());
 							System.out.println("Keyboard Hit");
-							bossHealth.setValue(bossHealth.getValue() - 0.002f);
+							bossHealth.setValue(bossHealth.getValue() - 0.02f);
 							if (bossHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
 								bossZombie.setDead();
