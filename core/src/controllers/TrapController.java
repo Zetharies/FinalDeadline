@@ -90,4 +90,9 @@ public class TrapController extends NPCController {
     private boolean isRightBlocked() {
         return isBlocked((int) (trap.x + 0.45), (int) trap.y, collisions);
     }
+    
+    public void stopAudio() {
+        audio.stop();
+    }
+    
 }
