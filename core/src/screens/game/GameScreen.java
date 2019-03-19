@@ -133,6 +133,8 @@ public class GameScreen extends AbstractScreen {
 	private HealthBar bossHealth, robotHealth;
 	private boolean solved = true; 
 	private boolean deactivated = false;
+	
+	private double counter = 0;
 
 	public GameScreen(String character) {
 		Assets.load();
@@ -1708,6 +1710,12 @@ public class GameScreen extends AbstractScreen {
 		}
 		
 		if(maps.indexOf(map) == 7) {
+			if (counter >= 5.0){
+			       counter = 0.0;
+			       hud.reduceHealth(0.05f);;
+			   } else {
+			       counter = (counter + Gdx.graphics.getDeltaTime());
+			   }
 			world = new World(new Vector2(0, 0), true);
 	        rayHandler = new RayHandler(world);
 	        rayHandler.setAmbientLight(0.1f, 0.7f, 0.1f, 0.7f);
