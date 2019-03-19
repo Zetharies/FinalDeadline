@@ -74,15 +74,14 @@ public abstract class NPC {
 
     /**
      * Check if npc is dead
-     *
      * @return false if not dead, true if dead
      */
     public boolean isDead() {
-        return dead;
+		return dead;
     }
-
+    
     public void setDead() {
-        dead = true;
+    	dead = true;
     }
 
     /**
@@ -146,14 +145,12 @@ public abstract class NPC {
                     walkFrames[index++] = region[i][j];
                 }
             }
-            sprite = new Sprite(walkFrames[currentFrame]);//set starting animation
+            sprite = new Sprite(walkFrames[currentFrame + 1]);//set starting animation
             sprite.setOriginCenter();
-        } else {
+        }else{
             sprite = new Sprite(region[0][0]);
         }
 
     }
-    
-    
 
 }

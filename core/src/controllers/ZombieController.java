@@ -1,18 +1,15 @@
 package controllers;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import java.util.ArrayList;
-import managers.SettingsManager;
 import models.Zombie;
-import controllers.NPCController;
+
 public class ZombieController extends NPCController {
 
     private Zombie zombie;//assoc zombie object
     private int moveRandomTimer = 0;//time to begin next direction to move
-    protected int count = -1;
 
     /**
      * constructor to initialise zombiecontroller used - to control movement and
@@ -26,8 +23,6 @@ public class ZombieController extends NPCController {
         this.collisions = collisions;
         moveRandom = false;
         radius = 7;
-        biteAudio = Gdx.audio.newSound(Gdx.files.internal("fx/bite.mp3"));
-
     }
 
     //if any thing is blocked move randomly and then set a timer before it can check for the player
@@ -43,7 +38,6 @@ public class ZombieController extends NPCController {
     ArrayList<Zombie> zombies;
 
     public void update(float delta, ArrayList<Zombie> zombies) {
-        biteAudioTimer++;
         this.zombies = zombies;
         //keys(delta);
         // timers for animations random movement and abilities
@@ -93,47 +87,27 @@ public class ZombieController extends NPCController {
 
         //set timer used for random movement when blocked whilst detecting player
         if (detectPlayer(this.zombie, radius) && !moveRandom && !setTimer) {
-            moveToPlayer();
-            this.zombie.setMoved(true);
+            moveToPlayer(this.zombie, Zombie.SPEED);
         } else {
             randomMovement();//move randomly 
         }
 
-        if (((zombie.getX() <= (playerX + 0.5) && zombie.getX() >= playerX) || (zombie.getX() >= (playerX - 0.5)
-                && zombie.getX() <= playerX)) && ((zombie.getY() <= (playerY + 0.5) && zombie.getY() >= playerY)
-                || (zombie.getY() >= (playerY - 0.5)
-                && zombie.getY() <= playerY))) {
-            System.out.println("hit player");
-            System.out.println(biteAudioTimer);
-            if (biteAudioTimer == 70 && SettingsManager.getSound()) {
-                biteAudio.play();
-                biteAudioTimer = 0;//reset audio timer
-            }
-        }else{
-            biteAudio.stop();
-        }
-        if (biteAudioTimer == 70) {
-            biteAudioTimer = 0;
-        }
     }
-    Sound biteAudio;
-    int biteAudioTimer = 0;
 
     /**
-     * if no player detected this method is called. zombie bounces off of
-     * collision tiles animations increments are based on timer - updateTimer
-     * method
+     * if no player detected this method is called. NPC bounces off of collision
+     * tiles animations increments are based on timer - updateTimer method
      */
     private void randomMovement() {
-        //right is not blocked and the zombie has chosen to go right
+        //right is not blocked and the npc has chosen to go right
         if (right && direction == 0) {
             if (!isRightBlocked(this.zombie)) {
                 //update zombie direction and increment through animation
                 zombie.getSprite().setRegion((TextureRegion) zombie.getRight().getKeyFrame(incr));
                 //increment x coord to move right
                 zombie.x += Gdx.graphics.getDeltaTime() * Zombie.SPEED;
+
                 collision = false;
-                this.zombie.setMoved(true);
             }
             if (isRightBlocked(this.zombie)) {
                 collision = true;
@@ -146,18 +120,17 @@ public class ZombieController extends NPCController {
                     direction = 1;//move in opposite direction
 
                 }
-                System.out.println("right blocked");
+
             }
             // 1 =left 2 = up 3 = down 4=right
-            //ensures left is not blocked and zombie has chosen to go left
+            //ensures left is not blocked and npc has chosen to go left
         } else if (left && direction == 1) {
-            if (!isLeftBlocked(this.zombie)) {// 1 =left 2 = up 3 = down 4=right
+            if (!isLeftBlocked(this.zombie)) {
                 //set direction to go left and increment through animation
                 zombie.getSprite().setRegion((TextureRegion) zombie.getLeft().getKeyFrame(incr));
                 //decrement x coord to move left
                 zombie.x -= Gdx.graphics.getDeltaTime() * Zombie.SPEED;
                 collision = false;
-                this.zombie.setMoved(true);
             }
             if (isLeftBlocked(this.zombie)) {
                 collision = true;
@@ -169,9 +142,8 @@ public class ZombieController extends NPCController {
                     direction = 4;//move in opposite direction
 
                 }
-                System.out.println("left blocked");
             }
-            //ensure up is not blocked and zombie has decided to go up
+            //ensure up is not blocked and npc has decided to go up
         } else if (up && direction == 2) {
             if (!isUpBlocked(this.zombie)) {
                 //makes zombie face up and increments through animation based on timings
@@ -179,22 +151,19 @@ public class ZombieController extends NPCController {
                 //increment y to go up 
                 zombie.y += Gdx.graphics.getDeltaTime() * Zombie.SPEED;
                 collision = false;
-                this.zombie.setMoved(true);
-            }// 1 =left 2 = up 3 = down 4=right
+            }
             if (isUpBlocked(this.zombie)) {
                 collision = true;
                 if (!isLeftBlocked(this.zombie)) {
                     direction = 1;
                 } else if (!isRightBlocked(this.zombie)) {
-                    System.out.println("right isnt blocked");
                     direction = 4;
                 } else {
                     direction = 3;//move in opposite direction
 
                 }
-                System.out.println("up blocked");
             }
-            //ensures down is not blocked and zombie has decided to go down
+            //ensures down is not blocked and npc has decided to go down
         } else if (down && direction == 3) {
             if (!isDownBlocked(this.zombie)) {
                 //set facing down and increment through down animation - ensure get correct animation
@@ -202,7 +171,6 @@ public class ZombieController extends NPCController {
                 //decrement to move down
                 zombie.y -= Gdx.graphics.getDeltaTime() * Zombie.SPEED;
                 collision = false;
-                this.zombie.setMoved(true);
             }
             if (isDownBlocked(this.zombie)) {// 1 =left 2 = up 3 = down 4=right
                 collision = true;
@@ -214,24 +182,17 @@ public class ZombieController extends NPCController {
                     direction = 3;//move in opposite direction
 
                 }
-                System.out.println("down blocked");
             }
 
         }
     }
-    private int timeRender = 0;
+
     /**
      * timers for zombie abilities and movement
      *
      * @param delta
      */
-    private int time = 0;
-
     public void updateTimers(float delta) {
-        time++;
-        if (zombie.getTimer() < 85) {
-            zombie.setTimer(time);
-        }
         timer += (delta * 100);
         count++;
         moveRandomTimer++;
@@ -263,6 +224,30 @@ public class ZombieController extends NPCController {
         return random.nextInt(4);
     }
 
+    /**
+     * method used for npc testing
+     */
+//    @SuppressWarnings("static-access")
+//    public void keys(float delta) {
+//        if (Gdx.input.isKeyPressed(Keys.DPAD_LEFT) && !isLeftBlocked() && left) {
+//
+//            zombie.x -= (Gdx.graphics.getDeltaTime()) * zombie.speed;
+//            zombie.getSprite().setRegion((TextureRegion) zombie.getLeft().getKeyFrame(incr));
+//        }
+//        if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT) && !isRightBlocked() && right) {
+//
+//            zombie.x += (Gdx.graphics.getDeltaTime()) * zombie.speed;
+//            zombie.getSprite().setRegion((TextureRegion) zombie.getRight().getKeyFrame(incr));
+//        }
+//        if (Gdx.input.isKeyPressed(Keys.DPAD_UP) && !isUpBlocked() && up) {
+//            zombie.y += (Gdx.graphics.getDeltaTime()) * zombie.speed;
+//            zombie.getSprite().setRegion((TextureRegion) zombie.getUp().getKeyFrame(incr));
+//        }
+//        if (Gdx.input.isKeyPressed(Keys.DPAD_DOWN) && !isDownBlocked() && down) {
+//            zombie.y -= (Gdx.graphics.getDeltaTime()) * zombie.speed;
+//            zombie.getSprite().setRegion((TextureRegion) zombie.getDown().getKeyFrame(incr));
+//        }
+//    }
     /**
      * set down collision true / false
      *
@@ -337,50 +322,5 @@ public class ZombieController extends NPCController {
 
     public TiledMapTileLayer getCollisions() {
         return this.collisions;
-    }
-
-    public void moveToPlayer() {
-        //right must be true meaning up is not blocked - updated in updatecollisions methods
-        if (right && zombie.getX() < playerX) {
-            //set the zombie to face right and loop animation
-            zombie.getSprite().setRegion((TextureRegion) zombie.getRight().getKeyFrame(incr));
-            //increase zombie x coord to move right 
-            zombie.x += Gdx.graphics.getDeltaTime() * zombie.getSpeed();
-            //if right is blocked sprite should bounce off wall and move randomly.
-            if (isRightBlocked(zombie) || !right) {
-                moveRandom = true;
-            }
-            //left must be true meaning up is not blocked - updated in updatecollisions methods
-        } else if (left && zombie.getX() > playerX) {
-            //set the zombie to face left and increment animation
-            zombie.getSprite().setRegion((TextureRegion) zombie.getLeft().getKeyFrame(incr));
-            //to move left decrement x 
-            zombie.x -= Gdx.graphics.getDeltaTime() * zombie.getSpeed();
-
-            //detection of left collision tile should move randomly
-            if (isLeftBlocked(zombie) || !left) {
-                moveRandom = true;
-            }
-            //up must be true meaning up is not blocked - updated in updatecollisions methods
-
-        } else if (up && zombie.getY() < playerY) {
-            //
-            zombie.getSprite().setRegion((TextureRegion) zombie.getUp().getKeyFrame(incr));
-            zombie.y += Gdx.graphics.getDeltaTime() * zombie.getSpeed();
-
-            if (isUpBlocked(zombie) || !up) {
-                moveRandom = true;
-            }
-            //down must be true meaning up is not blocked - updated in updatecollisions methods
-        } else if (down && zombie.getY() > playerY) {
-            //zombie to face down and increment through the associated aniamtion
-            zombie.getSprite().setRegion((TextureRegion) zombie.getDown().getKeyFrame(incr));
-            //decrement y coord to move left 
-            zombie.y -= Gdx.graphics.getDeltaTime() * zombie.getSpeed();
-
-            if (isDownBlocked(zombie) || !down) {
-                moveRandom = true;
-            }
-        }
     }
 }

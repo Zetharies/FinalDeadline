@@ -2,15 +2,13 @@ package controllers;
 
 import com.badlogic.gdx.Gdx;
 import models.Bullet;
-import controllers.NPCController;
 
 /**
  * BulletController class creates bullets that can be used for bosses
- *
  * @author Team 2f
  *
  */
-public class BulletController extends NPCController {
+public class BulletController extends NPCController{
 
     private Bullet bullet;//assoc bullet object
     private int rangeTimer;//timer to detect when bullet has reached range
@@ -18,17 +16,14 @@ public class BulletController extends NPCController {
 
     /**
      * controller for bullet object
-     *
-     * @param bullet
+     * @param bullet 
      */
     public BulletController(Bullet bullet) {
         this.bullet = bullet;
         rangeTimer = 0;
     }
-
     /**
      * Update that can be used for bullet distance
-     *
      * @param delta
      */
     public void update(float delta) {
@@ -44,7 +39,7 @@ public class BulletController extends NPCController {
             if (this.bullet.x < playerX + 1.5) {
                 this.bullet.x += Gdx.graphics.getDeltaTime() * Bullet.SPEED;
             }
-            if (this.bullet.x > playerX + 1.5) {
+            if (this.bullet.x >playerX + 1.5) {
                 this.bullet.x -= Gdx.graphics.getDeltaTime() * Bullet.SPEED;
             }
             if (this.bullet.y < playerY + 0.5) {
@@ -54,9 +49,5 @@ public class BulletController extends NPCController {
                 this.bullet.y -= Gdx.graphics.getDeltaTime() * Bullet.SPEED;
             }
         }
-    }
-
-    public void moveToPlayer() {
-
     }
 }

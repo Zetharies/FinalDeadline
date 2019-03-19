@@ -84,7 +84,5 @@ public class Trap extends NPC {
        controller.setPlayerPosition(playerX, playerY);
     }
     
-    public void stopAudio(){
-        controller.stopAudio();
-    }
+   
 }

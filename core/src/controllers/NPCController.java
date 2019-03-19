@@ -8,15 +8,14 @@ import models.NPC;
 
 /**
  * NPCController class that allows us to control NPCs
- *
  * @author Team 2f
  *
  */
 public abstract class NPCController {
 
-    protected boolean up = false, right = true, left = false, down = false;
     protected Random random = new Random();
     protected TiledMapTileLayer collisions;//npcs use collision set 
+    protected boolean up = false, right = true, left = false, down = false;
     protected int count = -1;
     protected int direction = 0;
     protected int incr = 0;
@@ -41,6 +40,51 @@ public abstract class NPCController {
         this.playerY = playerY;
     }
 
+    protected void moveToPlayer(NPC npc, double speed) {
+        //right must be true meaning up is not blocked - updated in updatecollisions methods
+        if (right && npc.getX() < playerX) {
+            //set the zombie to face right and loop animation
+            npc.getSprite().setRegion((TextureRegion) npc.getRight().getKeyFrame(incr));
+            //increase zombie x coord to move right 
+            npc.x += Gdx.graphics.getDeltaTime() * speed;
+            //if right is blocked sprite should bounce off wall and move randomly.
+            if (isRightBlocked(npc) || !right) {
+                moveRandom = true;
+            }
+            //left must be true meaning up is not blocked - updated in updatecollisions methods
+        } else if (left && npc.getX() > playerX) {
+            //set the zombie to face left and increment animation
+            npc.getSprite().setRegion((TextureRegion) npc.getLeft().getKeyFrame(incr));
+            //to move left decrement x 
+            npc.x -= Gdx.graphics.getDeltaTime() * speed;
+
+            //detection of left collision tile should move randomly
+            if (isLeftBlocked(npc) || !left) {
+                moveRandom = true;
+            }
+            //up must be true meaning up is not blocked - updated in updatecollisions methods
+
+        } else if (up && npc.getY() < playerY) {
+            //
+            npc.getSprite().setRegion((TextureRegion) npc.getUp().getKeyFrame(incr));
+            npc.y += Gdx.graphics.getDeltaTime() * speed;
+
+            if (isUpBlocked(npc) || !up) {
+                moveRandom = true;
+            }
+            //down must be true meaning up is not blocked - updated in updatecollisions methods
+        } else if (down && npc.getY() > playerY) {
+            //zombie to face down and increment through the associated aniamtion
+            npc.getSprite().setRegion((TextureRegion) npc.getDown().getKeyFrame(incr));
+            //decrement y coord to move left 
+            npc.y -= Gdx.graphics.getDeltaTime() * speed;
+
+            if (isDownBlocked(npc) || !down) {
+                moveRandom = true;
+            }
+        }
+    }
+
     /**
      * player detection used with a radius field
      *
@@ -58,8 +102,7 @@ public abstract class NPCController {
 
     /**
      * checks collisions to update up down left right for npcs
-     *
-     * @param npc
+     * @param npc 
      */
     protected void updateCollisions(NPC npc) {
         //is right is blocked set false - cannot go right otherwise true and can go right
@@ -93,7 +136,6 @@ public abstract class NPCController {
 
     /**
      * Check if a layer is blocked
-     *
      * @param x
      * @param y
      * @param collisionLayer
@@ -105,7 +147,6 @@ public abstract class NPCController {
 
     /**
      * Check if the above layer is a collision
-     *
      * @param npc
      * @return if there is a collision
      */
@@ -116,7 +157,6 @@ public abstract class NPCController {
 
     /**
      * Check if the below layer is a collision
-     *
      * @param npc
      * @return if there is a collision below
      */
@@ -131,7 +171,6 @@ public abstract class NPCController {
 
     /**
      * Check if the left layer is a collision
-     *
      * @param npc
      * @return if there is a collision towards the left
      */
@@ -146,7 +185,6 @@ public abstract class NPCController {
 
     /**
      * Check if the right layer is a collision
-     *
      * @param npc
      * @return if there is a collision towards the right
      */
@@ -154,7 +192,5 @@ public abstract class NPCController {
         //  return isBlocked((int) (zombie.x + 1), (int) zombie.y, collisions);
         return isBlocked((int) (npc.x + 0.45), (int) npc.y, collisions);
     }
-
-    protected abstract void moveToPlayer();
 
 }

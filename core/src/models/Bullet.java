@@ -45,14 +45,15 @@ public class Bullet extends NPC {
         return sprite;
     }
 
-    
-    public float getPosX() {
-        return x;
-    }
-
-    public float getPosY() {
-        return y;
-    }
+//    
+//    public float getX() {
+//        return x;
+//    }
+//
+//    @Override
+//    public float getY() {
+//        return y;
+//    }
 
     public void setShoot(boolean shoot) {
         this.shoot = shoot;
@@ -67,12 +68,16 @@ public class Bullet extends NPC {
     }
 
 
-   
+    public int getPosX(){
+        return posX;
+    }
+    public int getPosY(){
+        return posY;
+    }
     
     public void setPlayerPosition(int playerX, int playerY) {
        controller.setPlayerPosition(playerX, playerY);
     }
-  
     
     public void update(float delta){
         controller.update(delta);
@@ -80,10 +85,6 @@ public class Bullet extends NPC {
     
     public void setSpeed(float speed){
         SPEED = speed;
-    }
-    
-    public float getSpeed(){
-        return SPEED;
     }
 }
 

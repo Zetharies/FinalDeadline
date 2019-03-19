@@ -134,20 +134,6 @@ public class BossZombie extends NPC {
     public void setSpeed(float speed) {
         this.speed = speed;
     }
-    
-    public float getSpeed(){
-        return speed;
-    }
-    
-    public void setHealth(int health){
-        this.health = health;
-    }
-    
-    public int getHealth(){
-        return health;
-    }
-    
-    
 
     public void die() {
     }

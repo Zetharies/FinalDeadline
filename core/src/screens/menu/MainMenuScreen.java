@@ -38,13 +38,13 @@ public class MainMenuScreen extends AbstractScreen {
     // Background image for main menu
     private Image bg;
     //main screen background image added to 
-    private Table testTable, myTable;
+    private Table testTable;
     //stage for screen
     private Stage stage;
     //skin for the style of the text
     private Skin skin;
     //to display user ability to press on character / levels
-    private Texture maleCard, femaleCard, customizeCard, level1, level2, level3, level4;
+    private Texture maleCard, femaleCard, customizeCard, level1, level2;
     //booleans to check animation is in play and audio playing
     public static boolean swipe, playing = false;
     //window for quit button pop up
@@ -54,7 +54,7 @@ public class MainMenuScreen extends AbstractScreen {
     //music to play within 
     private static Music mp3Sound;
     //buttons for customise screen gender selection into game and level selection
-    private ImageButton customizeSelection, maleSelection, femaleSelection, floor1, floor2, floor3, floor4;
+    private ImageButton customizeSelection, maleSelection, femaleSelection, floor2, floor4;
     //button to back to homescreen shown when a defaultbutton is pressed
     private TextButton back;
     //used to check if button if off/on screen
@@ -99,7 +99,7 @@ public class MainMenuScreen extends AbstractScreen {
         mp3Sound.setVolume(0.25f);
         skin = new Skin(Gdx.files.internal("fonts/Holo-dark-hdpi.json")); // skin to be applied to buttons 
         skin.getFont("default-font").getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-
+       
 //        camera = new PerspectiveCamera();
 //        viewPort = new StretchViewport(800, 480, camera);
     }
@@ -184,7 +184,6 @@ public class MainMenuScreen extends AbstractScreen {
      */
     @Override
     public void resize(int width, int height) {
-        characterSelectionClicked = false;
         CharacterSelection.EXIT = false; // set to false as rendered to main screen - set to true once button pressed
         swipe = false;
 
@@ -204,10 +203,8 @@ public class MainMenuScreen extends AbstractScreen {
         femaleCard = new Texture(Gdx.files.internal("images/jessicaSelection.png"));
 
         //levels buttons texture added
-        level1 = new Texture(Gdx.files.internal("images/libraryImage.png"));
-        level2 = new Texture(Gdx.files.internal("images/engineeringImage.png"));
-        level3 = new Texture(Gdx.files.internal("images/optometryImage.png"));
-        level4 = new Texture(Gdx.files.internal("images/biologyImage.png"));
+        level1 = new Texture(Gdx.files.internal("images/floor1Image.png"));
+        level2 = new Texture(Gdx.files.internal("images/floor2Image.png"));
 
         //buttons for player cards
         customizeSelection = new ImageButton(new TextureRegionDrawable(new TextureRegion(customizeCard)));
@@ -215,10 +212,8 @@ public class MainMenuScreen extends AbstractScreen {
         femaleSelection = new ImageButton(new TextureRegionDrawable(new TextureRegion(femaleCard)));
 
         //levels texture buttons added
-        floor1 = new ImageButton(new TextureRegionDrawable(new TextureRegion(level1)));
-        floor2 = new ImageButton(new TextureRegionDrawable(new TextureRegion(level2)));
-        floor3 = new ImageButton(new TextureRegionDrawable(new TextureRegion(level3)));
-        floor4 = new ImageButton(new TextureRegionDrawable(new TextureRegion(level4)));
+        floor2 = new ImageButton(new TextureRegionDrawable(new TextureRegion(level1)));
+        floor4 = new ImageButton(new TextureRegionDrawable(new TextureRegion(level2)));
 
         //style for button
         Label.LabelStyle style = new Label.LabelStyle();
@@ -254,14 +249,10 @@ public class MainMenuScreen extends AbstractScreen {
 
         //viewPort.update(width, height);
         int heightView = stage.getViewport().getScreenHeight();
-        int widthView = stage.getViewport().getScreenWidth();
-        stage.getViewport().getScreenHeight();
         stage.getViewport().getScreenWidth();
-        stage.getViewport().update(width, height, true);
 
         //when res changed set to home screen 
-        if (heightView != stage.getViewport().getScreenHeight() || widthView != stage.getViewport().getScreenWidth()) {
-            System.out.println("resized");
+        if (heightView != stage.getViewport().getScreenHeight()) {
             // moveButtonsRight();
             stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
             //reset background
@@ -276,27 +267,17 @@ public class MainMenuScreen extends AbstractScreen {
             creditsClicked = false;
             aboutClicked = false;
             levelsClicked = false;
-            levelsSwipe = false;
-            creditsSwipe = false;
-            aboutSwipe = false;
-            characterSelectSwipe = false;
             characterSelectionClicked = false;
-            swipe = false;
-            characterSelectionClicked = false;
-            CharacterSelection.EXIT = false;
-          //  setButtons();
-            buttonListener(); // Call the buttonListener method - listen for events
-            //add buttons to screen x y and width height
-            addButtons();
         }
         settingsUI.settingsListener();//button listeners for elements in setting ui
 
+        stage.getViewport().update(width, height, true);
         Gdx.input.setInputProcessor(stage);
     }
 
     public void setButtons() {
         //set x y width height for cards and set default to hide
-    	customizeSelection.setBounds((float) (getWidth() / 2), getHeight() / 3, (float) (Gdx.graphics.getWidth() / 5), Gdx.graphics.getHeight() / 2);
+        customizeSelection.setBounds((float) (getWidth() / 2), getHeight() / 3, (float) (Gdx.graphics.getWidth() / 5), Gdx.graphics.getHeight() / 2);
         customizeSelection.addAction(Actions.hide());
         maleSelection.setBounds(customizeSelection.getX() + customizeSelection.getWidth(), customizeSelection.getY(), (float) (Gdx.graphics.getWidth() / 5), (float) (Gdx.graphics.getHeight() / 2));
         maleSelection.addAction(Actions.hide());
@@ -304,21 +285,12 @@ public class MainMenuScreen extends AbstractScreen {
         femaleSelection.addAction(Actions.hide());
 
         //set floor textures x y width height and set default hidden
-        floor1.setBounds((float) (getWidth() / 6), (float) (getHeight() / 4), (float) (Gdx.graphics.getWidth() / 2), Gdx.graphics.getHeight() / 2);
-        floor1.setSize((float) (getWidth() / 2.25), (float) (getHeight() / 2));
-        floor1.addAction(Actions.hide());
-        
-        floor2.setBounds((float) ((floor1.getX() * 1.9) * 1.25), floor1.getY(), (float) (Gdx.graphics.getWidth() / 5), (float) (Gdx.graphics.getHeight() / 2));
-        floor2.setSize((float) (getWidth() / 2.25), (float) (getHeight() / 2));
+        floor2.setBounds((float) (getWidth() / 6), getHeight() / 8, (float) (Gdx.graphics.getWidth() / 2), Gdx.graphics.getHeight() / 2);
+        floor2.setSize((float) (getWidth() / 1.25), (float) (getHeight() / 1.25));
         floor2.addAction(Actions.hide());
-        
-        floor3.setBounds((float) ((floor2.getX() * 1.265) * 1.25), floor2.getY(), (float) (Gdx.graphics.getWidth() / 8), (float) (Gdx.graphics.getHeight() / 2));
-        floor3.setSize((float) (getWidth() / 2.25), (float) (getHeight() / 2));
-        floor3.addAction(Actions.hide());
-        
-        floor4.setBounds((float) ((floor3.getX() * 1.095) * 1.25), floor3.getY(), (float) (Gdx.graphics.getWidth() / 11), (float) (Gdx.graphics.getHeight() / 2));
-        floor4.setSize((float) (getWidth() / 2.25), (float) (getHeight() / 2));
-        floor4.addAction(Actions.hide());																																																							
+        floor4.setBounds((float) (floor2.getX() * 3.5), floor2.getY(), (float) (Gdx.graphics.getWidth() / 5), (float) (Gdx.graphics.getHeight() / 2));
+        floor4.setSize((float) (getWidth() / 1.25), (float) (getHeight() / 1.25));
+        floor4.addAction(Actions.hide());
 
         //add fonts to butotn
         settings.setFontScale((float) (settings.getFontScaleX() + (settings.getFontScaleX() + 0.8)), (float) (settings.getFontScaleY() + (settings.getFontScaleY() + 0.8)));
@@ -369,9 +341,7 @@ public class MainMenuScreen extends AbstractScreen {
         stage.addActor(customizeSelection);
         stage.addActor(maleSelection);
         stage.addActor(femaleSelection);
-        stage.addActor(floor1);
         stage.addActor(floor2);
-        stage.addActor(floor3);
         stage.addActor(floor4);
     }
 
@@ -750,224 +720,7 @@ public class MainMenuScreen extends AbstractScreen {
                 });
             }
         });
-        
-        floor1.addListener(new ClickListener() {
-        	public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (!playing && SettingsManager.getSound()) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
-                    sound.play(0.1F);
-                    playing = true;
-                }
-                //increase button size
-                
-            }
-        	public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                playing = false;
-            }
-        	
-        	@Override
-            public void clicked(InputEvent e, float x, float y) {
-                if (SettingsManager.getSound()) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/selectFX.mp3"));
-                    sound.play(0.5F);//play button selection audio
-                }
-                stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 0.85)));
 
-            	hideLevelsOptions();
-            	myTable = new Table();
-            	Label line1 = new Label("Floor 1: Library", skin);
-            	Label line2 = new Label("You make your way into the school Library, only to find out that it has been overtaken by Zombies?!", skin);
-            	Label line3 = new Label("You see that the door is locked, you realise you must find the riddle in this map to advance!", skin);
-
-            	myTable.row();
-            	myTable.add(line1);
-            	myTable.row();
-            	myTable.add(line2);
-            	myTable.row();
-            	myTable.add(line3);
-                
-            	myTable.setBounds((Gdx.graphics.getWidth() / 2) - (myTable.getPrefWidth() / 2), (Gdx.graphics.getHeight() / 2) - (myTable.getPrefHeight()/2),
-            			myTable.getPrefWidth(), myTable.getPrefHeight());
-                //set labels xywidth height
-                line1.setBounds((myTable.getWidth() / 2) - (line1.getPrefWidth() / 2), (myTable.getHeight() / 2) - (line1.getPrefHeight()),
-                        line1.getPrefWidth(), line1.getPrefHeight());
-                line2.setBounds((myTable.getWidth() / 2) - (line2.getPrefWidth() / 2), (myTable.getHeight() / 2) - (line2.getPrefHeight()),
-                        line2.getPrefWidth(), line2.getPrefHeight());
-                line3.setBounds((myTable.getWidth() / 2) - (line3.getPrefWidth() / 2), (myTable.getHeight() / 2) - (line3.getPrefHeight()),
-                        line3.getPrefWidth(), line3.getPrefHeight());
-                
-                stage.addActor(myTable);
-                
-            }
-
-        });
-        
-        floor2.addListener(new ClickListener() {
-        	public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (!playing && SettingsManager.getSound()) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
-                    sound.play(0.1F);
-                    playing = true;
-                }
-                //increase button size
-                
-            }
-        	public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                playing = false;
-            }
-        	
-        	@Override
-            public void clicked(InputEvent e, float x, float y) {
-                if (SettingsManager.getSound()) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/selectFX.mp3"));
-                    sound.play(0.5F);//play button selection audio
-                }
-                stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 0.85)));
-
-            	hideLevelsOptions();
-            	myTable = new Table();
-            	Label line1 = new Label("Floor 2: Engineering", skin);
-            	Label line2 = new Label("After completing the riddle, you stumble into the engineering department.", skin);
-            	Label line3 = new Label("You make your way through the hoards of Zombies and traps only to find something waiting for you in the next map.", skin);
-
-            	myTable.row();
-            	myTable.add(line1);
-            	myTable.row();
-            	myTable.add(line2);
-            	myTable.row();
-            	myTable.add(line3);
-                
-            	myTable.setBounds((Gdx.graphics.getWidth() / 2) - (myTable.getPrefWidth() / 2), (Gdx.graphics.getHeight() / 2) - (myTable.getPrefHeight()/2),
-            			myTable.getPrefWidth(), myTable.getPrefHeight());
-                //set labels xywidth height
-                line1.setBounds((myTable.getWidth() / 2) - (line1.getPrefWidth() / 2), (myTable.getHeight() / 2) - (line1.getPrefHeight()),
-                        line1.getPrefWidth(), line1.getPrefHeight());
-                line2.setBounds((myTable.getWidth() / 2) - (line2.getPrefWidth() / 2), (myTable.getHeight() / 2) - (line2.getPrefHeight()),
-                        line2.getPrefWidth(), line2.getPrefHeight());
-                line3.setBounds((myTable.getWidth() / 2) - (line3.getPrefWidth() / 2), (myTable.getHeight() / 2) - (line3.getPrefHeight()),
-                        line3.getPrefWidth(), line3.getPrefHeight());
-                
-                stage.addActor(myTable);
-                
-            }
-
-        });
-        
-        floor3.addListener(new ClickListener() {
-        	public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (!playing && SettingsManager.getSound()) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
-                    sound.play(0.1F);
-                    playing = true;
-                }
-                //increase button size
-                
-            }
-        	public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                playing = false;
-            }
-        	
-        	@Override
-            public void clicked(InputEvent e, float x, float y) {
-                if (SettingsManager.getSound()) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/selectFX.mp3"));
-                    sound.play(0.5F);//play button selection audio
-                }
-                stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 0.85)));
-
-            	hideLevelsOptions();
-            	myTable = new Table();
-            	Label line1 = new Label("Floor 3: Optometry", skin);
-            	Label line2 = new Label("You arrive in the Optometry lab, making your way through the monsters, reaching closer to your goal", skin);
-            	Label line3 = new Label("You look for an exit, only to find out something else is waiting for you.", skin);
-
-            	myTable.row();
-            	myTable.add(line1);
-            	myTable.row();
-            	myTable.add(line2);
-            	myTable.row();
-            	myTable.add(line3);
-                
-            	myTable.setBounds((Gdx.graphics.getWidth() / 2) - (myTable.getPrefWidth() / 2), (Gdx.graphics.getHeight() / 2) - (myTable.getPrefHeight()/2),
-            			myTable.getPrefWidth(), myTable.getPrefHeight());
-                //set labels xywidth height
-                line1.setBounds((myTable.getWidth() / 2) - (line1.getPrefWidth() / 2), (myTable.getHeight() / 2) - (line1.getPrefHeight()),
-                        line1.getPrefWidth(), line1.getPrefHeight());
-                line2.setBounds((myTable.getWidth() / 2) - (line2.getPrefWidth() / 2), (myTable.getHeight() / 2) - (line2.getPrefHeight()),
-                        line2.getPrefWidth(), line2.getPrefHeight());
-                line3.setBounds((myTable.getWidth() / 2) - (line3.getPrefWidth() / 2), (myTable.getHeight() / 2) - (line3.getPrefHeight()),
-                        line3.getPrefWidth(), line3.getPrefHeight());
-                
-                stage.addActor(myTable);
-                
-            }
-
-        });
-        
-        floor4.addListener(new ClickListener() {
-        	public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                if (!playing && SettingsManager.getSound()) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
-                    sound.play(0.1F);
-                    playing = true;
-                }
-                //increase button size
-                
-            }
-        	public void exit(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                playing = false;
-            }
-        	
-        	@Override
-            public void clicked(InputEvent e, float x, float y) {
-                if (SettingsManager.getSound()) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/selectFX.mp3"));
-                    sound.play(0.5F);//play button selection audio
-                }
-                stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 0.85)));
-
-            	hideLevelsOptions();
-            	myTable = new Table();
-            	Label line1 = new Label("Floor 4: Biology", skin);
-            	Label line2 = new Label("You enter the biology lab, only to find out a poison has spread", skin);
-            	Label line3 = new Label("You search for a way to stop it by looking for three potions", skin);
-            	Label line4 = new Label("After you have taken the potions to the vents, you confront the final villain of the story.", skin);
-            	
-            	myTable.row();
-            	myTable.add(line1);
-            	myTable.row();
-            	myTable.add(line2);
-            	myTable.row();
-            	myTable.add(line3);
-            	myTable.row();
-            	myTable.add(line4);
-                
-            	myTable.setBounds((Gdx.graphics.getWidth() / 2) - (myTable.getPrefWidth() / 2), (Gdx.graphics.getHeight() / 2) - (myTable.getPrefHeight()/2),
-            			myTable.getPrefWidth(), myTable.getPrefHeight());
-                //set labels xywidth height
-                line1.setBounds((myTable.getWidth() / 2) - (line1.getPrefWidth() / 2), (myTable.getHeight() / 2) - (line1.getPrefHeight()),
-                        line1.getPrefWidth(), line1.getPrefHeight());
-                line2.setBounds((myTable.getWidth() / 2) - (line2.getPrefWidth() / 2), (myTable.getHeight() / 2) - (line2.getPrefHeight()),
-                        line2.getPrefWidth(), line2.getPrefHeight());
-                line3.setBounds((myTable.getWidth() / 2) - (line3.getPrefWidth() / 2), (myTable.getHeight() / 2) - (line3.getPrefHeight()),
-                        line3.getPrefWidth(), line3.getPrefHeight());
-                
-                stage.addActor(myTable);
-                
-            }
-
-        });
-
-    }
-    
-    /**
-     * Used to hide the options for the levels
-     */
-    public void hideLevelsOptions() {
-    	floor1.addAction(Actions.hide());
-    	floor2.addAction(Actions.hide());
-    	floor3.addAction(Actions.hide());
-    	floor4.addAction(Actions.hide());
     }
 
     /**
@@ -1060,17 +813,11 @@ public class MainMenuScreen extends AbstractScreen {
             stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
             bg.setDrawable(new SpriteDrawable(new Sprite(new Texture("images/gamemenu.png"))));
             //testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
-            floor1.addAction((Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f)));
-            floor1.addAction(Actions.hide());
             floor2.addAction((Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f)));
             floor2.addAction(Actions.hide());
-            floor3.addAction((Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f)));
-            floor3.addAction(Actions.hide());
             floor4.addAction((Actions.moveBy((Gdx.graphics.getWidth() / 4), 0, 0.8f)));
             floor4.addAction(Actions.hide());
-            stage.addAction(Actions.removeActor(myTable));
             levelsSwipe = false;
-            
         }
     }
 
@@ -1164,12 +911,8 @@ public class MainMenuScreen extends AbstractScreen {
             bg.setDrawable(new SpriteDrawable(new Sprite(new Texture("images/gamemenuBlur.jpg"))));
             //testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenuBlur.jpg"))));
 
-            floor1.addAction(Actions.show());
-            floor1.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
             floor2.addAction(Actions.show());
             floor2.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
-            floor3.addAction(Actions.show());
-            floor3.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
             floor4.addAction(Actions.show());
             floor4.addAction(Actions.moveBy(-(Gdx.graphics.getWidth() / 4), 0, 0.8f));
 

@@ -24,11 +24,11 @@ public class InventorySystem{
 
 	private int[] randomPos;
 
-	private Item currentItem, lastEquippedItem;
+	private Item currentItem;
 	
 	private int mapNumber;
 	
-	private boolean drinkDrawn, drinkAnimated;
+	private Boolean drinkDrawn;
 
 	public InventorySystem() {	
 		inventory = new ArrayList<Item>();
@@ -38,10 +38,8 @@ public class InventorySystem{
 		rnd = new Random();
 
 		currentItem = null;
-		lastEquippedItem = null;
 		
 		drinkDrawn = false;
-		drinkAnimated = false;
 
 	}
 	
@@ -238,7 +236,7 @@ public class InventorySystem{
 			inventory.get(4).setItemFound(false);
 			inventory.get(5).setItemFound(false);
 			
-			setDrinksOnMap(2);
+			setDrinksOnMap(0);
 
 		// OPTOMETRY	
 		} else if (mapNumber == 5) {
@@ -273,8 +271,6 @@ public class InventorySystem{
 			inventory.get(3).setItemFound(false);
 			inventory.get(4).setItemFound(false);
 			inventory.get(5).setItemFound(false);
-			
-			setDrinksOnMap(3);
 
 		// BIOLOGY
 		} else if (mapNumber == 7) {
@@ -374,23 +370,6 @@ public class InventorySystem{
 
     }
 
-    
-    public void setLastEquippedItem(Item impItem) {
-    	lastEquippedItem = impItem;
-    	
-    }
-    
-    public Item getLastEquippedItem() {
-    	return lastEquippedItem;
-    }
-    
-    public void setDrinkAnimated(boolean choice) {
-    	drinkAnimated = choice;
-    }
-    
-    public boolean getDrinkAnimated() {
-    	return drinkAnimated;
-    }
     
 	public void setAsCurrentItem(Item newItem) {
 		currentItem = newItem;

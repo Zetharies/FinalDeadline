@@ -11,9 +11,10 @@ public class TrapController extends NPCController {
     private Trap trap;//assoc object
     private Sound audio;//audio when trap triggered
     private TiledMapTileLayer collisions;//collsion set
+    private int shootDirection;
 
     /**
-     * constructor for trap controller trap controller for movement + reset trap
+     * trap controller for movement + reset trap
      *
      * @param trap
      * @param thisX
@@ -43,13 +44,14 @@ public class TrapController extends NPCController {
             }
             this.trap.setUsed(false);
         }
-        if (isLeftBlocked()) {
+        if (isLeftBlocked() || isRightBlocked() || isUpBlocked() || isDownBlocked()) {
             this.trap.setShoot(false);//stop moving trap
             this.trap.setUsed(true);//get ready to reset
             audio.pause();//stop playing audio
         }
         if (this.trap.getShoot()) {
-            moveToPlayer();
+
+            this.trap.x -= Gdx.graphics.getDeltaTime() * Trap.SPEED;//move trap from right to left 
             audio.play();//play audio when trap triggerd
 
         }
@@ -66,6 +68,8 @@ public class TrapController extends NPCController {
     }
 
     protected boolean isUpBlocked() {
+        System.out.println("blocked");
+
         return isBlocked((int) (trap.x), (int) (trap.y + 0.5), collisions);
     }
 
@@ -83,12 +87,7 @@ public class TrapController extends NPCController {
         return true;
     }
 
-    public void stopAudio() {
-        audio.stop();
-    }
-
-    @Override
-    protected void moveToPlayer() {
-        this.trap.x -= Gdx.graphics.getDeltaTime() * Trap.SPEED;//move trap from right to left 
+    private boolean isRightBlocked() {
+        return isBlocked((int) (trap.x + 0.45), (int) trap.y, collisions);
     }
 }
