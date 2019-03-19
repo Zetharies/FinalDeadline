@@ -33,6 +33,11 @@ public class Bullet extends NPC {
     }
 
   
+    public Bullet(int x, int y) {
+    	this.x = x;
+    	this.y= y;
+    	DAMAGE = 0.15f;
+    }
 
     public void updateTimer(float delta) {
         timer += (delta * 100);

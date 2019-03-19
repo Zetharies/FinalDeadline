@@ -35,6 +35,10 @@ public class Zombie extends NPC {
         walkingLeft = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[10], walkFrames[9], walkFrames[11]);
     }
 
+    public Zombie(int x, int y) {
+    	this.x = x;
+    	this.y = y;
+    }
     public void detectPlayerPosition(Player p) {
         controller.setPlayerPosition(p.getX(), p.getY());
     }
@@ -138,5 +142,6 @@ public class Zombie extends NPC {
     public int getTimer() {
         return timer;
     }
-
+    
+    
 }

@@ -29,6 +29,10 @@ public class ZombieController extends NPCController {
         biteAudio = Gdx.audio.newSound(Gdx.files.internal("fx/bite.mp3"));
 
     }
+    public ZombieController(Zombie zombie) {
+    	this.zombie = zombie;
+    	radius = 7;
+    }
 
     //if any thing is blocked move randomly and then set a timer before it can check for the player
     @SuppressWarnings("static-access")
@@ -324,6 +328,7 @@ public class ZombieController extends NPCController {
      */
     public void setLeft(boolean value) {
         left = value;
+        
     }
 
     /**
@@ -364,7 +369,7 @@ public class ZombieController extends NPCController {
             //up must be true meaning up is not blocked - updated in updatecollisions methods
 
         } else if (up && zombie.getY() < playerY) {
-            //
+            //a
             zombie.getSprite().setRegion((TextureRegion) zombie.getUp().getKeyFrame(incr));
             zombie.y += Gdx.graphics.getDeltaTime() * zombie.getSpeed();
 
@@ -382,5 +387,17 @@ public class ZombieController extends NPCController {
                 moveRandom = true;
             }
         }
+    }
+    
+    public int getPlayerX() {
+    	
+    	return playerX;
+    }
+    public int getPlayerY() {
+    	return playerY;
+    }
+    
+    public boolean detect() {
+    	return detectPlayer(this.zombie, radius);
     }
 }

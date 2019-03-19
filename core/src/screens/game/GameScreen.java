@@ -173,7 +173,7 @@ public class GameScreen extends AbstractScreen {
 		robotHealth.getHealthValue();
 
 		bossHealth = new HealthBar(580, 8 + (1 / 2), Color.RED);
-		bossHealth.setName("robotHealth");
+		bossHealth.setName("bossHealth");
 		bossHealth.getHealthValue();
 
 		musicList = new ArrayList<Music>();
@@ -672,7 +672,10 @@ public class GameScreen extends AbstractScreen {
 		}
 
 		if (maps.indexOf(map) == 6) {// second boss map
-
+			
+			bossHealth.setPosition(300, 110);
+			hud.setActor(bossHealth);
+			
 			if (!bossZombie.isDead()) {
 				bossController.setPlayerPosition(player.getX(), player.getY());
 				bossController.update(delta);
@@ -711,8 +714,8 @@ public class GameScreen extends AbstractScreen {
 						booksToRemove.add(b);
 					}
 					
-					bossHealth.setPosition(300, 110);
-					hud.setActor(bossHealth);
+					
+					
 					float bossZombieX = (bossZombie.x * GameSettings.SCALED_TILE_SIZE)
 							- (GameSettings.SCALED_TILE_SIZE / 2);
 					float bossZombieWidth = bossZombieX + (GameSettings.SCALED_TILE_SIZE * 2f);
@@ -1036,7 +1039,7 @@ public class GameScreen extends AbstractScreen {
 					if (currentInv.getCurrentItem() != null && currentItem.getDrinkID() == currentDrinkID) {
 						System.out.println("GS: Increasing Health");
 
-						showDrinkAnimation();
+						//showDrinkAnimation();
 
 						Timer.schedule(new Task() {
 							@Override

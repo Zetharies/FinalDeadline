@@ -53,6 +53,11 @@ public class BossZombie extends NPC {
         biteAudio = Gdx.audio.newSound(Gdx.files.internal("fx/bite.mp3"));
         bite = false;
     }
+    
+    public BossZombie(int x, int y) {
+    	this.x = x;
+    	this.y = y;
+    }
 
     /**
      * get bullets - used to render method
