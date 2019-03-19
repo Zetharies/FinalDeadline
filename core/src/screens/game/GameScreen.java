@@ -502,31 +502,33 @@ public class GameScreen extends AbstractScreen {
 					((int) zombies.get(i).y) * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
 					GameSettings.SCALED_TILE_SIZE * 1f);
 		}
-		if (maps.indexOf(map) == 1) {// traps located on second map
-			for (int i = 0; i < traps.getTraps().size(); i++) {
-				traps.getTraps().get(i).setPlayerPosition(player.getX(), player.getY());
-				if ((int) player.getY() + 1 == (int) traps.getTraps().get(i).getPosY()) {// start trap when player in
-																							// line with trrap
-					traps.getTraps().get(i).setShoot(true);
-				}
-				// update trap and render
-				if (traps.getTraps().get(i).getShoot() || traps.getTraps().get(i).getUsed()) {
-					traps.getTraps().get(i).update(delta);
-					batch.draw(traps.getTraps().get(i).getSprite(),
-							(traps.getTraps().get(i).x * GameSettings.SCALED_TILE_SIZE)
-									- (GameSettings.SCALED_TILE_SIZE / 2),
-							traps.getTraps().get(i).y * GameSettings.SCALED_TILE_SIZE,
-							GameSettings.SCALED_TILE_SIZE * 0.4f, GameSettings.SCALED_TILE_SIZE * 0.4f);
-				}
-				// detect whether trap x y= player x y
-				if ((((int) (traps.getTraps().get(i).getPosX()) >= (int) (player.getX())
-						&& (int) (traps.getTraps().get(i).getPosX()) <= (int) (player.getX() + 1)))
-						&& (((int) (traps.getTraps().get(i).getPosY()) >= (int) (player.getY())
-								&& (int) (traps.getTraps().get(i).getPosY()) <= (int) (player.getY()) + 1))) {
-					hud.reduceHealth(0.01f);// reduce player health
-				}
-			}
-		}
+		if (maps.indexOf(map) == 1) {//traps located on second map
+            for (int i = 0; i < traps.getTraps().size(); i++) {
+                traps.getTraps().get(i).setPlayerPosition(player.getX(), player.getY());
+                if ((int) player.getY() + 1 == (int) traps.getTraps().get(i).getPosY()) {//start trap when player in line with trrap
+                    traps.getTraps().get(i).setShoot(true);
+                }
+                //update trap and render
+                if (traps.getTraps().get(i).getShoot() || traps.getTraps().get(i).getUsed()) {
+                    traps.getTraps().get(i).update(delta);
+                    batch.draw(traps.getTraps().get(i).getSprite(),
+                            (traps.getTraps().get(i).getPosX() * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
+                            traps.getTraps().get(i).getPosY() * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 0.4f,
+                            GameSettings.SCALED_TILE_SIZE * 0.4f);
+                }
+                //detect whether trap  x y= player x y
+                if ((((int) (traps.getTraps().get(i).getPosX()) >= (int) (player.getX())
+                        && (int) (traps.getTraps().get(i).getPosX()) <= (int) (player.getX() + 1)))
+                        && (((int) (traps.getTraps().get(i).getPosY()) >= (int) (player.getY())
+                        && (int) (traps.getTraps().get(i).getPosY()) <= (int) (player.getY()) + 1))) {
+                    hud.reduceHealth(0.01f);//reduce player health
+                }
+            }
+        } else {
+            traps.getTraps().get(0).stopAudio();
+            traps.getTraps().get(1).stopAudio();
+            traps.getTraps().get(2).stopAudio();
+        }
 		if (maps.indexOf(map) == 4) {// show robot on 1st boss map
 
 			// update robot
@@ -1666,19 +1668,45 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 			playerControls.setInteractFalse();
 		}
-		
+
 		if (playerControls.checkExit(exits) && !solved && !activated) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode locked1 = new ScreenplayNode(chosenCharacter + ":\nIt's locked...	[ENTER]", 0);
-			ScreenplayNode locked2 = new ScreenplayNode(chosenCharacter + ":\nWhat was that riddle again?	[ENTER]", 1);
-			
+			ScreenplayNode locked2 = new ScreenplayNode(chosenCharacter + ":\nWhat was that riddle again?	[ENTER]",
+					1);
+
 			locked1.makeLinear(locked2.getId());
 			handler.addNode(locked1);
 			handler.addNode(locked2);
 			dialogueController.startDialogue(handler);
 			activated = true;
 		}
+
+	}
+
+	/**
+	 * <p>
+	 * Method used to find the current position of the Drink object within the
+	 * current Inventory
+	 *
+	 * @param currentInv InventorySystem used to find the Drink object
+	 * @return Int of the position of the Drink object
+	 */
+	public int findDrinkPosition(InventorySystem currentInv) {
+		int pos = 0;
+
+		for (Item currentItem : currentInv.getInventory()) {
+			if (currentItem instanceof Drink) {
+				pos = currentInv.getInventory().indexOf(currentItem);
+
+				break;
+
+			}
+
+		}
+
+		return pos;
 
 	}
 

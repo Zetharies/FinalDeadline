@@ -120,7 +120,8 @@ public class GameOverScreen extends AbstractScreen {
 
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                ScreenManager.setMainMenuScreen();
+           //     ScreenManager.setMainMenuScreen();
+                ScreenManager.setGameScreen("Flynn");
                 System.out.println("testing");
             }
         });
