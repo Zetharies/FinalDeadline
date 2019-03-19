@@ -876,9 +876,14 @@ public class GameScreen extends AbstractScreen {
 			table2.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/horror.png"))));
 			stage.addActor(table2);
 			handler = new ScreenplayHandler();
-			ScreenplayNode faint = new ScreenplayNode("Someone has too much time on their hands!  [ENTER]", 0);
-			ScreenplayNode faint2 = new ScreenplayNode(
-					chosenCharacter + ":\n.....   [ENTER]", 1);
+			String output = "wow I'm shooketh";
+			if(chosenCharacter == "Flynn") {
+				output = "Was that supposed to be scary?";
+			} else if (chosenCharacter == "Jessica") {
+				output = "Someone has too much time on your hands";
+			}
+			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\n" + output +"  [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\n.....   [ENTER]", 1);
 			Sound sound = Gdx.audio.newSound(Gdx.files.internal("music/scream.mp3"));
 			if (elapsed == delta) {
 				sound.play();
@@ -1269,7 +1274,6 @@ public class GameScreen extends AbstractScreen {
 			if(chosenCharacter == "Flynn") {
 				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/chax/Chax - Flynn its me chax.wav"));
 				sound.play();
-				System.out.println("chax");
 			} else if(chosenCharacter == "Jessica") {
 				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/chax/Chax - Jessica its me chax.wav"));
 				sound.play();
