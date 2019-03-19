@@ -1362,7 +1362,7 @@ public class GameScreen extends AbstractScreen {
 						walking.findRegions(chosenCharacter + "_walking_east"), Animation.PlayMode.LOOP_PINGPONG),
 				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
 						walking.findRegions(chosenCharacter + "_walking_west"), Animation.PlayMode.LOOP_PINGPONG),
-				standing.findRegion(chosenCharacter + "_standing_north"), drinking.findRegion("flynnPowered"),
+				standing.findRegion(chosenCharacter + "_standing_north"), drinking.findRegion(chosenCharacter + "Powered"),
 				standing.findRegion(chosenCharacter + "_standing_east"),
 				standing.findRegion(chosenCharacter + "_standing_west"));
 
