@@ -307,10 +307,11 @@ public class GameScreen extends AbstractScreen {
 		 * Call upon the sprite for the animation of Jessica being powered up
 		 */
 		AnimationSet jessicaPoweredAnimation = new AnimationSet(
-				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f, poweredUp.findRegions("jessicacPowered1"),
-						Animation.PlayMode.LOOP_PINGPONG),
-				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f, poweredUp.findRegions("jessicaPowered2"),
-						Animation.PlayMode.LOOP_PINGPONG));
+
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						poweredUp.findRegions("jessica_poweredUp1"), Animation.PlayMode.LOOP_PINGPONG),
+				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f,
+						poweredUp.findRegions("jessica_PoweredUp2"), Animation.PlayMode.LOOP_PINGPONG));
 
 		// map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); //
 		// map to load, extremely basic map,
