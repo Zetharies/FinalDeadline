@@ -126,7 +126,7 @@ public class GameScreen extends AbstractScreen {
 			chaxDialogOne = false;
 	private boolean isPaused;
 	private HealthBar bossHealth, robotHealth;
-	private boolean solved = true;
+	private boolean solved = true, onRiddle = false;
 	private boolean deactivated = false;
 
 	private double counter = 0;
@@ -432,6 +432,7 @@ public class GameScreen extends AbstractScreen {
 
 			if (maps.indexOf(map) == 2) {
 				solved = false;
+				onRiddle = false;
 			}
 
 			handler = new ScreenplayHandler();
@@ -1053,22 +1054,25 @@ public class GameScreen extends AbstractScreen {
 			// riddleUI.windowAdd(ok, label);
 			if (playerControls.isOnRiddle(riddle) == true || playerControls.isOnRiddle(riddle2) == true) {
 				hud.addWindow();
+				onRiddle = true;
 			}
-			// stage.addActor(riddleUI.getWindow());
-			if (Gdx.input.isKeyPressed(Input.Keys.V)) {
-				hud.addWinLabel();
-				solved = true;
-			} else if (Gdx.input.isKeyPressed(Input.Keys.Z)
-					|| (Gdx.input.isKeyPressed(Input.Keys.X) || (Gdx.input.isKeyPressed(Input.Keys.C)))) {
-
-				hud.addLoseLabel();
-				wrong = true;
-			} else if ((Gdx.input.isKeyPressed(Input.Keys.R))) {
-				hud.resetRiddle();
-			} else {
-
+			if (onRiddle) {
+				// stage.addActor(riddleUI.getWindow());
+				if (Gdx.input.isKeyPressed(Input.Keys.V)) {
+					hud.addWinLabel();
+					solved = true;
+				} else if (Gdx.input.isKeyPressed(Input.Keys.Z)
+						|| (Gdx.input.isKeyPressed(Input.Keys.X) || (Gdx.input.isKeyPressed(Input.Keys.C)))) {
+					hud.addLoseLabel();
+					wrong = true;
+					onRiddle = false;
+				} else if (Gdx.input.isKeyPressed(Input.Keys.R)) {
+					hud.resetRiddle();
+				}
+			}
+			if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
 				hud.removeWindow();
-
+				onRiddle = false;
 			}
 
 			if (wrong == true) {
