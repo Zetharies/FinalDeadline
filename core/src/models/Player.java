@@ -30,7 +30,13 @@ public class Player {
         locked = false;
     }
 
-    public void update(float delta) {
+    public Player(int x, int y) {
+		// TODO Auto-generated constructor stub
+    	this.x = x;
+        this.y = y;
+	}
+
+	public void update(float delta) {
         if (state == EnumPlayerState.REFACING) {
             refacingTimer += delta;
             if (refacingTimer > GameSettings.REFACING_TIME) {

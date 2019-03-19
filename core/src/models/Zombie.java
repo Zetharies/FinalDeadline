@@ -17,6 +17,8 @@ public class Zombie extends NPC {
     private ZombieController controller;//assoc controller
     private static final int FRAME_COLS = 3;
     private static final int FRAME_ROWS = 4;
+    private boolean moved = false;
+    private int timer = 0;
 
     @SuppressWarnings({"unchecked", "rawtypes"})
     /**
@@ -24,7 +26,7 @@ public class Zombie extends NPC {
      */
     public Zombie(int startX, int startY, TiledMapTileLayer collisions) {
         controller = new ZombieController(collisions, this);
-        createSprite(FRAME_COLS,FRAME_ROWS, "sprite/zombie/2ZombieSpriteSheet.png", true);
+        createSprite(FRAME_COLS, FRAME_ROWS, "sprite/zombie/2ZombieSpriteSheet.png", true);
         x = startX;
         y = startY;
         walkingDown = new Animation(GameSettings.TIME_PER_TILE / 2f, walkFrames[0], walkFrames[1], walkFrames[2]);
@@ -116,9 +118,25 @@ public class Zombie extends NPC {
     public double getSpeed() {
         return SPEED;
     }
-    
-    public TiledMapTileLayer getCollisions(){
+
+    public TiledMapTileLayer getCollisions() {
         return controller.getCollisions();
+    }
+
+    public void setMoved(boolean value) {
+        this.moved = value;
+    }
+
+    public boolean getMoved() {
+        return moved;
+    }
+
+    public void setTimer(int timer) {
+        this.timer = timer;
+    }
+
+    public int getTimer() {
+        return timer;
     }
 
 }

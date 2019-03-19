@@ -1,11 +1,14 @@
 package controllers;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import managers.SettingsManager;
 import models.BossZombie;
-
+import controllers.NPCController;
 /**
- * Controller for the Bosses, can be used to test collisions for Boss NPCs
+ * Controller for the Bosses, can be used to test collisions for Boss zombies
+ *
  * @author Team 2f
  *
  */
@@ -16,11 +19,13 @@ public class BossController extends NPCController {
     private int toShoot; // control fire rate
     private boolean reset;//for sprite to teleport and reset health
     private int biteAudioTimer = 0;//timer to play audio
+    private int bufferTime = 0;
 
     /**
      * construct boss controller - boss zombie object
+     *
      * @param collisions
-     * @param zombie 
+     * @param zombie
      */
     public BossController(TiledMapTileLayer collisions, BossZombie zombie) {
         this.zombie = zombie;
@@ -32,37 +37,40 @@ public class BossController extends NPCController {
 
     @SuppressWarnings("static-access")
     public void update(float delta) {
-        toShoot++;
+        System.out.println(bufferTime);
         updateTimers(delta);
-        updateCollisions(this.zombie);
-        //keys();
+        if (bufferTime >= 400) {
+            toShoot++;
+            updateCollisions(this.zombie);
+            //keys();
 
-        //only use abilities once detection of player
-        if (detectPlayer(this.zombie, RADIUS)) {
-            System.out.println("testing");
-            // bullet shot at rate of 90 delta
-            if (toShoot == 90) {
-                zombie.shoot();//create bullet and shoot
-                //set shot to true to render
-                zombie.getBullets().get(zombie.getBullets().size() - 1).setShoot(true);
-                zombie.getBullets().get(zombie.getBullets().size() - 1).setSpeed(3.1f);
-                toShoot = 0;//reset rate 
+            //only use abilities once detection of player
+            if (detectPlayer(this.zombie, RADIUS)) {
+                // bullet shot at rate of 90 delta
+                if (toShoot == 90) {
+                    zombie.shoot();//create bullet and shoot
+                    //set shot to true to render
+                    zombie.getBullets().get(zombie.getBullets().size() - 1).setShoot(true);
+                    zombie.getBullets().get(zombie.getBullets().size() - 1).setSpeed(3.1f);
+                    toShoot = 0;//reset rate 
+                } else {
+                    zombie.rushPlayer();// rush player to bite them - speed increased 
+                    moveToPlayer();
+                }
+
             } else {
-                zombie.rushPlayer();// rush player to bite them - speed increased 
-                moveToPlayer(this.zombie, BossZombie.speed);
+                this.zombie.setSpeed(BossZombie.speed);//reset speed
             }
-        } else {
-            this.zombie.setSpeed(BossZombie.speed);//reset speed
+            if (toShoot == 90) {
+                toShoot = 0;//reset to shoot - required when sprite does not detect player
+            }
+            //hp reset once below certain hp
+            if (!reset) {
+                zombie.resetHealth();
+                reset = true; //only reset once
+            }
+            playerTouchingBoss();
         }
-        if (toShoot == 90) {
-            toShoot = 0;//reset to shoot - required when sprite does not detect player
-        }
-        //hp reset once below certain hp
-        if (!reset) {
-            zombie.resetHealth();
-            reset = true; //only reset once
-        }
-        playerTouchingBoss();
     }
 
     /**
@@ -87,20 +95,56 @@ public class BossController extends NPCController {
             biteAudioTimer = 0;
         }
     }
+    
+    public void moveToPlayer() {
+        //right must be true meaning up is not blocked - updated in updatecollisions methods
+        if (zombie.getX() < playerX) {
+            //set the zombie to face right and loop animation
+            zombie.getSprite().setRegion((TextureRegion) zombie.getRight().getKeyFrame(incr));
+            //increase zombie x coord to move right 
+            zombie.x += Gdx.graphics.getDeltaTime() * this.zombie.getSpeed();
+            //left must be true meaning up is not blocked - updated in updatecollisions methods
+        } else if (zombie.getX() > playerX) {
+            //set the zombie to face left and increment animation
+            zombie.getSprite().setRegion((TextureRegion) zombie.getLeft().getKeyFrame(incr));
+            //to move left decrement x 
+            zombie.x -= Gdx.graphics.getDeltaTime() * this.zombie.getSpeed();
+
+        } else if (zombie.getY() < playerY) {
+            //
+            zombie.getSprite().setRegion((TextureRegion) zombie.getUp().getKeyFrame(incr));
+            zombie.y += Gdx.graphics.getDeltaTime() * this.zombie.getSpeed();
+            //down must be true meaning up is not blocked - updated in updatecollisions methods
+        } else if (zombie.getY() > playerY) {
+            //zombie to face down and increment through the associated aniamtion
+            zombie.getSprite().setRegion((TextureRegion) zombie.getDown().getKeyFrame(incr));
+            //decrement y coord to move left 
+            zombie.y -= Gdx.graphics.getDeltaTime() * this.zombie.getSpeed();
+        }
+    }
 
     /**
-     * increase health of sprite 
+     * increase health of sprite
      */
     public void increaseHealth() {
         this.zombie.setHealth(100);
     }
 
+    public void updateTimers(float delta) {
+        timer += (delta * 100);
+        bufferTime += (delta * 100);
 
+        //walking animation timer 50
+        if (timer >= 30) {
+            timer = 0;//reset timer
+            incr++;
+        }
+        //increments through walking frames
+        if (incr == 3) {
+            incr = 0;//back to initial animation
+        }
 
-    public void updateTimers(float delta) {  
     }
-
-   
 
 //
 //    @SuppressWarnings("static-access")

@@ -34,7 +34,7 @@ public class GameOverScreen extends AbstractScreen {
     private Image bg; // background for image
     private Stage stage;
     private Skin skin;
-    private Label menu, exit;
+    private Label exit;
     private boolean playing = false;
 
 
@@ -47,19 +47,18 @@ public class GameOverScreen extends AbstractScreen {
 
         skin = new Skin(Gdx.files.internal("fonts/Holo-dark-hdpi.json"));
 
-        menu = new Label("RETURN TO MENU", skin);
+        
         exit = new Label("EXIT GAME", skin);
         bg = new Image(new TextureRegion((new Texture("images/gameOver.png"))));
         bg.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         
-        menu.setBounds((Gdx.graphics.getWidth() / 2) + (menu.getPrefWidth() / 2),
-                10, menu.getPrefWidth(), menu.getPrefHeight());
+        
         exit.setBounds((Gdx.graphics.getWidth() / 4) - (exit.getPrefWidth() / 2),
                 10, exit.getPrefWidth(), exit.getPrefHeight());
         buttonListener();
 
         stage.addActor(bg);
-        stage.addActor(menu);
+       
         stage.addActor(exit);
 
     }
@@ -96,34 +95,7 @@ public class GameOverScreen extends AbstractScreen {
                 System.exit(0);
             }
         });
-        menu.addListener(new ClickListener() {
-            float heightFont = menu.getFontScaleX(), widthFont = menu.getFontScaleY();
-
-            //check audio to play and play and increase font size
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                System.out.println("test");
-                super.enter(event, x, y, pointer, fromActor);
-                menu.setFontScale(menu.getFontScaleX() + (menu.getFontScaleX() / 10), menu.getFontScaleY() + (menu.getFontScaleY() / 10));
-                if (!playing && SettingsManager.getSound()) {
-                    Sound sound = Gdx.audio.newSound(Gdx.files.internal("fx/menuHover.mp3"));
-                    sound.play(0.1F);
-                    playing = true;
-                }
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                super.exit(event, x, y, pointer, toActor);
-                menu.setFontScale(widthFont, heightFont);//reset font size
-                playing = false;//restricts audio playing
-            }
-
-            @Override
-            public void clicked(InputEvent e, float x, float y) {
-                ScreenManager.setMainMenuScreen();
-                System.out.println("testing");
-            }
-        });
+       
     }
 
     @Override
