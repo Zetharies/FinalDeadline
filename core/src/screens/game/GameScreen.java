@@ -136,8 +136,6 @@ public class GameScreen extends AbstractScreen {
 			gender = "male";
 		} else if (chosenCharacter == "Jessica") {
 			gender = "female";
-		} else {
-			gender = "custom";
 		}
 
 		inGameMp3 = Gdx.audio.newMusic(Gdx.files.internal("music/floor2.mp3"));
