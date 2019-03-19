@@ -1015,7 +1015,7 @@ public class GameScreen extends AbstractScreen {
 			currentInv.setDrinkAnimated(false);
 			currentInv.setLastEquippedItem(null);
 
-		} else {
+		} else if ((currentInv.getLastEquippedItem() instanceof Drink) == false) {			
 			resetPlayerAnimations();
 
 		}
