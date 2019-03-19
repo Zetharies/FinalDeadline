@@ -416,7 +416,7 @@ public class GameScreen extends AbstractScreen {
 	@Override
 	public void render(float delta) {
 		// Checks if the map needs changing
-		if (playerControls.checkExit(exits)) {
+		if (playerControls.checkExit(exits) && solved) {
 			
 			updateMap();
 
@@ -634,6 +634,8 @@ public class GameScreen extends AbstractScreen {
 					k.update(delta);
 				}
 				keyboards.removeAll(keyboardsToRemove);
+			} else {
+				updateMap();
 			}
 
 		}
