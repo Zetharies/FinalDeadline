@@ -200,7 +200,6 @@ public class GameScreen extends AbstractScreen {
 		currentMapLabel.add("Floor 4: Biology");
 		currentMapLabel.add("Unknown: Chax");
 
-
 		books = new ArrayList<Book>();
 		keyboards = new ArrayList<Keyboard>();
 		initUI();
@@ -430,8 +429,8 @@ public class GameScreen extends AbstractScreen {
 		if (playerControls.checkExit(exits) && solved) {
 
 			updateMap();
-			
-			if(maps.indexOf(map) == 2) {
+
+			if (maps.indexOf(map) == 2) {
 				solved = false;
 			}
 
@@ -610,7 +609,7 @@ public class GameScreen extends AbstractScreen {
 							if (robotHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
 								robot.setDead();
-								
+
 							}
 							booksToRemove.add(b);
 
@@ -645,7 +644,7 @@ public class GameScreen extends AbstractScreen {
 							if (robotHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
 								robot.setDead();
-								
+
 							}
 							keyboardsToRemove.add(k);
 
@@ -721,7 +720,7 @@ public class GameScreen extends AbstractScreen {
 							if (bossHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
 								bossZombie.setDead();
-								
+
 							}
 							booksToRemove.add(b);
 
@@ -756,9 +755,9 @@ public class GameScreen extends AbstractScreen {
 							bossHealth.setValue(bossHealth.getValue() - 0.02f);
 							if (bossHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
-							
+
 								bossZombie.setDead();
-								
+
 							}
 							keyboardsToRemove.add(k);
 
@@ -770,7 +769,7 @@ public class GameScreen extends AbstractScreen {
 			} else {
 				bossHealth.remove();
 				updateMap();
-				
+
 			}
 		}
 
@@ -1659,14 +1658,14 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 			playerControls.setInteractFalse();
 		}
-		
-		
+
 		if (playerControls.checkExit(exits) && !solved && !activated) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
 			ScreenplayNode locked1 = new ScreenplayNode(chosenCharacter + ":\nIt's locked...	[ENTER]", 0);
-			ScreenplayNode locked2 = new ScreenplayNode(chosenCharacter + ":\nWhat was that riddle again?	[ENTER]", 1);
-			
+			ScreenplayNode locked2 = new ScreenplayNode(chosenCharacter + ":\nWhat was that riddle again?	[ENTER]",
+					1);
+
 			locked1.makeLinear(locked2.getId());
 			handler.addNode(locked1);
 			handler.addNode(locked2);
