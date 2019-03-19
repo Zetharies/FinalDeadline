@@ -72,7 +72,6 @@ public class CharacterSelection extends AbstractScreen {
         next.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                System.out.println("clicked");
                 currentCharacter++;
                 stage.clear();
                 prepareUI();
@@ -89,7 +88,6 @@ public class CharacterSelection extends AbstractScreen {
         previous.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                System.out.println("clicked");
                 currentCharacter--;
                 stage.clear();
                 prepareUI();

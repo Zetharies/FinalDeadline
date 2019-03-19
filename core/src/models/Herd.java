@@ -73,7 +73,6 @@ public class Herd {
 
         }
         for (int i = 0; i < coordsX.size(); i++) {
-            // System.out.println("x= " + coordsX.get(i) + " y= " + coordsY.get(i));
             //add zombies in random positions in the map 
             zombies.add(new Zombie(coordsX.get(i), coordsY.get(i), collisions));
         }

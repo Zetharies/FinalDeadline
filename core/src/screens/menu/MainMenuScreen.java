@@ -261,7 +261,6 @@ public class MainMenuScreen extends AbstractScreen {
 
         //when res changed set to home screen 
         if (heightView != stage.getViewport().getScreenHeight() || widthView != stage.getViewport().getScreenWidth()) {
-            System.out.println("resized");
             // moveButtonsRight();
             stage.addAction(Actions.sequence(Actions.alpha((float) 0.35), Actions.fadeIn((float) 1.2)));
             //reset background
@@ -548,7 +547,6 @@ public class MainMenuScreen extends AbstractScreen {
 
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                System.out.println("play clicked");
                 characterSelectionClicked = true;
                 enterCharacterSelection();//show character selection
             }
@@ -1044,7 +1042,6 @@ public class MainMenuScreen extends AbstractScreen {
             bg.setDrawable(new SpriteDrawable(new Sprite(new Texture("images/gamemenu.png"))));
             //testTable.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture("images/gamemenu.png"))));
             settingsUI.getTable().addAction(Actions.hide());
-            //System.out.println(settingsUI.getTable().isVisible());
             swipe = false;
         }
     }
@@ -1078,7 +1075,6 @@ public class MainMenuScreen extends AbstractScreen {
      * method to exit about to main screen
      */
     public void exitAbout() {
-        System.out.println("true swipe? " + swipe);
         if (aboutSwipe) {
             left = true;
             moveButtonsLeft();
@@ -1112,7 +1108,6 @@ public class MainMenuScreen extends AbstractScreen {
      */
     private void enterCharacterSelection() {
         if (!characterSelectSwipe && back.getActions().size == 0 || CharacterSelection.EXIT == true) {
-            System.out.println("bool check " + characterSelectSwipe);
             customizeSelection.addAction(Actions.show());
             customizeSelection.addAction(Actions.fadeIn((float) 0.85));
             maleSelection.addAction(Actions.show());

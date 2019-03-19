@@ -101,7 +101,6 @@ public class GameOverScreen extends AbstractScreen {
 
             //check audio to play and play and increase font size
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                System.out.println("test");
                 super.enter(event, x, y, pointer, fromActor);
                 menu.setFontScale(menu.getFontScaleX() + (menu.getFontScaleX() / 10), menu.getFontScaleY() + (menu.getFontScaleY() / 10));
                 if (!playing && SettingsManager.getSound()) {
@@ -121,7 +120,6 @@ public class GameOverScreen extends AbstractScreen {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 ScreenManager.setMainMenuScreen();
-                System.out.println("testing");
             }
         });
     }

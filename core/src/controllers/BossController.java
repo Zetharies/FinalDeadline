@@ -39,7 +39,6 @@ public class BossController extends NPCController {
 
         //only use abilities once detection of player
         if (detectPlayer(this.zombie, RADIUS)) {
-            System.out.println("testing");
             // bullet shot at rate of 90 delta
             if (toShoot == 90) {
                 zombie.shoot();//create bullet and shoot

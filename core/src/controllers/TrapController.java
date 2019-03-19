@@ -68,7 +68,6 @@ public class TrapController extends NPCController {
     }
 
     protected boolean isUpBlocked() {
-        System.out.println("blocked");
 
         return isBlocked((int) (trap.x), (int) (trap.y + 0.5), collisions);
     }

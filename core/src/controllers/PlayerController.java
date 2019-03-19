@@ -29,7 +29,7 @@ public class PlayerController extends InputAdapter {
 	private ArrayList<Book> books;
 	private ArrayList<Keyboard> keyboards;
 
-	private InventorySystem currentInv;	
+	private InventorySystem currentInv;
 
 	public PlayerController(Player p, TiledMapTileLayer collisions) {
 		this.p = p;
@@ -54,15 +54,15 @@ public class PlayerController extends InputAdapter {
 				up = true;
 			}
 		}
-		//        if (SettingsManager.KEYS) {
-		//            if (keycode == Keys.UP) {
-		//                up = true;
-		//            }
-		//        } else if (SettingsManager.WASD) {
-		//            if (keycode == Keys.W) {
-		//                up = true;
-		//            }
-		//        }
+		// if (SettingsManager.KEYS) {
+		// if (keycode == Keys.UP) {
+		// up = true;
+		// }
+		// } else if (SettingsManager.WASD) {
+		// if (keycode == Keys.W) {
+		// up = true;
+		// }
+		// }
 		if (SettingsManager.KEYS) {
 			if (keycode == Keys.DOWN) {
 				down = true;
@@ -84,7 +84,7 @@ public class PlayerController extends InputAdapter {
 		}
 
 		if (SettingsManager.KEYS) {
-			if (keycode == Keys.RIGHT ) {
+			if (keycode == Keys.RIGHT) {
 				right = true;
 			}
 		} else if (SettingsManager.WASD) {
@@ -92,7 +92,7 @@ public class PlayerController extends InputAdapter {
 				right = true;
 			}
 		}
-		if(keycode == Keys.SHIFT_LEFT) {
+		if (keycode == Keys.SHIFT_LEFT) {
 			interact = true;
 		}
 
@@ -118,12 +118,11 @@ public class PlayerController extends InputAdapter {
 			right = false;
 			// p.movePlayer(1, 0); // 1 on the x axis, 0 on the y axis
 		}
-		if(keycode == Keys.SHIFT_LEFT) {
+		if (keycode == Keys.SHIFT_LEFT) {
 			interact = false;
 		}
 		if (keycode == Keys.SPACE) {
 			if (currentInv.getCurrentItem() == null) {
-				System.out.println("PC: No Item Used (No Equipped Item)");
 
 			} else if (currentInv.getCurrentItem().getName() == "Book") {
 				books.add(p.shootBook(p.getDirection(), p.getX(), p.getY()));
@@ -134,14 +133,11 @@ public class PlayerController extends InputAdapter {
 			} else if (currentInv.getCurrentItem().getName() == "Drink") {
 				currentInv.getCurrentItem().setBeingPressed(true);
 
-
 			} else if (currentInv.getCurrentItem().getName() == "Potion1") {
 				currentInv.getCurrentItem().setBeingPressed(true);
 
-
 			} else if (currentInv.getCurrentItem().getName() == "Potion2") {
 				currentInv.getCurrentItem().setBeingPressed(true);
-
 
 			} else if (currentInv.getCurrentItem().getName() == "Potion3") {
 				currentInv.getCurrentItem().setBeingPressed(true);
@@ -182,11 +178,11 @@ public class PlayerController extends InputAdapter {
 
 	/**
 	 *
-	 * @param x coordinate
-	 * @param y coordinate
+	 * @param x              coordinate
+	 * @param y              coordinate
 	 * @param collisionLayer
-	 * @return <code> boolean </code> true if the specified coordinates on the
-	 * given collisionLayer has the property "blocked", false otherwise.
+	 * @return <code> boolean </code> true if the specified coordinates on the given
+	 *         collisionLayer has the property "blocked", false otherwise.
 	 */
 	public boolean isBlocked(int x, int y, TiledMapTileLayer collisionLayer) {
 		return collisionLayer.getCell(x, y).getTile().getProperties().containsKey("blocked");
@@ -195,8 +191,8 @@ public class PlayerController extends InputAdapter {
 
 	/**
 	 *
-	 * @return <code> boolean </code> true if the cell above the player is
-	 * blocked, false otherwise.
+	 * @return <code> boolean </code> true if the cell above the player is blocked,
+	 *         false otherwise.
 	 */
 	public boolean isUpBlocked() {
 		return isBlocked(p.getX(), p.getY() + 1, collisions);
@@ -205,8 +201,8 @@ public class PlayerController extends InputAdapter {
 
 	/**
 	 *
-	 * @return <code> boolean </code> true if the cell below the player is
-	 * blocked, false otherwise.
+	 * @return <code> boolean </code> true if the cell below the player is blocked,
+	 *         false otherwise.
 	 */
 	public boolean isDownBlocked() {
 		if (p.getY() - 1 >= 0) {
@@ -219,8 +215,8 @@ public class PlayerController extends InputAdapter {
 
 	/**
 	 *
-	 * @return <code> boolean </code> true if the cell to the left of the player
-	 * is blocked, false otherwise.
+	 * @return <code> boolean </code> true if the cell to the left of the player is
+	 *         blocked, false otherwise.
 	 */
 	public boolean isLeftBlocked() {
 		if (p.getY() - 1 >= 0) {
@@ -233,8 +229,8 @@ public class PlayerController extends InputAdapter {
 
 	/**
 	 *
-	 * @return <code> boolean </code> true if the cell to the right of the
-	 * player is blocked, false otherwise.
+	 * @return <code> boolean </code> true if the cell to the right of the player is
+	 *         blocked, false otherwise.
 	 */
 	public boolean isRightBlocked() {
 		return isBlocked(p.getX() + 1, p.getY(), collisions);
@@ -242,8 +238,8 @@ public class PlayerController extends InputAdapter {
 	}
 
 	public boolean isOnZombie(ArrayList<Zombie> zombies) {
-		for(Zombie zombie : zombies) {
-			if(zombie.getX() == p.getX() && zombie.getY() == p.getY()) {
+		for (Zombie zombie : zombies) {
+			if (zombie.getX() == p.getX() && zombie.getY() == p.getY()) {
 				return true;
 			}
 		}
@@ -251,13 +247,16 @@ public class PlayerController extends InputAdapter {
 	}
 
 	/**
-	 * <p> Method designed to check if the player is currently laying on the X and Y position of the given item
+	 * <p>
+	 * Method designed to check if the player is currently laying on the X and Y
+	 * position of the given item
 	 * 
 	 * @param collidedItem The item which the player may be laying on
 	 * @return True/False depending on if the player is laying on the given item
 	 */
-	public boolean isOnItem(Item collidedItem) {    	
-		if(collidedItem.getX() == p.getX() && collidedItem.getY() == p.getY() && Gdx.input.isKeyPressed(Input.Keys.E)) {
+	public boolean isOnItem(Item collidedItem) {
+		if (collidedItem.getX() == p.getX() && collidedItem.getY() == p.getY()
+				&& Gdx.input.isKeyPressed(Input.Keys.E)) {
 			return true;
 
 		} else {
@@ -266,9 +265,11 @@ public class PlayerController extends InputAdapter {
 		}
 
 	}
-	
+
 	/**
-	 * <p> Method designed to check if the player's current x and y position are equal to the vent location, on the biology map
+	 * <p>
+	 * Method designed to check if the player's current x and y position are equal
+	 * to the vent location, on the biology map
 	 * 
 	 * @return True/False depending on if the player is on the vents location
 	 */
@@ -282,7 +283,7 @@ public class PlayerController extends InputAdapter {
 			return true;
 
 		}
-		
+
 //		if (p.getX() == 40 && p.getY() == 42) {
 //			answer = true;
 
@@ -291,7 +292,7 @@ public class PlayerController extends InputAdapter {
 //			return true;
 //
 //		}
-		
+
 		if (p.getX() == 40 && p.getY() == 42) {
 			answer = true;
 
@@ -304,77 +305,43 @@ public class PlayerController extends InputAdapter {
 	}
 
 	/**
-	 * <p> Method designed to equip the item, as long as the item has been found
+	 * <p>
+	 * Method designed to equip the item, as long as the item has been found
 	 * 
-	 * @param inventory Inventory which is being sent as a parameter from GameScreen, used to check for found items
-	 * @return Returns the new altered inventory, which includes a reference to the equipped item
+	 * @param inventory Inventory which is being sent as a parameter from
+	 *                  GameScreen, used to check for found items
+	 * @return Returns the new altered inventory, which includes a reference to the
+	 *         equipped item
 	 */
 	public InventorySystem equipItem(InventorySystem inventory) {
 		currentInv = inventory;
 
-		if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)){
-			if (currentInv.getInventory().get(0).getFound() == true) {				
+		if (Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
+			if (currentInv.getInventory().get(0).getFound() == true) {
 				currentInv.setAsCurrentItem(currentInv.getInventory().get(0));
 
-				System.out.println("PC: Equipped: " + currentInv.getCurrentItem().getName());
-
-			} else {
-				System.out.println("PC: Not Equipped (Item Not Found): " + currentInv.getInventory().get(0).getName());
-
 			}
 
-		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_2)){
-			if (currentInv.getInventory().get(1).getFound() == true) {				
+		} else if (Gdx.input.isKeyPressed(Input.Keys.NUM_2)) {
+			if (currentInv.getInventory().get(1).getFound() == true) {
 				currentInv.setAsCurrentItem(currentInv.getInventory().get(1));
-
-				System.out.println("PC: Equipped: " + currentInv.getCurrentItem().getName());
-
-			} else {
-				System.out.println("PC: Not Equipped (Item Not Found): " + currentInv.getInventory().get(1).getName());
-
 			}
 
-		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_3)){
-			if (currentInv.getInventory().get(2).getFound() == true) {				
+		} else if (Gdx.input.isKeyPressed(Input.Keys.NUM_3)) {
+			if (currentInv.getInventory().get(2).getFound() == true) {
 				currentInv.setAsCurrentItem(currentInv.getInventory().get(2));
-
-				System.out.println("PC: Equipped: " + currentInv.getCurrentItem().getName());
-
-			} else {								
-				System.out.println("PC: Not Equipped (Item Not Found): " + currentInv.getInventory().get(2).getName());
-
 			}
-
-		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_4)){
-			if (currentInv.getInventory().get(3).getFound() == true) {			
+		} else if (Gdx.input.isKeyPressed(Input.Keys.NUM_4)) {
+			if (currentInv.getInventory().get(3).getFound() == true) {
 				currentInv.setAsCurrentItem(currentInv.getInventory().get(3));
-
-				System.out.println("PC: Equipped: " + currentInv.getCurrentItem().getName());
-
-			} else {
-				System.out.println("PC: Not Equipped (Item Not Found): " + currentInv.getInventory().get(3).getName());
-
 			}
-
-		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_5)){
-			if (currentInv.getInventory().get(4).getFound() == true) {			
+		} else if (Gdx.input.isKeyPressed(Input.Keys.NUM_5)) {
+			if (currentInv.getInventory().get(4).getFound() == true) {
 				currentInv.setAsCurrentItem(currentInv.getInventory().get(4));
-
-				System.out.println("PC: Equipped: " + currentInv.getCurrentItem().getName());
-
-			} else {
-				System.out.println("PC: Not Equipped (Item Not Found): " + currentInv.getInventory().get(4).getName());
-
 			}
-		} else if(Gdx.input.isKeyPressed(Input.Keys.NUM_6)){
-			if (currentInv.getInventory().get(5).getFound() == true) {			
+		} else if (Gdx.input.isKeyPressed(Input.Keys.NUM_6)) {
+			if (currentInv.getInventory().get(5).getFound() == true) {
 				currentInv.setAsCurrentItem(currentInv.getInventory().get(5));
-
-				System.out.println("PC: Equipped: " + currentInv.getCurrentItem().getName());
-
-			} else {
-				System.out.println("PC: Not Equipped (Item Not Found): " + currentInv.getInventory().get(5).getName());
-
 			}
 		}
 
@@ -383,15 +350,17 @@ public class PlayerController extends InputAdapter {
 	}
 
 	/**
-	 * <p> Method designed to check if the current item is in use
+	 * <p>
+	 * Method designed to check if the current item is in use
 	 * 
 	 * @return Returns the item if it is in use, otherwise returns null
 	 */
 	public Item itemPressed() {
-		if (currentInv.getCurrentItem() == null){
+		if (currentInv.getCurrentItem() == null) {
 			return null;
 
-		} else if (currentInv.getCurrentItem().checkBeingUsed() == false && currentInv.getCurrentItem().checkBeingPressed() == true) {
+		} else if (currentInv.getCurrentItem().checkBeingUsed() == false
+				&& currentInv.getCurrentItem().checkBeingPressed() == true) {
 			currentInv.getCurrentItem().setBeingUsed(true);
 			currentInv.getCurrentItem().setBeingPressed(false);
 
@@ -404,15 +373,9 @@ public class PlayerController extends InputAdapter {
 
 	}
 
-	// METHOD ONLY USED FOR TESTING PURPOSES, TO BE REMOVED IN FINAL VERSION !!!
-	public void getPlayerXY() {
-		if (Gdx.input.isKeyPressed(Input.Keys.B)) {
-			System.out.println("Player X,Y: " + p.getX() + "," + p.getY());
-		}
-	}
-	
-	public boolean isOnRiddle(RiddleCard collidedItem) {    	
-		if(collidedItem.getX() == p.getX() && collidedItem.getY() == p.getY() && Gdx.input.isKeyPressed(Input.Keys.E)) {
+	public boolean isOnRiddle(RiddleCard collidedItem) {
+		if (collidedItem.getX() == p.getX() && collidedItem.getY() == p.getY()
+				&& Gdx.input.isKeyPressed(Input.Keys.E)) {
 			return true;
 
 		} else {
@@ -434,8 +397,8 @@ public class PlayerController extends InputAdapter {
 	}
 
 	public boolean checkExit(ArrayList<ArrayList<Integer>> exits) {
-		for(ArrayList<Integer> exit : exits) {
-			if(exit.get(0) == p.getX() && exit.get(1) == p.getY()) {
+		for (ArrayList<Integer> exit : exits) {
+			if (exit.get(0) == p.getX() && exit.get(1) == p.getY()) {
 				return true;
 			}
 		}
@@ -469,7 +432,7 @@ public class PlayerController extends InputAdapter {
 		return p;
 	}
 
-	public ArrayList<PlayerMovement> getPlayerMovements(){
+	public ArrayList<PlayerMovement> getPlayerMovements() {
 		return movements;
 	}
 

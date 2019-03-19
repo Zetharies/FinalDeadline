@@ -151,7 +151,6 @@ public abstract class NPCController {
      * @return if there is a collision
      */
     protected boolean isUpBlocked(NPC npc) {
-        //System.out.println();
         return isBlocked((int) (npc.x), (int) (npc.y + 0.5), collisions);
     }
 

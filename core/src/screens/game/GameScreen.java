@@ -718,7 +718,6 @@ public class GameScreen extends AbstractScreen {
 					if ((bossZombieWidth >= bookWidth) && (bossZombieX <= bookWidth)) {
 						if ((bossZombieHeight >= bookHeight) && (bossZombieY <= bookHeight)) {
 							bossHealth.setValue(bossHealth.getValue() - 0.01f);
-							System.out.println("hit boss");
 							if (bossHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
 								bossZombie.setDead();
@@ -754,9 +753,6 @@ public class GameScreen extends AbstractScreen {
 
 					if ((bossZombieWidth >= keyboardWidth) && (bossZombieX <= keyboardWidth)) {
 						if ((bossZombieHeight >= keyboardHeight) && (bossZombieY <= keyboardHeight)) {
-							System.out.println(robot.getHealth());
-							System.out.println(k.getX());
-							System.out.println("Keyboard Hit");
 							bossHealth.setValue(bossHealth.getValue() - 0.02f);
 							if (bossHealth.getValue() <= 0) {
 								hud.increaseScore("boss");
@@ -965,8 +961,6 @@ public class GameScreen extends AbstractScreen {
 				}
 			}
 		}
-
-		playerControls.getPlayerXY();
 
 		if (!deactivated) {
 			if (currentInv.allPotionsUsed()) {

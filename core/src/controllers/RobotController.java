@@ -41,7 +41,6 @@ public class RobotController extends NPCController {
         if (detectPlayer(this.robot, RADIUS)) {
             moveToPlayer(this.robot, Robot.SPEED);
             if (toShoot == 80) {//50 fire rate 
-                System.out.println("shoot");
                 robot.shoot();//shoot - create new bullet
                 robot.getBullets().get(robot.getBullets().size() - 1).setShoot(true);//set shot to true to render
                 toShoot = 0;//reset rate 
