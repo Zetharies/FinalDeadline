@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.2.2" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="8" nextobjectid="1">
+<map version="1.2" tiledversion="1.2.0" orientation="orthogonal" renderorder="right-down" width="100" height="100" tilewidth="32" tileheight="32" infinite="0" nextlayerid="9" nextobjectid="7">
  <tileset firstgid="1" source="morgue_by_nicnubill-d6swv2l.tsx"/>
  <tileset firstgid="257" source="computer_lab.tsx"/>
  <tileset firstgid="513" source="Inside_A2.tsx"/>
@@ -530,4 +530,10 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <objectgroup id="8" name="Particles">
+  <object id="1" x="1164" y="559"/>
+  <object id="3" x="399" y="432"/>
+  <object id="4" x="496" y="2767"/>
+  <object id="6" x="2543" y="2425"/>
+ </objectgroup>
 </map>
