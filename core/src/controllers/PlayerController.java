@@ -278,7 +278,7 @@ public class PlayerController extends InputAdapter {
 		if (p.getX() == 35 && p.getY() == 46) {
 			return true;
 
-		} else if (p.getX() == 36 && p.getY() == 36) {
+		} else if (p.getX() == 36 && p.getY() == 46) {
 			return true;
 
 		}

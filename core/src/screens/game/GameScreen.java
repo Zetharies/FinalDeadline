@@ -20,6 +20,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -32,6 +34,9 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.Hud;
+
+import box2dLight.RayHandler;
+
 import com.badlogic.gdx.graphics.g2d.Animation;
 
 import managers.ScreenManager;
@@ -85,6 +90,9 @@ public class GameScreen extends AbstractScreen {
 	private AssetManager assetManager;
 	private String chosenCharacter, gender;
 	private Hud hud;
+	
+	private RayHandler rayHandler;
+    private World world;
 
 	private Stage stage;
 	private Table table, table2;
@@ -242,9 +250,8 @@ public class GameScreen extends AbstractScreen {
 		maps.add(boss2);
 		maps.add(floor4);
 		maps.add(chaxMap);
-		//exits = entrance.getExits();
-		exits = floor4.getExits();
-		
+		exits = entrance.getExits();
+				
 		smoke = new Particles();
 		smoke2 = new Particles();
 		ipList = new ArrayList<InteractParticles>();
@@ -317,7 +324,7 @@ public class GameScreen extends AbstractScreen {
 		// map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); //
 		// map to load, extremely basic map,
 		// will be changed
-		map = maps.get(7);
+		map = maps.get(0);
 		loadedMap = new TmxMapLoader().load(map.getMapLocation());
 	    	
 		TiledMap mapCollisionsTraps = new TmxMapLoader().load(maps.get(1).getMapLocation());
@@ -325,7 +332,7 @@ public class GameScreen extends AbstractScreen {
 		TiledMap mapCollisionsBoss = new TmxMapLoader().load(maps.get(0).getMapLocation());
 
 		currentInv = new InventorySystem();
-		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), 7);
+		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), 0);
 
 		// player = new Player(14, 90, animations); // Create a new player object with
 		// the coordinates 0, 0, player
@@ -1693,6 +1700,16 @@ public class GameScreen extends AbstractScreen {
 			sound.play();
 
 			playerControls.setInteractFalse();
+		}
+		
+		if(maps.indexOf(map) == 7) {
+			world = new World(new Vector2(0, 0), true);
+	        rayHandler = new RayHandler(world);
+	        rayHandler.setAmbientLight(0.1f, 0.7f, 0.1f, 0.7f);
+	        rayHandler.setBlurNum(3);
+	        
+	        rayHandler.setCombinedMatrix(camera);
+	        rayHandler.updateAndRender();
 		}
 
 		if (maps.indexOf(map) == 7 && (player.getX() <= 85 && player.getX() >= 80) && player.getY() == 80
