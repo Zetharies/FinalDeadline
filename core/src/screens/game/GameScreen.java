@@ -6,6 +6,7 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL30;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -160,6 +161,15 @@ public class GameScreen extends AbstractScreen {
 		firstBoss = Gdx.audio.newMusic(Gdx.files.internal("music/FirstBoss.wav"));
 		firstBoss.setLooping(true); // loop the soundtrack
 		firstBoss.setVolume(0.15f);
+
+		robotHealth = new HealthBar(580, 8 + (1 / 2), Color.BLUE);
+
+		robotHealth.setName("robotHealth");
+		robotHealth.getHealthValue();
+
+		bossHealth = new HealthBar(580, 8 + (1 / 2), Color.RED);
+		bossHealth.setName("bossHealth");
+		bossHealth.getHealthValue();
 
 		musicList = new ArrayList<Music>();
 		musicList.add(inGameMp3);
@@ -642,7 +652,119 @@ public class GameScreen extends AbstractScreen {
 				}
 				keyboards.removeAll(keyboardsToRemove);
 			}
-			if (robot.isDead()) {
+
+		}
+
+		if (maps.indexOf(map) == 6) {// second boss map
+			
+			bossHealth.setPosition(300, 110);
+			hud.setActor(bossHealth);
+			
+			if (!bossZombie.isDead()) {
+				bossController.setPlayerPosition(player.getX(), player.getY());
+				bossController.update(delta);
+				batch.draw(bossZombie.getSprite(),
+						(bossZombie.x * GameSettings.SCALED_TILE_SIZE) - (GameSettings.SCALED_TILE_SIZE / 2),
+						bossZombie.y * GameSettings.SCALED_TILE_SIZE, GameSettings.SCALED_TILE_SIZE * 1f,
+						GameSettings.SCALED_TILE_SIZE * 1f);
+
+				for (int i = 0; i < bossZombie.getBullets().size(); i++) {// boss shooting heads
+					bossZombie.getBullets().get(i).setPlayerPosition(player.getX(), player.getY());
+					bossZombie.getBullets().get(i).update(delta);
+					if (bossZombie.getBullets().get(i).getShoot()) {
+						// render head bullets
+						batch.draw(bossZombie.getBullets().get(i).getSprite(),
+								(bossZombie.getBullets().get(i).x * GameSettings.SCALED_TILE_SIZE)
+										- (GameSettings.SCALED_TILE_SIZE / 2),
+								bossZombie.getBullets().get(i).y * GameSettings.SCALED_TILE_SIZE,
+								GameSettings.SCALED_TILE_SIZE / 3f, GameSettings.SCALED_TILE_SIZE / 3f);
+					}
+					// if bullet/head xy = p xy reduce health and remove
+					if ((((int) (bossZombie.getBullets().get(i).x) >= (int) (player.getX())
+							&& (int) (bossZombie.getBullets().get(i).x) <= (int) (player.getX() + 1)))
+							&& (((int) (bossZombie.getBullets().get(i).y) >= (int) (player.getY())
+									&& (int) (bossZombie.getBullets().get(i).y) <= (int) (player.getY()) + 1))) {
+						bossZombie.getBullets().get(i).setShoot(false);
+						hud.reduceHealth(bossZombie.getBullets().get(i).getDamage());
+						bossZombie.getBullets().remove(bossZombie.getBullets().get(i));
+					}
+				}
+				books = playerControls.getBooks();
+				ArrayList<Book> booksToRemove = new ArrayList<Book>();
+				for (int i = 0; i < books.size(); i++) {
+					Book b = books.get(i);
+					b.render(batch);
+					if (playerControls.isBlocked((int) b.getX(), (int) b.getY(), playerControls.getCollisionLayer())) {
+						booksToRemove.add(b);
+					}
+					
+					
+					
+					float bossZombieX = (bossZombie.x * GameSettings.SCALED_TILE_SIZE)
+							- (GameSettings.SCALED_TILE_SIZE / 2);
+					float bossZombieWidth = bossZombieX + (GameSettings.SCALED_TILE_SIZE * 2f);
+					float bossZombieY = (bossZombie.y * GameSettings.SCALED_TILE_SIZE);
+					float bossZombieHeight = bossZombieY + (GameSettings.SCALED_TILE_SIZE * 2f);
+
+					float bookX = (b.getX() * GameSettings.SCALED_TILE_SIZE) - 10;
+					float bookWidth = bookX + 9;
+					float bookY = (b.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
+					float bookHeight = bookY + 9;
+
+					if ((bossZombieWidth >= bookWidth) && (bossZombieX <= bookWidth)) {
+						if ((bossZombieHeight >= bookHeight) && (bossZombieY <= bookHeight)) {
+							bossHealth.setValue(bossHealth.getValue() - 0.01f);
+							System.out.println("hit boss");
+							if (bossHealth.getValue() <= 0) {
+								hud.increaseScore("boss");
+								bossZombie.setDead();
+							}
+							booksToRemove.add(b);
+
+						}
+					}
+					b.update(delta);
+				}
+				books.removeAll(booksToRemove);
+
+				keyboards = playerControls.getKeyboards();
+				ArrayList<Keyboard> keyboardsToRemove = new ArrayList<Keyboard>();
+				for (int i = 0; i < keyboards.size(); i++) {
+					Keyboard k = keyboards.get(i);
+					k.render(batch);
+
+					if (playerControls.isBlocked((int) k.getX(), (int) k.getY(), playerControls.getCollisionLayer())) {
+						keyboardsToRemove.add(k);
+					}
+					float bossZombieX = (bossZombie.x * GameSettings.SCALED_TILE_SIZE)
+							- (GameSettings.SCALED_TILE_SIZE / 2);
+					float bossZombieWidth = bossZombieX + (GameSettings.SCALED_TILE_SIZE * 2f);
+					float bossZombieY = (bossZombie.y * GameSettings.SCALED_TILE_SIZE);
+					float bossZombieHeight = bossZombieY + (GameSettings.SCALED_TILE_SIZE * 2f);
+
+					float keyboardX = (k.getX() * GameSettings.SCALED_TILE_SIZE) - 10;
+					float keyboardWidth = keyboardX + 9;
+					float keyboardY = (k.getY() * GameSettings.SCALED_TILE_SIZE) + 10;
+					float keyboardHeight = keyboardY + 9;
+
+					if ((bossZombieWidth >= keyboardWidth) && (bossZombieX <= keyboardWidth)) {
+						if ((bossZombieHeight >= keyboardHeight) && (bossZombieY <= keyboardHeight)) {
+							System.out.println(robot.getHealth());
+							System.out.println(k.getX());
+							System.out.println("Keyboard Hit");
+							bossHealth.setValue(bossHealth.getValue() - 0.002f);
+							if (bossHealth.getValue() <= 0) {
+								hud.increaseScore("boss");
+								bossZombie.setDead();
+							}
+							keyboardsToRemove.add(k);
+
+						}
+					}
+					k.update(delta);
+				}
+				keyboards.removeAll(keyboardsToRemove);
+			} else {
 				updateMap();
 			}
 		}

@@ -19,6 +19,9 @@ public class BoobyTrap {
         addTraps();
     }
 
+    public BoobyTrap() {
+    	addTraps();
+    }
     /**
      * set traps at specific coordinates- used to render traps
      */

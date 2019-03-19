@@ -39,6 +39,11 @@ public class Trap extends NPC {
         controller = new TrapController(this,thisX,thisY,collisions);
     }
 
+    public Trap(int x, int y) {
+    	this.x = x;
+    	this.y = y;
+    	DAMAGE = 0.15f;
+    }
     public boolean getUsed() {
         return used;
     }
@@ -77,12 +82,26 @@ public class Trap extends NPC {
     }
     
     public void update(float delta){
-        controller.update(delta);
-    }
+        controller.update(delta);    }
     
     public void setPlayerPosition(int playerX, int playerY) {
        controller.setPlayerPosition(playerX, playerY);
     }
     
-   
+    public void stopAudio(){
+        controller.stopAudio();
+    }
+    
+    public void setX(int x) {
+    	this.x = x;
+    }
+    public void setY(int y) {
+    	this.y = y;
+    }
+    public float getTY() {
+    	return this.y;
+    }
+    public float getTX() {
+    	return this.x;
+    }
 }
