@@ -405,7 +405,6 @@ public class GameScreen extends AbstractScreen {
 
 	@Override
 	public void render(float delta) {
-		//System.out.println(player.getX() + "." + player.getY());
 		// Checks if the map needs changing
 		if (playerControls.checkExit(exits)) {
 			musicList.get(currentList).stop();
@@ -599,7 +598,6 @@ public class GameScreen extends AbstractScreen {
 					if ((robotWidth >= bookWidth) && (robotX <= bookWidth)) {
 						if ((robotHeight >= bookHeight) && (robotY <= bookHeight)) {
 							robot.damage(5);
-							System.out.println("hit boss");
 							if (robot.getHealth() <= 0) {
 								hud.increaseScore("boss");
 								robot.setDead();
@@ -633,9 +631,6 @@ public class GameScreen extends AbstractScreen {
 
 					if ((robotWidth >= keyboardWidth) && (robotX <= keyboardWidth)) {
 						if ((robotHeight >= keyboardHeight) && (robotY <= keyboardHeight)) {
-							System.out.println(robot.getHealth());
-							System.out.println(k.getX());
-							System.out.println("Keyboard Hit");
 							robot.damage(7);
 							if (robot.getHealth() <= 0) {
 								hud.increaseScore("boss");
@@ -709,9 +704,6 @@ public class GameScreen extends AbstractScreen {
 
 				if ((zombieWidth >= bookWidth) && (zombieX <= bookWidth)) {
 					if ((zombieHeight >= bookHeight) && (zombieY <= bookHeight)) {
-						System.out.println(zombie.getHealth());
-						System.out.println(b.getX());
-						System.out.println("hit");
 						zombie.damage(30);
 						if (zombie.getHealth() <= 0) {
 							herd.getZombiesList().remove(j);
@@ -750,9 +742,6 @@ public class GameScreen extends AbstractScreen {
 
 				if ((zombieWidth >= keyboardWidth) && (zombieX <= keyboardWidth)) {
 					if ((zombieHeight >= keyboardHeight) && (zombieY <= keyboardHeight)) {
-						System.out.println(zombie.getHealth());
-						System.out.println(k.getX());
-						System.out.println("Keyboard Hit");
 						zombie.damage(50);
 						if (zombie.getHealth() <= 0) {
 							herd.getZombiesList().remove(j);
@@ -789,9 +778,6 @@ public class GameScreen extends AbstractScreen {
 				foundMapItems.add(currentItem);
 				currentItem.setOnMap(false);
 				currentItem.setItemFound(true);
-
-				System.out.println();
-				System.out.println("GS: Item Found: " + currentItem);
 
 				if (currentItem.getInvDrawn() == false) {
 					if (currentItem.getName().equals("Drink")) {
@@ -842,7 +828,6 @@ public class GameScreen extends AbstractScreen {
 			for (Item currentItem : currentInv.getInventory()) {
 				if (currentUsedItem.getName().equals("Drink")) {
 					if (currentInv.getCurrentItem() != null && currentItem.getDrinkID() == currentDrinkID) {
-						System.out.println("GS: Increasing Health");
 
 						/*showDrinkAnimation();
 
@@ -869,7 +854,6 @@ public class GameScreen extends AbstractScreen {
 
 				} else if (currentUsedItem.getName().contains("Potion")) {
 					if (currentItem.equals(currentUsedItem) && playerControls.isOnVent()) {
-						System.out.println("GS: Using " + currentItem.getName() + " on Vent");
 
 						hud.removeEquippedItem(currentItem);
 
@@ -1206,7 +1190,6 @@ public class GameScreen extends AbstractScreen {
 			if(chosenCharacter == "Flynn") {
 				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/flynn/Flynn - time for another boring day.wav"));
 				sound.play();
-				System.out.println("boring");
 			} else if(chosenCharacter == "Jessica") {
 				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/jessica/Jessica - time for another day.wav"));
 				sound.play();
