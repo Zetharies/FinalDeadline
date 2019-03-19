@@ -16,6 +16,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -26,6 +28,9 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.Hud;
+
+import box2dLight.RayHandler;
+
 import com.badlogic.gdx.graphics.g2d.Animation;
 
 import managers.ScreenManager;
@@ -53,6 +58,7 @@ import riddleScreen.RiddleCard;
 import screens.intro.AbstractScreen;
 import screens.menu.MainMenuScreen;
 import models.BossZombie;
+import models.HealthBar;
 import controllers.BossController;
 import models.BoobyTrap;
 
@@ -79,6 +85,9 @@ public class GameScreen extends AbstractScreen {
 	private AssetManager assetManager;
 	private String chosenCharacter, gender;
 	private Hud hud;
+	
+	private RayHandler rayHandler;
+    private World world;
 
 	private Stage stage;
 	private Table table, table2;
@@ -112,7 +121,13 @@ public class GameScreen extends AbstractScreen {
 
 	private boolean wrong;
 
-	private boolean hasDrink = false, beenTwo = false, beenThree = false, beenFour = false, chaxDialogOne = false;
+	private boolean hasDrink = false, beenTwo = false, beenThree = false, beenFour = false, activated = false, chaxDialogOne = false;
+	private boolean isPaused;
+	private HealthBar bossHealth, robotHealth;
+	private boolean solved = true; 
+	private boolean deactivated = false;
+	
+	private double counter = 0;
 
 	public GameScreen(String character) {
 		Assets.load();
@@ -830,7 +845,15 @@ public class GameScreen extends AbstractScreen {
 						System.out.println("GS: Increasing Health");
 
 						//showDrinkAnimation();
-						//resetPlayerAnimations();
+
+
+						Timer.schedule(new Task() {
+							@Override
+							public void run() {
+								currentInv.setDrinkAnimated(true);
+
+							}
+						}, (float) 1);
 						hud.increaseHealth(0.25f);
 						hud.removeEquippedItem(currentItem);
 
@@ -863,9 +886,12 @@ public class GameScreen extends AbstractScreen {
 
 		playerControls.getPlayerXY();
 
+		if(!deactivated) {
 		if (currentInv.allPotionsUsed()) {
-			System.out.println("POTIONS HAVE DEACTIVATED VIRUS");
+			deactivated = true;
+			ScreenManager.setGameOver();
 
+		}
 		}
 
 		if (player.getX() == 92 && player.getY() == 4 && playerControls.getInteract()) {
@@ -1478,6 +1504,22 @@ public class GameScreen extends AbstractScreen {
 			sound.play();
 
 			playerControls.setInteractFalse();
+		}
+		
+		if(maps.indexOf(map) == 7) {
+			if (counter >= 5.0){
+			       counter = 0.0;
+			       hud.reduceHealth(0.05f);;
+			   } else {
+			       counter = (counter + Gdx.graphics.getDeltaTime());
+			   }
+			world = new World(new Vector2(0, 0), true);
+	        rayHandler = new RayHandler(world);
+	        rayHandler.setAmbientLight(0.1f, 0.7f, 0.1f, 0.7f);
+	        rayHandler.setBlurNum(3);
+	        
+	        rayHandler.setCombinedMatrix(camera);
+	        rayHandler.updateAndRender();
 		}
 
 		if(maps.indexOf(map) == 7 && (player.getX() <= 85 && player.getX() >= 80) && 
