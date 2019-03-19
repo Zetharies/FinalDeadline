@@ -112,7 +112,7 @@ public class GameScreen extends AbstractScreen {
 
 	private boolean wrong;
 
-	private boolean hasDrink = false, beenTwo = false, beenThree = false, beenFour = false;
+	private boolean hasDrink = false, beenTwo = false, beenThree = false, beenFour = false, chaxDialogOne = false;
 
 	public GameScreen(String character) {
 		Assets.load();
@@ -390,6 +390,7 @@ public class GameScreen extends AbstractScreen {
 
 	@Override
 	public void render(float delta) {
+		//System.out.println(player.getX() + "." + player.getY());
 		// Checks if the map needs changing
 		if (playerControls.checkExit(exits)) {
 			musicList.get(currentList).stop();
@@ -1173,6 +1174,7 @@ public class GameScreen extends AbstractScreen {
 			if(chosenCharacter == "Flynn") {
 				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/flynn/Flynn - time for another boring day.wav"));
 				sound.play();
+				System.out.println("boring");
 			} else if(chosenCharacter == "Jessica") {
 				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/jessica/Jessica - time for another day.wav"));
 				sound.play();
@@ -1251,13 +1253,49 @@ public class GameScreen extends AbstractScreen {
 			dialogueController.startDialogue(handler);
 			playerControls.setInteractFalse();
 		}
+		
+		if(maps.indexOf(map) == 1 && player.getX() > 47 && player.getX() < 53 && player.getY() == 69 && chaxDialogOne == false) {
+			playerControls.resetDirection();
+			handler = new ScreenplayHandler();
+			String output = "Chax? I bet he knows whats going on";
+			if(chosenCharacter == "Flynn") {
+				output = "Hopefully he knows whats going on";
+			} else if(chosenCharacter == "Jessica") {
+				output = "Does he know what's happening?";
+			}
+			ScreenplayNode faint = new ScreenplayNode("Chax:\n" + chosenCharacter + " it’s me Chax, what’s happening? Meet me in the biology lab.  [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\n" + output + "   [ENTER]", 1);
+			
+			if(chosenCharacter == "Flynn") {
+				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/chax/Chax - Flynn its me chax.wav"));
+				sound.play();
+				System.out.println("chax");
+			} else if(chosenCharacter == "Jessica") {
+				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/chax/Chax - Jessica its me chax.wav"));
+				sound.play();
+			}
+			faint.makeLinear(faint2.getId());
+			handler.addNode(faint);
+			handler.addNode(faint2);
+			dialogueController.startDialogue(handler);
+			playerControls.setInteractFalse();
+			chaxDialogOne = true;
+		}
 
 		if(maps.indexOf(map) == 2 && player.getX() == 47  && player.getY() == 63 && beenTwo == false) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
-			ScreenplayNode faint = new ScreenplayNode("There is nothing to see here  [ENTER]", 0);
-			ScreenplayNode faint2 = new ScreenplayNode("You have too much time on your hands...   [ENTER]", 1);
+			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nNothing intresting here  [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode("...   [ENTER]", 1);
 
+			if(chosenCharacter == "Flynn") {
+				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/flynn/Flynn - nothing interesting here.wav"));
+				sound.play();
+			} else if(chosenCharacter == "Jessica") {
+				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/jessica/Jessica - nothing interesting here.wav"));
+				sound.play();
+			}
+			
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
 			handler.addNode(faint2);
@@ -1268,9 +1306,17 @@ public class GameScreen extends AbstractScreen {
 		if(maps.indexOf(map) == 2 && player.getX() == 21  && player.getY() == 21 && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
-			ScreenplayNode faint = new ScreenplayNode("There is nothing to see here  [ENTER]", 0);
-			ScreenplayNode faint2 = new ScreenplayNode("You have too much time on your hands...   [ENTER]", 1);
+			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nI probably shouldnt waste my time here  [ENTER]", 0);
+			ScreenplayNode faint2 = new ScreenplayNode("...   [ENTER]", 1);
 
+			if(chosenCharacter == "Flynn") {
+				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/flynn/Flynn - i probably shouldnt waste time here.wav"));
+				sound.play();
+			} else if(chosenCharacter == "Jessica") {
+				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/jessica/Jessica - i probably shouldnt waste my time here.wav"));
+				sound.play();
+			}
+			
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
 			handler.addNode(faint2);
@@ -1296,7 +1342,7 @@ public class GameScreen extends AbstractScreen {
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint = new ScreenplayNode("Theres not much to see here  [ENTER]", 0);
 			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nBest keep going moving   [ENTER]", 1);
-
+ 
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
 			handler.addNode(faint2);
@@ -1336,9 +1382,17 @@ public class GameScreen extends AbstractScreen {
 		if(maps.indexOf(map) == 3 && player.getX() == 86 && player.getY() == 79 && playerControls.getInteract()) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
-			ScreenplayNode faint = new ScreenplayNode("Nice try but there's nothing here   [ENTER]", 0);
+			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nIt's empty   [ENTER]", 0);
 			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nBetter move on   [ENTER]", 1);
 
+			if(chosenCharacter == "Flynn") {
+				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/flynn/Flynn - its empty.wav"));
+				sound.play();
+			} else if(chosenCharacter == "Jessica") {
+				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/jessica/Jessica - its empty.wav"));
+				sound.play();
+			}
+			
 			faint.makeLinear(faint2.getId());
 			handler.addNode(faint);
 			handler.addNode(faint2);
