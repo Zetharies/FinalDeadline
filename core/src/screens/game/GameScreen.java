@@ -17,10 +17,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.RemoveAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
@@ -39,8 +37,6 @@ import controllers.ScreenplayController;
 import controllers.PlayerController;
 import controllers.RobotController;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
 import models.AnimationSet;
 import models.Book;
 import models.Herd;
@@ -65,15 +61,15 @@ import models.BoobyTrap;
 
 public class GameScreen extends AbstractScreen {
 
-	private Music inGameMp3, cafe, library, engineering, gameOver, firstBoss;
+	private Music inGameMp3, cafe, library, engineering, gameOver, firstBoss; // Music for the floors
 	private ArrayList<String> currentMapLabel;
 
 	private SpriteBatch batch, mapBatch; // Allows us to render sprite to screen really fast
-	private Player player;
-	private PlayerController playerControls;
-	private ScreenplayController dialogueController;
+	private Player player; // Our player
+	private PlayerController playerControls; // allows us to gather player controls
+	private ScreenplayController dialogueController; // used to control dialogues
 	private int spawnX, spawnY;
-	private boolean been = false;
+	private boolean been = false; // checks if the player has been to a certain location
 
 	private TiledMap loadedMap;
 	private Map map;
@@ -104,7 +100,7 @@ public class GameScreen extends AbstractScreen {
 	private int currentDrinkID;
 	private int currentList = 0;
 
-	private Particles smoke, smoke2, smoke3;
+	private Particles smoke, smoke2;
 
 	private ArrayList<Music> musicList;
 
