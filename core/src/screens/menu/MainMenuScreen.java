@@ -279,7 +279,7 @@ public class MainMenuScreen extends AbstractScreen {
         //set x y width height for cards and set default to hide
         customizeSelection.setBounds((float) (getWidth() / 2), getHeight() / 3, (float) (Gdx.graphics.getWidth() / 5), Gdx.graphics.getHeight() / 2);
         customizeSelection.addAction(Actions.hide());
-        maleSelection.setBounds(customizeSelection.getX() + customizeSelection.getWidth() / 4, customizeSelection.getY(), (float) (Gdx.graphics.getWidth() / 5), (float) (Gdx.graphics.getHeight() / 2));
+        maleSelection.setBounds(customizeSelection.getX() + customizeSelection.getWidth(), customizeSelection.getY(), (float) (Gdx.graphics.getWidth() / 5), (float) (Gdx.graphics.getHeight() / 2));
         maleSelection.addAction(Actions.hide());
         femaleSelection.setBounds(maleSelection.getX() + customizeSelection.getWidth(), customizeSelection.getY(), (float) (Gdx.graphics.getWidth() / 5), (float) (Gdx.graphics.getHeight() / 2));
         femaleSelection.addAction(Actions.hide());
@@ -860,7 +860,7 @@ public class MainMenuScreen extends AbstractScreen {
     private void enterCharacterSelection() {
         if (!characterSelectSwipe && back.getActions().size == 0 || CharacterSelection.EXIT == true) {
             System.out.println("bool check " + characterSelectSwipe);
-            //customizeSelection.addAction(Actions.show());
+            customizeSelection.addAction(Actions.show());
             customizeSelection.addAction(Actions.fadeIn((float) 0.85));
             maleSelection.addAction(Actions.show());
             maleSelection.addAction(Actions.fadeIn((float) 0.85));
