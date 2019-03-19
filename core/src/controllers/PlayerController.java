@@ -275,10 +275,10 @@ public class PlayerController extends InputAdapter {
 	public boolean isOnVent() {
 		boolean answer = false;
 
-		if (p.getX() == 24 && p.getY() == 42) {
+		if (p.getX() == 35 && p.getY() == 46) {
 			return true;
 
-		} else if (p.getX() == 25 && p.getY() == 42) {
+		} else if (p.getX() == 36 && p.getY() == 36) {
 			return true;
 
 		}
