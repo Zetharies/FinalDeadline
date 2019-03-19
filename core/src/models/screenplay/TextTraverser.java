@@ -3,7 +3,7 @@ package models.screenplay;
 import java.util.List;
 
 import models.screenplay.ScreenplayNode.TYPE;
-
+/** allows the dialogue to flow through the game, being linked to each other*/
 public class TextTraverser {
 	
 	private ScreenplayHandler dialogue;
@@ -20,15 +20,15 @@ public class TextTraverser {
 		return nextNode;
 	}
 	
-	public List<String> getLabel() {
+	public List<String> getLabel() { //getter method for the labels
 		return currentNode.getLabels();
 	}
 	
-	public String getText() {
+	public String getText() { //getter method for the text
 		return currentNode.getText();
 	}
 	
-	public TYPE getType() {
+	public TYPE getType() { //getter method for the type
 		return currentNode.getType();
 	}
 

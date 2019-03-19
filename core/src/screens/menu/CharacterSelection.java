@@ -77,13 +77,13 @@ public class CharacterSelection extends AbstractScreen {
                 prepareUI();
             }
         });
-        next.setSize(stage.getWidth() * 5 / 6 - next.getWidth() / 2, stage.getHeight() / 2);
-        next.setPosition(stage.getWidth() * 5 / 6 - next.getWidth() / 2, stage.getHeight() / 2);
+        next.setSize(stage.getWidth() * 5 / 6 - next.getWidth() / 2, stage.getHeight() / 2);//size of buttons
+        next.setPosition(stage.getWidth() * 5 / 6 - next.getWidth() / 2, stage.getHeight() / 2); //positioning of buttons
 
-//        next.setBounds(stage.getWidth() - (stage.getWidth() / 4), stage.getHeight() / 2,
-//                 stage.getWidth() * 5 / 6 - next.getWidth() / 2, stage.getHeight() / 2);
+
+
         stage.addActor(next);
-
+        //button to move to previous character
         TextButton previous = new TextButton("<<", buttonStyle);
         previous.addListener(new ClickListener() {
             @Override
@@ -93,13 +93,13 @@ public class CharacterSelection extends AbstractScreen {
                 prepareUI();
             }
         });
-        previous.setSize(stage.getWidth() * 5 / 6 - previous.getWidth() / 2, stage.getHeight() / 2);
-        previous.setPosition(stage.getWidth() / 6 - previous.getWidth() / 2, stage.getHeight() / 2);
-//        previous.setBounds(0 - 50, stage.getHeight() / 2,
-//                stage.getWidth() * 5 / 6 - previous.getWidth() / 2, stage.getHeight() / 2);
+        previous.setSize(stage.getWidth() * 5 / 6 - previous.getWidth() / 2, stage.getHeight() / 2); //size of buttons
+        previous.setPosition(stage.getWidth() / 6 - previous.getWidth() / 2, stage.getHeight() / 2); //positioning of buttons
+
+
         stage.addActor(previous);
 
-        TextButton back = new TextButton("BACK", skin);
+        TextButton back = new TextButton("BACK", skin); //takes player back to main menu screen
         back.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
@@ -109,10 +109,10 @@ public class CharacterSelection extends AbstractScreen {
             }
         });
 
-//        back.setSize(previous.getWidth() / 2, previous.getHeight() / 2);
-//        back.setPosition(stage.getWidth() * 3 / 6 - next.getWidth() / 2, (usernameTextField.getHeight()) / 30);
-//        back.setSize((float)(back.getPrefWidth()), (float)(back.getPrefHeight() / 2.5));
-//        back.setPosition((stage.getWidth() / 2) - (back.getPrefWidth() / 2) , (usernameTextField.getHeight()) / 30);
+  
+       
+       
+        
         back.setBounds((stage.getWidth() / 2) - (float)(back.getPrefWidth() / 1.35) , (usernameTextField.getHeight()) / 30,
                 (float)(back.getPrefWidth() - (back.getPrefWidth() / 4.5)), (float)(back.getPrefHeight() / 2.5));
         stage.addActor(back);
@@ -124,8 +124,8 @@ public class CharacterSelection extends AbstractScreen {
                 ScreenManager.setGameScreen("Custom" + currentCharacter);
             }
         });
-//        apply.setSize(previous.getWidth() / 2, previous.getHeight() / 2);
-//        apply.setPosition(stage.getWidth() * 5 / 6 - next.getWidth() / 2, (usernameTextField.getHeight()) / 30);
+        
+        
         apply.setBounds(back.getX() + (apply.getPrefWidth()), (usernameTextField.getHeight()) / 30,
                  (float)(back.getPrefWidth() - (back.getPrefWidth() / 4.5)), (float) (back.getPrefHeight() / 2.5));
 
@@ -136,7 +136,7 @@ public class CharacterSelection extends AbstractScreen {
     public CharacterSelection() {
         super();
         skin = new Skin(Gdx.files.internal("fonts/Holo-dark-hdpi.json"));
-        //skin.getFont("default-font").getRegion().getTexture().setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        
         skin.getFont("default-font").getData().setScale(0.33f, 0.33f);
         currentCharacter = 1;
         FitViewport viewport = new FitViewport(160, 120);

@@ -41,7 +41,7 @@ public class Credits {
         name9 = new Label("VIVIAN KNIGHT", style);
         name10 = new Label("KUNAL AGARWALA", style);
         addToTable();//
-        //x y widht height
+        //x y width height
         this.table.setBounds((Gdx.graphics.getWidth() / 2) - (table.getPrefWidth()), (Gdx.graphics.getHeight() / 2) - (table.getPrefHeight()),
                 table.getPrefWidth(), table.getPrefHeight()); //specifies the size of the frame and location of the upper left corner
     }

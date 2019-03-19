@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package models;
 
 
@@ -12,12 +7,12 @@ import controllers.TrapController;
 
 /**
  *
- * @author User
+ * @author Team 2
  */
-public class Trap extends NPC {
+public class Trap extends NPC { //trap is an NPC
 
     private TrapController controller;
-    public static final float SPEED = 8.0f;
+    public static final float SPEED = 8.0f; //trap speed is set at 8
     private boolean shoot;
     public float x, y;
     private float startX, startY;
@@ -29,13 +24,13 @@ public class Trap extends NPC {
     private static final int FRAME_ROWS = 1;
 
     public Trap(float thisX, float thisY, TiledMapTileLayer collisions) {
-        createSprite(FRAME_COLS,FRAME_ROWS,"sprite/boss/spike-ball.png",false);
+        createSprite(FRAME_COLS,FRAME_ROWS,"sprite/boss/spike-ball.png",false); //creates sprite for traps
         this.x = thisX;
         this.y = thisY;
         this.startX = thisX;
         this.startY = thisY;
         shoot = false;
-        DAMAGE = 0.15f;
+        DAMAGE = 0.15f; //trap does 0.15 damage
         controller = new TrapController(this,thisX,thisY,collisions);
     }
 
@@ -44,19 +39,19 @@ public class Trap extends NPC {
     	this.y = y;
     	DAMAGE = 0.15f;
     }
-    public boolean getUsed() {
+    public boolean getUsed() { //when the trap gets used
         return used;
     }
 
-    public TextureRegion getSprite() {
+    public TextureRegion getSprite() { // gets the sprite for each trap
         return sprite;
     }
 
-    public float getPosX() {
+    public float getPosX() { //x co-ordinate of trap
         return x;
     }
 
-    public float getPosY() {
+    public float getPosY() {//y co-ordinate of trap
         return y;
     }
 
@@ -72,11 +67,11 @@ public class Trap extends NPC {
         this.used = used;
     }
 
-    public float getDamage() {
+    public float getDamage() { //returns the damage the trap does
         return this.DAMAGE;
     }
 
-    public void resetTrap() {
+    public void resetTrap() { //resets the trap
         this.x = startX;
         this.y = startY;
     }
@@ -88,7 +83,7 @@ public class Trap extends NPC {
        controller.setPlayerPosition(playerX, playerY);
     }
     
-    public void stopAudio(){
+    public void stopAudio(){ //stops the trap sound effects
         controller.stopAudio();
     }
     

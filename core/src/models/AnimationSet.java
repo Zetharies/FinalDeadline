@@ -9,12 +9,12 @@ import models.EnumPlayerFacing;
 
 public class AnimationSet {
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("rawtypes") //animations for walking, standing, and powered up
 	private Map<EnumPlayerFacing, Animation> walking;
 	private Map<EnumPlayerFacing, TextureRegion> standing;
 	private Map<EnumPlayerFacing, Animation> poweredUp;
 	
-	public AnimationSet(Animation<?> powered1,
+	public AnimationSet(Animation<?> powered1, //animations for powered up states
             Animation<?> powered2) {
 		poweredUp = new HashMap<EnumPlayerFacing, Animation>();
 		poweredUp.put(EnumPlayerFacing.N, powered1);
@@ -22,7 +22,7 @@ public class AnimationSet {
 		
 	}
 		
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("rawtypes") //animations for moving in different directions
 	public AnimationSet(Animation<?> moveNorth,
             Animation<?> movegSouth,
             Animation<?> moveEast,

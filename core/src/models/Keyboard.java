@@ -12,13 +12,13 @@ public class Keyboard {
 	float x, y;
 	
 	public Keyboard(String direction, float x, float y) {
-		keyboardTexture = new Texture(Gdx.files.internal("images/items/itemKeyboard.png"));
+		keyboardTexture = new Texture(Gdx.files.internal("images/items/itemKeyboard.png"));//loads texture used for keyboard
 		this.direction = direction;
 		this.x = x;
 		this.y = y;
 	}
 	
-	public void render(SpriteBatch batch) {
+	public void render(SpriteBatch batch) { //renders keyboard
 		batch.draw(keyboardTexture, 
 				  (x * GameSettings.SCALED_TILE_SIZE) - 10, 
 				  (y * GameSettings.SCALED_TILE_SIZE) + 10, 
@@ -26,7 +26,7 @@ public class Keyboard {
 				  30);
 	}
 	
-	public void update(float delta) {
+	public void update(float delta) { //directions keyboard can be thrown
 		if(direction.equals("up")) {
 			y += delta * 6;
 		} else if(direction.equals("down")) {
@@ -38,11 +38,11 @@ public class Keyboard {
 		}
 	}
 	
-	public float getX() {
+	public float getX() { //retrieves x co-ordinate
 		return x;
 	}
 	
-	public float getY() {
+	public float getY() { //retrieves y co-ordiante
 		return y;
 	}
 }

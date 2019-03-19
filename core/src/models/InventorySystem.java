@@ -62,9 +62,6 @@ public class InventorySystem{
 	 */
 	public void addItemsToInventory() {
 		// Creates all of the item objects		
-		//		generateRandomPos();
-		//		Book book = new Book(randomPos[0], randomPos[1]);
-
 		generateRandomPos();
 		Book book = new Book(randomPos[0], randomPos[1]);
 

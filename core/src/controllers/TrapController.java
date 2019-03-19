@@ -52,7 +52,7 @@ public class TrapController extends NPCController {
         if (this.trap.getShoot()) {
 
             this.trap.x -= Gdx.graphics.getDeltaTime() * Trap.SPEED;//move trap from right to left 
-            audio.play();//play audio when trap triggerd
+            audio.play();//play audio when trap triggered
 
         }
 
@@ -90,7 +90,7 @@ public class TrapController extends NPCController {
         return isBlocked((int) (trap.x + 0.45), (int) trap.y, collisions);
     }
     
-    public void stopAudio() {
+    public void stopAudio() { //stops the sound for traps
         audio.stop();
     }
     

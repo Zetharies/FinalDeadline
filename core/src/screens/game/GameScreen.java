@@ -165,16 +165,16 @@ public class GameScreen extends AbstractScreen {
 		firstBoss.setLooping(true); // loop the soundtrack
 		firstBoss.setVolume(0.15f);
 
-		robotHealth = new HealthBar(580, 8 + (1 / 2), Color.BLUE);
+		robotHealth = new HealthBar(580, 8 + (1 / 2), Color.BLUE); //creates a health bar for the robot 
 
-		robotHealth.setName("robotHealth");
+		robotHealth.setName("robotHealth"); //identifies as robot health and gets the health value
 		robotHealth.getHealthValue();
 
-		bossHealth = new HealthBar(580, 8 + (1 / 2), Color.RED);
-		bossHealth.setName("bossHealth");
-		bossHealth.getHealthValue();
+		bossHealth = new HealthBar(580, 8 + (1 / 2), Color.RED); //creates a new health bar for boss
+		bossHealth.setName("bossHealth"); //identifies as boss health
+		bossHealth.getHealthValue(); //gets boss health value
 
-		musicList = new ArrayList<Music>();
+		musicList = new ArrayList<Music>(); //creates arraylist for music for each map
 		musicList.add(inGameMp3);
 		musicList.add(cafe);
 		musicList.add(library);
@@ -185,11 +185,11 @@ public class GameScreen extends AbstractScreen {
 		musicList.add(engineering);
 		musicList.add(firstBoss);
 
-		if (SettingsManager.getMusic()) {
+		if (SettingsManager.getMusic()) { //sets music for each map
 			musicList.get(0).play();
 		}
 
-		currentMapLabel = new ArrayList<String>();
+		currentMapLabel = new ArrayList<String>(); //arraylist to label each map
 		currentMapLabel.add("Cafeteria");
 		currentMapLabel.add("Floor 1: Library");
 		currentMapLabel.add("Floor 2: Engineering");
@@ -200,43 +200,43 @@ public class GameScreen extends AbstractScreen {
 		currentMapLabel.add("Floor 4: Biology");
 		currentMapLabel.add("Unknown: Chax");
 
-		books = new ArrayList<Book>();
-		keyboards = new ArrayList<Keyboard>();
+		books = new ArrayList<Book>(); //creates arraylist for book weapon
+		keyboards = new ArrayList<Keyboard>();//creates arraylist for keyboard weapon
 		initUI();
 		processor = new InputMultiplexer(); // Ordered lists of processors we can use for prioritising controls
 		dialogueController = new ScreenplayController(dialogue, chosenCharacter);
 		maps = new ArrayList<Map>();
 
-		Map entrance = new Map(29, 41, "maps/entrance/universityEntrance.tmx");
+		Map entrance = new Map(29, 41, "maps/entrance/universityEntrance.tmx"); //loads entrance map
 		entrance.addExit(52, 48);
 		entrance.addExit(53, 48);
 		entrance.addExit(54, 48);
 		entrance.addExit(55, 48);
 
-		Map cafeteria = new Map(50, 23, "maps/cafeteria/cafeteria.tmx");
+		Map cafeteria = new Map(50, 23, "maps/cafeteria/cafeteria.tmx");//loads cafeteria map
 		cafeteria.addExit(61, 79);
 		cafeteria.addExit(62, 79);
 		cafeteria.addExit(63, 79);
 		cafeteria.addExit(64, 79);
 		cafeteria.addExit(65, 79);
 
-		Map floor1 = new Map(21, 56, "maps/floor1/library.tmx");
+		Map floor1 = new Map(21, 56, "maps/floor1/library.tmx");//loads floor 1 map
 		floor1.addExit(76, 21);
 
-		Map floor2 = new Map(14, 90, "maps/floor2/updatedEngineeringLab.tmx");
+		Map floor2 = new Map(14, 90, "maps/floor2/updatedEngineeringLab.tmx");//loads floor 2 map
 		floor2.addExit(88, 14);
 		floor2.addExit(89, 14);
 
-		Map floor3 = new Map(91, 3, "maps/floor3/optometry.tmx");
+		Map floor3 = new Map(91, 3, "maps/floor3/optometry.tmx"); //loads floor 3 map
 		floor3.addExit(5, 94);
 		floor3.addExit(6, 94);
 		floor3.addExit(7, 94);
 		floor3.addExit(8, 94);
 		floor3.addExit(9, 94);
 
-		Map floor4 = new Map(87, 13, "maps/floor4/Floor4.tmx");
+		Map floor4 = new Map(87, 13, "maps/floor4/Floor4.tmx"); //loads floor 4 map
 
-		Map boss1 = new Map(46, 40, "maps/Minimaps/Boss 1/1stBossMap.tmx");
+		Map boss1 = new Map(46, 40, "maps/Minimaps/Boss 1/1stBossMap.tmx"); /** loads boss maps */
 		Map boss2 = new Map(47, 34, "maps/Minimaps/Boss 2/2ndBossMap.tmx");
 		Map chaxMap = new Map(51, 24, "maps/Minimaps/Chax boss map/ChaxMap.tmx");
 
@@ -249,22 +249,22 @@ public class GameScreen extends AbstractScreen {
 		maps.add(boss2);
 		maps.add(floor4);
 		maps.add(chaxMap);
-		exits = entrance.getExits();
+		exits = entrance.getExits(); //adds all maps
 
 		smoke = new Particles();
-		smoke2 = new Particles();
+		smoke2 = new Particles(); //adds particles as smoke
 
 	}
 
 	@Override
 	public void show() {
-		MainMenuScreen.getMP3().pause();
+		MainMenuScreen.getMP3().pause();  //pauses soundtrack on main menu screen
 
 		batch = new SpriteBatch();
 		mapBatch = new SpriteBatch();
-		// batch.setBlendFunction(-1, -1);
-		// Gdx.gl.glBlendFuncSeparate(GL20.GL_SRC_ALPHA,
-		// GL20.GL_ONE_MINUS_SRC_ALPHA,GL20.GL_SRC_ALPHA, GL20.GL_DST_ALPHA);
+		
+		
+		
 		hud = new Hud(batch);
 
 		assetManager = new AssetManager();
@@ -318,10 +318,10 @@ public class GameScreen extends AbstractScreen {
 				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f, poweredUp.findRegions("jessicaPowered2"),
 						Animation.PlayMode.LOOP_PINGPONG));
 
-		// map = new TmxMapLoader().load("maps/floor2/updatedEngineeringLab.tmx"); //
-		// map to load, extremely basic map,
-		// will be changed
-		map = maps.get(0);
+		
+		
+		
+		map = maps.get(0); //loads locations in maps
 		loadedMap = new TmxMapLoader().load(map.getMapLocation());
 
 		TiledMap mapCollisionsTraps = new TmxMapLoader().load(maps.get(1).getMapLocation());
@@ -331,11 +331,11 @@ public class GameScreen extends AbstractScreen {
 		currentInv = new InventorySystem();
 		currentInv.defineInventory(((TiledMapTileLayer) loadedMap.getLayers().get(0)), 0);
 
-		// player = new Player(14, 90, animations); // Create a new player object with
-		// the coordinates 0, 0, player
-		// animations
-		spawnX = map.getRespawnX();
-		spawnY = map.getRespawnY();
+		
+		
+		
+		spawnX = map.getRespawnX(); //x coordinate for respawns
+		spawnY = map.getRespawnY(); //y coordinate for respawns
 		player = new Player(spawnX, spawnY, animations);
 		playerControls = new PlayerController(player, (TiledMapTileLayer) loadedMap.getLayers().get(0));
 
@@ -345,16 +345,16 @@ public class GameScreen extends AbstractScreen {
 		robotController = new RobotController((TiledMapTileLayer) mapCollisionsRobot.getLayers().get(0), robot);
 		bossZombie = new BossZombie(47, 41, (TiledMapTileLayer) loadedMap.getLayers().get(0));
 		bossController = new BossController((TiledMapTileLayer) loadedMap.getLayers().get(0), bossZombie);
-		renderer = new OrthogonalTiledMapRenderer(loadedMap, 2f); // 1.5658f
+		renderer = new OrthogonalTiledMapRenderer(loadedMap, 2f); 
 		setGameScreen();
 
-		// camera = new OrthographicCamera();
-		// //gamePort = new ScreenViewport(camera);
-		// gamePort = new StretchViewport(1200, 600, camera);
-		// // herd a group of zombies
-		// herd = new Herd((TiledMapTileLayer) map.getLayers().get(0));
-		// // put zombies in list
-		// zombies = herd.getZombiesList();
+		
+		
+		
+		
+		
+		
+		
 		processor.addProcessor(0, dialogueController);
 		processor.addProcessor(1, playerControls);
 		handler = new ScreenplayHandler();
@@ -412,9 +412,9 @@ public class GameScreen extends AbstractScreen {
 	}
 
 	public void setGameScreen() {
-		// renderer = new OrthogonalTiledMapRenderer(map, 2f); // 1.5658f
+		
 		camera = new OrthographicCamera();
-		// gamePort = new ScreenViewport(camera);
+		
 		gamePort = new StretchViewport(1200, 600, camera);
 		// herd a group of zombies
 		herd = new Herd((TiledMapTileLayer) loadedMap.getLayers().get(0));
@@ -438,7 +438,7 @@ public class GameScreen extends AbstractScreen {
 			handler = new ScreenplayHandler();
 			ScreenplayNode faint;
 			ScreenplayNode faint2;
-			if (maps.indexOf(map) == 4) {
+			if (maps.indexOf(map) == 4) { //dialogues, with prompts for inputs
 				faint = new ScreenplayNode(chosenCharacter + ":\nI've never seen this room before.   [ENTER]", 0);
 				faint2 = new ScreenplayNode(chosenCharacter + ":\n.. ...   [ENTER]", 1);
 			} else if (maps.indexOf(map) == 6) {
@@ -923,16 +923,7 @@ public class GameScreen extends AbstractScreen {
 				if (currentUsedItem.getName().equals("Drink")) {
 					if (currentInv.getCurrentItem() != null && currentItem.getDrinkID() == currentDrinkID) {
 
-						/*
-						 * showDrinkAnimation();
-						 * 
-						 * 
-						 * Timer.schedule(new Task() {
-						 * 
-						 * @Override public void run() { currentInv.setDrinkAnimated(true);
-						 * 
-						 * } }, (float) 1);
-						 */
+						
 
 						hud.increaseHealth(0.25f);
 						hud.removeEquippedItem(currentItem);
@@ -1298,7 +1289,7 @@ public class GameScreen extends AbstractScreen {
 
 	}
 
-	private void interacts() {
+	private void interacts() { //dialogue with prompts for interactable objects
 		if (maps.indexOf(map) == 0 && player.getX() > 51 && player.getY() > 45 && player.getX() < 57 && been == false) {
 			playerControls.resetDirection();
 			handler = new ScreenplayHandler();
@@ -1338,8 +1329,6 @@ public class GameScreen extends AbstractScreen {
 				playerControls.setInteractFalse();
 				if (currentInv.getDrinkDrawn() == false) {
 					currentInv.setDrinkDrawn(true);
-					// currentInv.getMapItems().get(2).setItemFound(true);
-					// currentInv.getInventory().get(2).setItemFound(true);
 				}
 				hasDrink = true;
 			} else {

@@ -38,7 +38,7 @@ public class Player {
                 state = EnumPlayerState.STANDING;
             }
         }
-        if (state == EnumPlayerState.WALKING) {
+        if (state == EnumPlayerState.WALKING) { //frame animations for when player is moving
             walkTimer += delta * 2;
             animationTimer += delta * 2;
             linearX = Interpolation.linear.apply(srcX, destX, walkTimer / GameSettings.TIME_PER_TILE);
@@ -57,7 +57,7 @@ public class Player {
         moveFrame = false;
     }
 
-    public void reface(EnumPlayerFacing dir) {
+    public void reface(EnumPlayerFacing dir) { //changing directions
         if (direction != dir) {
             direction = dir;
         }
@@ -84,7 +84,7 @@ public class Player {
         return true;
     }
 
-    private void initializeMove(EnumPlayerFacing dir) {
+    private void initializeMove(EnumPlayerFacing dir) { //footstep sounds when player is moving
         this.direction = dir;
         this.srcX = x;
         this.srcY = y;
@@ -101,7 +101,7 @@ public class Player {
 
     }
 
-    private void finishMove() {
+    private void finishMove() { //updates from walking to standing
         if (SettingsManager.getSound()) {
             sound.pause();
         }

@@ -1,6 +1,6 @@
 package models;
 
-public enum EnumPlayerState {
+public enum EnumPlayerState { //different states the character can be in
 	ANIMATING,
 	IDLE,
     REFACING,

@@ -52,14 +52,14 @@ public class Screenplay extends Table {
 		this.setColor(0, 0, 0, 0.7f); // R-G-B & Opacity should be pink
 	}
 	
-	public void animateText(String text) {
+	public void animateText(String text) { //animates the text
 		currentText = text;
 		animationTotalTime = text.length()*TIME_PER_CHARACTER;
 		state = EnumPlayerState.ANIMATING;
 		animationTime = 0f;
 	}
 	
-	public boolean isFinished() {
+	public boolean isFinished() { //indicates that a screenplay has finished
 		if(state == EnumPlayerState.IDLE) {
 			return true;
 		} else {
@@ -67,14 +67,14 @@ public class Screenplay extends Table {
 		}
 	}
 	
-	public void setText(String text) {
+	public void setText(String text) { //sets the text for each screenplay
 		if(!text.contains("\n")) {
 			text += "\n";
 		}
 		this.text.setText(text);
 	}
 	
-	public void act(float delta) {
+	public void act(float delta) { //displays screenplay strings to text on screen
 		if(state == EnumPlayerState.ANIMATING) {
 			animationTime += delta;
 			if(animationTime > animationTotalTime) {
@@ -93,7 +93,7 @@ public class Screenplay extends Table {
 		
 	}
 	
-	public float getPrefWidth() {
+	public float getPrefWidth() { //sets the width for the container for each screenplay
 		return GameSettings.SCREEN_PLAY_WIDTH;
 	}
 

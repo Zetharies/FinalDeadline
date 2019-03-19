@@ -36,7 +36,7 @@ public class RobotController extends NPCController {
         toShoot++;//timer for shooting fire rate
         updateTimers(delta);
         updateCollisions(this.robot);
-//        keys();
+
         //shoot when player detected and move to player
         if (detectPlayer(this.robot, RADIUS)) {
             moveToPlayer(this.robot, Robot.SPEED);
@@ -45,7 +45,7 @@ public class RobotController extends NPCController {
                 robot.getBullets().get(robot.getBullets().size() - 1).setShoot(true);//set shot to true to render
                 toShoot = 0;//reset rate 
                 if (SettingsManager.getSound()) { // only play audio if settings returns true
-                   // robot.playAudio();
+                   
                 }
             }
         }
@@ -103,38 +103,4 @@ public class RobotController extends NPCController {
         }
     }
 
-//    @SuppressWarnings("static-access")
-//    public void keys() {
-//        if (Gdx.input.isKeyPressed(Keys.DPAD_LEFT)) {
-//
-//            robot.x -= Gdx.graphics.getDeltaTime() * robot.speed;
-//            robot.getSprite().setRegion((TextureRegion) robot.getLeft().getKeyFrame(incr));
-//
-//        }
-//        if (Gdx.input.isKeyPressed(Keys.DPAD_RIGHT)) {
-//
-//            robot.x += Gdx.graphics.getDeltaTime() * robot.speed;
-//            robot.getSprite().setRegion((TextureRegion) robot.getRight().getKeyFrame(incr));
-//
-//        }
-//        if (Gdx.input.isKeyPressed(Keys.DPAD_UP)) {
-//
-//            robot.y += Gdx.graphics.getDeltaTime() * robot.speed;
-//            robot.getSprite().setRegion((TextureRegion) robot.getUp().getKeyFrame(incr));
-//
-//        }
-//        if (Gdx.input.isKeyPressed(Keys.DPAD_DOWN)) {
-//
-//            robot.y -= Gdx.graphics.getDeltaTime() * robot.speed;
-//            robot.getSprite().setRegion((TextureRegion) robot.getDown().getKeyFrame(incr));
-//
-//        }
-//        if (Gdx.input.isKeyPressed(Keys.B)) {
-//          //  robot.kill(true);
-////            robot.shoot();
-////            robot.getBullets().get(robot.getBullets().size() - 1).setShotDirection(facing);
-////            robot.getBullets().get(robot.getBullets().size() - 1).setShoot(true);
-////            moveToPlayer();
-//        }
-//    }
 }

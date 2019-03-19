@@ -19,15 +19,16 @@ public class Bullet extends NPC {
     private int posX, posY;
     private final float DAMAGE;
     public float x,y;
+    
     public Bullet(float thisX, float thisY, TiledMapTileLayer collisions, String image, int rows, int columns) {
-        texture = new Texture(Gdx.files.internal("sprite/boss/" + image));
+        texture = new Texture(Gdx.files.internal("sprite/boss/" + image)); //gets bullet texture
         region = TextureRegion.split(texture, texture.getWidth() / columns, texture.getHeight() / rows);
         sprite = new Sprite(region[0][0]);
         this.x = thisX;
         this.y = thisY;
         shoot = false;
         timer = 0;
-        this.collisions = collisions;
+        this.collisions = collisions; //collisions apply to bullets too
         DAMAGE = 0.15f;
         controller = new BulletController(this);
     }
@@ -36,7 +37,7 @@ public class Bullet extends NPC {
     public Bullet(int x, int y) {
     	this.x = x;
     	this.y= y;
-    	DAMAGE = 0.15f;
+    	DAMAGE = 0.15f; //bullet does 0.15 damage
     }
 
     public void updateTimer(float delta) {
@@ -50,15 +51,6 @@ public class Bullet extends NPC {
         return sprite;
     }
 
-//    
-//    public float getX() {
-//        return x;
-//    }
-//
-//    @Override
-//    public float getY() {
-//        return y;
-//    }
 
     public void setShoot(boolean shoot) {
         this.shoot = shoot;

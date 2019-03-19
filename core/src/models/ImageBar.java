@@ -17,7 +17,7 @@ public class ImageBar {
 	
 	static TextureAtlas atlas;
 
-	public static Drawable getColoredDrawable(int width, int height, Color color) {
+	public static Drawable getColoredDrawable(int width, int height, Color color) { //sets the image bar
 
 		Pixmap pixmap = new Pixmap(width, height, Format.RGBA8888);
 		pixmap.setColor(color);

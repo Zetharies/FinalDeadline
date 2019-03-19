@@ -44,7 +44,7 @@ public class PlayerController extends InputAdapter {
 	}
 
 	@Override
-	public boolean keyDown(int keycode) {
+	public boolean keyDown(int keycode) { //moving upwards in map
 		if (SettingsManager.KEYS) {
 			if (keycode == Keys.UP) {
 				up = true;
@@ -54,16 +54,8 @@ public class PlayerController extends InputAdapter {
 				up = true;
 			}
 		}
-		// if (SettingsManager.KEYS) {
-		// if (keycode == Keys.UP) {
-		// up = true;
-		// }
-		// } else if (SettingsManager.WASD) {
-		// if (keycode == Keys.W) {
-		// up = true;
-		// }
-		// }
-		if (SettingsManager.KEYS) {
+
+		if (SettingsManager.KEYS) { //moving downwards in map
 			if (keycode == Keys.DOWN) {
 				down = true;
 			}
@@ -73,7 +65,7 @@ public class PlayerController extends InputAdapter {
 			}
 		}
 
-		if (SettingsManager.KEYS) {
+		if (SettingsManager.KEYS) { //moving west in map
 			if (keycode == Keys.LEFT) {
 				left = true;
 			}
@@ -83,7 +75,7 @@ public class PlayerController extends InputAdapter {
 			}
 		}
 
-		if (SettingsManager.KEYS) {
+		if (SettingsManager.KEYS) { //moving east in map
 			if (keycode == Keys.RIGHT) {
 				right = true;
 			}
@@ -92,7 +84,7 @@ public class PlayerController extends InputAdapter {
 				right = true;
 			}
 		}
-		if (keycode == Keys.SHIFT_LEFT) {
+		if (keycode == Keys.SHIFT_LEFT) { //interact with interactable object in map
 			interact = true;
 		}
 
@@ -104,24 +96,24 @@ public class PlayerController extends InputAdapter {
 
 		if (keycode == Keys.UP || keycode == Keys.W) {
 			up = false;
-			// p.movePlayer(0, 1); // 0 on the x axis, 1 on the y axis
+			
 		}
 		if (keycode == Keys.DOWN || keycode == Keys.S) {
 			down = false;
-			// p.movePlayer(0, -1); // 0 on the x axis, -1 on the y axis
+			
 		}
 		if (keycode == Keys.LEFT || keycode == Keys.A) {
 			left = false;
-			// p.movePlayer(-1, 0); // -1 on the x axis, 0 on the y axis
+			
 		}
 		if (keycode == Keys.RIGHT || keycode == Keys.D) {
 			right = false;
-			// p.movePlayer(1, 0); // 1 on the x axis, 0 on the y axis
+			
 		}
 		if (keycode == Keys.SHIFT_LEFT) {
 			interact = false;
 		}
-		if (keycode == Keys.SPACE) {
+		if (keycode == Keys.SPACE) { //uses inventory item
 			if (currentInv.getCurrentItem() == null) {
 
 			} else if (currentInv.getCurrentItem().getName() == "Book") {
@@ -284,14 +276,6 @@ public class PlayerController extends InputAdapter {
 
 		}
 
-//		if (p.getX() == 40 && p.getY() == 42) {
-//			answer = true;
-
-//
-//		} else if (p.getX() == 25 && p.getY() == 42) {
-//			return true;
-//
-//		}
 
 		if (p.getX() == 40 && p.getY() == 42) {
 			answer = true;

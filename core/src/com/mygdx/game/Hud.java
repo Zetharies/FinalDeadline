@@ -266,7 +266,7 @@ public class Hud {
 
 					invBoxImage = new Image(new TextureRegion(invBoxAtlas.findRegion("invBox-Red")));
 
-					// NEED TO ADD ACCURATE SCALING
+					
 					invBoxImage.scaleBy(0.17f, -0.05f);
 
 					invBox.setActor(invBoxImage);
@@ -399,7 +399,7 @@ public class Hud {
 	}
 
 	/**
-	 * Add a lsoe label to the stage.
+	 * Add a lose label to the stage.
 	 */
 	public void addLoseLabel() {
 		lose = riddleLose.getWindow();

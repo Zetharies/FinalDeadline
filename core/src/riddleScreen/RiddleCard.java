@@ -20,27 +20,19 @@ public class RiddleCard {
 	private int y;
 	private TiledMapTileLayer layer;
 	private SpriteBatch batch;
-	
+	/**sets where the riddle card is placed in the map, as well as its texture */
 	public RiddleCard(String impName,int startX, int startY,String texturePath  ) {
 		itemName = impName;
-		
-		//this.layer = layer;
-
 		 this.x = startX;
 		 this.y = startY;
-
 		texture = new Texture(Gdx.files.internal(texturePath));
 	}
 	
 	
 	public RiddleCard(String string, int x, int y) {
 		itemName = string;
-		
-		//this.layer = layer;
-
 		 this.x = x;
 		 this.y = y;
-		// TODO Auto-generated constructor stub
 	}
 
 
@@ -54,10 +46,7 @@ public class RiddleCard {
 		
 	}
 	
-//	public void remove() {
-//		
-//		batch.dispose();
-//	}
+
 	
 	
 

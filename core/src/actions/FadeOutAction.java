@@ -12,7 +12,7 @@ public class FadeOutAction extends Action {
 	float alpha;
 	   float scl;
 	   
-	   public FadeOutAction(float time) {
+	   public FadeOutAction(float time) { //time taken for fade out effect
 	      scl = 1f/time;
 	      alpha = 1f;
 	   }

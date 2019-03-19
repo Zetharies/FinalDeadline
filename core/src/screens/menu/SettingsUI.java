@@ -60,7 +60,7 @@ public class SettingsUI {
         resolutionsSizes.add("1280x720");
         resolutionsSizes.add("1920x1080");
         resolutionsSizes.add("Full Screen");
-        //if res options = current res remove 
+        
         if (resolutionsSizes.contains(resolutionsSizes.get(currentRes))) {
             resolutionsSizes.remove(resolutionsSizes.indexOf(resolutionsSizes.get(currentRes)));
         }
@@ -112,7 +112,7 @@ public class SettingsUI {
 
             }
         });
-        //sound button listner
+        //sound button listener 
         sound.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
@@ -235,7 +235,7 @@ public class SettingsUI {
         });
     }
 
-    private void settings(Stage stage) {
+    private void settings(Stage stage) { //sets optimal space that dialogue takes up
         table.add(resolution).width(controls.getPrefWidth() + (controls.getPrefWidth() / 2));
         table.add(controls).width(controls.getPrefWidth() + (controls.getPrefWidth() / 2));
         table.row();
