@@ -1,0 +1,90 @@
+
+Custom2_walking.png
+size: 512,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Custom2_walking_east
+  rotate: false
+  xy: 0, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 0
+Custom2_walking_east
+  rotate: false
+  xy: 104, 3
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 1
+Custom2_walking_east
+  rotate: false
+  xy: 342, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 2
+Custom2_walking_north
+  rotate: false
+  xy: 34, 3
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 1
+Custom2_walking_north
+  rotate: false
+  xy: 138, 3
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 0
+Custom2_walking_north
+  rotate: false
+  xy: 172, 3
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 2
+Custom2_walking_south
+  rotate: false
+  xy: 69, 3
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 1
+Custom2_walking_south
+  rotate: false
+  xy: 206, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 0
+Custom2_walking_south
+  rotate: false
+  xy: 240, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 2
+Custom2_walking_west
+  rotate: false
+  xy: 274, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 0
+Custom2_walking_west
+  rotate: false
+  xy: 308, 2
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 2
+Custom2_walking_west
+  rotate: false
+  xy: 375, 3
+  size: 37, 55
+  orig: 37, 55
+  offset: 0, 0
+  index: 1
