@@ -1170,7 +1170,7 @@ public class GameScreen extends AbstractScreen {
 			ScreenplayNode faint = new ScreenplayNode(chosenCharacter + ":\nTime for another boring day  [ENTER]", 0);
 			ScreenplayNode faint2 = new ScreenplayNode(chosenCharacter + ":\nWhat's that sound?   [ENTER]", 1);
 			if(chosenCharacter == "Flynn") {
-				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/jessica/another_day.wav"));
+				Sound sound = Gdx.audio.newSound(Gdx.files.internal("voices/flynn/Time for another boring day.wav"));
 				sound.play();
 			}
 			faint.makeLinear(faint2.getId());
