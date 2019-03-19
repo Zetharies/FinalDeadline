@@ -844,7 +844,7 @@ public class GameScreen extends AbstractScreen {
 					if (currentInv.getCurrentItem() != null && currentItem.getDrinkID() == currentDrinkID) {
 						System.out.println("GS: Increasing Health");
 
-						//showDrinkAnimation();
+						/*showDrinkAnimation();
 
 
 						Timer.schedule(new Task() {
@@ -853,7 +853,8 @@ public class GameScreen extends AbstractScreen {
 								currentInv.setDrinkAnimated(true);
 
 							}
-						}, (float) 1);
+						}, (float) 1);*/
+						
 						hud.increaseHealth(0.25f);
 						hud.removeEquippedItem(currentItem);
 
