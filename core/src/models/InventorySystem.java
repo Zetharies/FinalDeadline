@@ -238,7 +238,7 @@ public class InventorySystem{
 			inventory.get(4).setItemFound(false);
 			inventory.get(5).setItemFound(false);
 			
-			setDrinksOnMap(0);
+			setDrinksOnMap(2);
 
 		// OPTOMETRY	
 		} else if (mapNumber == 5) {
@@ -273,6 +273,8 @@ public class InventorySystem{
 			inventory.get(3).setItemFound(false);
 			inventory.get(4).setItemFound(false);
 			inventory.get(5).setItemFound(false);
+			
+			setDrinksOnMap(3);
 
 		// BIOLOGY
 		} else if (mapNumber == 7) {
