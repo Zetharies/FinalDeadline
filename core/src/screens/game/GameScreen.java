@@ -190,6 +190,10 @@ public class GameScreen extends AbstractScreen {
 		currentMapLabel.add("Floor 1: Library");
 		currentMapLabel.add("Floor 2: Engineering");
 		currentMapLabel.add("Unknown: Floor Boss");
+		currentMapLabel.add("Floor 3: Optometry");
+		currentMapLabel.add("Unknown: Floor Boss");
+		currentMapLabel.add("Floor 4: Biology");
+		currentMapLabel.add("Unknown: Floor Boss");
 
 		books = new ArrayList<Book>();
 		keyboards = new ArrayList<Keyboard>();
