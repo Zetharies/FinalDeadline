@@ -294,6 +294,8 @@ public class MainMenuScreen extends AbstractScreen {
     }
 
     public void setButtons() {
+
+        
         //set x y width height for cards and set default to hide
     	customizeSelection.setBounds((float) (getWidth() / 2), getHeight() / 3, (float) (Gdx.graphics.getWidth() / 5), Gdx.graphics.getHeight() / 2);
         customizeSelection.addAction(Actions.hide());
@@ -303,20 +305,20 @@ public class MainMenuScreen extends AbstractScreen {
         femaleSelection.addAction(Actions.hide());
 
         //set floor textures x y width height and set default hidden
-        floor1.setBounds((float) (getWidth() / 6), (float) (getHeight() / 4), (float) (Gdx.graphics.getWidth() / 2), Gdx.graphics.getHeight() / 2);
-        floor1.setSize((float) (getWidth() / 2.25), (float) (getHeight() / 2));
+        floor1.setBounds((float) (getWidth() / 2 - ( floor1.getPrefWidth() / 2)), (float) (getHeight() / 4),
+                (float) (getWidth() / 4), (float) (getHeight() / 2));
         floor1.addAction(Actions.hide());
         
-        floor2.setBounds((float) ((floor1.getX() * 1.9) * 1.25), floor1.getY(), (float) (Gdx.graphics.getWidth() / 5), (float) (Gdx.graphics.getHeight() / 2));
-        floor2.setSize((float) (getWidth() / 2.25), (float) (getHeight() / 2));
+        floor2.setBounds((float) ((floor1.getX() + floor2.getPrefWidth()/2)), floor1.getY(),
+                (float) (getWidth() / 4), (float) (getHeight() / 2));
         floor2.addAction(Actions.hide());
         
-        floor3.setBounds((float) ((floor2.getX() * 1.265) * 1.25), floor2.getY(), (float) (Gdx.graphics.getWidth() / 8), (float) (Gdx.graphics.getHeight() / 2));
-        floor3.setSize((float) (getWidth() / 2.25), (float) (getHeight() / 2));
+        floor3.setBounds((float) ((floor2.getX() + floor3.getPrefWidth()/2)), floor2.getY(),
+                (float) (getWidth() / 4), (float) (getHeight() / 2));
         floor3.addAction(Actions.hide());
         
-        floor4.setBounds((float) ((floor3.getX() * 1.095) * 1.25), floor3.getY(), (float) (Gdx.graphics.getWidth() / 11), (float) (Gdx.graphics.getHeight() / 2));
-        floor4.setSize((float) (getWidth() / 2.25), (float) (getHeight() / 2));
+        floor4.setBounds((float) ((floor3.getX() + floor3.getPrefWidth()/2)), floor3.getY(),
+                (float) (getWidth() / 4), (float) (getHeight() / 2));
         floor4.addAction(Actions.hide());																																																							
 
         //add fonts to butotn
