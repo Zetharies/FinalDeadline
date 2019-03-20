@@ -348,6 +348,7 @@ public class GameScreen extends AbstractScreen {
 		ScreenplayNode dialogue1 = new ScreenplayNode(chosenCharacter + ":\nWhat the...\nWhere am I?...   [ENTER]", 0);
 		ScreenplayNode dialogue2 = new ScreenplayNode(
 				chosenCharacter + ":\nWhat's going on here...\nWhere is everyone?!   [ENTER]", 1);
+		
 
 		ScreenplayNode instruction1 = null;
 		if (SettingsManager.KEYS) {
@@ -357,13 +358,17 @@ public class GameScreen extends AbstractScreen {
 				instruction1 = new ScreenplayNode("Press 'W','A','S','D' to move around the map   [ENTER]", 2);
 			}
 		}
+		ScreenplayNode instruction2 = new ScreenplayNode("Press E to pickup items   [ENTER]", 3);
 
 		dialogue1.makeLinear(dialogue2.getId());
 		dialogue2.makeLinear(instruction1.getId());
+		instruction1.makeLinear(instruction2.getId());
 
 		handler.addNode(dialogue1);
 		handler.addNode(dialogue2);
+		
 		handler.addNode(instruction1);
+		handler.addNode(instruction2);
 
 		dialogueController.startDialogue(handler);
 		Gdx.input.setInputProcessor(processor);
