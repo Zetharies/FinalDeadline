@@ -4,34 +4,23 @@ import com.badlogic.gdx.Gdx;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.mygdx.game.GameSettings;
 
 	
 public class RiddleCard {
-	private String itemName;
-	private String atlasImage;
-	
-	private int id;
-
 	private Texture texture;
-	private int invX;	
 	private int x;
 	private int y;
-	private TiledMapTileLayer layer;
-	private SpriteBatch batch;
 	/**sets where the riddle card is placed in the map, as well as its texture */
 	public RiddleCard(String impName,int startX, int startY,String texturePath  ) {
-		itemName = impName;
-		 this.x = startX;
+		this.x = startX;
 		 this.y = startY;
 		texture = new Texture(Gdx.files.internal(texturePath));
 	}
 	
 	
 	public RiddleCard(String string, int x, int y) {
-		itemName = string;
-		 this.x = x;
+		this.x = x;
 		 this.y = y;
 	}
 

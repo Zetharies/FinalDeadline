@@ -39,8 +39,8 @@ public class Player {
             }
         }
         if (state == EnumPlayerState.WALKING) { //frame animations for when player is moving
-            walkTimer += delta * 2;
-            animationTimer += delta * 2;
+            walkTimer += delta * 8;
+            animationTimer += delta * 8;
             linearX = Interpolation.linear.apply(srcX, destX, walkTimer / GameSettings.TIME_PER_TILE);
             linearY = Interpolation.linear.apply(srcY, destY, walkTimer / GameSettings.TIME_PER_TILE);
             if (walkTimer > GameSettings.TIME_PER_TILE) {
