@@ -1,4 +1,9 @@
 ____________________________________________________________________________________________________________
+CREDITS FOR PLAYER SPRITES / CUSTOMIZING SPRITES
+
+https://www.deviantart.com/doubleleggy/art/Streamside-XP-Sprites-165382814
+http://www.geocities.jp/kurororo4/looseleaf/
+____________________________________________________________________________________________________________
 BELOW ARE THE URLS FOR THE IMAGES THAT HAVE CORRESPONDING NAMES TO THE TILE SET IMAGES FOR BIOLOGY MAP
 
 Bathroom
@@ -21,7 +26,7 @@ https://ccrgeek.wordpress.com/2016/01/01/mv-school-tile-set/
 School-General 
 https://www.deviantart.com/alilali/art/School-B-tileset-RPGmaker-MV-736690294
 ____________________________________________________________________________________________________________
-BELOW ARE DRINKS
+CREDITS FOR DRINKS
 https://www.shutterstock.com/image-vector/drinks-beverages-pixel-art-80s-style-1025161306
 ____________________________________________________________________________________________________________
 CREDITS FOR MAPS
@@ -30,7 +35,6 @@ Credits for Entrance:
 https://opengameart.org/content/lpc-tile-atlas2
 
 https://opengameart.org/content/2d-lost-garden-zelda-style-tiles-resized-to-32x32-with-additions
-
 
 
 Credits for Cafeteria:
