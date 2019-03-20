@@ -270,7 +270,6 @@ public class GameScreen extends AbstractScreen {
 		assetManager = new AssetManager();
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
-		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_powered_walking.atlas", TextureAtlas.class);
 		assetManager.finishLoading();
 
 		/**
@@ -280,8 +279,6 @@ public class GameScreen extends AbstractScreen {
 				TextureAtlas.class);
 		TextureAtlas standing = this.getAssetManager()
 				.get("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
-		TextureAtlas poweredUp = this.getAssetManager()
-				.get("sprite/" + gender + "/" + chosenCharacter + "_powered_walking.atlas", TextureAtlas.class);
 
 		/**
 		 * Call upon the sprite for the animations 'walking' and the texture region
@@ -301,26 +298,6 @@ public class GameScreen extends AbstractScreen {
 				standing.findRegion(chosenCharacter + "_standing_east"),
 				standing.findRegion(chosenCharacter + "_standing_west"));
 
-		/**
-		 * Call upon the sprite for the animation of Flynn being powered up
-		 */
-		AnimationSet flynnPoweredAnimation = new AnimationSet(
-				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f, poweredUp.findRegions("flynnPowered1"),
-						Animation.PlayMode.LOOP_PINGPONG),
-				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f, poweredUp.findRegions("flynnPowered2"),
-						Animation.PlayMode.LOOP_PINGPONG));
-		/**
-		 * Call upon the sprite for the animation of Jessica being powered up
-		 */
-		AnimationSet jessicaPoweredAnimation = new AnimationSet(
-				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f, poweredUp.findRegions("jessicacPowered1"),
-						Animation.PlayMode.LOOP_PINGPONG),
-				new Animation<Object>(GameSettings.TIME_PER_TILE / 2f, poweredUp.findRegions("jessicaPowered2"),
-						Animation.PlayMode.LOOP_PINGPONG));
-
-		
-		
-		
 		map = maps.get(0); //loads locations in maps
 		loadedMap = new TmxMapLoader().load(map.getMapLocation());
 
@@ -1196,7 +1173,6 @@ public class GameScreen extends AbstractScreen {
 		assetManager = new AssetManager();
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas", TextureAtlas.class);
 		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_standing.atlas", TextureAtlas.class);
-		assetManager.load("sprite/" + gender + "/" + chosenCharacter + "_powered_walking.atlas", TextureAtlas.class);
 		assetManager.finishLoading();
 
 		TextureAtlas walking = this.getAssetManager().get("sprite/" + gender + "/" + chosenCharacter + "_walking.atlas",
