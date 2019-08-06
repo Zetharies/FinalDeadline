@@ -2,9 +2,11 @@
 <b> Website url: http://finaldead-line.tk/index.html <br/>
 
 # Aston University
+This game was programmed for our Team Project module.<br/>
+Big thank you to all of the team members that helped make this game possible.<br/>
+This repo has now been made available to the public.<br/>
 
 ## Team 2
-
 KUNAL AGARWALA <br/>
 TAHER AHMED <br/>
 REBECCA BARRETT <br/>
